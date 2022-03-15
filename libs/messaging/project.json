@@ -1,0 +1,32 @@
+{
+  "root": "libs/messaging",
+  "sourceRoot": "libs/messaging/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/messaging",
+        "main": "libs/messaging/src/index.ts",
+        "tsConfig": "libs/messaging/tsconfig.lib.json",
+        "assets": ["libs/messaging/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/messaging/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/messaging"],
+      "options": {
+        "jestConfig": "libs/messaging/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

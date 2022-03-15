@@ -1,13 +1,17 @@
 import styles from "./index.module.css";
+import { Components } from "@simulate-exchange/components";
+import { useGetUserQuery } from "@simulate-exchange/gql";
 
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
+  const { data, loading } = useGetUserQuery({
+    variables: {
+      unused: 1,
+    },
+  });
   return (
     <div className={styles.page}>
+      <Components />
+      {loading ? <>Loading</> : <div>{data?.user?.exampleField}</div>}
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
