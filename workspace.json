@@ -2,7 +2,12 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
+    "components": "libs/components",
+    "components-e2e": "apps/components-e2e",
+    "database": "libs/database",
     "frontend": "apps/frontend",
-    "frontend-e2e": "apps/frontend-e2e"
+    "frontend-e2e": "apps/frontend-e2e",
+    "gql": "libs/gql",
+    "messaging": "libs/messaging"
   }
 }

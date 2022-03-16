@@ -11,7 +11,11 @@
   "settings": {},
 
   // Add the IDs of extensions you want installed when the container is created.
-  "extensions": ["dbaeumer.vscode-eslint"],
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "Prisma.prisma",
+    "GraphQL.vscode-graphql"
+  ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // This can be used to network with other containers or with the host.

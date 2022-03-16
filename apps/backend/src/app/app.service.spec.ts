@@ -1,8 +1,8 @@
-import { value Test } from '@nestjs/testing';
+import { Test } from "@nestjs/testing";
 
-import { value AppService } from './app.service';
+import { AppService } from "./app.service";
 
-describe('AppService', () => {
+describe("AppService", () => {
   let service: AppService;
 
   beforeAll(async () => {
@@ -13,9 +13,9 @@ describe('AppService', () => {
     service = app.get<AppService>(AppService);
   });
 
-  describe('getData', () => {
+  describe("getData", () => {
     it('should return "Welcome to backend!"', () => {
-      expect(service.getData()).toEqual({ message: 'Welcome to backend!' });
+      expect(service.getData()).toEqual({ message: "Welcome to backend!" });
     });
   });
 });

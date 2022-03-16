@@ -1,0 +1,2 @@
+schema:
+  - "apps/backend/src/app/schema.gql"

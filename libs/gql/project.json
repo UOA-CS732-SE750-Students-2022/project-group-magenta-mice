@@ -1,0 +1,33 @@
+{
+  "root": "libs/gql",
+  "sourceRoot": "libs/gql/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/gql/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/gql"],
+      "options": {
+        "jestConfig": "libs/gql/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "generate": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npx graphql-codegen --config libs/gql/codegen.yml"
+          }
+        ]
+      }
+    }
+  }
+}
