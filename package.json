@@ -14,12 +14,12 @@
     "prisma:generate": "dotenv -e .env.local npx prisma generate",
     "prisma:migrate-dev": "dotenv -e .env.local npx prisma migrate dev",
     "prisma:migrate-prod": "dotenv -e .env.production npx prisma deploy",
-    "preopen": "wait-on http://localhost:4200 http://localhost:4400",
+    "preopen": "wait-on --interval 1000 --delay 12000 --log http://localhost:4200 http://localhost:4400",
     "open": "run-p open:*",
+    "open:prisma": "dotenv -e .env.local npx prisma studio",
     "open:graphql": "open-cli http://localhost:3333/graphql",
     "open:storybook": "open-cli http://localhost:4200",
-    "open:next": "open-cli http://localhost:4400",
-    "open:prisma": "dotenv -e .env.local npx prisma studio"
+    "open:next": "open-cli http://localhost:4400"
   },
   "private": true,
   "dependencies": {
