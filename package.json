@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many --parallel --target=serve --all --max-parallel=100",
+    "start": "run-p serve open",
+    "serve": "nx run-many --parallel --target=serve --all --max-parallel=100",
     "storybook:generate": "nx g @nrwl/react:stories shared-ui",
     "build": "nx run-many --parallel --target=build --all",
     "test": "nx run-many --parallel --target=test --all",
@@ -12,7 +13,13 @@
     "gql:generate": "nx run gql:generate",
     "prisma:generate": "dotenv -e .env.local npx prisma generate",
     "prisma:migrate-dev": "dotenv -e .env.local npx prisma migrate dev",
-    "prisma:migrate-prod": "dotenv -e .env.production npx prisma deploy"
+    "prisma:migrate-prod": "dotenv -e .env.production npx prisma deploy",
+    "preopen": "wait-on http://localhost:4200 http://localhost:4400",
+    "open": "run-p open:*",
+    "open:graphql": "open-cli http://localhost:3333/graphql",
+    "open:storybook": "open-cli http://localhost:4200",
+    "open:next": "open-cli http://localhost:4400",
+    "open:prisma": "dotenv -e .env.local npx prisma studio"
   },
   "private": true,
   "dependencies": {
@@ -91,12 +98,15 @@
     "husky": "^7.0.4",
     "jest": "27.2.3",
     "lint-staged": "^12.3.5",
+    "npm-run-all": "^4.1.5",
+    "open-cli": "^7.0.1",
     "prettier": "^2.5.1",
     "prisma": "^3.10.0",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2",
-    "url-loader": "^3.0.0"
+    "url-loader": "^3.0.0",
+    "wait-on": "^6.0.1"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
