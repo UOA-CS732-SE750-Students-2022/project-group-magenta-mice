@@ -30,6 +30,8 @@
     "@nestjs/graphql": "^10.0.7",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-ws": "^8.4.1",
+    "@nestjs/websockets": "^8.4.1",
     "@nrwl/next": "13.8.5",
     "@prisma/client": "^3.10.0",
     "apollo-boost": "^0.4.9",
