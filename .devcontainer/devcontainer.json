@@ -30,5 +30,5 @@
     "git": "latest",
     "python": "latest"
   },
-  "forwardPorts": [5432]
+  "forwardPorts": [5432, 4200, 4400, 3333, 5555]
 }

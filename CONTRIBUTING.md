@@ -2,9 +2,13 @@
 
 ## Docker Development
 
-You can use the Visual Studio Code Remote Docker Extension to develop this
-application in a docker container. This will allow you to get started with all
-the needed dependencies already running.
+Note: Due to an apparent bug in NX + Nest, the docker container will not work.
+You can use it for a postgres instance, but unfortunately not for serving the
+applications.
+
+~~You can use the Visual Studio Code Remote Docker Extension to develop this~~
+~~application in a docker container. This will allow you to get started with all~~
+~~the needed dependencies already running.~~
 
 ## Prerequisites if Not Using Docker
 

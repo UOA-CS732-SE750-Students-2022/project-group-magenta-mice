@@ -16,12 +16,6 @@
         "jestConfig": "libs/database/jest.config.js",
         "passWithNoTests": true
       }
-    },
-    "serve": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": ["dotenv -e .env.local npx prisma studio"]
-      }
     }
   },
   "tags": []
