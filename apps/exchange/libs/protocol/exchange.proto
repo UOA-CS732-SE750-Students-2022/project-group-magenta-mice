@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package Sim.Protocol;
+
+enum MessageType {
+  LOGIN = 0;
+  LOGOUT = 1;
+
+  INSERT_ORDER = 2;
+  CANCEL_ORDER = 3;
+  AMMEND_ORDER = 4;
+}
+
+message LoginRequest { string key = 1; }
+
+message LogoutRequest {}
