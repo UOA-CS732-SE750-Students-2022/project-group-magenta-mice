@@ -9,4 +9,6 @@ void Exchange::addInstrument(Instrument instrument) {
   mOrderbooks.insert(std::make_pair(nextInstrument, Orderbook()));
 }
 
+void Exchange::insertOrder(Order& order) {}
+
 }  // namespace Sim

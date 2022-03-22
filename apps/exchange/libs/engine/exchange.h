@@ -11,7 +11,7 @@ class Exchange {
  public:
   void addInstrument(Instrument instrument);
 
-  void insertOrder(Order order);
+  void insertOrder(Order& order);
 
  private:
   std::unordered_map<int, Orderbook> mOrderbooks;
