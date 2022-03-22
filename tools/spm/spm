@@ -1,39 +1,79 @@
-#!/bin/node
+#!/usr/bin/env python3
 
-const { exec } = require("child_process");
-const { readFileSync, writeFileSync } = require("fs");
-const process = require("process");
+import subprocess
+import sys
+import os
+import re
+import json
+from os import path
 
-const [, , command, ...args] = process.argv;
+__deps = os.path.dirname(os.path.abspath(__file__)) + "/spm-deps"
 
-const __deps = __dirname + "/spm-deps";
+if not os.path.exists(__deps):
+  print("SPM install is missing dependencies. The spm-deps folder must be located next to the spm script.")
+  exit(1)
 
-const basicValidation = (...args) => {
-  if (!args.every((a) => a != undefined)) {
-    console.log("Missing arguments.");
-    process.exit(1);
-  }
-};
+if len(sys.argv) < 2:
+  print("Usage: spm <command> [<args>]\nRun spm help for more information")
+  exit(1)
 
-if (command === "build") {
-  const [buildScript] = args;
-  basicValidation(buildScript);
+[_, command, *args] = sys.argv
 
-  const dockerfile = readFileSync(__deps + "/Dockerfile", "utf-8");
-  const updatedDockerfile = dockerfile.replace(
-    /^CMD .*/gm,
-    `CMD ${buildScript}`
-  );
-  writeFileSync(__deps + "/Dockerfile", updatedDockerfile);
+if command == "build":
 
-  console.log(`Executing ${`${__deps}/spm-build`}`);
+  if len(args) < 1:
+    print("Usage: spm build <script>")
+    exit(1)
 
-  const application = exec(`sudo ${__deps}/spm-build`);
+  [buildScript] = args
 
-  application.stdout.on("data", (data) => process.stdout.write(data));
-  application.stderr.on("data", (data) => process.stderr.write(data));
-}
+  with open(__deps + "/Dockerfile", "r+") as dockerfile:
+    content = dockerfile.read()
+    content = re.sub("^CMD .*", f"CMD {buildScript}", content, flags=re.MULTILINE)
+    dockerfile.seek(0)
+    dockerfile.write(content)
+    dockerfile.truncate()
 
-if (command === undefined) {
-  console.log("No command specified. Try 'spm build ./debug.sh`");
-}
+
+  subprocess.run([__deps + "/spm-build"])
+
+if command == "run":
+  __root = os.path.normpath(os.path.join(os.getcwd()))
+
+  if len(args) < 1:
+    print("Usage: spm run <executable>")
+    exit(1)
+
+  if not os.path.exists(path.join(__root, "spm.json")):
+    print("spm.json is missing. Please create spm.json at the project root.")
+    exit(1)
+
+  [runScript] = args
+
+  with open(path.join(__root, "spm.json"), "r") as spmJson:
+    spm = json.load(spmJson)
+
+    if not runScript in spm["executables"]:
+      print(f"'{runScript}' is not a valid executable in spm.json")
+      exit(1)
+
+    targets = spm["executables"][runScript]
+
+    if "tests" in targets:
+      for test in targets["tests"]:
+        subprocess.run([path.join(__root, "build", test)])
+    if "binaries" in targets:
+      for binary in targets["binaries"]:
+        subprocess.run([path.join(__root, "build", binary)])
+
+if command == "version":
+  print("SPM v0.0.1")
+
+if command == "help":
+  print("Usage: spm <command> [<args>]\nRun spm help for more information")
+  print("Available commands:")
+  print("  build <build script>")
+  print("  run   <executable>")
+  print("  help")
+  print("  version")
+  exit(0)
