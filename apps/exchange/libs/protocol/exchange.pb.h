@@ -39,7 +39,7 @@ namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[3];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -48,6 +48,9 @@ void AddDescriptors();
 }  // namespace protobuf_libs_2fprotocol_2fexchange_2eproto
 namespace Sim {
 namespace Protocol {
+class InsertOrderRequest;
+class InsertOrderRequestDefaultTypeInternal;
+extern InsertOrderRequestDefaultTypeInternal _InsertOrderRequest_default_instance_;
 class LoginRequest;
 class LoginRequestDefaultTypeInternal;
 extern LoginRequestDefaultTypeInternal _LoginRequest_default_instance_;
@@ -58,6 +61,7 @@ extern LogoutRequestDefaultTypeInternal _LogoutRequest_default_instance_;
 }  // namespace Sim
 namespace google {
 namespace protobuf {
+template<> ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::InsertOrderRequest>(Arena*);
 template<> ::Sim::Protocol::LoginRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LoginRequest>(Arena*);
 template<> ::Sim::Protocol::LogoutRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LogoutRequest>(Arena*);
 }  // namespace protobuf
@@ -65,12 +69,56 @@ template<> ::Sim::Protocol::LogoutRequest* Arena::CreateMaybeMessage<::Sim::Prot
 namespace Sim {
 namespace Protocol {
 
+enum InsertOrderRequest_Lifespan {
+  InsertOrderRequest_Lifespan_GFD = 0,
+  InsertOrderRequest_Lifespan_FAK = 1,
+  InsertOrderRequest_Lifespan_InsertOrderRequest_Lifespan_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  InsertOrderRequest_Lifespan_InsertOrderRequest_Lifespan_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool InsertOrderRequest_Lifespan_IsValid(int value);
+const InsertOrderRequest_Lifespan InsertOrderRequest_Lifespan_Lifespan_MIN = InsertOrderRequest_Lifespan_GFD;
+const InsertOrderRequest_Lifespan InsertOrderRequest_Lifespan_Lifespan_MAX = InsertOrderRequest_Lifespan_FAK;
+const int InsertOrderRequest_Lifespan_Lifespan_ARRAYSIZE = InsertOrderRequest_Lifespan_Lifespan_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* InsertOrderRequest_Lifespan_descriptor();
+inline const ::std::string& InsertOrderRequest_Lifespan_Name(InsertOrderRequest_Lifespan value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    InsertOrderRequest_Lifespan_descriptor(), value);
+}
+inline bool InsertOrderRequest_Lifespan_Parse(
+    const ::std::string& name, InsertOrderRequest_Lifespan* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<InsertOrderRequest_Lifespan>(
+    InsertOrderRequest_Lifespan_descriptor(), name, value);
+}
+enum InsertOrderRequest_Side {
+  InsertOrderRequest_Side_BUY = 0,
+  InsertOrderRequest_Side_SELL = 1,
+  InsertOrderRequest_Side_InsertOrderRequest_Side_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  InsertOrderRequest_Side_InsertOrderRequest_Side_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool InsertOrderRequest_Side_IsValid(int value);
+const InsertOrderRequest_Side InsertOrderRequest_Side_Side_MIN = InsertOrderRequest_Side_BUY;
+const InsertOrderRequest_Side InsertOrderRequest_Side_Side_MAX = InsertOrderRequest_Side_SELL;
+const int InsertOrderRequest_Side_Side_ARRAYSIZE = InsertOrderRequest_Side_Side_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* InsertOrderRequest_Side_descriptor();
+inline const ::std::string& InsertOrderRequest_Side_Name(InsertOrderRequest_Side value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    InsertOrderRequest_Side_descriptor(), value);
+}
+inline bool InsertOrderRequest_Side_Parse(
+    const ::std::string& name, InsertOrderRequest_Side* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<InsertOrderRequest_Side>(
+    InsertOrderRequest_Side_descriptor(), name, value);
+}
 enum MessageType {
   LOGIN = 0,
   LOGOUT = 1,
-  INSERT_ORDER = 2,
-  CANCEL_ORDER = 3,
-  AMMEND_ORDER = 4,
+  LOGIN_RESPONSE = 2,
+  LOGOUT_RESPONSE = 3,
+  INSERT_ORDER = 11,
+  CANCEL_ORDER = 12,
+  AMMEND_ORDER = 13,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
@@ -296,6 +344,196 @@ class LogoutRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class InsertOrderRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.InsertOrderRequest) */ {
+ public:
+  InsertOrderRequest();
+  virtual ~InsertOrderRequest();
+
+  InsertOrderRequest(const InsertOrderRequest& from);
+
+  inline InsertOrderRequest& operator=(const InsertOrderRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  InsertOrderRequest(InsertOrderRequest&& from) noexcept
+    : InsertOrderRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline InsertOrderRequest& operator=(InsertOrderRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const InsertOrderRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const InsertOrderRequest* internal_default_instance() {
+    return reinterpret_cast<const InsertOrderRequest*>(
+               &_InsertOrderRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(InsertOrderRequest* other);
+  friend void swap(InsertOrderRequest& a, InsertOrderRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline InsertOrderRequest* New() const final {
+    return CreateMaybeMessage<InsertOrderRequest>(NULL);
+  }
+
+  InsertOrderRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<InsertOrderRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const InsertOrderRequest& from);
+  void MergeFrom(const InsertOrderRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(InsertOrderRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef InsertOrderRequest_Lifespan Lifespan;
+  static const Lifespan GFD =
+    InsertOrderRequest_Lifespan_GFD;
+  static const Lifespan FAK =
+    InsertOrderRequest_Lifespan_FAK;
+  static inline bool Lifespan_IsValid(int value) {
+    return InsertOrderRequest_Lifespan_IsValid(value);
+  }
+  static const Lifespan Lifespan_MIN =
+    InsertOrderRequest_Lifespan_Lifespan_MIN;
+  static const Lifespan Lifespan_MAX =
+    InsertOrderRequest_Lifespan_Lifespan_MAX;
+  static const int Lifespan_ARRAYSIZE =
+    InsertOrderRequest_Lifespan_Lifespan_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Lifespan_descriptor() {
+    return InsertOrderRequest_Lifespan_descriptor();
+  }
+  static inline const ::std::string& Lifespan_Name(Lifespan value) {
+    return InsertOrderRequest_Lifespan_Name(value);
+  }
+  static inline bool Lifespan_Parse(const ::std::string& name,
+      Lifespan* value) {
+    return InsertOrderRequest_Lifespan_Parse(name, value);
+  }
+
+  typedef InsertOrderRequest_Side Side;
+  static const Side BUY =
+    InsertOrderRequest_Side_BUY;
+  static const Side SELL =
+    InsertOrderRequest_Side_SELL;
+  static inline bool Side_IsValid(int value) {
+    return InsertOrderRequest_Side_IsValid(value);
+  }
+  static const Side Side_MIN =
+    InsertOrderRequest_Side_Side_MIN;
+  static const Side Side_MAX =
+    InsertOrderRequest_Side_Side_MAX;
+  static const int Side_ARRAYSIZE =
+    InsertOrderRequest_Side_Side_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Side_descriptor() {
+    return InsertOrderRequest_Side_descriptor();
+  }
+  static inline const ::std::string& Side_Name(Side value) {
+    return InsertOrderRequest_Side_Name(value);
+  }
+  static inline bool Side_Parse(const ::std::string& name,
+      Side* value) {
+    return InsertOrderRequest_Side_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // uint32 clientId = 1;
+  void clear_clientid();
+  static const int kClientIdFieldNumber = 1;
+  ::google::protobuf::uint32 clientid() const;
+  void set_clientid(::google::protobuf::uint32 value);
+
+  // uint32 instrumentId = 2;
+  void clear_instrumentid();
+  static const int kInstrumentIdFieldNumber = 2;
+  ::google::protobuf::uint32 instrumentid() const;
+  void set_instrumentid(::google::protobuf::uint32 value);
+
+  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+  void clear_lifespan();
+  static const int kLifespanFieldNumber = 4;
+  ::Sim::Protocol::InsertOrderRequest_Lifespan lifespan() const;
+  void set_lifespan(::Sim::Protocol::InsertOrderRequest_Lifespan value);
+
+  // .Sim.Protocol.InsertOrderRequest.Side side = 5;
+  void clear_side();
+  static const int kSideFieldNumber = 5;
+  ::Sim::Protocol::InsertOrderRequest_Side side() const;
+  void set_side(::Sim::Protocol::InsertOrderRequest_Side value);
+
+  // uint32 price = 6;
+  void clear_price();
+  static const int kPriceFieldNumber = 6;
+  ::google::protobuf::uint32 price() const;
+  void set_price(::google::protobuf::uint32 value);
+
+  // uint32 volume = 7;
+  void clear_volume();
+  static const int kVolumeFieldNumber = 7;
+  ::google::protobuf::uint32 volume() const;
+  void set_volume(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.InsertOrderRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 clientid_;
+  ::google::protobuf::uint32 instrumentid_;
+  int lifespan_;
+  int side_;
+  ::google::protobuf::uint32 price_;
+  ::google::protobuf::uint32 volume_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -364,9 +602,99 @@ inline void LoginRequest::set_allocated_key(::std::string* key) {
 
 // LogoutRequest
 
+// -------------------------------------------------------------------
+
+// InsertOrderRequest
+
+// uint32 clientId = 1;
+inline void InsertOrderRequest::clear_clientid() {
+  clientid_ = 0u;
+}
+inline ::google::protobuf::uint32 InsertOrderRequest::clientid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.clientId)
+  return clientid_;
+}
+inline void InsertOrderRequest::set_clientid(::google::protobuf::uint32 value) {
+  
+  clientid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.clientId)
+}
+
+// uint32 instrumentId = 2;
+inline void InsertOrderRequest::clear_instrumentid() {
+  instrumentid_ = 0u;
+}
+inline ::google::protobuf::uint32 InsertOrderRequest::instrumentid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.instrumentId)
+  return instrumentid_;
+}
+inline void InsertOrderRequest::set_instrumentid(::google::protobuf::uint32 value) {
+  
+  instrumentid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.instrumentId)
+}
+
+// .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+inline void InsertOrderRequest::clear_lifespan() {
+  lifespan_ = 0;
+}
+inline ::Sim::Protocol::InsertOrderRequest_Lifespan InsertOrderRequest::lifespan() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.lifespan)
+  return static_cast< ::Sim::Protocol::InsertOrderRequest_Lifespan >(lifespan_);
+}
+inline void InsertOrderRequest::set_lifespan(::Sim::Protocol::InsertOrderRequest_Lifespan value) {
+  
+  lifespan_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.lifespan)
+}
+
+// .Sim.Protocol.InsertOrderRequest.Side side = 5;
+inline void InsertOrderRequest::clear_side() {
+  side_ = 0;
+}
+inline ::Sim::Protocol::InsertOrderRequest_Side InsertOrderRequest::side() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.side)
+  return static_cast< ::Sim::Protocol::InsertOrderRequest_Side >(side_);
+}
+inline void InsertOrderRequest::set_side(::Sim::Protocol::InsertOrderRequest_Side value) {
+  
+  side_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.side)
+}
+
+// uint32 price = 6;
+inline void InsertOrderRequest::clear_price() {
+  price_ = 0u;
+}
+inline ::google::protobuf::uint32 InsertOrderRequest::price() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.price)
+  return price_;
+}
+inline void InsertOrderRequest::set_price(::google::protobuf::uint32 value) {
+  
+  price_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.price)
+}
+
+// uint32 volume = 7;
+inline void InsertOrderRequest::clear_volume() {
+  volume_ = 0u;
+}
+inline ::google::protobuf::uint32 InsertOrderRequest::volume() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.InsertOrderRequest.volume)
+  return volume_;
+}
+inline void InsertOrderRequest::set_volume(::google::protobuf::uint32 value) {
+  
+  volume_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.volume)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
@@ -378,6 +706,16 @@ inline void LoginRequest::set_allocated_key(::std::string* key) {
 namespace google {
 namespace protobuf {
 
+template <> struct is_proto_enum< ::Sim::Protocol::InsertOrderRequest_Lifespan> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Sim::Protocol::InsertOrderRequest_Lifespan>() {
+  return ::Sim::Protocol::InsertOrderRequest_Lifespan_descriptor();
+}
+template <> struct is_proto_enum< ::Sim::Protocol::InsertOrderRequest_Side> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Sim::Protocol::InsertOrderRequest_Side>() {
+  return ::Sim::Protocol::InsertOrderRequest_Side_descriptor();
+}
 template <> struct is_proto_enum< ::Sim::Protocol::MessageType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Sim::Protocol::MessageType>() {

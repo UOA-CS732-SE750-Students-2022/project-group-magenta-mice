@@ -2,9 +2,15 @@
 
 #include <common/types.h>
 
+namespace Sim {
+
 class Orderbook {
  public:
-  bool insertBuyOrder();
+  bool insertOrder(Order& order);
 
-  void insertSellOrder();
+ private:
+  bool insertBuyOrder(Order& order);
+  bool insertSellOrder(Order& order);
 };
+
+}  // namespace Sim

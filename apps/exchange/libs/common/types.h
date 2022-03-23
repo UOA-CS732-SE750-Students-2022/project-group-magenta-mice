@@ -1,6 +1,8 @@
 #pragma once
 
 #include <functional>
+#include <memory>
+#include <optional>
 #include <string>
 
 namespace Sim {
@@ -34,21 +36,24 @@ enum class Side {
 struct Order;
 
 struct OrderListener {
-  std::function<void(Order& order, int volumeChange)> onAmend;
-  std::function<void(Order& order, int volumeChange)> onCancel;
-  std::function<void(Order& order)> onInsert;
+  std::function<void(Order& order)> onUpdate;
   std::function<void(Order& order, int volumeFilled, int price)> onFill;
 };
 
+using OrderOwningPtr = std::unique_ptr<Order, std::function<void(Order*)>>;
+
 struct Order {
-  int mClientId;
-  Instrument mInstrument;
+  Order(const Order&) = delete;
+  Order& operator=(const Order&) = delete;
+
+  uint32_t mClientId;
+  uint32_t mInstrument;
   Lifespan mLifespan;
   Side mSide;
-  int mPrice;
-  int mVolume;
+  uint32_t mPrice;
+  uint32_t mVolume;
 
-  OrderListener orderListener;
+  std::optional<OrderListener> mOrderListener;
 };
 
 }  // namespace Sim

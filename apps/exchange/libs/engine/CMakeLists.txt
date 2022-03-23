@@ -7,6 +7,8 @@ set(sources
   participant.h
   participant_manager.cc
   participant_manager.h
+  conversions.cc
+  conversions.h
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/libs)
