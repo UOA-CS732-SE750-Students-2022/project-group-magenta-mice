@@ -1,6 +1,5 @@
 #pragma once
 
-#include <common/emitter.h>
 #include <common/types.h>
 #include <protocol/exchange.pb.h>
 #include <memory>
