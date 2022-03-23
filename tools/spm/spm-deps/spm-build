@@ -22,4 +22,4 @@ docker run --rm -i -v ${PWD}:/spm-build ubuntu-spm
 
 status=$?
 
-[ $status -eq 0 ] && printf "%bBuild complete. You can likely ignore errors about clock skew.%b\n" "$magenta" "$white" || printf "%bFailed to compile.%b\n" "$red" "$white"
+[ $status -eq 0 ] && printf "%bBuild complete.\n" "$magenta" "$white" || printf "%bFailed to compile.%b\n" "$red" "$white"

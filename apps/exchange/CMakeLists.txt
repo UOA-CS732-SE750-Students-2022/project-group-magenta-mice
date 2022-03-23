@@ -4,13 +4,14 @@ project(simulate_exchange)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_GENERATOR "Ninja")
 
 add_compile_options(-Wall)
 
 
 find_package(Boost 1.71 COMPONENTS date_time log system thread
         OPTIONAL_COMPONENTS container graph math_c99 math_c99f math_tr1
-        math_tr1f random regex timer unit_test_framework)
+        math_tr1f random regex timer)
 if(NOT ${Boost_FOUND})
     message(FATAL_ERROR
             "Boost is required to run this application.")
