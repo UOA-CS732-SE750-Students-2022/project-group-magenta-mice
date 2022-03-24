@@ -6,7 +6,7 @@ import { MailIcon } from "@heroicons/react/solid";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import cx from "classnames";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const color = "bg-emerald-600 hover:bg-emerald-500 transition-colors";
 
@@ -34,9 +34,7 @@ export function Index() {
         style={{
           backgroundImage: "url(" + randomImage + ")",
         }}
-        className={
-          "h-screen w-screen bg-no-repeat bg-cover absolute hidden bg-neutral-900 md:block md:bg-inherit"
-        }
+        className={"h-screen w-screen bg-no-repeat bg-cover absolute"}
       />
       <div className="h-screen w-screen justify-center items-center flex">
         <Glass className="p-4 text-gray-50 max-w-md w-full flex flex-col items-center gap-y-10 mx-4">
