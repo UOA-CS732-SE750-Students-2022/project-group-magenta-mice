@@ -9,6 +9,7 @@
     "frontend": "apps/frontend",
     "frontend-e2e": "apps/frontend-e2e",
     "gql": "libs/gql",
+    "hooks": "libs/hooks",
     "messaging": "libs/messaging"
   }
 }

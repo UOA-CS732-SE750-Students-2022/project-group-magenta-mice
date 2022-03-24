@@ -13,28 +13,28 @@ html {
 }
 
 .card {
-  @apply backdrop-blur-md backdrop-saturate-200 bg-gray-900 bg-opacity-75 rounded-xl;
+  @apply backdrop-blur-md backdrop-saturate-200 bg-gray-900 bg-opacity-75 rounded-xl backdrop-brightness-110;
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
-.decorated {
-  @apply overflow-hidden w-full text-center;
+.divided-text {
+  @apply overflow-hidden w-10/12 text-center;
 }
 
-.decorated > span {
-  @apply relative inline-block;
+.divided-text > span {
+  @apply relative inline-block text-gray-200;
 }
 
-.decorated > span:before,
-.decorated > span:after {
+.divided-text > span:before,
+.divided-text > span:after {
   content: "";
-  @apply absolute top-1/2 border-b-2 border-white w-full mx-5;
+  @apply absolute top-1/2 border-b border-gray-400 w-full mx-5;
 }
 
-.decorated > span:before {
+.divided-text > span:before {
   @apply right-full;
 }
 
-.decorated > span:after {
+.divided-text > span:after {
   @apply left-full;
 }

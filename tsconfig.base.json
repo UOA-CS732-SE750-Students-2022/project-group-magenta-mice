@@ -19,6 +19,7 @@
       "@simulate-exchange/components": ["libs/components/src/index.ts"],
       "@simulate-exchange/database": ["libs/database/src/index.ts"],
       "@simulate-exchange/gql": ["libs/gql/src/index.ts"],
+      "@simulate-exchange/hooks": ["libs/hooks/src/index.ts"],
       "@simulate-exchange/messaging": ["libs/messaging/src/index.ts"],
       "@simulate-exchange/protocol": ["libs/protocol/src/index.ts"]
     }
