@@ -9,8 +9,8 @@ namespace Sim {
 
 struct Instrument {
     std::string mName;
-    int mPositionLimit;
-    int mTickSizeCents;
+    uint32_t mPositionLimit;
+    uint32_t mTickSizeCents;
 };
 
 enum class Lifespan {
@@ -37,8 +37,7 @@ struct Order;
 
 struct OrderListener {
     std::function<void(uint32_t order, uint32_t volumeRemaining)> onUpdate;
-    std::function<void(uint32_t order, uint32_t volumeFilled, uint32_t price)>
-        onFill;
+    std::function<void(uint32_t order, uint32_t volumeFilled, uint32_t price)> onFill;
 };
 
 struct Order {
