@@ -1,6 +1,7 @@
 #pragma once
 
 #include "orderbook.h"
+#include "orderbook_manager.h"
 #include "participant_manager.h"
 
 #include <common/types.h>
@@ -11,16 +12,19 @@ namespace Sim {
 
 class Exchange {
    public:
-    Exchange(std::unique_ptr<ParticipantManager>);
+    Exchange(
+        std::unique_ptr<ParticipantManager>,
+        std::unique_ptr<OrderbookManager>);
 
     void addInstrument(Instrument instrument);
     void addParticipant(std::unique_ptr<Participant> participant);
 
     bool insertOrder(std::shared_ptr<Order> order);
 
+    void printBooks();
+
    private:
-    std::unordered_map<int, Orderbook> mOrderbooks;
-    std::unordered_map<int, Instrument> mInstruments;
+    std::unique_ptr<OrderbookManager> mOrderbookManager;
     std::unique_ptr<ParticipantManager> mParticipantManager;
 };
 

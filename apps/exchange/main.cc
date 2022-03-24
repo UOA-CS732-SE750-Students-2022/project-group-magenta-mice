@@ -5,7 +5,19 @@
 
 using namespace Sim;
 
-int main() {
-  Exchange exchange = Exchange(std::make_unique<ParticipantManager>());
-  std::cout << "Hello" << std::endl;
+int main()
+{
+    Exchange exchange = Exchange(
+        std::make_unique<ParticipantManager>(),
+        std::make_unique<OrderbookManager>());
+
+    auto instr = Instrument{
+        .mName = "AAPL",
+        .mPositionLimit = 100,
+        .mTickSizeCents = 1,
+    };
+
+    exchange.addInstrument(instr);
+
+    exchange.printBooks();
 }

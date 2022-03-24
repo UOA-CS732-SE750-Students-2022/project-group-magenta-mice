@@ -2,17 +2,17 @@
 
 namespace Sim {
 
-Exchange::Exchange(std::unique_ptr<ParticipantManager> participant_manager)
-    : mParticipantManager(std::move(participant_manager))
+Exchange::Exchange(
+    std::unique_ptr<ParticipantManager> participantManager,
+    std::unique_ptr<OrderbookManager> orderbookManager)
+    : mOrderbookManager{ std::move(orderbookManager) },
+      mParticipantManager{ std::move(participantManager) }
 {
 }
 
 void Exchange::addInstrument(Instrument instrument)
 {
-    auto nextInstrument = mInstruments.size();
-
-    mInstruments.insert(std::make_pair(nextInstrument, instrument));
-    mOrderbooks.insert(std::make_pair(nextInstrument, Orderbook()));
+    mOrderbookManager->addInstrument(instrument);
 }
 
 void Exchange::addParticipant(std::unique_ptr<Participant> participant)
@@ -27,6 +27,11 @@ void Exchange::addParticipant(std::unique_ptr<Participant> participant)
 bool Exchange::insertOrder(std::shared_ptr<Order> order)
 {
     return true;
+}
+
+void Exchange::printBooks()
+{
+    mOrderbookManager->printBooks();
 }
 
 } // namespace Sim

@@ -1,5 +1,5 @@
 set(test_name unit_test)
-set(test_sources common_test.cc conversions_test.cc order_factory_test.cc)
+set(test_sources common_test.cc conversions_test.cc order_factory_test.cc exchange_test.cc)
 
 include(FetchContent)
 FetchContent_Declare(

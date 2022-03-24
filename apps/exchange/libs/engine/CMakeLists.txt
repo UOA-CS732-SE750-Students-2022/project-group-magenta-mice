@@ -11,6 +11,8 @@ set(sources
   conversions.h
   order_factory.cc
   order_factory.h
+  orderbook_manager.cc
+  orderbook_manager.h
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/libs)
