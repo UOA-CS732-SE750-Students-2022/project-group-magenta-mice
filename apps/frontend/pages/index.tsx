@@ -103,9 +103,7 @@ export function Index() {
           />
         </div>
 
-        <div>
-          <DividedText text="Or sign in with email" />
-        </div>
+        <DividedText text="Or sign in with email" />
       </Glass>
     </div>
   );
