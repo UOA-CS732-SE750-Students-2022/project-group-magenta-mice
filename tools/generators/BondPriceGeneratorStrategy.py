@@ -1,5 +1,5 @@
-from .PriceGeneratorStrategy import PriceGeneratorStrategy
-from math import sqrt, exp
+from PriceGeneratorStrategy import PriceGeneratorStrategy
+from TrendManager import TrendManager
 from scipy.stats import norm
 
 class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
@@ -12,5 +12,5 @@ class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
         self._init_price = fixed_price
         self._sigma = volatility
     
-    def generate_price(self) -> float:
+    def generate_price(self, trend: TrendManager) -> float:
         return norm.rvs(self._init_price, self._sigma)

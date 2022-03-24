@@ -1,4 +1,5 @@
-from .PriceGeneratorStrategy import PriceGeneratorStrategy
+from PriceGeneratorStrategy import PriceGeneratorStrategy
+from TrendManager import TrendManager
 from random import gauss, seed
 from math import sqrt, exp
 from scipy.stats import norm
@@ -18,7 +19,8 @@ class StockPriceGeneratorStrategy(PriceGeneratorStrategy):
         self._trend = trend
         self._sigma = volatility
     
-    def generate_price(self) -> float:
+    def generate_price(self, trend: TrendManager) -> float:
         self._p = norm.rvs(self._mu, self._sigma)
-        self._mu += self._trend * self._p/100
+        #self._mu += self._trend * self._p/100
+        self._mu += trend.get_trend() * self._p/100
         return self._p
