@@ -13,32 +13,28 @@ html {
 }
 
 .card {
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background-color: rgba(17, 25, 40, 0.75);
-  border-radius: 12px;
+  @apply backdrop-blur-md backdrop-saturate-200 bg-gray-900 bg-opacity-75 rounded-xl;
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
 .decorated {
-  overflow: hidden;
-  text-align: center;
+  @apply overflow-hidden w-full text-center;
 }
+
 .decorated > span {
-  position: relative;
-  display: inline-block;
+  @apply relative inline-block;
 }
+
 .decorated > span:before,
 .decorated > span:after {
   content: "";
-  position: absolute;
-  top: 50%;
-  border-bottom: 2px solid;
-  width: 100vw;
-  margin: 0 20px;
+  @apply absolute top-1/2 border-b-2 border-white w-full mx-5;
 }
+
 .decorated > span:before {
-  right: 100%;
+  @apply right-full;
 }
+
 .decorated > span:after {
-  left: 100%;
+  @apply left-full;
 }
