@@ -9,6 +9,8 @@ set(sources
   participant_manager.h
   conversions.cc
   conversions.h
+  order_factory.cc
+  order_factory.h
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/libs)

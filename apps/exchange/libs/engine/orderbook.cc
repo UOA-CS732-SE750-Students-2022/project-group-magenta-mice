@@ -1,9 +1,22 @@
 #include "orderbook.h"
 
 namespace Sim {
-bool Orderbook::insertOrder(Order& order) { return true; }
+bool Orderbook::insertOrder(std::unique_ptr<Order> order)
+{
+    if (order->mSide == Side::BID) {
+        return insertBuyOrder(std::move(order));
+    } else {
+        return insertSellOrder(std::move(order));
+    }
+}
 
-bool Orderbook::insertBuyOrder(Order& order) { return true; }
+bool Orderbook::insertBuyOrder(std::unique_ptr<Order> order)
+{
+    return true;
+}
 
-bool Orderbook::insertSellOrder(Order& order) { return true; }
-}  // namespace Sim
+bool Orderbook::insertSellOrder(std::unique_ptr<Order> order)
+{
+    return true;
+}
+} // namespace Sim

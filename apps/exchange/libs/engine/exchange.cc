@@ -3,23 +3,30 @@
 namespace Sim {
 
 Exchange::Exchange(std::unique_ptr<ParticipantManager> participant_manager)
-    : mParticipantManager(std::move(participant_manager)) {}
-
-void Exchange::addInstrument(Instrument instrument) {
-  auto nextInstrument = mInstruments.size();
-
-  mInstruments.insert(std::make_pair(nextInstrument, instrument));
-  mOrderbooks.insert(std::make_pair(nextInstrument, Orderbook()));
+    : mParticipantManager(std::move(participant_manager))
+{
 }
 
-void Exchange::addParticipant(std::unique_ptr<Participant> participant) {
-  participant->setOrderInsertionHandler([this](OrderOwningPtr owner) {
-    return this->insertOrder(std::move(owner));
-  });
+void Exchange::addInstrument(Instrument instrument)
+{
+    auto nextInstrument = mInstruments.size();
 
-  mParticipantManager->addParticipant(std::move(participant));
+    mInstruments.insert(std::make_pair(nextInstrument, instrument));
+    mOrderbooks.insert(std::make_pair(nextInstrument, Orderbook()));
 }
 
-bool Exchange::insertOrder(OrderOwningPtr order) { return true; }
+void Exchange::addParticipant(std::unique_ptr<Participant> participant)
+{
+    participant->setOrderInsertionHandler([this](std::shared_ptr<Order> owner) {
+        return this->insertOrder(std::move(owner));
+    });
 
-}  // namespace Sim
+    mParticipantManager->addParticipant(std::move(participant));
+}
+
+bool Exchange::insertOrder(std::shared_ptr<Order> order)
+{
+    return true;
+}
+
+} // namespace Sim

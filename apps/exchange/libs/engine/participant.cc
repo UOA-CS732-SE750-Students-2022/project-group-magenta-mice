@@ -1,43 +1,64 @@
-#include "participant.h"
 #include "conversions.h"
+#include "participant.h"
+
 #include <functional>
 
 namespace Sim {
 
-bool Participant::checkAndIncrementOrderId(uint32_t id) {
-  if (id != expectedOrderId) {
-    sendError("Order ID mismatch (out of order)");
-    return false;
-  }
-  expectedOrderId++;
-  return true;
+bool Participant::checkAndIncrementOrderId(uint32_t id)
+{
+    if (id != expectedOrderId) {
+        return false;
+    }
+    expectedOrderId++;
+    return true;
 }
 
-void Participant::requestOrderInsert(Protocol::InsertOrderRequest& order) {
-  if (!checkAndIncrementOrderId(order.clientid())) {
-    return;
-  }
+void Participant::requestOrderInsert(Protocol::InsertOrderRequest &order)
+{
+    if (!checkAndIncrementOrderId(order.clientid())) {
+        sendError("Order ID mismatch (out of order)");
+        return;
+    }
 
-  OrderOwningPtr newOrder(
-      new Order{.mClientId = order.clientid(),
-                .mInstrument = order.instrumentid(),
-                .mLifespan = Conversions::protocolToEngine(order.lifespan()),
-                .mSide = Conversions::protocolToEngine(order.side()),
-                .mPrice = order.price(),
-                .mVolume = order.volume()},
-      [this](Order* order) {
-        this->mOrders.erase(order->mClientId);
+    auto newOrder = mOrderFactory->createOrder(order, [this](Order *order) {
+        mOrders.erase(order->mClientId);
         delete order;
-      });
+    });
 
-  if (this->mRequestOrderInsert.has_value()) {
-    this->mOrders[order.clientid()] = newOrder.get();
-    (*this->mRequestOrderInsert)(std::move(newOrder));
-  } else {
-    throw std::runtime_error("No handler for order insert requests");
-  }
+    if (this->mRequestOrderInsert.has_value()) {
+        this->mOrders[order.clientid()] = newOrder;
+
+        newOrder->mOrderListener = {
+            .onUpdate =
+                [this](uint32_t order, uint32_t volumeRemaining) {
+                    this->handleOrderUpdate(order, volumeRemaining);
+                },
+            .onFill =
+                [this](uint32_t order, uint32_t volumeFilled, uint32_t price) {
+                    this->handleOrderFill(order, volumeFilled, price);
+                }
+        };
+
+        (*this->mRequestOrderInsert)(std::move(newOrder));
+    } else {
+        throw std::runtime_error("No handler for order insert requests");
+    }
 }
 
-void Participant::sendError(std::string&& error) {}
+void Participant::handleOrderUpdate(uint32_t order, uint32_t volumeRemaining)
+{
+}
 
-}  // namespace Sim
+void Participant::handleOrderFill(
+    uint32_t order,
+    uint32_t volumeFilled,
+    uint32_t price)
+{
+}
+
+void Participant::sendError(std::string &&error)
+{
+}
+
+} // namespace Sim

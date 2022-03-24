@@ -1,33 +1,43 @@
 #pragma once
 
+#include "order_factory.h"
+
 #include <common/types.h>
-#include <protocol/exchange.pb.h>
 #include <memory>
 #include <optional>
+#include <protocol/exchange.pb.h>
 #include <unordered_map>
 
 namespace Sim {
 
 class Participant {
- public:
-  Participant() = default;
+   public:
+    Participant(std::unique_ptr<OrderFactory> orderFactory)
+        : mOrderFactory{ std::move(orderFactory) } {};
 
-  void requestOrderInsert(Protocol::InsertOrderRequest& order);
+    void requestOrderInsert(Protocol::InsertOrderRequest &order);
 
-  void sendError(std::string&& error);
+    void sendError(std::string &&error);
 
-  void setOrderInsertionHandler(std::function<bool(OrderOwningPtr)>&& handler) {
-    mRequestOrderInsert.emplace(std::move(handler));
-  }
+    void setOrderInsertionHandler(
+        std::function<bool(std::shared_ptr<Order>)> &&handler)
+    {
+        mRequestOrderInsert.emplace(std::move(handler));
+    }
 
- private:
-  bool checkAndIncrementOrderId(uint32_t id);
+    void handleOrderUpdate(uint32_t order, uint32_t volumeRemaining);
+    void handleOrderFill(uint32_t order, uint32_t volumeFilled, uint32_t price);
 
-  uint64_t expectedOrderId = 0;
+   private:
+    bool checkAndIncrementOrderId(uint32_t id);
 
-  std::unordered_map<int, Order*> mOrders;
+    std::unique_ptr<OrderFactory> mOrderFactory;
 
-  std::optional<std::function<bool(OrderOwningPtr)>> mRequestOrderInsert;
+    uint64_t expectedOrderId = 0;
+
+    std::unordered_map<int, std::weak_ptr<Order>> mOrders;
+    std::optional<std::function<bool(std::shared_ptr<Order>)>>
+        mRequestOrderInsert;
 };
 
-}  // namespace Sim
+} // namespace Sim
