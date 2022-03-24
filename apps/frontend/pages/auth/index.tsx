@@ -64,7 +64,7 @@ export function Index() {
             />
           </div>
 
-          <DividedText text="Or sign in with email" />
+          <DividedText text="Or sign in with email" className="text-gray-200" />
           <form className="bg-transparent rounded px-8 pb-8 mb-4 w-full ">
             <div className="mb-4">
               <label

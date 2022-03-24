@@ -5,10 +5,11 @@
   "scripts": {
     "start": "run-p serve open",
     "serve": "nx run-many --parallel --target=serve --all --max-parallel=100",
-    "storybook:generate": "nx g @nrwl/react:stories shared-ui",
+    "storybook:generate": "nx g @nrwl/react:stories components",
     "build": "nx run-many --parallel --target=build --all",
     "test": "nx run-many --parallel --target=test --all",
     "e2e": "nx run-many --parallel --target=e2e --all",
+    "index:generate": "node tools/scripts/generate-index.js",
     "prepare": "husky install",
     "gql:generate": "nx run gql:generate",
     "prisma:generate": "dotenv -e .env.local npx prisma generate",
