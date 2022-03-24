@@ -26,6 +26,7 @@ find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 
 add_subdirectory(libs)
+
 include_directories(${PROJECT_SOURCE_DIR}/libs)
 
 #################
@@ -43,38 +44,4 @@ target_link_libraries(exchange
   ${Protobuf_LIBRARIES}
 )
 
-#################
-# TESTS
-#################
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
-)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
 add_subdirectory(tests)
-include_directories(${PROJECT_SOURCE_DIR}/tests)
-
-file(GLOB_RECURSE test_sources ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cc)
-
-add_executable(
-  unit_test
-  ${test_sources}
-)
-target_link_libraries(
-  unit_test
-  gtest_main
-  common_lib
-  exchange_lib
-  protocol_lib
-  ${Boost_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT}
-  ${Protobuf_LIBRARIES}
-)
-
-include(GoogleTest)
-gtest_discover_tests(unit_test)

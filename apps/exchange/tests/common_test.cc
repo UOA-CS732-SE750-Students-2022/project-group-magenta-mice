@@ -1,5 +1,6 @@
+#include "test_common.h"
+
 #include <common/util.h>
-#include <gtest/gtest.h>
 #include <tuple>
 
 namespace Sim::Testing {
@@ -16,7 +17,7 @@ TEST(TestingTests, BasicAssertions)
 }
 
 class BoolToStringTestFixture
-    : public ::testing::TestWithParam<std::tuple<int, std::string>> {
+    : public TestWithParam<std::tuple<int, std::string>> {
 };
 
 TEST_P(BoolToStringTestFixture, TestBooleanValues)
@@ -31,7 +32,7 @@ TEST_P(BoolToStringTestFixture, TestBooleanValues)
 INSTANTIATE_TEST_SUITE_P(
     BoolToStringTests,
     BoolToStringTestFixture,
-    ::testing::Values(
+    Values(
         std::make_tuple(0, "false"),
         std::make_tuple(2, "true"),
         std::make_tuple(-1, "true"),

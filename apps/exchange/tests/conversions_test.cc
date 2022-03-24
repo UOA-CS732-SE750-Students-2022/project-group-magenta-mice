@@ -1,13 +1,14 @@
+#include "test_common.h"
+
 #include <common/types.h>
 #include <engine/conversions.h>
-#include <gtest/gtest.h>
 #include <protocol/exchange.pb.h>
 #include <tuple>
 
 namespace Sim::Testing {
 
 class SideConversionTestFixture
-    : public ::testing::TestWithParam<
+    : public TestWithParam<
           std::tuple<Protocol::InsertOrderRequest::Side, Side>> {
 };
 
@@ -22,12 +23,12 @@ TEST_P(SideConversionTestFixture, TestSideConversion)
 INSTANTIATE_TEST_SUITE_P(
     TestSideConversion,
     SideConversionTestFixture,
-    ::testing::Values(
+    Values(
         std::make_tuple(Protocol::InsertOrderRequest::BUY, Side::BUY),
         std::make_tuple(Protocol::InsertOrderRequest::SELL, Side::SELL)));
 
 class LifespanConversionTestFixture
-    : public ::testing::TestWithParam<
+    : public TestWithParam<
           std::tuple<Protocol::InsertOrderRequest::Lifespan, Lifespan>> {
 };
 
@@ -42,7 +43,7 @@ TEST_P(LifespanConversionTestFixture, TestLifespanConversion)
 INSTANTIATE_TEST_SUITE_P(
     TestLifespanConversion,
     LifespanConversionTestFixture,
-    ::testing::Values(
+    Values(
         std::make_tuple(Protocol::InsertOrderRequest::GFD, Lifespan::GFD),
         std::make_tuple(Protocol::InsertOrderRequest::FAK, Lifespan::FAK)));
 
