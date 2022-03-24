@@ -13,14 +13,13 @@ class StockPriceGeneratorStrategy(PriceGeneratorStrategy):
         trend: percentage yeild (in decimal) per order
         volatility: Diviation in $ unit
     """
-    def __init__(self, init_price: float, trend: float, volatility: float) -> None:
+    def __init__(self, init_price: float, volatility: float) -> None:
         self._init_price = init_price
         self._mu = init_price
-        self._trend = trend
         self._sigma = volatility
     
     def generate_price(self, trend: TrendManager) -> float:
         self._p = norm.rvs(self._mu, self._sigma)
-        #self._mu += self._trend * self._p/100
         self._mu += trend.get_trend() * self._p/100
+
         return self._p
