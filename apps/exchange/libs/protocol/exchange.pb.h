@@ -39,7 +39,7 @@ namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[5];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -54,6 +54,12 @@ extern InsertOrderRequestDefaultTypeInternal _InsertOrderRequest_default_instanc
 class LoginRequest;
 class LoginRequestDefaultTypeInternal;
 extern LoginRequestDefaultTypeInternal _LoginRequest_default_instance_;
+class LoginResponse;
+class LoginResponseDefaultTypeInternal;
+extern LoginResponseDefaultTypeInternal _LoginResponse_default_instance_;
+class LoginResponse_Instrument;
+class LoginResponse_InstrumentDefaultTypeInternal;
+extern LoginResponse_InstrumentDefaultTypeInternal _LoginResponse_Instrument_default_instance_;
 class LogoutRequest;
 class LogoutRequestDefaultTypeInternal;
 extern LogoutRequestDefaultTypeInternal _LogoutRequest_default_instance_;
@@ -63,6 +69,8 @@ namespace google {
 namespace protobuf {
 template<> ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::InsertOrderRequest>(Arena*);
 template<> ::Sim::Protocol::LoginRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LoginRequest>(Arena*);
+template<> ::Sim::Protocol::LoginResponse* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse>(Arena*);
+template<> ::Sim::Protocol::LoginResponse_Instrument* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse_Instrument>(Arena*);
 template<> ::Sim::Protocol::LogoutRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LogoutRequest>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -250,6 +258,249 @@ class LoginRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
+class LoginResponse_Instrument : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.LoginResponse.Instrument) */ {
+ public:
+  LoginResponse_Instrument();
+  virtual ~LoginResponse_Instrument();
+
+  LoginResponse_Instrument(const LoginResponse_Instrument& from);
+
+  inline LoginResponse_Instrument& operator=(const LoginResponse_Instrument& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LoginResponse_Instrument(LoginResponse_Instrument&& from) noexcept
+    : LoginResponse_Instrument() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginResponse_Instrument& operator=(LoginResponse_Instrument&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LoginResponse_Instrument& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LoginResponse_Instrument* internal_default_instance() {
+    return reinterpret_cast<const LoginResponse_Instrument*>(
+               &_LoginResponse_Instrument_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(LoginResponse_Instrument* other);
+  friend void swap(LoginResponse_Instrument& a, LoginResponse_Instrument& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginResponse_Instrument* New() const final {
+    return CreateMaybeMessage<LoginResponse_Instrument>(NULL);
+  }
+
+  LoginResponse_Instrument* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<LoginResponse_Instrument>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const LoginResponse_Instrument& from);
+  void MergeFrom(const LoginResponse_Instrument& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginResponse_Instrument* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string ticker = 2;
+  void clear_ticker();
+  static const int kTickerFieldNumber = 2;
+  const ::std::string& ticker() const;
+  void set_ticker(const ::std::string& value);
+  #if LANG_CXX11
+  void set_ticker(::std::string&& value);
+  #endif
+  void set_ticker(const char* value);
+  void set_ticker(const char* value, size_t size);
+  ::std::string* mutable_ticker();
+  ::std::string* release_ticker();
+  void set_allocated_ticker(::std::string* ticker);
+
+  // uint32 id = 1;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  ::google::protobuf::uint32 id() const;
+  void set_id(::google::protobuf::uint32 value);
+
+  // uint32 positionLimit = 3;
+  void clear_positionlimit();
+  static const int kPositionLimitFieldNumber = 3;
+  ::google::protobuf::uint32 positionlimit() const;
+  void set_positionlimit(::google::protobuf::uint32 value);
+
+  // uint32 tickSizeInCents = 4;
+  void clear_ticksizeincents();
+  static const int kTickSizeInCentsFieldNumber = 4;
+  ::google::protobuf::uint32 ticksizeincents() const;
+  void set_ticksizeincents(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.LoginResponse.Instrument)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr ticker_;
+  ::google::protobuf::uint32 id_;
+  ::google::protobuf::uint32 positionlimit_;
+  ::google::protobuf::uint32 ticksizeincents_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class LoginResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.LoginResponse) */ {
+ public:
+  LoginResponse();
+  virtual ~LoginResponse();
+
+  LoginResponse(const LoginResponse& from);
+
+  inline LoginResponse& operator=(const LoginResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LoginResponse(LoginResponse&& from) noexcept
+    : LoginResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginResponse& operator=(LoginResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LoginResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LoginResponse* internal_default_instance() {
+    return reinterpret_cast<const LoginResponse*>(
+               &_LoginResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(LoginResponse* other);
+  friend void swap(LoginResponse& a, LoginResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginResponse* New() const final {
+    return CreateMaybeMessage<LoginResponse>(NULL);
+  }
+
+  LoginResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<LoginResponse>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const LoginResponse& from);
+  void MergeFrom(const LoginResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef LoginResponse_Instrument Instrument;
+
+  // accessors -------------------------------------------------------
+
+  // repeated .Sim.Protocol.LoginResponse.Instrument instruments = 1;
+  int instruments_size() const;
+  void clear_instruments();
+  static const int kInstrumentsFieldNumber = 1;
+  ::Sim::Protocol::LoginResponse_Instrument* mutable_instruments(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::LoginResponse_Instrument >*
+      mutable_instruments();
+  const ::Sim::Protocol::LoginResponse_Instrument& instruments(int index) const;
+  ::Sim::Protocol::LoginResponse_Instrument* add_instruments();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::LoginResponse_Instrument >&
+      instruments() const;
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.LoginResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::LoginResponse_Instrument > instruments_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class LogoutRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.LogoutRequest) */ {
  public:
   LogoutRequest();
@@ -285,7 +536,7 @@ class LogoutRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_LogoutRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    3;
 
   void Swap(LogoutRequest* other);
   friend void swap(LogoutRequest& a, LogoutRequest& b) {
@@ -381,7 +632,7 @@ class InsertOrderRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_InsertOrderRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   void Swap(InsertOrderRequest* other);
   friend void swap(InsertOrderRequest& a, InsertOrderRequest& b) {
@@ -600,6 +851,139 @@ inline void LoginRequest::set_allocated_key(::std::string* key) {
 
 // -------------------------------------------------------------------
 
+// LoginResponse_Instrument
+
+// uint32 id = 1;
+inline void LoginResponse_Instrument::clear_id() {
+  id_ = 0u;
+}
+inline ::google::protobuf::uint32 LoginResponse_Instrument::id() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.LoginResponse.Instrument.id)
+  return id_;
+}
+inline void LoginResponse_Instrument::set_id(::google::protobuf::uint32 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.LoginResponse.Instrument.id)
+}
+
+// string ticker = 2;
+inline void LoginResponse_Instrument::clear_ticker() {
+  ticker_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LoginResponse_Instrument::ticker() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.LoginResponse.Instrument.ticker)
+  return ticker_.GetNoArena();
+}
+inline void LoginResponse_Instrument::set_ticker(const ::std::string& value) {
+  
+  ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Sim.Protocol.LoginResponse.Instrument.ticker)
+}
+#if LANG_CXX11
+inline void LoginResponse_Instrument::set_ticker(::std::string&& value) {
+  
+  ticker_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Sim.Protocol.LoginResponse.Instrument.ticker)
+}
+#endif
+inline void LoginResponse_Instrument::set_ticker(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Sim.Protocol.LoginResponse.Instrument.ticker)
+}
+inline void LoginResponse_Instrument::set_ticker(const char* value, size_t size) {
+  
+  ticker_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Sim.Protocol.LoginResponse.Instrument.ticker)
+}
+inline ::std::string* LoginResponse_Instrument::mutable_ticker() {
+  
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.LoginResponse.Instrument.ticker)
+  return ticker_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LoginResponse_Instrument::release_ticker() {
+  // @@protoc_insertion_point(field_release:Sim.Protocol.LoginResponse.Instrument.ticker)
+  
+  return ticker_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LoginResponse_Instrument::set_allocated_ticker(::std::string* ticker) {
+  if (ticker != NULL) {
+    
+  } else {
+    
+  }
+  ticker_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ticker);
+  // @@protoc_insertion_point(field_set_allocated:Sim.Protocol.LoginResponse.Instrument.ticker)
+}
+
+// uint32 positionLimit = 3;
+inline void LoginResponse_Instrument::clear_positionlimit() {
+  positionlimit_ = 0u;
+}
+inline ::google::protobuf::uint32 LoginResponse_Instrument::positionlimit() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.LoginResponse.Instrument.positionLimit)
+  return positionlimit_;
+}
+inline void LoginResponse_Instrument::set_positionlimit(::google::protobuf::uint32 value) {
+  
+  positionlimit_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.LoginResponse.Instrument.positionLimit)
+}
+
+// uint32 tickSizeInCents = 4;
+inline void LoginResponse_Instrument::clear_ticksizeincents() {
+  ticksizeincents_ = 0u;
+}
+inline ::google::protobuf::uint32 LoginResponse_Instrument::ticksizeincents() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.LoginResponse.Instrument.tickSizeInCents)
+  return ticksizeincents_;
+}
+inline void LoginResponse_Instrument::set_ticksizeincents(::google::protobuf::uint32 value) {
+  
+  ticksizeincents_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.LoginResponse.Instrument.tickSizeInCents)
+}
+
+// -------------------------------------------------------------------
+
+// LoginResponse
+
+// repeated .Sim.Protocol.LoginResponse.Instrument instruments = 1;
+inline int LoginResponse::instruments_size() const {
+  return instruments_.size();
+}
+inline void LoginResponse::clear_instruments() {
+  instruments_.Clear();
+}
+inline ::Sim::Protocol::LoginResponse_Instrument* LoginResponse::mutable_instruments(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.LoginResponse.instruments)
+  return instruments_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::LoginResponse_Instrument >*
+LoginResponse::mutable_instruments() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.LoginResponse.instruments)
+  return &instruments_;
+}
+inline const ::Sim::Protocol::LoginResponse_Instrument& LoginResponse::instruments(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.LoginResponse.instruments)
+  return instruments_.Get(index);
+}
+inline ::Sim::Protocol::LoginResponse_Instrument* LoginResponse::add_instruments() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.LoginResponse.instruments)
+  return instruments_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::LoginResponse_Instrument >&
+LoginResponse::instruments() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.LoginResponse.instruments)
+  return instruments_;
+}
+
+// -------------------------------------------------------------------
+
 // LogoutRequest
 
 // -------------------------------------------------------------------
@@ -693,6 +1077,10 @@ inline void InsertOrderRequest::set_volume(::google::protobuf::uint32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

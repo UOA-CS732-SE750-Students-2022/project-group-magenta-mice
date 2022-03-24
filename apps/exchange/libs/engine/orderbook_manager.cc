@@ -10,6 +10,17 @@ void OrderbookManager::addInstrument(Instrument instrument)
     mOrderbooks.insert(std::make_pair(nextInstrument, Orderbook()));
 }
 
+std::vector<std::tuple<uint32_t, const Instrument &>> OrderbookManager::getInstrumentDefinitions() const
+{
+    std::vector<std::tuple<uint32_t, const Instrument &>> res;
+
+    for (auto &instrument : mInstruments) {
+        res.push_back(std::make_tuple(instrument.first, instrument.second));
+    }
+
+    return res;
+}
+
 size_t OrderbookManager::size() const
 {
     return mOrderbooks.size();

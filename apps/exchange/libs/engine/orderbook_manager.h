@@ -3,7 +3,9 @@
 #include "orderbook.h"
 
 #include <common/types.h>
+#include <tuple>
 #include <unordered_map>
+#include <vector>
 
 namespace Sim {
 
@@ -16,9 +18,11 @@ class OrderbookManager {
     virtual size_t size() const;
     virtual void printBooks() const;
 
+    virtual std::vector<std::tuple<uint32_t, const Instrument&>> getInstrumentDefinitions() const;
+
    private:
-    std::unordered_map<int, Orderbook> mOrderbooks;
-    std::unordered_map<int, Instrument> mInstruments;
+    std::unordered_map<uint32_t, Orderbook> mOrderbooks;
+    std::unordered_map<uint32_t, Instrument> mInstruments;
 };
 
 } // namespace Sim

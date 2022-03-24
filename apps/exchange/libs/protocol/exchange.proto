@@ -17,6 +17,17 @@ message LoginRequest {
   string key = 1;
 }
 
+message LoginResponse {
+  message Instrument {
+    uint32 id = 1;
+    string ticker = 2;
+    uint32 positionLimit = 3;
+    uint32 tickSizeInCents = 4;
+  }
+
+  repeated Instrument instruments = 1;
+}
+
 message LogoutRequest {}
 
 message InsertOrderRequest {

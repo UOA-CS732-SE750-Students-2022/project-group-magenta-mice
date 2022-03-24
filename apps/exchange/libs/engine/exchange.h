@@ -23,6 +23,8 @@ class Exchange {
 
     void printBooks();
 
+    Protocol::LoginResponse getExchangeInstruments();
+
    private:
     std::unique_ptr<OrderbookManager> mOrderbookManager;
     std::unique_ptr<ParticipantManager> mParticipantManager;
