@@ -69,6 +69,11 @@ target_link_libraries(
   unit_test
   gtest_main
   common_lib
+  exchange_lib
+  protocol_lib
+  ${Boost_LIBRARIES}
+  ${CMAKE_THREAD_LIBS_INIT}
+  ${Protobuf_LIBRARIES}
 )
 
 include(GoogleTest)
