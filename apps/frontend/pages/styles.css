@@ -11,3 +11,34 @@ html {
   tab-size: 4;
   scroll-behavior: smooth;
 }
+
+.card {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.75);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+.decorated {
+  overflow: hidden;
+  text-align: center;
+}
+.decorated > span {
+  position: relative;
+  display: inline-block;
+}
+.decorated > span:before,
+.decorated > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 2px solid;
+  width: 100vw;
+  margin: 0 20px;
+}
+.decorated > span:before {
+  right: 100%;
+}
+.decorated > span:after {
+  left: 100%;
+}
