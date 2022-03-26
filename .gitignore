@@ -38,4 +38,5 @@ testem.log
 Thumbs.db
 
 .env.local
+.env
 .eslintcache
