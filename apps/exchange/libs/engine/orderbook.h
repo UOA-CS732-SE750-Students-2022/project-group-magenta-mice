@@ -3,25 +3,40 @@
 #include <common/types.h>
 #include <deque>
 #include <iostream>
+#include <map>
 #include <memory>
-#include <unordered_map>
+#include <optional>
 
-namespace Sim {
+namespace Sim
+{
+    using BidQueue = std::map<uint32_t, std::deque<std::shared_ptr<Order>>, std::greater<uint32_t>>;
+    using AskQueue = std::map<uint32_t, std::deque<std::shared_ptr<Order>>, std::less<uint32_t>>;
 
-class Orderbook {
-   public:
-    bool insertOrder(std::shared_ptr<Order> order);
+    class Orderbook
+    {
+       public:
+        bool insertOrder(std::shared_ptr<Order> order);
 
-    friend std::ostream &operator<<(std::ostream &os, const Orderbook &ob);
+        friend std::ostream& operator<<(std::ostream& os, const Orderbook& ob);
 
-   private:
-    bool insertBuyOrder(std::shared_ptr<Order> order);
-    bool insertSellOrder(std::shared_ptr<Order> order);
+        size_t getNumBuyOrders() const;
+        size_t getNumSellOrders() const;
 
-    Instrument mInstrument;
+        const std::deque<std::shared_ptr<Sim::Order>>::const_iterator getTopBid() const;
+        const std::deque<std::shared_ptr<Sim::Order>>::const_iterator getTopAsk() const;
 
-    std::unordered_map<int, std::deque<std::shared_ptr<Order>>> mBidOrders;
-    std::unordered_map<int, std::deque<std::shared_ptr<Order>>> mAskOrders;
-};
+        uint32_t topBidPrice() const;
+        uint32_t topAskPrice() const;
+
+       private:
+        bool insertBuyOrder(std::shared_ptr<Order> order);
+        bool insertSellOrder(std::shared_ptr<Order> order);
+
+        Instrument mInstrument;
+
+        // Price -> Orders
+        BidQueue mBidOrders;
+        AskQueue mAskOrders;
+    };
 
 } // namespace Sim
