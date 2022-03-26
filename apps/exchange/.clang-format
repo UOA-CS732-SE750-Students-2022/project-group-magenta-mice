@@ -7,9 +7,9 @@ AlignEscapedNewlines: "DontAlign"
 AlignOperands: "false"
 AlignTrailingComments: "false"
 AllowAllParametersOfDeclarationOnNextLine: "false"
-AllowShortBlocksOnASingleLine: "false"
-AllowShortCaseLabelsOnASingleLine: "false"
-AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: "true"
+AllowShortCaseLabelsOnASingleLine: "true"
+AllowShortFunctionsOnASingleLine: "true"
 AllowShortIfStatementsOnASingleLine: "false"
 AllowShortLoopsOnASingleLine: "false"
 AlwaysBreakAfterDefinitionReturnType: None
@@ -28,15 +28,15 @@ BraceWrapping:
   AfterUnion: true
   BeforeCatch: true
   BeforeElse: true
-  IndentBraces: true
+  IndentBraces: false
+  SplitEmptyFunction: false
 BreakBeforeBinaryOperators: None
-BreakBeforeBraces: WebKit
+BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: "false"
 ColumnLimit: "120"
 CommentPragmas: '^\\sa'
 ContinuationIndentWidth: "4"
 Cpp11BracedListStyle: "false"
-DerivePointerAlignment: "true"
 DisableFormat: "false"
 IncludeBlocks: Regroup
 IncludeCategories:
@@ -65,6 +65,7 @@ IndentWrappedFunctionNames: "true"
 KeepEmptyLinesAtTheStartOfBlocks: "false"
 Language: Cpp
 MaxEmptyLinesToKeep: "1"
+NamespaceIndentation: "All"
 PenaltyBreakBeforeFirstCallParameter: "0"
 PenaltyBreakComment: "300"
 PenaltyBreakFirstLessLess: "120"
