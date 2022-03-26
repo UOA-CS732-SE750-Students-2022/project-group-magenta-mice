@@ -9,4 +9,17 @@ export class UserStoreService {
     const user = await this.prismaService.user.findFirst();
     return user;
   }
+
+  async createUser(name: string, pppic: string, id: string) {
+    this.prismaService.user.create({
+      data: {
+        name,
+        profilePicUrl: pppic,
+        id,
+      },
+    });
+
+    const success = true;
+    return success;
+  }
 }

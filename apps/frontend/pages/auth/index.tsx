@@ -24,8 +24,20 @@ export function Index() {
 
   useFullLoader(isLoading || urlLoading);
 
-  const responseGoogle = (response) => {
+  const onSuccess = (response) => {
     console.log(response);
+    console.log(response.tokenObj);
+    console.log("*** Logged in for: ***");
+    console.log("Google ID: ", response.profileObj.googleId);
+    console.log("Name: ", response.profileObj.name);
+    console.log("Profile: ", response.profileObj.imageUrl);
+    console.log("Email: ", response.profileObj.email);
+    console.log("ID_Token:", response.tokenObj.id_token);
+    // Navigate away from page.
+  };
+
+  const onFaliure = (response) => {
+    console.log("Failed to login:", response);
   };
 
   return (
@@ -58,8 +70,8 @@ export function Index() {
               )}
               clientId="137043782079-bd42vkkngrnvg1h1lk8rcc968ioahk1e.apps.googleusercontent.com"
               buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
+              onSuccess={onSuccess}
+              onFailure={onFaliure}
               cookiePolicy={"single_host_origin"}
             />
           </div>
