@@ -5,6 +5,8 @@ import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./controllers/users/users.module";
+import { FirebaseAuthStrategy } from "./middleware/firebase.auth";
+import { FirebaseGuard } from "./middleware/firebase.guard";
 
 @Module({
   imports: [
@@ -18,6 +20,6 @@ import { UsersModule } from "./controllers/users/users.module";
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FirebaseGuard, FirebaseAuthStrategy],
 })
 export class AppModule {}
