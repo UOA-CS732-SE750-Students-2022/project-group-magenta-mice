@@ -126,7 +126,6 @@ export const useLoginPanelController = () => {
             profilePicUrl: user.photoURL,
           },
         });
-        // ...
       })
       .catch((error) => {
         console.error(error);
