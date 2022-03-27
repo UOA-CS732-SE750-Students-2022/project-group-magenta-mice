@@ -3,8 +3,11 @@
 # ------------------------------------------------------
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: String!
+  name: String!
+  profilePicUrl: String
+
+  """the google ID"""
+  id: ID!
 }
 
 type Query {
@@ -19,12 +22,22 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: String!
+  """Google Id"""
+  id: ID!
+
+  """Name of user"""
+  name: String!
+
+  """Google ProfilePic of user"""
+  profilePicUrl: String
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: String
   id: String!
+
+  """Name of user"""
+  name: String
+
+  """Google ProfilePic of user"""
+  profilePicUrl: String
 }

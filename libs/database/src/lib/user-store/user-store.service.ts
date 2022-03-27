@@ -9,4 +9,21 @@ export class UserStoreService {
     const user = await this.prismaService.user.findFirst();
     return user;
   }
+
+  async createUser(name: string, pppic: string, id: string) {
+    return await this.prismaService.user.upsert({
+      where: {
+        id,
+      },
+      create: {
+        id,
+        name,
+        profilePicUrl: pppic,
+      },
+      update: {
+        name,
+        profilePicUrl: pppic,
+      },
+    });
+  }
 }

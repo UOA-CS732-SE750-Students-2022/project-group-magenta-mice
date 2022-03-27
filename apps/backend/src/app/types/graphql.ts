@@ -8,16 +8,21 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface CreateUserInput {
-    exampleField: string;
+    id: string;
+    name: string;
+    profilePicUrl?: Nullable<string>;
 }
 
 export interface UpdateUserInput {
-    exampleField?: Nullable<string>;
     id: string;
+    name?: Nullable<string>;
+    profilePicUrl?: Nullable<string>;
 }
 
 export interface User {
-    exampleField: string;
+    name: string;
+    profilePicUrl?: Nullable<string>;
+    id: string;
 }
 
 export interface IQuery {
