@@ -3,3 +3,9 @@ query getUser($unused: Int!) {
     exampleField
   }
 }
+
+mutation CreateUser($name: String) {
+  createUser() {
+    exampleField
+  }
+}
