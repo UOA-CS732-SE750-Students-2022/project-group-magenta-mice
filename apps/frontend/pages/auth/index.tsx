@@ -1,4 +1,4 @@
-import GoogleLogin from "react-google-login";
+import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 import { ReactComponent as GoogleIcon } from "@simulate-exchange/assets";
 import { Glass } from "@simulate-exchange/components";
 import { DividedText } from "@simulate-exchange/components";
@@ -7,6 +7,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import cx from "classnames";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
 import { useEffect, useState } from "react";
+import {useCreateUserMutation} from "@simulate-exchange/gql"
 
 const color = "bg-emerald-600 hover:bg-emerald-500 transition-colors";
 
@@ -23,8 +24,14 @@ export function Index() {
   }, [setUrlLoading, randomImage]);
 
   useFullLoader(isLoading || urlLoading);
+  const [createUser,{error}] = useCreateUserMutation()
 
-  const onSuccess = (response) => {
+  const onSuccess = (response : GoogleLoginResponse) => {
+    createUser({variables : {
+      id : response.profileObj.googleId,
+      name : response.profileObj.name,
+      profilePicUrl : response.profileObj.imageUrl,
+    }})
     console.log(response);
     console.log(response.tokenObj);
     console.log("*** Logged in for: ***");
@@ -32,7 +39,7 @@ export function Index() {
     console.log("Name: ", response.profileObj.name);
     console.log("Profile: ", response.profileObj.imageUrl);
     console.log("Email: ", response.profileObj.email);
-    console.log("ID_Token:", response.tokenObj.id_token);
+    console.log("ID_Token:", response.tokenObj.access_token);
     // Navigate away from page.
   };
 

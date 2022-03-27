@@ -3,8 +3,11 @@
 # ------------------------------------------------------
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: String!
+  name: String!
+  profilePicUrl: String
+
+  """the google ID"""
+  id: ID!
 }
 
 type Query {
@@ -26,7 +29,7 @@ input CreateUserInput {
   name: String!
 
   """Google ProfilePic of user"""
-  profilePicUrl: String!
+  profilePicUrl: String
 }
 
 input UpdateUserInput {

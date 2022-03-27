@@ -8,7 +8,7 @@ export class UsersService {
   constructor(private readonly userStore: UserStoreService) {}
 
   create(createUserInput: CreateUserInput) {
-    return "This action adds a new user";
+    return this.userStore.createUser(createUserInput.name,createUserInput.profilePicUrl,createUserInput.id)
   }
 
   findAll() {

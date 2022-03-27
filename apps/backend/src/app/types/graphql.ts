@@ -10,7 +10,7 @@
 export interface CreateUserInput {
     id: string;
     name: string;
-    profilePicUrl: string;
+    profilePicUrl?: Nullable<string>;
 }
 
 export interface UpdateUserInput {
@@ -20,7 +20,9 @@ export interface UpdateUserInput {
 }
 
 export interface User {
-    exampleField: string;
+    name: string;
+    profilePicUrl?: Nullable<string>;
+    id: string;
 }
 
 export interface IQuery {
