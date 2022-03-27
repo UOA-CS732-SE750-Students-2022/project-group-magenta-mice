@@ -58,12 +58,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
     router.events.on("routeChangeError", handleComplete);
   }, [router]);
 
-  useEffect(() => {
-    getAuth()
-      .currentUser?.getIdToken()
-      .then((t) => console.log(t));
-  });
-
   return (
     <ApolloProvider client={client}>
       <LoaderCounterContext.Provider value={{ loadingCount, setLoadingCount }}>
