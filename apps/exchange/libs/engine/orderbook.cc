@@ -220,7 +220,26 @@ namespace Sim
 
     std::ostream& operator<<(std::ostream& os, const Orderbook& ob)
     {
-        os << "Hi";
+        for (auto levelBegin = ob.mAskOrders.begin(); levelBegin != ob.mAskOrders.end(); ++levelBegin)
+        {
+            os << "[" << levelBegin->first << "] Asks: ";
+            for (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end(); ++orderBegin)
+            {
+                os << "[" << orderBegin->get()->mVolume << " @ " << orderBegin->get()->mPrice << "] ";
+            }
+            os << std::endl;
+        }
+
+        for (auto levelBegin = ob.mBidOrders.begin(); levelBegin != ob.mBidOrders.end(); ++levelBegin)
+        {
+            os << "[" << levelBegin->first << "] Bids: ";
+            for (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end(); ++orderBegin)
+            {
+                os << "[" << orderBegin->get()->mVolume << " @ " << orderBegin->get()->mPrice << "] ";
+            }
+            os << std::endl;
+        }
+
         return os;
     }
 

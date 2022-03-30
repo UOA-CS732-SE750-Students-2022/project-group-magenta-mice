@@ -8,26 +8,25 @@
 #include <memory>
 #include <unordered_map>
 
-namespace Sim {
+namespace Sim
+{
+    class Exchange
+    {
+       public:
+        Exchange(std::unique_ptr<ParticipantManager>, std::unique_ptr<OrderbookManager>);
 
-class Exchange {
-   public:
-    Exchange(
-        std::unique_ptr<ParticipantManager>,
-        std::unique_ptr<OrderbookManager>);
+        void addInstrument(Instrument instrument);
+        void addParticipant(std::shared_ptr<Participant> participant);
 
-    void addInstrument(Instrument instrument);
-    void addParticipant(std::unique_ptr<Participant> participant);
+        bool insertOrder(std::shared_ptr<Order> order);
 
-    bool insertOrder(std::shared_ptr<Order> order);
+        void printBooks();
 
-    void printBooks();
+        Protocol::LoginResponse getExchangeInstruments();
 
-    Protocol::LoginResponse getExchangeInstruments();
-
-   private:
-    std::unique_ptr<OrderbookManager> mOrderbookManager;
-    std::unique_ptr<ParticipantManager> mParticipantManager;
-};
+       private:
+        std::unique_ptr<OrderbookManager> mOrderbookManager;
+        std::unique_ptr<ParticipantManager> mParticipantManager;
+    };
 
 } // namespace Sim

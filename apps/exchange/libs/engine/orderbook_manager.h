@@ -7,22 +7,25 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Sim {
+namespace Sim
+{
+    class OrderbookManager
+    {
+       public:
+        virtual ~OrderbookManager() = default;
 
-class OrderbookManager {
-   public:
-    virtual ~OrderbookManager() = default;
+        virtual void addInstrument(Instrument instrument);
 
-    virtual void addInstrument(Instrument instrument);
+        virtual size_t size() const;
+        virtual void printBooks() const;
 
-    virtual size_t size() const;
-    virtual void printBooks() const;
+        virtual std::vector<std::tuple<uint32_t, const Instrument&>> getInstrumentDefinitions() const;
 
-    virtual std::vector<std::tuple<uint32_t, const Instrument&>> getInstrumentDefinitions() const;
+        virtual bool insertOrder(std::shared_ptr<Order> order);
 
-   private:
-    std::unordered_map<uint32_t, Orderbook> mOrderbooks;
-    std::unordered_map<uint32_t, Instrument> mInstruments;
-};
+       private:
+        std::unordered_map<uint32_t, Orderbook> mOrderbooks;
+        std::unordered_map<uint32_t, Instrument> mInstruments;
+    };
 
 } // namespace Sim

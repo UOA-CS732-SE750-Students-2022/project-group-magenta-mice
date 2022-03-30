@@ -28,6 +28,8 @@ namespace Sim
         uint32_t topBidPrice() const;
         uint32_t topAskPrice() const;
 
+        void printBook() const;
+
        private:
         bool insertBuyOrder(std::shared_ptr<Order> order);
         bool insertSellOrder(std::shared_ptr<Order> order);
