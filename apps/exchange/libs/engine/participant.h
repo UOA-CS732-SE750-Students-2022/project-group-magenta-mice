@@ -8,36 +8,37 @@
 #include <protocol/exchange.pb.h>
 #include <unordered_map>
 
-namespace Sim {
-
-class Participant {
-   public:
-    Participant(std::unique_ptr<OrderFactory> orderFactory)
-        : mOrderFactory{ std::move(orderFactory) } {};
-
-    void requestOrderInsert(Protocol::InsertOrderRequest &order);
-
-    void sendError(std::string &&error);
-
-    void setOrderInsertionHandler(
-        std::function<bool(std::shared_ptr<Order>)> &&handler)
+namespace Sim
+{
+    class Participant
     {
-        mRequestOrderInsert.emplace(std::move(handler));
-    }
+       public:
+        Participant(std::unique_ptr<OrderFactory> orderFactory) : mOrderFactory{ std::move(orderFactory) } {};
 
-    void handleOrderUpdate(uint32_t order, uint32_t volumeRemaining);
-    void handleOrderFill(uint32_t order, uint32_t volumeFilled, uint32_t price);
+        bool requestOrderInsert(Protocol::InsertOrderRequest& order);
 
-   private:
-    bool checkAndIncrementOrderId(uint32_t id);
+        void sendError(std::string&& error);
 
-    std::unique_ptr<OrderFactory> mOrderFactory;
+        void setOrderInsertionHandler(std::function<bool(std::shared_ptr<Order>)>&& handler)
+        {
+            mRequestOrderInsert.emplace(std::move(handler));
+        }
 
-    uint64_t expectedOrderId = 0;
+        void handleOrderUpdate(std::shared_ptr<Order> order, uint32_t volumeRemaining);
+        void handleOrderFill(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price);
 
-    std::unordered_map<int, std::weak_ptr<Order>> mOrders;
-    std::optional<std::function<bool(std::shared_ptr<Order>)>>
-        mRequestOrderInsert;
-};
+       private:
+        bool checkAndIncrementOrderId(uint32_t id);
+
+        std::unique_ptr<OrderFactory> mOrderFactory;
+
+        uint64_t expectedOrderId = 0;
+
+        std::unordered_map<uint32_t, std::weak_ptr<Order>> mOrders;
+        std::optional<std::function<bool(std::shared_ptr<Order>)>> mRequestOrderInsert;
+
+        std::unordered_map<uint32_t, int32_t> mPositions;
+        int64_t mCash = 0;
+    };
 
 } // namespace Sim

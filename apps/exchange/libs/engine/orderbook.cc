@@ -21,18 +21,49 @@ namespace Sim
     {
         uint32_t bidPrice = order->mPrice;
 
-        while (bidPrice > topAskPrice() && order->mVolume > 0)
+        while (bidPrice >= topAskPrice() && order->mVolume > 0)
         {
-            auto askOrder = getTopAsk();
-            if (askOrder->get()->mVolume >= order->mVolume)
+            auto counterpartyAsk = getTopAsk();
+            if (counterpartyAsk->get()->mVolume >= order->mVolume)
             {
-                askOrder->get()->mVolume -= order->mVolume;
+                auto volumeRemoved = order->mVolume;
+                auto priceTraded = counterpartyAsk->get()->mPrice;
+
+                if (order->mOrderListener)
+                {
+                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                }
+                if (counterpartyAsk->get()->mOrderListener)
+                {
+                    counterpartyAsk->get()->mOrderListener->onFill(*counterpartyAsk, volumeRemoved, priceTraded);
+                    counterpartyAsk->get()->mOrderListener->onUpdate(
+                        *counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
+                }
+
+                counterpartyAsk->get()->mVolume -= volumeRemoved;
                 order->mVolume = 0;
                 return true;
             }
             else
             {
-                order->mVolume -= askOrder->get()->mVolume;
+                auto volumeRemoved = counterpartyAsk->get()->mVolume;
+                auto priceTraded = counterpartyAsk->get()->mPrice;
+
+                if (order->mOrderListener)
+                {
+                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                }
+                if (counterpartyAsk->get()->mOrderListener)
+                {
+                    counterpartyAsk->get()->mOrderListener->onFill(*counterpartyAsk, volumeRemoved, priceTraded);
+                    counterpartyAsk->get()->mOrderListener->onUpdate(
+                        *counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
+                }
+
+                order->mVolume -= volumeRemoved;
+                counterpartyAsk->get()->mVolume -= volumeRemoved;
                 auto askBegin = mAskOrders.begin();
                 askBegin->second.pop_front();
                 if (askBegin->second.empty())
@@ -44,6 +75,10 @@ namespace Sim
 
         if (order->mLifespan == Lifespan::FAK)
         {
+            if (order->mOrderListener)
+            {
+                order->mOrderListener->onUpdate(order, 0);
+            }
             return true;
         }
 
@@ -53,6 +88,11 @@ namespace Sim
             mBidOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
             it = mBidOrders.find(order->mPrice);
 
+            if (order->mOrderListener)
+            {
+                order->mOrderListener->onUpdate(order, order->mVolume);
+            }
+
             it->second.emplace_back(std::move(order));
         }
 
@@ -61,11 +101,79 @@ namespace Sim
 
     bool Orderbook::insertSellOrder(std::shared_ptr<Order> order)
     {
+        uint32_t askPrice = order->mPrice;
+
+        while (askPrice <= topBidPrice() && order->mVolume > 0)
+        {
+            auto counterpartyBid = getTopBid();
+            if (counterpartyBid->get()->mVolume >= order->mVolume)
+            {
+                auto volumeRemoved = order->mVolume;
+                auto priceTraded = order->mPrice;
+
+                if (order->mOrderListener)
+                {
+                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                }
+                if (counterpartyBid->get()->mOrderListener)
+                {
+                    counterpartyBid->get()->mOrderListener->onFill(*counterpartyBid, volumeRemoved, priceTraded);
+                    counterpartyBid->get()->mOrderListener->onUpdate(
+                        *counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
+                }
+
+                counterpartyBid->get()->mVolume -= volumeRemoved;
+                order->mVolume = 0;
+                return true;
+            }
+            else
+            {
+                auto volumeRemoved = counterpartyBid->get()->mVolume;
+                auto priceTraded = order->mPrice;
+
+                if (order->mOrderListener)
+                {
+                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                }
+                if (counterpartyBid->get()->mOrderListener)
+                {
+                    counterpartyBid->get()->mOrderListener->onFill(*counterpartyBid, volumeRemoved, priceTraded);
+                    counterpartyBid->get()->mOrderListener->onUpdate(
+                        *counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
+                }
+
+                order->mVolume -= volumeRemoved;
+                counterpartyBid->get()->mVolume -= volumeRemoved;
+                auto bidBegin = mBidOrders.begin();
+                bidBegin->second.pop_front();
+                if (bidBegin->second.empty())
+                {
+                    mBidOrders.erase(bidBegin);
+                }
+            }
+        }
+
+        if (order->mLifespan == Lifespan::FAK)
+        {
+            if (order->mOrderListener)
+            {
+                order->mOrderListener->onUpdate(order, 0);
+            }
+            return true;
+        }
+
         auto it = mAskOrders.find(order->mPrice);
         if (it == mAskOrders.end())
         {
             mAskOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
             it = mAskOrders.find(order->mPrice);
+
+            if (order->mOrderListener)
+            {
+                order->mOrderListener->onUpdate(order, order->mVolume);
+            }
 
             it->second.emplace_back(std::move(order));
         }

@@ -40,14 +40,16 @@ namespace Sim
 
     struct OrderListener
     {
-        std::function<void(uint32_t order, uint32_t volumeRemaining)> onUpdate;
-        std::function<void(uint32_t order, uint32_t volumeFilled, uint32_t price)> onFill;
+        std::function<void(std::shared_ptr<Order> order, uint32_t volumeRemaining)> onUpdate =
+            [](std::shared_ptr<Order>, uint32_t) {};
+        std::function<void(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price)> onFill =
+            [](std::shared_ptr<Order>, uint32_t, uint32_t) {};
     };
 
     struct Order
     {
-        Order(const Order &) = delete;
-        Order &operator=(const Order &) = delete;
+        Order(const Order&) = delete;
+        Order& operator=(const Order&) = delete;
 
         Order(uint32_t clientId, uint32_t instrumentId, Lifespan lifespan, Side side, uint32_t price, uint32_t volume)
             : mClientId(clientId),
