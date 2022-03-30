@@ -69,4 +69,7 @@ namespace Sim
 
     void Participant::sendError(std::string&& error) {}
 
+    int64_t Participant::getCash() const { return mCash; }
+    int32_t Participant::getPosition(uint32_t forInstrument) const { return mPositions.at(forInstrument); }
+
 } // namespace Sim

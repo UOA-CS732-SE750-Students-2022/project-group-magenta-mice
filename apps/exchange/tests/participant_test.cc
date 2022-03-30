@@ -108,4 +108,23 @@ namespace Sim::Testing
         ASSERT_THROW({ mParticipant->requestOrderInsert(request); }, std::runtime_error);
     }
 
+    TEST_F(ParticipantTestFixture, PositionsAndCashUpdated)
+    {
+        auto order = std::make_shared<Order>(0, 1, Lifespan::FAK, Side::SELL, 0, 0);
+
+        setupParticipant([&order](MockOrderFactory& factory) {
+            EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(order));
+        });
+
+        mParticipant->setOrderInsertionHandler([](std::shared_ptr<Order> order) { return true; });
+
+        Protocol::InsertOrderRequest request;
+        mParticipant->requestOrderInsert(request);
+
+        order->mOrderListener->onFill(order, 10, 10);
+
+        ASSERT_EQ(mParticipant->getCash(), 100);
+        ASSERT_EQ(mParticipant->getPosition(1), -10);
+    }
+
 } // namespace Sim::Testing

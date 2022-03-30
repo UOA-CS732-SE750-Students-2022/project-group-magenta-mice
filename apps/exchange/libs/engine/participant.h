@@ -27,6 +27,9 @@ namespace Sim
         void handleOrderUpdate(std::shared_ptr<Order> order, uint32_t volumeRemaining);
         void handleOrderFill(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price);
 
+        int64_t getCash() const;
+        int32_t getPosition(uint32_t forInstrument) const;
+
        private:
         bool checkAndIncrementOrderId(uint32_t id);
 
