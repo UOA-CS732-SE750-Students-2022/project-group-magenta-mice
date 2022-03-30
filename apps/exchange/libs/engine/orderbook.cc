@@ -24,7 +24,7 @@ namespace Sim
         while (bidPrice >= topAskPrice() && order->mVolume > 0)
         {
             auto counterpartyAsk = getTopAsk();
-            if (counterpartyAsk->get()->mVolume >= order->mVolume)
+            if (counterpartyAsk->get()->mVolume > order->mVolume)
             {
                 auto volumeRemoved = order->mVolume;
                 auto priceTraded = counterpartyAsk->get()->mPrice;
@@ -82,6 +82,11 @@ namespace Sim
             return true;
         }
 
+        if (order->mVolume == 0)
+        {
+            return true;
+        }
+
         auto it = mBidOrders.find(order->mPrice);
         if (it == mBidOrders.end())
         {
@@ -106,7 +111,7 @@ namespace Sim
         while (askPrice <= topBidPrice() && order->mVolume > 0)
         {
             auto counterpartyBid = getTopBid();
-            if (counterpartyBid->get()->mVolume >= order->mVolume)
+            if (counterpartyBid->get()->mVolume > order->mVolume)
             {
                 auto volumeRemoved = order->mVolume;
                 auto priceTraded = order->mPrice;
@@ -161,6 +166,11 @@ namespace Sim
             {
                 order->mOrderListener->onUpdate(order, 0);
             }
+            return true;
+        }
+
+        if (order->mVolume == 0)
+        {
             return true;
         }
 

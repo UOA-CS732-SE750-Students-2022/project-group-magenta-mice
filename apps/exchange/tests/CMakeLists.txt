@@ -7,6 +7,7 @@ set(test_sources
   exchange_test.cc 
   orderbook_test.cc
   participant_test.cc
+  integration_test.cc
 )
 
 include(FetchContent)

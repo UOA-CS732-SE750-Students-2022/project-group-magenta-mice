@@ -34,6 +34,7 @@ namespace Sim
         bool insertBuyOrder(std::shared_ptr<Order> order);
         bool insertSellOrder(std::shared_ptr<Order> order);
 
+        // todo populate this field
         Instrument mInstrument;
 
         // Price -> Orders
