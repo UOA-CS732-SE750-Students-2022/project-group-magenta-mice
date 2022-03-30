@@ -212,4 +212,52 @@ namespace Sim::Testing
         ASSERT_THAT(fillListenerResults, testing::ElementsAre(std::make_tuple(1, 4, 90), std::make_tuple(1, 1, 90)));
     }
 
+    TEST_F(OrderbookTestFixture, TestEarlierAskOrdersHaveQueuePriority)
+    {
+        auto askOrder1 = std::make_shared<Order>(1, 1, Lifespan::GFD, Side::ASK, 90, 5);
+        auto askOrder2 = std::make_shared<Order>(1, 1, Lifespan::GFD, Side::ASK, 90, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(askOrder1));
+        ASSERT_TRUE(mOrderbook.insertOrder(askOrder2));
+
+        ASSERT_EQ(askOrder1->mVolume, 5);
+        ASSERT_EQ(askOrder2->mVolume, 5);
+
+        auto bidOrder1 = std::make_shared<Order>(1, 1, Lifespan::FAK, Side::BID, 97, 3);
+        ASSERT_TRUE(mOrderbook.insertOrder(bidOrder1));
+
+        ASSERT_EQ(askOrder1->mVolume, 2);
+        ASSERT_EQ(askOrder2->mVolume, 5);
+
+        auto bidOrder2 = std::make_shared<Order>(1, 1, Lifespan::FAK, Side::BID, 97, 3);
+        ASSERT_TRUE(mOrderbook.insertOrder(bidOrder2));
+
+        ASSERT_EQ(askOrder1->mVolume, 0);
+        ASSERT_EQ(askOrder2->mVolume, 4);
+    }
+
+    TEST_F(OrderbookTestFixture, TestEarlierBidOrdersHaveQueuePriority)
+    {
+        auto bidOrder1 = std::make_shared<Order>(1, 1, Lifespan::GFD, Side::BID, 90, 5);
+        auto bidOrder2 = std::make_shared<Order>(1, 1, Lifespan::GFD, Side::BID, 90, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(bidOrder1));
+        ASSERT_TRUE(mOrderbook.insertOrder(bidOrder2));
+
+        ASSERT_EQ(bidOrder1->mVolume, 5);
+        ASSERT_EQ(bidOrder2->mVolume, 5);
+
+        auto askOrder1 = std::make_shared<Order>(1, 1, Lifespan::FAK, Side::ASK, 90, 3);
+        ASSERT_TRUE(mOrderbook.insertOrder(askOrder1));
+
+        ASSERT_EQ(bidOrder1->mVolume, 2);
+        ASSERT_EQ(bidOrder2->mVolume, 5);
+
+        auto askOrder2 = std::make_shared<Order>(1, 1, Lifespan::FAK, Side::ASK, 90, 3);
+        ASSERT_TRUE(mOrderbook.insertOrder(askOrder2));
+
+        ASSERT_EQ(bidOrder1->mVolume, 0);
+        ASSERT_EQ(bidOrder2->mVolume, 4);
+    }
+
 } // namespace Sim::Testing

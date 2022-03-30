@@ -86,15 +86,15 @@ namespace Sim
         if (it == mBidOrders.end())
         {
             mBidOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
-            it = mBidOrders.find(order->mPrice);
-
-            if (order->mOrderListener)
-            {
-                order->mOrderListener->onUpdate(order, order->mVolume);
-            }
-
-            it->second.emplace_back(std::move(order));
         }
+        it = mBidOrders.find(order->mPrice);
+
+        if (order->mOrderListener)
+        {
+            order->mOrderListener->onUpdate(order, order->mVolume);
+        }
+
+        it->second.emplace_back(std::move(order));
 
         return true;
     }
@@ -168,15 +168,15 @@ namespace Sim
         if (it == mAskOrders.end())
         {
             mAskOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
-            it = mAskOrders.find(order->mPrice);
-
-            if (order->mOrderListener)
-            {
-                order->mOrderListener->onUpdate(order, order->mVolume);
-            }
-
-            it->second.emplace_back(std::move(order));
         }
+        it = mAskOrders.find(order->mPrice);
+
+        if (order->mOrderListener)
+        {
+            order->mOrderListener->onUpdate(order, order->mVolume);
+        }
+
+        it->second.emplace_back(std::move(order));
 
         return true;
     }
