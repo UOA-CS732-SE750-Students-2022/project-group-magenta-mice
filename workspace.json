@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "assets": "libs/assets",
     "backend": "apps/backend",
     "components": "libs/components",
     "components-e2e": "apps/components-e2e",
@@ -8,6 +9,7 @@
     "frontend": "apps/frontend",
     "frontend-e2e": "apps/frontend-e2e",
     "gql": "libs/gql",
+    "hooks": "libs/hooks",
     "messaging": "libs/messaging"
   }
 }

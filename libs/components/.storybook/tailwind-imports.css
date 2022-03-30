@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card {
+  @apply backdrop-blur-md backdrop-saturate-200 bg-gray-900 bg-opacity-75 rounded-xl backdrop-brightness-110;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.divided-text {
+  @apply overflow-hidden w-10/12 text-center;
+}
+
+.divided-text > span {
+  @apply relative inline-block;
+}
+
+.divided-text > span:before,
+.divided-text > span:after {
+  content: "";
+  @apply absolute top-1/2 border-b border-gray-400 w-full mx-5;
+}
+
+.divided-text > span:before {
+  @apply right-full;
+}
+
+.divided-text > span:after {
+  @apply left-full;
+}

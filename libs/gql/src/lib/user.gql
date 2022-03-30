@@ -1,5 +1,15 @@
 query getUser($unused: Int!) {
   user(id: $unused) {
-    exampleField
+    name
+  }
+}
+
+mutation CreateUser($name: String!, $profilePicUrl: String, $id: ID!) {
+  createUser(
+    createUserInput: { name: $name, profilePicUrl: $profilePicUrl, id: $id }
+  ) {
+    name
+    profilePicUrl
+    id
   }
 }
