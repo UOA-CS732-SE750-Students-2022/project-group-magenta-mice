@@ -20,6 +20,9 @@ int main()
     auto participant = std::make_shared<Participant>(std::make_unique<OrderFactory>());
     exchange.addParticipant(participant);
 
+    auto participant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>());
+    exchange.addParticipant(participant2);
+
     Protocol::InsertOrderRequest askRequest;
     askRequest.set_clientid(0);
     askRequest.set_instrumentid(0);
@@ -36,8 +39,26 @@ int main()
     bidRequest.set_price(99);
     bidRequest.set_volume(8);
 
-    participant->requestOrderInsert(askRequest);
-    participant->requestOrderInsert(bidRequest);
+    Protocol::InsertOrderRequest bidRequest2;
+    bidRequest2.set_clientid(0);
+    bidRequest2.set_instrumentid(0);
+    bidRequest2.set_lifespan(Protocol::InsertOrderRequest::GFD);
+    bidRequest2.set_side(Protocol::InsertOrderRequest::BUY);
+    bidRequest2.set_price(100);
+    bidRequest2.set_volume(6);
 
+    participant->requestOrderInsert(askRequest);
     exchange.printBooks();
+
+    participant->requestOrderInsert(bidRequest);
+    exchange.printBooks();
+
+    participant2->requestOrderInsert(bidRequest2);
+    exchange.printBooks();
+
+    std::cout << participant->getCash() << std::endl;
+    std::cout << participant->getPosition(0) << std::endl;
+
+    std::cout << participant2->getCash() << std::endl;
+    std::cout << participant2->getPosition(0) << std::endl;
 }

@@ -42,4 +42,9 @@ namespace Sim
         return res;
     }
 
+    const Orderbook& Exchange::getOrderbook(uint32_t instrument) const
+    {
+        return mOrderbookManager->getOrderbook(instrument);
+    }
+
 } // namespace Sim

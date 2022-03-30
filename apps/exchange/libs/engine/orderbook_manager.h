@@ -23,6 +23,8 @@ namespace Sim
 
         virtual bool insertOrder(std::shared_ptr<Order> order);
 
+        const Orderbook& getOrderbook(uint32_t instrument) const;
+
        private:
         std::unordered_map<uint32_t, Orderbook> mOrderbooks;
         std::unordered_map<uint32_t, Instrument> mInstruments;

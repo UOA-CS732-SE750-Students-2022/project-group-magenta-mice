@@ -24,6 +24,8 @@ namespace Sim
 
         Protocol::LoginResponse getExchangeInstruments();
 
+        const Orderbook& getOrderbook(uint32_t instrument) const;
+
        private:
         std::unique_ptr<OrderbookManager> mOrderbookManager;
         std::unique_ptr<ParticipantManager> mParticipantManager;

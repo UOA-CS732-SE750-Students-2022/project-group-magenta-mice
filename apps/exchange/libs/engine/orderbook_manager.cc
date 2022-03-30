@@ -36,6 +36,18 @@ namespace Sim
 
     size_t OrderbookManager::size() const { return mOrderbooks.size(); }
 
+    const Orderbook& OrderbookManager::getOrderbook(uint32_t instrument) const
+    {
+        auto orderbook = mOrderbooks.find(instrument);
+
+        if (orderbook == mOrderbooks.end())
+        {
+            throw std::runtime_error("OrderbookManager::getOrderbook: instrument not found");
+        }
+
+        return orderbook->second;
+    }
+
     void OrderbookManager::printBooks() const
     {
         for (auto& [instrument, book] : mOrderbooks)
