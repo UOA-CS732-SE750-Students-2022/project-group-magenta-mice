@@ -49,6 +49,11 @@ class InsertOrderRequestDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<InsertOrderRequest>
       _instance;
 } _InsertOrderRequest_default_instance_;
+class CancelOrderRequestDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<CancelOrderRequest>
+      _instance;
+} _CancelOrderRequest_default_instance_;
 }  // namespace Protocol
 }  // namespace Sim
 namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
@@ -123,15 +128,30 @@ static void InitDefaultsInsertOrderRequest() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_InsertOrderRequest =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsInsertOrderRequest}, {}};
 
+static void InitDefaultsCancelOrderRequest() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::Sim::Protocol::_CancelOrderRequest_default_instance_;
+    new (ptr) ::Sim::Protocol::CancelOrderRequest();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::Sim::Protocol::CancelOrderRequest::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_CancelOrderRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsCancelOrderRequest}, {}};
+
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LoginRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_LoginResponse_Instrument.base);
   ::google::protobuf::internal::InitSCC(&scc_info_LoginResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_LogoutRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_InsertOrderRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_CancelOrderRequest.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[5];
+::google::protobuf::Metadata file_level_metadata[6];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -172,6 +192,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::InsertOrderRequest, side_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::InsertOrderRequest, price_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::InsertOrderRequest, volume_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::CancelOrderRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::CancelOrderRequest, clientid_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Sim::Protocol::LoginRequest)},
@@ -179,6 +205,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 15, -1, sizeof(::Sim::Protocol::LoginResponse)},
   { 21, -1, sizeof(::Sim::Protocol::LogoutRequest)},
   { 26, -1, sizeof(::Sim::Protocol::InsertOrderRequest)},
+  { 37, -1, sizeof(::Sim::Protocol::CancelOrderRequest)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -187,6 +214,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_LoginResponse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_LogoutRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_InsertOrderRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_CancelOrderRequest_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -204,7 +232,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
 }
 
 void AddDescriptorsImpl() {
@@ -218,18 +246,19 @@ void AddDescriptorsImpl() {
       "sitionLimit\030\003 \001(\r\022\027\n\017tickSizeInCents\030\004 \001"
       "(\r\"\017\n\rLogoutRequest\"\206\002\n\022InsertOrderReque"
       "st\022\020\n\010clientId\030\001 \001(\r\022\024\n\014instrumentId\030\002 \001"
-      "(\r\022;\n\010lifespan\030\004 \001(\0162).Sim.Protocol.Inse"
-      "rtOrderRequest.Lifespan\0223\n\004side\030\005 \001(\0162%."
+      "(\r\022;\n\010lifespan\030\003 \001(\0162).Sim.Protocol.Inse"
+      "rtOrderRequest.Lifespan\0223\n\004side\030\004 \001(\0162%."
       "Sim.Protocol.InsertOrderRequest.Side\022\r\n\005"
-      "price\030\006 \001(\r\022\016\n\006volume\030\007 \001(\r\"\034\n\010Lifespan\022"
+      "price\030\005 \001(\r\022\016\n\006volume\030\006 \001(\r\"\034\n\010Lifespan\022"
       "\007\n\003GFD\020\000\022\007\n\003FAK\020\001\"\031\n\004Side\022\007\n\003BUY\020\000\022\010\n\004SE"
-      "LL\020\001*\203\001\n\013MessageType\022\t\n\005LOGIN\020\000\022\n\n\006LOGOU"
+      "LL\020\001\"&\n\022CancelOrderRequest\022\020\n\010clientId\030\001"
+      " \001(\r*\203\001\n\013MessageType\022\t\n\005LOGIN\020\000\022\n\n\006LOGOU"
       "T\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\023\n\017LOGOUT_RESPON"
       "SE\020\003\022\020\n\014INSERT_ORDER\020\013\022\020\n\014CANCEL_ORDER\020\014"
       "\022\020\n\014AMMEND_ORDER\020\rb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 666);
+      descriptor, 706);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "libs/protocol/exchange.proto", &protobuf_RegisterTypes);
 }
@@ -1426,10 +1455,10 @@ bool InsertOrderRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
-      case 4: {
+      // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
+      case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -1441,10 +1470,10 @@ bool InsertOrderRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // .Sim.Protocol.InsertOrderRequest.Side side = 5;
-      case 5: {
+      // .Sim.Protocol.InsertOrderRequest.Side side = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -1456,10 +1485,10 @@ bool InsertOrderRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 price = 6;
-      case 6: {
+      // uint32 price = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -1470,10 +1499,10 @@ bool InsertOrderRequest::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 volume = 7;
-      case 7: {
+      // uint32 volume = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -1520,26 +1549,26 @@ void InsertOrderRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->instrumentid(), output);
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
   if (this->lifespan() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      4, this->lifespan(), output);
+      3, this->lifespan(), output);
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Side side = 5;
+  // .Sim.Protocol.InsertOrderRequest.Side side = 4;
   if (this->side() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      5, this->side(), output);
+      4, this->side(), output);
   }
 
-  // uint32 price = 6;
+  // uint32 price = 5;
   if (this->price() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->price(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->price(), output);
   }
 
-  // uint32 volume = 7;
+  // uint32 volume = 6;
   if (this->volume() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(7, this->volume(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->volume(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1566,26 +1595,26 @@ void InsertOrderRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->instrumentid(), target);
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
   if (this->lifespan() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      4, this->lifespan(), target);
+      3, this->lifespan(), target);
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Side side = 5;
+  // .Sim.Protocol.InsertOrderRequest.Side side = 4;
   if (this->side() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      5, this->side(), target);
+      4, this->side(), target);
   }
 
-  // uint32 price = 6;
+  // uint32 price = 5;
   if (this->price() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->price(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->price(), target);
   }
 
-  // uint32 volume = 7;
+  // uint32 volume = 6;
   if (this->volume() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(7, this->volume(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(6, this->volume(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1619,26 +1648,26 @@ size_t InsertOrderRequest::ByteSizeLong() const {
         this->instrumentid());
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
   if (this->lifespan() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->lifespan());
   }
 
-  // .Sim.Protocol.InsertOrderRequest.Side side = 5;
+  // .Sim.Protocol.InsertOrderRequest.Side side = 4;
   if (this->side() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->side());
   }
 
-  // uint32 price = 6;
+  // uint32 price = 5;
   if (this->price() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->price());
   }
 
-  // uint32 volume = 7;
+  // uint32 volume = 6;
   if (this->volume() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -1731,6 +1760,229 @@ void InsertOrderRequest::InternalSwap(InsertOrderRequest* other) {
 }
 
 
+// ===================================================================
+
+void CancelOrderRequest::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CancelOrderRequest::kClientIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+CancelOrderRequest::CancelOrderRequest()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_CancelOrderRequest.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:Sim.Protocol.CancelOrderRequest)
+}
+CancelOrderRequest::CancelOrderRequest(const CancelOrderRequest& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  clientid_ = from.clientid_;
+  // @@protoc_insertion_point(copy_constructor:Sim.Protocol.CancelOrderRequest)
+}
+
+void CancelOrderRequest::SharedCtor() {
+  clientid_ = 0u;
+}
+
+CancelOrderRequest::~CancelOrderRequest() {
+  // @@protoc_insertion_point(destructor:Sim.Protocol.CancelOrderRequest)
+  SharedDtor();
+}
+
+void CancelOrderRequest::SharedDtor() {
+}
+
+void CancelOrderRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* CancelOrderRequest::descriptor() {
+  ::protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const CancelOrderRequest& CancelOrderRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_CancelOrderRequest.base);
+  return *internal_default_instance();
+}
+
+
+void CancelOrderRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:Sim.Protocol.CancelOrderRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  clientid_ = 0u;
+  _internal_metadata_.Clear();
+}
+
+bool CancelOrderRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:Sim.Protocol.CancelOrderRequest)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // uint32 clientId = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &clientid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:Sim.Protocol.CancelOrderRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:Sim.Protocol.CancelOrderRequest)
+  return false;
+#undef DO_
+}
+
+void CancelOrderRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:Sim.Protocol.CancelOrderRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 clientId = 1;
+  if (this->clientid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->clientid(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:Sim.Protocol.CancelOrderRequest)
+}
+
+::google::protobuf::uint8* CancelOrderRequest::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:Sim.Protocol.CancelOrderRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 clientId = 1;
+  if (this->clientid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->clientid(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Sim.Protocol.CancelOrderRequest)
+  return target;
+}
+
+size_t CancelOrderRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Sim.Protocol.CancelOrderRequest)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // uint32 clientId = 1;
+  if (this->clientid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->clientid());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void CancelOrderRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Sim.Protocol.CancelOrderRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const CancelOrderRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const CancelOrderRequest>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Sim.Protocol.CancelOrderRequest)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Sim.Protocol.CancelOrderRequest)
+    MergeFrom(*source);
+  }
+}
+
+void CancelOrderRequest::MergeFrom(const CancelOrderRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Sim.Protocol.CancelOrderRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.clientid() != 0) {
+    set_clientid(from.clientid());
+  }
+}
+
+void CancelOrderRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Sim.Protocol.CancelOrderRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CancelOrderRequest::CopyFrom(const CancelOrderRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Sim.Protocol.CancelOrderRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CancelOrderRequest::IsInitialized() const {
+  return true;
+}
+
+void CancelOrderRequest::Swap(CancelOrderRequest* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CancelOrderRequest::InternalSwap(CancelOrderRequest* other) {
+  using std::swap;
+  swap(clientid_, other->clientid_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata CancelOrderRequest::GetMetadata() const {
+  protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protocol
 }  // namespace Sim
@@ -1750,6 +2002,9 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::LogoutRequest* Ar
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage< ::Sim::Protocol::InsertOrderRequest >(Arena* arena) {
   return Arena::CreateInternal< ::Sim::Protocol::InsertOrderRequest >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::CancelOrderRequest* Arena::CreateMaybeMessage< ::Sim::Protocol::CancelOrderRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::Sim::Protocol::CancelOrderRequest >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

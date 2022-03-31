@@ -127,4 +127,66 @@ namespace Sim::Testing
         ASSERT_EQ(mParticipant->getPosition(1), -10);
     }
 
+    TEST_F(ParticipantTestFixture, OrderCancellingCancelsOrder)
+    {
+        auto order = std::make_shared<Order>(0, 1, Lifespan::FAK, Side::SELL, 5, 5);
+
+        setupParticipant([&order](MockOrderFactory& factory) {
+            EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(order));
+        });
+
+        bool isCancelCalled = false;
+        std::shared_ptr<Order> orderToCancel;
+
+        mParticipant->setOrderInsertionHandler([](std::shared_ptr<Order> order) { return true; });
+        mParticipant->setOrderCancellationHandler([&isCancelCalled, &orderToCancel](std::shared_ptr<Order> order) {
+            isCancelCalled = true;
+            orderToCancel = std::move(order);
+            return true;
+        });
+
+        Protocol::InsertOrderRequest request;
+        mParticipant->requestOrderInsert(request);
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        mParticipant->requestOrderCancel(cancelRequest);
+
+        ASSERT_TRUE(isCancelCalled);
+        ASSERT_EQ(orderToCancel, order);
+    }
+
+    TEST_F(ParticipantTestFixture, RuntimeErrorWhenCancelHandlerNotSet)
+    {
+        setupParticipant([](MockOrderFactory& factory) {});
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        ASSERT_THROW({ mParticipant->requestOrderCancel(cancelRequest); }, std::runtime_error);
+    }
+
+    TEST_F(ParticipantTestFixture, NoCancelIfNonExistantOrderIsCancelled)
+    {
+        setupParticipant([](MockOrderFactory& factory) {});
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        bool isCancelCalled = false;
+        std::shared_ptr<Order> orderToCancel;
+
+        mParticipant->setOrderCancellationHandler([&isCancelCalled, &orderToCancel](std::shared_ptr<Order> order) {
+            isCancelCalled = true;
+            orderToCancel = std::move(order);
+            return true;
+        });
+
+        ASSERT_FALSE(mParticipant->requestOrderCancel(cancelRequest));
+
+        ASSERT_FALSE(isCancelCalled);
+        ASSERT_EQ(orderToCancel, nullptr);
+    }
+
 } // namespace Sim::Testing

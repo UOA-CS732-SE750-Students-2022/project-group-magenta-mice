@@ -43,8 +43,12 @@ message InsertOrderRequest {
 
   uint32 clientId = 1;
   uint32 instrumentId = 2;
-  Lifespan lifespan = 4;
-  Side side = 5;
-  uint32 price = 6;
-  uint32 volume = 7;
+  Lifespan lifespan = 3;
+  Side side = 4;
+  uint32 price = 5;
+  uint32 volume = 6;
+}
+
+message CancelOrderRequest {
+  uint32 clientId = 1;
 }

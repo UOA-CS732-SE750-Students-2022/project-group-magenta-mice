@@ -18,8 +18,6 @@ namespace Sim
         void addInstrument(Instrument instrument);
         void addParticipant(std::shared_ptr<Participant> participant);
 
-        bool insertOrder(std::shared_ptr<Order> order);
-
         void printBooks();
 
         Protocol::LoginResponse getExchangeInstruments();

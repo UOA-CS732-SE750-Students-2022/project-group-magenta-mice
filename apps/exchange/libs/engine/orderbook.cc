@@ -5,6 +5,47 @@
 
 namespace Sim
 {
+    bool Orderbook::cancelOrder(std::shared_ptr<Order> order)
+    {
+        if (order->mSide == Side::BID)
+        {
+            auto it = mBidOrders.find(order->mPrice);
+            if (it != mBidOrders.end())
+            {
+                auto& orders = it->second;
+                auto orderIt = std::find(orders.begin(), orders.end(), order);
+                if (orderIt != orders.end())
+                {
+                    orders.erase(orderIt);
+                    if (orders.empty())
+                    {
+                        mBidOrders.erase(it);
+                    }
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            auto it = mAskOrders.find(order->mPrice);
+            if (it != mAskOrders.end())
+            {
+                auto& orders = it->second;
+                auto orderIt = std::find(orders.begin(), orders.end(), order);
+                if (orderIt != orders.end())
+                {
+                    orders.erase(orderIt);
+                    if (orders.empty())
+                    {
+                        mAskOrders.erase(it);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     bool Orderbook::insertOrder(std::shared_ptr<Order> order)
     {
         if (order->mSide == Side::BID)

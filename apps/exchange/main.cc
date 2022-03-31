@@ -1,7 +1,9 @@
+#include <chrono>
 #include <common/types.h>
 #include <engine/exchange.h>
 #include <engine/participant_manager.h>
 #include <iostream>
+#include <random>
 
 using namespace Sim;
 
@@ -47,18 +49,47 @@ int main()
     bidRequest2.set_price(100);
     bidRequest2.set_volume(6);
 
-    participant->requestOrderInsert(askRequest);
-    exchange.printBooks();
+    Protocol::CancelOrderRequest cancelRequest1;
+    cancelRequest1.set_clientid(0);
 
-    participant->requestOrderInsert(bidRequest);
-    exchange.printBooks();
+    using std::chrono::duration;
+    using std::chrono::duration_cast;
+    using std::chrono::high_resolution_clock;
+    using std::chrono::milliseconds;
 
-    participant2->requestOrderInsert(bidRequest2);
-    exchange.printBooks();
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<unsigned long long> dis(20, 240);
 
-    std::cout << participant->getCash() << std::endl;
-    std::cout << participant->getPosition(0) << std::endl;
+    Protocol::InsertOrderRequest insertRequest;
+    insertRequest.set_instrumentid(0);
+    insertRequest.set_lifespan(Protocol::InsertOrderRequest::GFD);
+    insertRequest.set_volume(5);
 
-    std::cout << participant2->getCash() << std::endl;
-    std::cout << participant2->getPosition(0) << std::endl;
+    auto t1 = high_resolution_clock::now();
+    for (int i = 0; i < 10000000; i++)
+    {
+        insertRequest.set_clientid(i);
+        insertRequest.set_price(dis(gen));
+        insertRequest.set_side(i % 2 == 0 ? Protocol::InsertOrderRequest::SELL : Protocol::InsertOrderRequest::BUY);
+        participant->requestOrderInsert(insertRequest);
+    }
+
+    auto t2 = high_resolution_clock::now();
+    duration<double, std::milli> ms_double = t2 - t1;
+    std::cout << ms_double.count() << "ms\n";
+
+    // exchange.printBooks();
+
+    // participant->requestOrderInsert(bidRequest);
+    // exchange.printBooks();
+
+    // participant2->requestOrderInsert(bidRequest2);
+    // exchange.printBooks();
+
+    // std::cout << participant->getCash() << std::endl;
+    // std::cout << participant->getPosition(0) << std::endl;
+
+    // std::cout << participant2->getCash() << std::endl;
+    // std::cout << participant2->getPosition(0) << std::endl;
 }

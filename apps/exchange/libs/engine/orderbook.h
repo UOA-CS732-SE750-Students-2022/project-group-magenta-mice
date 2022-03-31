@@ -16,6 +16,7 @@ namespace Sim
     {
        public:
         bool insertOrder(std::shared_ptr<Order> order);
+        bool cancelOrder(std::shared_ptr<Order> order);
 
         friend std::ostream& operator<<(std::ostream& os, const Orderbook& ob);
 

@@ -34,6 +34,18 @@ namespace Sim
         return orderbook->second.insertOrder(std::move(order));
     }
 
+    bool OrderbookManager::cancelOrder(std::shared_ptr<Order> order)
+    {
+        auto orderbook = mOrderbooks.find(order->mInstrument);
+
+        if (orderbook == mOrderbooks.end())
+        {
+            return false;
+        }
+
+        return orderbook->second.cancelOrder(std::move(order));
+    }
+
     size_t OrderbookManager::size() const { return mOrderbooks.size(); }
 
     const Orderbook& OrderbookManager::getOrderbook(uint32_t instrument) const

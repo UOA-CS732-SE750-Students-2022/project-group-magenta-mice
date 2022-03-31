@@ -15,6 +15,16 @@ namespace Sim
         return true;
     }
 
+    void Participant::setOrderInsertionHandler(std::function<bool(std::shared_ptr<Order>)>&& handler)
+    {
+        mRequestOrderInsert.emplace(std::move(handler));
+    }
+
+    void Participant::setOrderCancellationHandler(std::function<bool(std::shared_ptr<Order>)>&& handler)
+    {
+        mRequestCancelOrder.emplace(std::move(handler));
+    }
+
     bool Participant::requestOrderInsert(Protocol::InsertOrderRequest& order)
     {
         if (!checkAndIncrementOrderId(order.clientid()))
@@ -51,6 +61,28 @@ namespace Sim
         else
         {
             throw std::runtime_error("No handler for order insert requests");
+        }
+    }
+
+    bool Participant::requestOrderCancel(Protocol::CancelOrderRequest& order)
+    {
+        if (this->mRequestCancelOrder.has_value())
+        {
+            auto it = mOrders.find(order.clientid());
+            if (it != mOrders.end())
+            {
+                (*this->mRequestCancelOrder)(it->second.lock());
+                return true;
+            }
+            else
+            {
+                sendError("Order ID not found");
+                return false;
+            }
+        }
+        else
+        {
+            throw std::runtime_error("No handler for order cancel requests");
         }
     }
 

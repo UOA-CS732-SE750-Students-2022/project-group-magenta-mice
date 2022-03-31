@@ -22,6 +22,7 @@ namespace Sim
         virtual std::vector<std::tuple<uint32_t, const Instrument&>> getInstrumentDefinitions() const;
 
         virtual bool insertOrder(std::shared_ptr<Order> order);
+        virtual bool cancelOrder(std::shared_ptr<Order> order);
 
         const Orderbook& getOrderbook(uint32_t instrument) const;
 
