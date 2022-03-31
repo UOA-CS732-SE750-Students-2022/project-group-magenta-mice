@@ -25,8 +25,8 @@ namespace Sim
         const std::deque<std::shared_ptr<Sim::Order>>::const_iterator getTopBid() const;
         const std::deque<std::shared_ptr<Sim::Order>>::const_iterator getTopAsk() const;
 
-        uint32_t topBidPrice() const;
-        uint32_t topAskPrice() const;
+        std::optional<uint32_t> topBidPrice() const;
+        std::optional<uint32_t> topAskPrice() const;
 
         void printBook() const;
 

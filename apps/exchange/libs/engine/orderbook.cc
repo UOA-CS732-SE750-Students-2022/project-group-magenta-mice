@@ -21,7 +21,8 @@ namespace Sim
     {
         uint32_t bidPrice = order->mPrice;
 
-        while (bidPrice >= topAskPrice() && order->mVolume > 0)
+        for (auto topAsk = topAskPrice(); topAsk.has_value() && bidPrice >= topAsk.value() && order->mVolume > 0;
+             topAsk = topAskPrice())
         {
             auto counterpartyAsk = getTopAsk();
             if (counterpartyAsk->get()->mVolume > order->mVolume)
@@ -108,7 +109,8 @@ namespace Sim
     {
         uint32_t askPrice = order->mPrice;
 
-        while (askPrice <= topBidPrice() && order->mVolume > 0)
+        for (auto topBid = topBidPrice(); topBid.has_value() && askPrice <= topBid.value() && order->mVolume > 0;
+             topBid = topBidPrice())
         {
             auto counterpartyBid = getTopBid();
             if (counterpartyBid->get()->mVolume > order->mVolume)
@@ -204,7 +206,7 @@ namespace Sim
         return mAskOrders.begin()->second.begin();
     };
 
-    uint32_t Orderbook::topBidPrice() const
+    std::optional<uint32_t> Orderbook::topBidPrice() const
     {
         if (auto levelBegin = mBidOrders.begin(); levelBegin != mBidOrders.end())
         {
@@ -213,10 +215,10 @@ namespace Sim
                 return orderBegin->get()->mPrice;
             }
         }
-        return std::numeric_limits<uint32_t>::min();
+        return {};
     }
 
-    uint32_t Orderbook::topAskPrice() const
+    std::optional<uint32_t> Orderbook::topAskPrice() const
     {
         if (auto levelBegin = mAskOrders.begin(); levelBegin != mAskOrders.end())
         {
@@ -225,7 +227,7 @@ namespace Sim
                 return orderBegin->get()->mPrice;
             }
         }
-        return std::numeric_limits<uint32_t>::max();
+        return {};
     }
 
     std::ostream& operator<<(std::ostream& os, const Orderbook& ob)
@@ -235,7 +237,7 @@ namespace Sim
             os << "[" << levelBegin->first << "] Asks: ";
             for (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end(); ++orderBegin)
             {
-                os << "[" << orderBegin->get()->mVolume << " @ " << orderBegin->get()->mPrice << "] ";
+                os << "[" << orderBegin->get()->mVolume << "] ";
             }
             os << std::endl;
         }
@@ -245,7 +247,7 @@ namespace Sim
             os << "[" << levelBegin->first << "] Bids: ";
             for (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end(); ++orderBegin)
             {
-                os << "[" << orderBegin->get()->mVolume << " @ " << orderBegin->get()->mPrice << "] ";
+                os << "[" << orderBegin->get()->mVolume << "] ";
             }
             os << std::endl;
         }
