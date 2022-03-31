@@ -2,8 +2,8 @@
 
 #include <string>
 
-namespace Sim::Common {
-
-std::string boolToString(bool value);
+namespace Sim::Common
+{
+    std::string boolToString(bool value);
 
 }

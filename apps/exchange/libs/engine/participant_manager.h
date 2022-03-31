@@ -1,12 +1,21 @@
 #pragma once
 
 #include "participant.h"
+
+#include <memory>
 #include <unordered_map>
 
-class ParticipantManager {
- public:
-  ParticipantManager() {}
+namespace Sim
+{
+    class ParticipantManager
+    {
+       public:
+        ParticipantManager() {}
 
- private:
-  std::unordered_map<int, Participant> mParticipants;
-};
+        void addParticipant(std::shared_ptr<Participant> participant);
+
+       private:
+        std::unordered_map<int, std::shared_ptr<Participant>> mParticipants;
+    };
+
+} // namespace Sim

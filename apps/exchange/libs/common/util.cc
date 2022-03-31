@@ -1,7 +1,7 @@
 #include "util.h"
 
-namespace Sim::Common {
+namespace Sim::Common
+{
+    std::string boolToString(bool value) { return value ? "true" : "false"; }
 
-std::string boolToString(bool value) { return value ? "true" : "false"; }
-
-}  // namespace Sim::Common
+} // namespace Sim::Common

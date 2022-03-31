@@ -1,54 +1,73 @@
 #pragma once
 
 #include <functional>
+#include <memory>
+#include <optional>
 #include <string>
 
-namespace Sim {
+namespace Sim
+{
+    struct Instrument
+    {
+        std::string mName;
+        uint32_t mPositionLimit;
+        uint32_t mTickSizeCents;
+    };
 
-struct Instrument {
-  std::string mName;
-  int mPositionLimit;
-  int mTickSizeCents;
-};
+    enum class Lifespan
+    {
+        GFD = 0,
+        GOOD_FOR_DAY = GFD,
+        G = GFD,
 
-enum class Lifespan {
-  GFD = 0,
-  GOOD_FOR_DAY = GFD,
-  G = GFD,
+        FAK = 1,
+        FILL_AND_KILL = FAK,
+        F = FAK,
+    };
 
-  FAK = 1,
-  FILL_AND_KILL = FAK,
-  F = FAK,
-};
+    enum class Side
+    {
+        BUY = 0,
+        BID = BUY,
+        B = BUY,
 
-enum class Side {
-  BUY = 0,
-  BID = BUY,
-  B = BUY,
+        SELL = 1,
+        ASK = SELL,
+        A = SELL
+    };
 
-  SELL = 1,
-  ASK = SELL,
-  A = SELL
-};
+    struct Order;
 
-struct Order;
+    struct OrderListener
+    {
+        std::function<void(std::shared_ptr<Order> order, uint32_t volumeRemaining)> onUpdate =
+            [](std::shared_ptr<Order>, uint32_t) {};
+        std::function<void(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price)> onFill =
+            [](std::shared_ptr<Order>, uint32_t, uint32_t) {};
+    };
 
-struct OrderListener {
-  std::function<void(Order& order, int volumeChange)> onAmend;
-  std::function<void(Order& order, int volumeChange)> onCancel;
-  std::function<void(Order& order)> onInsert;
-  std::function<void(Order& order, int volumeFilled, int price)> onFill;
-};
+    struct Order
+    {
+        Order(const Order&) = delete;
+        Order& operator=(const Order&) = delete;
 
-struct Order {
-  int mClientId;
-  Instrument mInstrument;
-  Lifespan mLifespan;
-  Side mSide;
-  int mPrice;
-  int mVolume;
+        Order(uint32_t clientId, uint32_t instrumentId, Lifespan lifespan, Side side, uint32_t price, uint32_t volume)
+            : mClientId(clientId),
+              mInstrument(instrumentId),
+              mLifespan(lifespan),
+              mSide(side),
+              mPrice(price),
+              mVolume(volume)
+        {}
 
-  OrderListener orderListener;
-};
+        uint32_t mClientId;
+        uint32_t mInstrument;
+        Lifespan mLifespan;
+        Side mSide;
+        uint32_t mPrice;
+        uint32_t mVolume;
 
-}  // namespace Sim
+        std::optional<OrderListener> mOrderListener;
+    };
+
+} // namespace Sim
