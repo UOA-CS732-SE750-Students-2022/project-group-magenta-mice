@@ -24,6 +24,8 @@ namespace Sim
 
         const Orderbook& getOrderbook(uint32_t instrument) const;
 
+        void applyToAllParticipants(std::function<void(Participant&)>&& func);
+
        private:
         std::unique_ptr<OrderbookManager> mOrderbookManager;
         std::unique_ptr<ParticipantManager> mParticipantManager;

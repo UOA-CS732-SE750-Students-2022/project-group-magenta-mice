@@ -16,10 +16,10 @@ namespace Sim::Testing
                 .mTickSizeCents = 1,
             });
 
-            mParticipant1 = std::make_shared<Participant>(std::make_unique<OrderFactory>());
+            mParticipant1 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
             mExchange.addParticipant(mParticipant1);
 
-            mParticipant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>());
+            mParticipant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
             mExchange.addParticipant(mParticipant2);
         }
 

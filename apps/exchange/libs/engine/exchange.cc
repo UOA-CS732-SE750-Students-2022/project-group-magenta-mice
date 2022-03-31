@@ -21,6 +21,11 @@ namespace Sim
         mParticipantManager->addParticipant(std::move(participant));
     }
 
+    void Exchange::applyToAllParticipants(std::function<void(Participant&)>&& func)
+    {
+        mParticipantManager->applyToAll(std::move(func));
+    }
+
     void Exchange::printBooks() { mOrderbookManager->printBooks(); }
 
     Protocol::LoginResponse Exchange::getExchangeInstruments()

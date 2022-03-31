@@ -35,7 +35,8 @@ include_directories(${PROJECT_SOURCE_DIR}/libs)
 
 add_executable(exchange main.cc)
 target_link_libraries(exchange
-  PRIVATE
+PRIVATE
+  net_lib
   common_lib
   exchange_lib
   protocol_lib
