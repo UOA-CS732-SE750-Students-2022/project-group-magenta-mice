@@ -2,7 +2,8 @@
   "name": "simulate-exchange",
   "executables": {
     "test": {
-      "tests": ["unit_test"]
+      "tests": ["unit_test"],
+      "binaries": []
     },
     "start": {
       "tests": [],

@@ -67,7 +67,7 @@ if command == "run":
         subprocess.run([path.join(__root, "build", binary)])
 
 if command == "version":
-  print("SPM v0.0.1")
+  print("SPM v0.0.2")
 
 if command == "help":
   print("Usage: spm <command> [<args>]\nRun spm help for more information")

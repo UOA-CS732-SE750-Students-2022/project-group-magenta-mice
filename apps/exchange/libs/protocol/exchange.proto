@@ -5,12 +5,46 @@ package Sim.Protocol;
 enum MessageType {
   LOGIN = 0;
   LOGOUT = 1;
+  LOGIN_RESPONSE = 2;
+  LOGOUT_RESPONSE = 3;
 
-  INSERT_ORDER = 2;
-  CANCEL_ORDER = 3;
-  AMMEND_ORDER = 4;
+  INSERT_ORDER = 11;
+  CANCEL_ORDER = 12;
+  AMMEND_ORDER = 13;
 }
 
-message LoginRequest { string key = 1; }
+message LoginRequest {
+  string key = 1;
+}
+
+message LoginResponse {
+  message Instrument {
+    uint32 id = 1;
+    string ticker = 2;
+    uint32 positionLimit = 3;
+    uint32 tickSizeInCents = 4;
+  }
+
+  repeated Instrument instruments = 1;
+}
 
 message LogoutRequest {}
+
+message InsertOrderRequest {
+  enum Lifespan {
+    GFD = 0;
+    FAK = 1;
+  }
+
+  enum Side {
+    BUY = 0;
+    SELL = 1;
+  }
+
+  uint32 clientId = 1;
+  uint32 instrumentId = 2;
+  Lifespan lifespan = 4;
+  Side side = 5;
+  uint32 price = 6;
+  uint32 volume = 7;
+}
