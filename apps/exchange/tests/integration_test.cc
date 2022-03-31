@@ -21,7 +21,32 @@ namespace Sim::Testing
             mExchange.addParticipant(mParticipant2);
         }
 
+        struct RequestWrapper
+        {
+            uint32_t mInstrumentId;
+            Protocol::InsertOrderRequest_Lifespan mLifespan;
+            Protocol::InsertOrderRequest_Side mSide;
+            uint32_t mPrice;
+            uint32_t mVolume;
+        };
+
+        Protocol::InsertOrderRequest makeOrder(uint32_t client, RequestWrapper requestOptions)
+        {
+            Protocol::InsertOrderRequest request;
+
+            request.set_clientid(mParticipantOrders[client]++);
+            request.set_instrumentid(requestOptions.mInstrumentId);
+            request.set_lifespan(requestOptions.mLifespan);
+            request.set_side(requestOptions.mSide);
+            request.set_price(requestOptions.mPrice);
+            request.set_volume(requestOptions.mVolume);
+
+            return request;
+        }
+
         Exchange mExchange;
+
+        std::unordered_map<uint32_t, uint32_t> mParticipantOrders;
 
         std::shared_ptr<Participant> mParticipant1;
         std::shared_ptr<Participant> mParticipant2;
@@ -29,29 +54,37 @@ namespace Sim::Testing
 
     TEST_F(IntegrationTestFixture, TestOrderFlow)
     {
-        Protocol::InsertOrderRequest askRequest;
-        askRequest.set_clientid(0);
-        askRequest.set_instrumentid(0);
-        askRequest.set_lifespan(Protocol::InsertOrderRequest::GFD);
-        askRequest.set_side(Protocol::InsertOrderRequest::SELL);
-        askRequest.set_price(100);
-        askRequest.set_volume(5);
+        auto askRequest = makeOrder(
+            0,
+            {
+                .mInstrumentId = 0,
+                .mLifespan = Protocol::InsertOrderRequest::GFD,
+                .mSide = Protocol::InsertOrderRequest::SELL,
+                .mPrice = 100,
+                .mVolume = 5,
 
-        Protocol::InsertOrderRequest askRequest2;
-        askRequest2.set_clientid(1);
-        askRequest2.set_instrumentid(0);
-        askRequest2.set_lifespan(Protocol::InsertOrderRequest::GFD);
-        askRequest2.set_side(Protocol::InsertOrderRequest::SELL);
-        askRequest2.set_price(99);
-        askRequest2.set_volume(8);
+            });
 
-        Protocol::InsertOrderRequest bidRequest1;
-        bidRequest1.set_clientid(0);
-        bidRequest1.set_instrumentid(0);
-        bidRequest1.set_lifespan(Protocol::InsertOrderRequest::GFD);
-        bidRequest1.set_side(Protocol::InsertOrderRequest::BUY);
-        bidRequest1.set_price(100);
-        bidRequest1.set_volume(13);
+        auto askRequest2 = makeOrder(
+            0,
+            {
+                .mInstrumentId = 0,
+                .mLifespan = Protocol::InsertOrderRequest::GFD,
+                .mSide = Protocol::InsertOrderRequest::SELL,
+                .mPrice = 99,
+                .mVolume = 8,
+
+            });
+
+        auto bidRequest1 = makeOrder(
+            1,
+            {
+                .mInstrumentId = 0,
+                .mLifespan = Protocol::InsertOrderRequest::GFD,
+                .mSide = Protocol::InsertOrderRequest::BUY,
+                .mPrice = 100,
+                .mVolume = 13,
+            });
 
         mParticipant1->requestOrderInsert(askRequest);
         ASSERT_EQ(mExchange.getOrderbook(0).getNumBuyOrders(), 0);
