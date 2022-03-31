@@ -13,14 +13,12 @@ namespace Sim
     void Exchange::addParticipant(std::shared_ptr<Participant> participant)
     {
         participant->setOrderInsertionHandler(
-            [this](std::shared_ptr<Order> owner) { return this->insertOrder(std::move(owner)); });
+            [this](OrderOwningPtr order) { return this->mOrderbookManager->insertOrder(std::move(order)); });
+
+        participant->setOrderCancellationHandler(
+            [this](const Order* order) { return this->mOrderbookManager->cancelOrder(order); });
 
         mParticipantManager->addParticipant(std::move(participant));
-    }
-
-    bool Exchange::insertOrder(std::shared_ptr<Order> order)
-    {
-        return mOrderbookManager->insertOrder(std::move(order));
     }
 
     void Exchange::printBooks() { mOrderbookManager->printBooks(); }

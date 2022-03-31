@@ -26,13 +26,13 @@ namespace Sim::Testing
     {
         setupParticipant([](MockOrderFactory& factory) {
             EXPECT_CALL(factory, createOrder(_, _))
-                .WillOnce(Return(std::make_shared<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1)));
+                .WillOnce(Return(ByMove(std::make_unique<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1))));
         });
 
         bool isHandlerCalled = false;
-        std::shared_ptr<Order> placedOrder;
+        OrderOwningPtr placedOrder;
 
-        mParticipant->setOrderInsertionHandler([&isHandlerCalled, &placedOrder](std::shared_ptr<Order> order) {
+        mParticipant->setOrderInsertionHandler([&isHandlerCalled, &placedOrder](OrderOwningPtr order) {
             isHandlerCalled = true;
             placedOrder = std::move(order);
 
@@ -66,14 +66,14 @@ namespace Sim::Testing
     TEST_F(ParticipantTestFixture, TestOrderIdIsIncremented)
     {
         setupParticipant([](MockOrderFactory& factory) {
-            EXPECT_CALL(factory, createOrder(_, _))
-                .Times(2)
-                .WillRepeatedly(Return(std::make_shared<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1)));
+            EXPECT_CALL(factory, createOrder(_, _)).Times(2).WillRepeatedly(Invoke([]() {
+                return std::make_unique<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1);
+            }));
         });
 
         int handlerCallCount = 0;
 
-        mParticipant->setOrderInsertionHandler([&handlerCallCount](std::shared_ptr<Order> order) {
+        mParticipant->setOrderInsertionHandler([&handlerCallCount](OrderOwningPtr order) {
             handlerCallCount++;
             return true;
         });
@@ -99,7 +99,7 @@ namespace Sim::Testing
         setupParticipant([](MockOrderFactory& factory) {
             EXPECT_CALL(factory, createOrder(_, _))
                 .Times(1)
-                .WillOnce(Return(std::make_shared<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1)));
+                .WillOnce(Return(ByMove(std::make_unique<Order>(1, 1, Lifespan::FAK, Side::SELL, 1, 1))));
         });
 
         Protocol::InsertOrderRequest request;
@@ -110,21 +110,91 @@ namespace Sim::Testing
 
     TEST_F(ParticipantTestFixture, PositionsAndCashUpdated)
     {
-        auto order = std::make_shared<Order>(0, 1, Lifespan::FAK, Side::SELL, 0, 0);
+        auto order = std::make_unique<Order>(0, 1, Lifespan::FAK, Side::SELL, 0, 0);
+        auto orderPtr = order.get();
 
         setupParticipant([&order](MockOrderFactory& factory) {
-            EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(order));
+            EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(ByMove(std::move(order))));
         });
 
-        mParticipant->setOrderInsertionHandler([](std::shared_ptr<Order> order) { return true; });
+        // keep this in memory
+        OrderOwningPtr placedOrder;
+
+        mParticipant->setOrderInsertionHandler([&placedOrder](OrderOwningPtr order) {
+            placedOrder = std::move(order);
+            return true;
+        });
 
         Protocol::InsertOrderRequest request;
         mParticipant->requestOrderInsert(request);
 
-        order->mOrderListener->onFill(order, 10, 10);
+        orderPtr->mOrderListener->onFill(*orderPtr, 10, 10);
 
         ASSERT_EQ(mParticipant->getCash(), 100);
         ASSERT_EQ(mParticipant->getPosition(1), -10);
+    }
+
+    TEST_F(ParticipantTestFixture, OrderCancellingCancelsOrder)
+    {
+        auto order = std::make_unique<Order>(0, 1, Lifespan::FAK, Side::SELL, 5, 5);
+        auto orderPtr = order.get();
+
+        setupParticipant([&order](MockOrderFactory& factory) {
+            EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(ByMove(std::move(order))));
+        });
+
+        bool isCancelCalled = false;
+        const Order* orderToCancel = nullptr;
+
+        mParticipant->setOrderInsertionHandler([](OrderOwningPtr order) { return true; });
+        mParticipant->setOrderCancellationHandler([&isCancelCalled, &orderToCancel](const Order* order) {
+            isCancelCalled = true;
+            orderToCancel = std::move(order);
+            return true;
+        });
+
+        Protocol::InsertOrderRequest request;
+        mParticipant->requestOrderInsert(request);
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        mParticipant->requestOrderCancel(cancelRequest);
+
+        ASSERT_TRUE(isCancelCalled);
+        ASSERT_EQ(orderToCancel, orderPtr);
+    }
+
+    TEST_F(ParticipantTestFixture, RuntimeErrorWhenCancelHandlerNotSet)
+    {
+        setupParticipant([](MockOrderFactory& factory) {});
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        ASSERT_THROW({ mParticipant->requestOrderCancel(cancelRequest); }, std::runtime_error);
+    }
+
+    TEST_F(ParticipantTestFixture, NoCancelIfNonExistantOrderIsCancelled)
+    {
+        setupParticipant([](MockOrderFactory& factory) {});
+
+        Protocol::CancelOrderRequest cancelRequest;
+        cancelRequest.set_clientid(0);
+
+        bool isCancelCalled = false;
+        const Order* orderToCancel = nullptr;
+
+        mParticipant->setOrderCancellationHandler([&isCancelCalled, &orderToCancel](const Order* order) {
+            isCancelCalled = true;
+            orderToCancel = std::move(order);
+            return true;
+        });
+
+        ASSERT_FALSE(mParticipant->requestOrderCancel(cancelRequest));
+
+        ASSERT_FALSE(isCancelCalled);
+        ASSERT_EQ(orderToCancel, nullptr);
     }
 
 } // namespace Sim::Testing

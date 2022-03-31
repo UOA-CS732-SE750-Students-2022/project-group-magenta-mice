@@ -15,6 +15,16 @@ namespace Sim
         return true;
     }
 
+    void Participant::setOrderInsertionHandler(std::function<bool(OrderOwningPtr)>&& handler)
+    {
+        mRequestOrderInsert.emplace(std::move(handler));
+    }
+
+    void Participant::setOrderCancellationHandler(std::function<bool(const Order*)>&& handler)
+    {
+        mRequestCancelOrder.emplace(std::move(handler));
+    }
+
     bool Participant::requestOrderInsert(Protocol::InsertOrderRequest& order)
     {
         if (!checkAndIncrementOrderId(order.clientid()))
@@ -33,19 +43,18 @@ namespace Sim
 
         if (this->mRequestOrderInsert.has_value())
         {
-            this->mOrders[order.clientid()] = newOrder;
+            this->mOrders[order.clientid()] = newOrder.get();
 
             newOrder->mOrderListener = { .onUpdate =
-                                             [this](std::shared_ptr<Order> order, uint32_t volumeRemaining) {
+                                             [this](const Order& order, uint32_t volumeRemaining) {
                                                  this->handleOrderUpdate(order, volumeRemaining);
                                              },
                                          .onFill =
-                                             [this](
-                                                 std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price) {
+                                             [this](const Order& order, uint32_t volumeFilled, uint32_t price) {
                                                  this->handleOrderFill(order, volumeFilled, price);
                                              } };
 
-            (*this->mRequestOrderInsert)(std::move(newOrder));
+            (*mRequestOrderInsert)(std::move(newOrder));
             return true;
         }
         else
@@ -54,18 +63,40 @@ namespace Sim
         }
     }
 
-    void Participant::handleOrderUpdate(std::shared_ptr<Order> order, uint32_t volumeRemaining) {}
-
-    void Participant::handleOrderFill(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price)
+    bool Participant::requestOrderCancel(Protocol::CancelOrderRequest& order)
     {
-        if (order->mSide == Side::BID)
+        if (this->mRequestCancelOrder.has_value())
         {
-            mPositions[order->mInstrument] += volumeFilled;
+            auto it = mOrders.find(order.clientid());
+            if (it != mOrders.end())
+            {
+                (*this->mRequestCancelOrder)(it->second);
+                return true;
+            }
+            else
+            {
+                sendError("Order ID not found");
+                return false;
+            }
+        }
+        else
+        {
+            throw std::runtime_error("No handler for order cancel requests");
+        }
+    }
+
+    void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining) {}
+
+    void Participant::handleOrderFill(const Order& order, uint32_t volumeFilled, uint32_t price)
+    {
+        if (order.mSide == Side::BID)
+        {
+            mPositions[order.mInstrument] += volumeFilled;
             mCash -= volumeFilled * price;
         }
         else
         {
-            mPositions[order->mInstrument] -= volumeFilled;
+            mPositions[order.mInstrument] -= volumeFilled;
             mCash += volumeFilled * price;
         }
     }

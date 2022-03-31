@@ -39,7 +39,7 @@ namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[5];
+  static const ::google::protobuf::internal::ParseTable schema[6];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -48,6 +48,9 @@ void AddDescriptors();
 }  // namespace protobuf_libs_2fprotocol_2fexchange_2eproto
 namespace Sim {
 namespace Protocol {
+class CancelOrderRequest;
+class CancelOrderRequestDefaultTypeInternal;
+extern CancelOrderRequestDefaultTypeInternal _CancelOrderRequest_default_instance_;
 class InsertOrderRequest;
 class InsertOrderRequestDefaultTypeInternal;
 extern InsertOrderRequestDefaultTypeInternal _InsertOrderRequest_default_instance_;
@@ -67,6 +70,7 @@ extern LogoutRequestDefaultTypeInternal _LogoutRequest_default_instance_;
 }  // namespace Sim
 namespace google {
 namespace protobuf {
+template<> ::Sim::Protocol::CancelOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::CancelOrderRequest>(Arena*);
 template<> ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::InsertOrderRequest>(Arena*);
 template<> ::Sim::Protocol::LoginRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LoginRequest>(Arena*);
 template<> ::Sim::Protocol::LoginResponse* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse>(Arena*);
@@ -748,27 +752,27 @@ class InsertOrderRequest : public ::google::protobuf::Message /* @@protoc_insert
   ::google::protobuf::uint32 instrumentid() const;
   void set_instrumentid(::google::protobuf::uint32 value);
 
-  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+  // .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
   void clear_lifespan();
-  static const int kLifespanFieldNumber = 4;
+  static const int kLifespanFieldNumber = 3;
   ::Sim::Protocol::InsertOrderRequest_Lifespan lifespan() const;
   void set_lifespan(::Sim::Protocol::InsertOrderRequest_Lifespan value);
 
-  // .Sim.Protocol.InsertOrderRequest.Side side = 5;
+  // .Sim.Protocol.InsertOrderRequest.Side side = 4;
   void clear_side();
-  static const int kSideFieldNumber = 5;
+  static const int kSideFieldNumber = 4;
   ::Sim::Protocol::InsertOrderRequest_Side side() const;
   void set_side(::Sim::Protocol::InsertOrderRequest_Side value);
 
-  // uint32 price = 6;
+  // uint32 price = 5;
   void clear_price();
-  static const int kPriceFieldNumber = 6;
+  static const int kPriceFieldNumber = 5;
   ::google::protobuf::uint32 price() const;
   void set_price(::google::protobuf::uint32 value);
 
-  // uint32 volume = 7;
+  // uint32 volume = 6;
   void clear_volume();
-  static const int kVolumeFieldNumber = 7;
+  static const int kVolumeFieldNumber = 6;
   ::google::protobuf::uint32 volume() const;
   void set_volume(::google::protobuf::uint32 value);
 
@@ -782,6 +786,109 @@ class InsertOrderRequest : public ::google::protobuf::Message /* @@protoc_insert
   int side_;
   ::google::protobuf::uint32 price_;
   ::google::protobuf::uint32 volume_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class CancelOrderRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.CancelOrderRequest) */ {
+ public:
+  CancelOrderRequest();
+  virtual ~CancelOrderRequest();
+
+  CancelOrderRequest(const CancelOrderRequest& from);
+
+  inline CancelOrderRequest& operator=(const CancelOrderRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CancelOrderRequest(CancelOrderRequest&& from) noexcept
+    : CancelOrderRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline CancelOrderRequest& operator=(CancelOrderRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CancelOrderRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CancelOrderRequest* internal_default_instance() {
+    return reinterpret_cast<const CancelOrderRequest*>(
+               &_CancelOrderRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(CancelOrderRequest* other);
+  friend void swap(CancelOrderRequest& a, CancelOrderRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CancelOrderRequest* New() const final {
+    return CreateMaybeMessage<CancelOrderRequest>(NULL);
+  }
+
+  CancelOrderRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CancelOrderRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CancelOrderRequest& from);
+  void MergeFrom(const CancelOrderRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CancelOrderRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 clientId = 1;
+  void clear_clientid();
+  static const int kClientIdFieldNumber = 1;
+  ::google::protobuf::uint32 clientid() const;
+  void set_clientid(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.CancelOrderRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 clientid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
 };
@@ -1018,7 +1125,7 @@ inline void InsertOrderRequest::set_instrumentid(::google::protobuf::uint32 valu
   // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.instrumentId)
 }
 
-// .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 4;
+// .Sim.Protocol.InsertOrderRequest.Lifespan lifespan = 3;
 inline void InsertOrderRequest::clear_lifespan() {
   lifespan_ = 0;
 }
@@ -1032,7 +1139,7 @@ inline void InsertOrderRequest::set_lifespan(::Sim::Protocol::InsertOrderRequest
   // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.lifespan)
 }
 
-// .Sim.Protocol.InsertOrderRequest.Side side = 5;
+// .Sim.Protocol.InsertOrderRequest.Side side = 4;
 inline void InsertOrderRequest::clear_side() {
   side_ = 0;
 }
@@ -1046,7 +1153,7 @@ inline void InsertOrderRequest::set_side(::Sim::Protocol::InsertOrderRequest_Sid
   // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.side)
 }
 
-// uint32 price = 6;
+// uint32 price = 5;
 inline void InsertOrderRequest::clear_price() {
   price_ = 0u;
 }
@@ -1060,7 +1167,7 @@ inline void InsertOrderRequest::set_price(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.price)
 }
 
-// uint32 volume = 7;
+// uint32 volume = 6;
 inline void InsertOrderRequest::clear_volume() {
   volume_ = 0u;
 }
@@ -1074,9 +1181,29 @@ inline void InsertOrderRequest::set_volume(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Sim.Protocol.InsertOrderRequest.volume)
 }
 
+// -------------------------------------------------------------------
+
+// CancelOrderRequest
+
+// uint32 clientId = 1;
+inline void CancelOrderRequest::clear_clientid() {
+  clientid_ = 0u;
+}
+inline ::google::protobuf::uint32 CancelOrderRequest::clientid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.CancelOrderRequest.clientId)
+  return clientid_;
+}
+inline void CancelOrderRequest::set_clientid(::google::protobuf::uint32 value) {
+  
+  clientid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.CancelOrderRequest.clientId)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

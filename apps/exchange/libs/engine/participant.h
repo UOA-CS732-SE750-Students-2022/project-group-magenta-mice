@@ -16,16 +16,15 @@ namespace Sim
         Participant(std::unique_ptr<OrderFactory> orderFactory) : mOrderFactory{ std::move(orderFactory) } {};
 
         bool requestOrderInsert(Protocol::InsertOrderRequest& order);
+        bool requestOrderCancel(Protocol::CancelOrderRequest& order);
 
         void sendError(std::string&& error);
 
-        void setOrderInsertionHandler(std::function<bool(std::shared_ptr<Order>)>&& handler)
-        {
-            mRequestOrderInsert.emplace(std::move(handler));
-        }
+        void setOrderInsertionHandler(std::function<bool(OrderOwningPtr)>&& handler);
+        void setOrderCancellationHandler(std::function<bool(const Order*)>&& handler);
 
-        void handleOrderUpdate(std::shared_ptr<Order> order, uint32_t volumeRemaining);
-        void handleOrderFill(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price);
+        void handleOrderUpdate(const Order& order, uint32_t volumeRemaining);
+        void handleOrderFill(const Order& order, uint32_t volumeFilled, uint32_t price);
 
         int64_t getCash() const;
         int32_t getPosition(uint32_t forInstrument) const;
@@ -37,8 +36,10 @@ namespace Sim
 
         uint64_t expectedOrderId = 0;
 
-        std::unordered_map<uint32_t, std::weak_ptr<Order>> mOrders;
-        std::optional<std::function<bool(std::shared_ptr<Order>)>> mRequestOrderInsert;
+        std::unordered_map<uint32_t, Order*> mOrders;
+
+        std::optional<std::function<bool(OrderOwningPtr)>> mRequestOrderInsert;
+        std::optional<std::function<bool(const Order*)>> mRequestCancelOrder;
 
         std::unordered_map<uint32_t, int32_t> mPositions;
         int64_t mCash = 0;
