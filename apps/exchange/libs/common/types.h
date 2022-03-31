@@ -40,10 +40,9 @@ namespace Sim
 
     struct OrderListener
     {
-        std::function<void(std::shared_ptr<Order> order, uint32_t volumeRemaining)> onUpdate =
-            [](std::shared_ptr<Order>, uint32_t) {};
-        std::function<void(std::shared_ptr<Order> order, uint32_t volumeFilled, uint32_t price)> onFill =
-            [](std::shared_ptr<Order>, uint32_t, uint32_t) {};
+        std::function<void(const Order& order, uint32_t volumeRemaining)> onUpdate = [](const Order&, uint32_t) {};
+        std::function<void(const Order& order, uint32_t volumeFilled, uint32_t price)> onFill =
+            [](const Order&, uint32_t, uint32_t) {};
     };
 
     struct Order
@@ -69,5 +68,7 @@ namespace Sim
 
         std::optional<OrderListener> mOrderListener;
     };
+
+    using OrderOwningPtr = std::unique_ptr<Order, std::function<void(Order*)>>;
 
 } // namespace Sim

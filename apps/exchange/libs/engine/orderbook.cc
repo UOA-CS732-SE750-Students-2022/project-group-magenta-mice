@@ -5,7 +5,54 @@
 
 namespace Sim
 {
-    bool Orderbook::insertOrder(std::shared_ptr<Order> order)
+    bool Orderbook::cancelOrder(const Order* order)
+    {
+        if (order->mSide == Side::BID)
+        {
+            auto it = mBidOrders.find(order->mPrice);
+            if (it != mBidOrders.end())
+            {
+                auto& orders = it->second;
+                auto orderIt =
+                    std::find_if(orders.begin(), orders.end(), [order](const OrderOwningPtr& owningOrderPtr) {
+                        return owningOrderPtr.get() == order;
+                    });
+                if (orderIt != orders.end())
+                {
+                    orders.erase(orderIt);
+                    if (orders.empty())
+                    {
+                        mBidOrders.erase(it);
+                    }
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            auto it = mAskOrders.find(order->mPrice);
+            if (it != mAskOrders.end())
+            {
+                auto& orders = it->second;
+                auto orderIt =
+                    std::find_if(orders.begin(), orders.end(), [order](const OrderOwningPtr& owningOrderPtr) {
+                        return owningOrderPtr.get() == order;
+                    });
+                if (orderIt != orders.end())
+                {
+                    orders.erase(orderIt);
+                    if (orders.empty())
+                    {
+                        mAskOrders.erase(it);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool Orderbook::insertOrder(OrderOwningPtr order)
     {
         if (order->mSide == Side::BID)
         {
@@ -17,7 +64,7 @@ namespace Sim
         }
     }
 
-    bool Orderbook::insertBuyOrder(std::shared_ptr<Order> order)
+    bool Orderbook::insertBuyOrder(OrderOwningPtr order)
     {
         uint32_t bidPrice = order->mPrice;
 
@@ -32,14 +79,14 @@ namespace Sim
 
                 if (order->mOrderListener)
                 {
-                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
-                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                    order->mOrderListener->onFill(*order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(*order, order->mVolume - volumeRemoved);
                 }
                 if (counterpartyAsk->get()->mOrderListener)
                 {
-                    counterpartyAsk->get()->mOrderListener->onFill(*counterpartyAsk, volumeRemoved, priceTraded);
+                    counterpartyAsk->get()->mOrderListener->onFill(**counterpartyAsk, volumeRemoved, priceTraded);
                     counterpartyAsk->get()->mOrderListener->onUpdate(
-                        *counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
+                        **counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
                 }
 
                 counterpartyAsk->get()->mVolume -= volumeRemoved;
@@ -53,14 +100,14 @@ namespace Sim
 
                 if (order->mOrderListener)
                 {
-                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
-                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                    order->mOrderListener->onFill(*order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(*order, order->mVolume - volumeRemoved);
                 }
                 if (counterpartyAsk->get()->mOrderListener)
                 {
-                    counterpartyAsk->get()->mOrderListener->onFill(*counterpartyAsk, volumeRemoved, priceTraded);
+                    counterpartyAsk->get()->mOrderListener->onFill(**counterpartyAsk, volumeRemoved, priceTraded);
                     counterpartyAsk->get()->mOrderListener->onUpdate(
-                        *counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
+                        **counterpartyAsk, counterpartyAsk->get()->mVolume - volumeRemoved);
                 }
 
                 order->mVolume -= volumeRemoved;
@@ -78,7 +125,7 @@ namespace Sim
         {
             if (order->mOrderListener)
             {
-                order->mOrderListener->onUpdate(order, 0);
+                order->mOrderListener->onUpdate(*order, 0);
             }
             return true;
         }
@@ -91,13 +138,13 @@ namespace Sim
         auto it = mBidOrders.find(order->mPrice);
         if (it == mBidOrders.end())
         {
-            mBidOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
+            mBidOrders[order->mPrice] = std::deque<OrderOwningPtr>();
         }
         it = mBidOrders.find(order->mPrice);
 
         if (order->mOrderListener)
         {
-            order->mOrderListener->onUpdate(order, order->mVolume);
+            order->mOrderListener->onUpdate(*order, order->mVolume);
         }
 
         it->second.emplace_back(std::move(order));
@@ -105,7 +152,7 @@ namespace Sim
         return true;
     }
 
-    bool Orderbook::insertSellOrder(std::shared_ptr<Order> order)
+    bool Orderbook::insertSellOrder(OrderOwningPtr order)
     {
         uint32_t askPrice = order->mPrice;
 
@@ -120,14 +167,14 @@ namespace Sim
 
                 if (order->mOrderListener)
                 {
-                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
-                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                    order->mOrderListener->onFill(*order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(*order, order->mVolume - volumeRemoved);
                 }
                 if (counterpartyBid->get()->mOrderListener)
                 {
-                    counterpartyBid->get()->mOrderListener->onFill(*counterpartyBid, volumeRemoved, priceTraded);
+                    counterpartyBid->get()->mOrderListener->onFill(**counterpartyBid, volumeRemoved, priceTraded);
                     counterpartyBid->get()->mOrderListener->onUpdate(
-                        *counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
+                        **counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
                 }
 
                 counterpartyBid->get()->mVolume -= volumeRemoved;
@@ -141,14 +188,14 @@ namespace Sim
 
                 if (order->mOrderListener)
                 {
-                    order->mOrderListener->onFill(order, volumeRemoved, priceTraded);
-                    order->mOrderListener->onUpdate(order, order->mVolume - volumeRemoved);
+                    order->mOrderListener->onFill(*order, volumeRemoved, priceTraded);
+                    order->mOrderListener->onUpdate(*order, order->mVolume - volumeRemoved);
                 }
                 if (counterpartyBid->get()->mOrderListener)
                 {
-                    counterpartyBid->get()->mOrderListener->onFill(*counterpartyBid, volumeRemoved, priceTraded);
+                    counterpartyBid->get()->mOrderListener->onFill(**counterpartyBid, volumeRemoved, priceTraded);
                     counterpartyBid->get()->mOrderListener->onUpdate(
-                        *counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
+                        **counterpartyBid, counterpartyBid->get()->mVolume - volumeRemoved);
                 }
 
                 order->mVolume -= volumeRemoved;
@@ -166,7 +213,7 @@ namespace Sim
         {
             if (order->mOrderListener)
             {
-                order->mOrderListener->onUpdate(order, 0);
+                order->mOrderListener->onUpdate(*order, 0);
             }
             return true;
         }
@@ -179,13 +226,13 @@ namespace Sim
         auto it = mAskOrders.find(order->mPrice);
         if (it == mAskOrders.end())
         {
-            mAskOrders[order->mPrice] = std::deque<std::shared_ptr<Order>>();
+            mAskOrders[order->mPrice] = std::deque<OrderOwningPtr>();
         }
         it = mAskOrders.find(order->mPrice);
 
         if (order->mOrderListener)
         {
-            order->mOrderListener->onUpdate(order, order->mVolume);
+            order->mOrderListener->onUpdate(*order, order->mVolume);
         }
 
         it->second.emplace_back(std::move(order));
@@ -197,11 +244,11 @@ namespace Sim
 
     size_t Orderbook::getNumSellOrders() const { return mAskOrders.size(); }
 
-    const std::deque<std::shared_ptr<Sim::Order>>::const_iterator Orderbook::getTopBid() const
+    const std::deque<OrderOwningPtr>::const_iterator Orderbook::getTopBid() const
     {
         return mBidOrders.begin()->second.begin();
     };
-    const std::deque<std::shared_ptr<Sim::Order>>::const_iterator Orderbook::getTopAsk() const
+    const std::deque<OrderOwningPtr>::const_iterator Orderbook::getTopAsk() const
     {
         return mAskOrders.begin()->second.begin();
     };

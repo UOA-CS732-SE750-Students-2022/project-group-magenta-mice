@@ -12,7 +12,7 @@ namespace Sim
        public:
         virtual ~OrderFactory() = default;
 
-        virtual std::shared_ptr<Order> createOrder(
+        virtual OrderOwningPtr createOrder(
             const Protocol::InsertOrderRequest& request,
             std::function<void(Order*)> deleter) const;
     };
