@@ -24,7 +24,10 @@ namespace Sim
         }
 
         auto newOrder = mOrderFactory->createOrder(order, [this](Order* order) {
-            mOrders.erase(order->mClientId);
+            if (mOrders.size())
+            {
+                mOrders.erase(order->mClientId);
+            }
             delete order;
         });
 
@@ -70,6 +73,13 @@ namespace Sim
     void Participant::sendError(std::string&& error) { std::cout << "Error: " << error << std::endl; }
 
     int64_t Participant::getCash() const { return mCash; }
-    int32_t Participant::getPosition(uint32_t forInstrument) const { return mPositions.at(forInstrument); }
+    int32_t Participant::getPosition(uint32_t forInstrument) const
+    {
+        if (mPositions.count(forInstrument) == 0)
+        {
+            return 0;
+        }
+        return mPositions.at(forInstrument);
+    }
 
 } // namespace Sim
