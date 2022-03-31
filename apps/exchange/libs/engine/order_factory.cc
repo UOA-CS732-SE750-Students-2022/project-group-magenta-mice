@@ -3,11 +3,11 @@
 
 namespace Sim
 {
-    std::shared_ptr<Order> OrderFactory::createOrder(
+    OrderOwningPtr OrderFactory::createOrder(
         const Protocol::InsertOrderRequest& order,
         std::function<void(Order*)> deleter) const
     {
-        return std::shared_ptr<Order>(
+        return OrderOwningPtr(
             new Order(
                 order.clientid(),
                 order.instrumentid(),

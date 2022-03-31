@@ -22,7 +22,7 @@ namespace Sim
         return res;
     }
 
-    bool OrderbookManager::insertOrder(std::shared_ptr<Order> order)
+    bool OrderbookManager::insertOrder(OrderOwningPtr order)
     {
         auto orderbook = mOrderbooks.find(order->mInstrument);
 
@@ -34,7 +34,7 @@ namespace Sim
         return orderbook->second.insertOrder(std::move(order));
     }
 
-    bool OrderbookManager::cancelOrder(std::shared_ptr<Order> order)
+    bool OrderbookManager::cancelOrder(const Order* order)
     {
         auto orderbook = mOrderbooks.find(order->mInstrument);
 
@@ -43,7 +43,7 @@ namespace Sim
             return false;
         }
 
-        return orderbook->second.cancelOrder(std::move(order));
+        return orderbook->second.cancelOrder(order);
     }
 
     size_t OrderbookManager::size() const { return mOrderbooks.size(); }

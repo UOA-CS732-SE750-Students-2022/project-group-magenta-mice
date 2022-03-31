@@ -8,6 +8,8 @@
 namespace Sim::Testing
 {
     using ::testing::_;
+    using ::testing::ByMove;
+    using ::testing::Invoke;
     using ::testing::Return;
     using ::testing::Test;
     using ::testing::TestWithParam;
@@ -17,7 +19,7 @@ namespace Sim::Testing
     {
        public:
         MOCK_METHOD(
-            std::shared_ptr<Order>,
+            OrderOwningPtr,
             createOrder,
             (const Protocol::InsertOrderRequest& request, std::function<void(Order*)> deleter),
             (const override));
