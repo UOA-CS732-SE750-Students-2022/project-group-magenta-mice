@@ -4,7 +4,7 @@ from distutils.dir_util import copy_tree
 import socket 
 from multiprocessing import Process
 from select import select
-import traceback
+import exchange_pb2
 
 class DataServer:
     """
@@ -29,20 +29,16 @@ class DataServer:
         A method to be called by a thread or process on a new client connects 
         to the socket
         """
+        msg = client_socket.recv(1024)
         while True:
             try:
-                msg = client_socket.recv(1024)
                 print(msg)
                 client_socket.send(f"Received {msg}".encode())
 
                 continue
             except Exception as e:
-                print("Problem handling request")
-                traceback.print_exc()
-                print(str(e))
-                
                 client_socket.close()
-                break
+                raise e
 
     def run(self):
         self.s.listen(self.NUM_EXCHANGE)
@@ -63,11 +59,10 @@ class DataServer:
                     pool_of_processes.append(p)
                 continue
             except KeyboardInterrupt:
-                pass
+                break
             except Exception as e:
-                print("Error occured "+str(e))
-                
-            break
+                print("Error occured "+ str(e))
+                break
         
         print("Closing socket...")
         self.s.close()

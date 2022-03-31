@@ -1,3 +1,4 @@
+from time import sleep
 from PriceGeneratorStrategy import PriceGeneratorStrategy
 from TrendManager import TrendManager
 import datetime
@@ -18,14 +19,19 @@ class DataGenerator:
         self._trend = TrendManager(APY, orders_per_second, change_frequency, APY_range)
 
     def generate_data(self):
-        prices = []
-        time = datetime.datetime.now()
+        buy, sell = self._priceGenStrategy.generate_prices(self._trend)
+        sleep(self._orders_per_second)
+        return buy, sell
+        # prices = []
+        # time = datetime.datetime.now()
 
-        for _ in range(600000):
-            time += datetime.timedelta(seconds=1/self._orders_per_second)
-            prices.append((time.strftime("%Y-%d-%m %H:%M:%S"), self._priceGenStrategy.generate_price(self._trend)))
+        # for _ in range(100):
+        #     time += datetime.timedelta(seconds=1/self._orders_per_second)
+        #     buy, sell = self._priceGenStrategy.generate_prices(self._trend)
+        #     prices.append((time.strftime("%Y-%d-%m %H:%M:%S"), buy, 'buy'))
+        #     prices.append((time.strftime("%Y-%d-%m %H:%M:%S"), sell, 'sell'))
 
-        return prices
+        #return prices
 
     @property
     def strategy(self):
@@ -40,14 +46,20 @@ if __name__ == '__main__':
     from StockPriceGeneratorStrategy import StockPriceGeneratorStrategy
     import pandas as pd
 
+    # DG = DataGenerator(
+    #     StockPriceGeneratorStrategy(100, -0.1, 1),
+    #     orders_per_second=0.01,
+    #     APY=30,
+    #     change_frequency=2,
+    #     APY_range = [-30, 30]
+    #     )
+
     DG = DataGenerator(
-        StockPriceGeneratorStrategy(100, -0.1, 1),
-        orders_per_second=0.01,
-        APY=30,
-        change_frequency=2,
-        APY_range = [-30, 30]
-        )
+        BondPriceGeneratorStrategy(100, 1),
+        orders_per_second=10
+    )
+
     prices = DG.generate_data()
 
-    df = pd.DataFrame(prices, columns=['time', 'price']).set_index('time')
-    df.to_csv('example.csv')
+    # df = pd.DataFrame(prices, columns=['time', 'price', 'type']).set_index('time')
+    # df.to_csv('example.csv')
