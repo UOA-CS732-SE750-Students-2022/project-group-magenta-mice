@@ -1,7 +1,9 @@
 import { DividedText } from "@simulate-exchange/components";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
 import { useEffect, useState } from "react";
+import Link from 'next/link'
 import cx from "classnames";
+
 const color = "bg-emerald-600 hover:bg-emerald-500 transition-colors";
 export function Index() {
   const { randomImage, isLoading } = useRandomImage();
@@ -27,15 +29,17 @@ export function Index() {
         <br/>
         <DividedText text="Create an exchange NOW" className="text-gray-200 text-2xl" />
         <br/>
-        <button
-          className={cx(
-            color,
-            "text-white font-bold py-2 px-10 rounded focus:outline-none focus:shadow-outline",
-          )}
-          type="button"
-        >
-          Get started
-        </button>
+        <Link href="/auth" passHref>
+          <button
+            className={cx(
+              color,
+              "text-white font-bold py-2 px-10 rounded focus:outline-none focus:shadow-outline",
+            )}
+            type="button"
+          >
+            Get started
+          </button>
+        </Link>
       </div>
     </>
   );
