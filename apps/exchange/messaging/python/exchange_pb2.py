@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='Sim.Protocol',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1clibs/protocol/exchange.proto\x12\x0cSim.Protocol\"\x1b\n\x0cLoginRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"\xa6\x01\n\rLoginResponse\x12;\n\x0binstruments\x18\x01 \x03(\x0b\x32&.Sim.Protocol.LoginResponse.Instrument\x1aX\n\nInstrument\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06ticker\x18\x02 \x01(\t\x12\x15\n\rpositionLimit\x18\x03 \x01(\r\x12\x17\n\x0ftickSizeInCents\x18\x04 \x01(\r\"\x0f\n\rLogoutRequest\"\x86\x02\n\x12InsertOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12;\n\x08lifespan\x18\x03 \x01(\x0e\x32).Sim.Protocol.InsertOrderRequest.Lifespan\x12\x33\n\x04side\x18\x04 \x01(\x0e\x32%.Sim.Protocol.InsertOrderRequest.Side\x12\r\n\x05price\x18\x05 \x01(\r\x12\x0e\n\x06volume\x18\x06 \x01(\r\"\x1c\n\x08Lifespan\x12\x07\n\x03GFD\x10\x00\x12\x07\n\x03\x46\x41K\x10\x01\"\x19\n\x04Side\x12\x07\n\x03\x42UY\x10\x00\x12\x08\n\x04SELL\x10\x01\"&\n\x12\x43\x61ncelOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r*\x83\x01\n\x0bMessageType\x12\t\n\x05LOGIN\x10\x00\x12\n\n\x06LOGOUT\x10\x01\x12\x12\n\x0eLOGIN_RESPONSE\x10\x02\x12\x13\n\x0fLOGOUT_RESPONSE\x10\x03\x12\x10\n\x0cINSERT_ORDER\x10\x0b\x12\x10\n\x0c\x43\x41NCEL_ORDER\x10\x0c\x12\x10\n\x0c\x41MMEND_ORDER\x10\rb\x06proto3')
+  serialized_pb=_b('\n\x1clibs/protocol/exchange.proto\x12\x0cSim.Protocol\"\x1b\n\x0cLoginRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"\xa6\x01\n\rLoginResponse\x12;\n\x0binstruments\x18\x01 \x03(\x0b\x32&.Sim.Protocol.LoginResponse.Instrument\x1aX\n\nInstrument\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06ticker\x18\x02 \x01(\t\x12\x15\n\rpositionLimit\x18\x03 \x01(\r\x12\x17\n\x0ftickSizeInCents\x18\x04 \x01(\r\"\x0f\n\rLogoutRequest\"\x86\x02\n\x12InsertOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12;\n\x08lifespan\x18\x03 \x01(\x0e\x32).Sim.Protocol.InsertOrderRequest.Lifespan\x12\x33\n\x04side\x18\x04 \x01(\x0e\x32%.Sim.Protocol.InsertOrderRequest.Side\x12\r\n\x05price\x18\x05 \x01(\r\x12\x0e\n\x06volume\x18\x06 \x01(\r\"\x1c\n\x08Lifespan\x12\x07\n\x03GFD\x10\x00\x12\x07\n\x03\x46\x41K\x10\x01\"\x19\n\x04Side\x12\x07\n\x03\x42UY\x10\x00\x12\x08\n\x04SELL\x10\x01\"&\n\x12\x43\x61ncelOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\"U\n\x12OrderUpdateMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\x17\n\x0fvolumeRemaining\x18\x03 \x01(\r\"_\n\x10OrderFillMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\r\n\x05price\x18\x03 \x01(\r\x12\x14\n\x0cvolumeFilled\x18\x04 \x01(\r\"\xa2\x01\n\x0c\x45xchangeFeed\x12\x32\n\x04\x62ids\x18\x01 \x03(\x0b\x32$.Sim.Protocol.ExchangeFeed.bookEntry\x12\x32\n\x04\x61sks\x18\x02 \x03(\x0b\x32$.Sim.Protocol.ExchangeFeed.bookEntry\x1a*\n\tbookEntry\x12\r\n\x05price\x18\x01 \x01(\r\x12\x0e\n\x06volume\x18\x02 \x01(\r*\xb8\x01\n\x0bMessageType\x12\t\n\x05LOGIN\x10\x00\x12\n\n\x06LOGOUT\x10\x01\x12\x12\n\x0eLOGIN_RESPONSE\x10\x02\x12\x13\n\x0fLOGOUT_RESPONSE\x10\x03\x12\x10\n\x0cINSERT_ORDER\x10\x0b\x12\x10\n\x0c\x43\x41NCEL_ORDER\x10\x0c\x12\x10\n\x0c\x41MMEND_ORDER\x10\r\x12\x10\n\x0cORDER_UPDATE\x10\x15\x12\x0e\n\nORDER_FILL\x10\x16\x12\x11\n\rEXCHANGE_FEED\x10\x1f\x62\x06proto3')
 )
 
 _MESSAGETYPE = _descriptor.EnumDescriptor(
@@ -57,11 +57,23 @@ _MESSAGETYPE = _descriptor.EnumDescriptor(
       name='AMMEND_ORDER', index=6, number=13,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ORDER_UPDATE', index=7, number=21,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ORDER_FILL', index=8, number=22,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EXCHANGE_FEED', index=9, number=31,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=567,
-  serialized_end=698,
+  serialized_start=916,
+  serialized_end=1100,
 )
 _sym_db.RegisterEnumDescriptor(_MESSAGETYPE)
 
@@ -73,6 +85,9 @@ LOGOUT_RESPONSE = 3
 INSERT_ORDER = 11
 CANCEL_ORDER = 12
 AMMEND_ORDER = 13
+ORDER_UPDATE = 21
+ORDER_FILL = 22
+EXCHANGE_FEED = 31
 
 
 _INSERTORDERREQUEST_LIFESPAN = _descriptor.EnumDescriptor(
@@ -355,17 +370,195 @@ _CANCELORDERREQUEST = _descriptor.Descriptor(
   serialized_end=564,
 )
 
+
+_ORDERUPDATEMESSAGE = _descriptor.Descriptor(
+  name='OrderUpdateMessage',
+  full_name='Sim.Protocol.OrderUpdateMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='clientId', full_name='Sim.Protocol.OrderUpdateMessage.clientId', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='instrumentId', full_name='Sim.Protocol.OrderUpdateMessage.instrumentId', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volumeRemaining', full_name='Sim.Protocol.OrderUpdateMessage.volumeRemaining', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=566,
+  serialized_end=651,
+)
+
+
+_ORDERFILLMESSAGE = _descriptor.Descriptor(
+  name='OrderFillMessage',
+  full_name='Sim.Protocol.OrderFillMessage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='clientId', full_name='Sim.Protocol.OrderFillMessage.clientId', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='instrumentId', full_name='Sim.Protocol.OrderFillMessage.instrumentId', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Sim.Protocol.OrderFillMessage.price', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volumeFilled', full_name='Sim.Protocol.OrderFillMessage.volumeFilled', index=3,
+      number=4, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=653,
+  serialized_end=748,
+)
+
+
+_EXCHANGEFEED_BOOKENTRY = _descriptor.Descriptor(
+  name='bookEntry',
+  full_name='Sim.Protocol.ExchangeFeed.bookEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='price', full_name='Sim.Protocol.ExchangeFeed.bookEntry.price', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volume', full_name='Sim.Protocol.ExchangeFeed.bookEntry.volume', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=871,
+  serialized_end=913,
+)
+
+_EXCHANGEFEED = _descriptor.Descriptor(
+  name='ExchangeFeed',
+  full_name='Sim.Protocol.ExchangeFeed',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='bids', full_name='Sim.Protocol.ExchangeFeed.bids', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='asks', full_name='Sim.Protocol.ExchangeFeed.asks', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_EXCHANGEFEED_BOOKENTRY, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=751,
+  serialized_end=913,
+)
+
 _LOGINRESPONSE_INSTRUMENT.containing_type = _LOGINRESPONSE
 _LOGINRESPONSE.fields_by_name['instruments'].message_type = _LOGINRESPONSE_INSTRUMENT
 _INSERTORDERREQUEST.fields_by_name['lifespan'].enum_type = _INSERTORDERREQUEST_LIFESPAN
 _INSERTORDERREQUEST.fields_by_name['side'].enum_type = _INSERTORDERREQUEST_SIDE
 _INSERTORDERREQUEST_LIFESPAN.containing_type = _INSERTORDERREQUEST
 _INSERTORDERREQUEST_SIDE.containing_type = _INSERTORDERREQUEST
+_EXCHANGEFEED_BOOKENTRY.containing_type = _EXCHANGEFEED
+_EXCHANGEFEED.fields_by_name['bids'].message_type = _EXCHANGEFEED_BOOKENTRY
+_EXCHANGEFEED.fields_by_name['asks'].message_type = _EXCHANGEFEED_BOOKENTRY
 DESCRIPTOR.message_types_by_name['LoginRequest'] = _LOGINREQUEST
 DESCRIPTOR.message_types_by_name['LoginResponse'] = _LOGINRESPONSE
 DESCRIPTOR.message_types_by_name['LogoutRequest'] = _LOGOUTREQUEST
 DESCRIPTOR.message_types_by_name['InsertOrderRequest'] = _INSERTORDERREQUEST
 DESCRIPTOR.message_types_by_name['CancelOrderRequest'] = _CANCELORDERREQUEST
+DESCRIPTOR.message_types_by_name['OrderUpdateMessage'] = _ORDERUPDATEMESSAGE
+DESCRIPTOR.message_types_by_name['OrderFillMessage'] = _ORDERFILLMESSAGE
+DESCRIPTOR.message_types_by_name['ExchangeFeed'] = _EXCHANGEFEED
 DESCRIPTOR.enum_types_by_name['MessageType'] = _MESSAGETYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -411,6 +604,35 @@ CancelOrderRequest = _reflection.GeneratedProtocolMessageType('CancelOrderReques
   # @@protoc_insertion_point(class_scope:Sim.Protocol.CancelOrderRequest)
   ))
 _sym_db.RegisterMessage(CancelOrderRequest)
+
+OrderUpdateMessage = _reflection.GeneratedProtocolMessageType('OrderUpdateMessage', (_message.Message,), dict(
+  DESCRIPTOR = _ORDERUPDATEMESSAGE,
+  __module__ = 'libs.protocol.exchange_pb2'
+  # @@protoc_insertion_point(class_scope:Sim.Protocol.OrderUpdateMessage)
+  ))
+_sym_db.RegisterMessage(OrderUpdateMessage)
+
+OrderFillMessage = _reflection.GeneratedProtocolMessageType('OrderFillMessage', (_message.Message,), dict(
+  DESCRIPTOR = _ORDERFILLMESSAGE,
+  __module__ = 'libs.protocol.exchange_pb2'
+  # @@protoc_insertion_point(class_scope:Sim.Protocol.OrderFillMessage)
+  ))
+_sym_db.RegisterMessage(OrderFillMessage)
+
+ExchangeFeed = _reflection.GeneratedProtocolMessageType('ExchangeFeed', (_message.Message,), dict(
+
+  bookEntry = _reflection.GeneratedProtocolMessageType('bookEntry', (_message.Message,), dict(
+    DESCRIPTOR = _EXCHANGEFEED_BOOKENTRY,
+    __module__ = 'libs.protocol.exchange_pb2'
+    # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.bookEntry)
+    ))
+  ,
+  DESCRIPTOR = _EXCHANGEFEED,
+  __module__ = 'libs.protocol.exchange_pb2'
+  # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed)
+  ))
+_sym_db.RegisterMessage(ExchangeFeed)
+_sym_db.RegisterMessage(ExchangeFeed.bookEntry)
 
 
 # @@protoc_insertion_point(module_scope)
