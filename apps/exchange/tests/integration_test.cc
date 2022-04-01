@@ -151,4 +151,44 @@ namespace Sim::Testing
         mParticipant1->requestOrderCancel(cancelAsk1);
         ASSERT_EQ(mExchange.getOrderbook(0).getNumSellOrders(), 0);
     }
+
+    TEST_F(IntegrationTestFixture, TestInvalidCancel)
+    {
+        auto [ask1, cancelAsk1] = makeOrderWithCancel(
+            0,
+            {
+                .mInstrumentId = 0,
+                .mLifespan = Protocol::InsertOrderRequest::GFD,
+                .mSide = Protocol::InsertOrderRequest::SELL,
+                .mPrice = 100,
+                .mVolume = 5,
+
+            });
+
+        // invalid cancel order here
+        cancelAsk1.set_clientid(1);
+
+        mParticipant1->requestOrderInsert(ask1);
+        ASSERT_EQ(mExchange.getOrderbook(0).getTopAsk()->get()->mVolume, 5);
+
+        mParticipant1->requestOrderCancel(cancelAsk1);
+        ASSERT_EQ(mExchange.getOrderbook(0).getNumSellOrders(), 1);
+    }
+
+    TEST_F(IntegrationTestFixture, TestCancelWithoutOrder)
+    {
+        auto [ask1, cancelAsk1] = makeOrderWithCancel(
+            0,
+            {
+                .mInstrumentId = 0,
+                .mLifespan = Protocol::InsertOrderRequest::GFD,
+                .mSide = Protocol::InsertOrderRequest::SELL,
+                .mPrice = 100,
+                .mVolume = 5,
+
+            });
+
+        mParticipant1->requestOrderCancel(cancelAsk1);
+        ASSERT_EQ(mExchange.getOrderbook(0).getNumSellOrders(), 0);
+    }
 } // namespace Sim::Testing
