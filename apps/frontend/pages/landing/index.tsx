@@ -19,7 +19,6 @@ export function Index() {
 
   return (
     <>
-    {/* style={{backgroundImage: "url(" + randomImage + ")"}} */}
       <div 
       className="h-screen w-screen justify-center items-center flex flex-col bg-cover"  
       style={{backgroundImage: "linear-gradient(to top, rgba(23, 23, 23, 1), rgba(195, 195, 195, 0.3)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-1.2.1)"}}

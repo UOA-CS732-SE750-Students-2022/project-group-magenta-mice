@@ -13,6 +13,16 @@ const nextConfig = {
   images: {
     domains: ["images.unsplash.com"],
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/landing",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withNx(nextConfig);
