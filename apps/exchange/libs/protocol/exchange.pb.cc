@@ -381,15 +381,15 @@ void AddDescriptorsImpl() {
       "eFeed\0222\n\004bids\030\001 \003(\0132$.Sim.Protocol.Excha"
       "ngeFeed.bookEntry\0222\n\004asks\030\002 \003(\0132$.Sim.Pr"
       "otocol.ExchangeFeed.bookEntry\032*\n\tbookEnt"
-      "ry\022\r\n\005price\030\001 \001(\r\022\016\n\006volume\030\002 \001(\r*\270\001\n\013Me"
+      "ry\022\r\n\005price\030\001 \001(\r\022\016\n\006volume\030\002 \001(\r*\267\001\n\013Me"
       "ssageType\022\t\n\005LOGIN\020\000\022\n\n\006LOGOUT\020\001\022\022\n\016LOGI"
       "N_RESPONSE\020\002\022\023\n\017LOGOUT_RESPONSE\020\003\022\020\n\014INS"
-      "ERT_ORDER\020\013\022\020\n\014CANCEL_ORDER\020\014\022\020\n\014AMMEND_"
-      "ORDER\020\r\022\020\n\014ORDER_UPDATE\020\025\022\016\n\nORDER_FILL\020"
-      "\026\022\021\n\rEXCHANGE_FEED\020\037b\006proto3"
+      "ERT_ORDER\020\013\022\020\n\014CANCEL_ORDER\020\014\022\017\n\013AMEND_O"
+      "RDER\020\r\022\020\n\014ORDER_UPDATE\020\025\022\016\n\nORDER_FILL\020\026"
+      "\022\021\n\rEXCHANGE_FEED\020\037b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1108);
+      descriptor, 1107);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "libs/protocol/exchange.proto", &protobuf_RegisterTypes);
 }

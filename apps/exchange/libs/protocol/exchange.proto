@@ -10,7 +10,7 @@ enum MessageType {
 
   INSERT_ORDER = 11;
   CANCEL_ORDER = 12;
-  AMMEND_ORDER = 13;
+  AMEND_ORDER = 13;
 
   ORDER_UPDATE = 21;
   ORDER_FILL = 22;
