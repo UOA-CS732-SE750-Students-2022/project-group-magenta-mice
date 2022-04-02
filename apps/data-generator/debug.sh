@@ -1,2 +1,2 @@
-protoc -I=. --python_out=./src/protocol ./src/protocol/exchange.proto
-python -m pytest tests
+protoc --python_out=. ./src/protocol/exchange.proto
+python3 -m pytest tests

@@ -1,6 +1,10 @@
 # Import socket module
 import socket            
 import json
+import sys, os
+# insert at 1, 0 is the script path (or '' in REPL)
+sys.path.append(os.path.realpath('./src'))
+
 import protocol.exchange_pb2 as exchange_proto
 # Create a socket object
 s = socket.socket()        
