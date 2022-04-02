@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from TrendManager import TrendManager
+from .TrendManager import TrendManager
 from typing import List
 
 class PriceGeneratorStrategy(ABC):

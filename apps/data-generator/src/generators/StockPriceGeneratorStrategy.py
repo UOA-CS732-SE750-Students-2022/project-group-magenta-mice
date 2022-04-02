@@ -1,5 +1,5 @@
-from PriceGeneratorStrategy import PriceGeneratorStrategy
-from TrendManager import TrendManager
+from .PriceGeneratorStrategy import PriceGeneratorStrategy
+from .TrendManager import TrendManager
 from random import gauss, seed
 from math import sqrt, exp
 from scipy.stats import norm
