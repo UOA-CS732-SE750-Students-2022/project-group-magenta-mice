@@ -31,6 +31,6 @@ class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
         buy_price = sell_price = theo
         if self._random:
             buy_price += round(norm.rvs(-1, 1))
-            sell_price += theo + round(norm.rvs(1, 1))
+            sell_price += round(norm.rvs(1, 1))
         
         return [buy_price, sell_price]
