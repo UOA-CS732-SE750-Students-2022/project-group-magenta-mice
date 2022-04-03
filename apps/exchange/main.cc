@@ -1,4 +1,5 @@
 #include <boost/asio.hpp>
+#include <common/timer.h>
 #include <engine/exchange.h>
 #include <engine/participant.h>
 #include <net/participant_socket.h>
@@ -37,8 +38,10 @@ namespace Sim::Net
                 client->start(
                     [this](int32_t messageType, std::string const& message) {
                         // on_message(messageType, message);
+                        (void)this;
                     },
                     [this, weak = std::weak_ptr(client)]() {
+                        (void)this;
                         // on_error();
                         // remove participant from exchange
                     });
@@ -69,6 +72,9 @@ int main()
     Sim::Net::ExchangeServer server(ioContext, port);
 
     std::cout << "Server started on localhost:" << port << "!" << std::endl;
+
+    Sim::Common::Timer timer(ioContext, boost::posix_time::millisec(1000));
+    timer.start([&]() { std::cout << "tick" << std::endl; });
 
     server.acceptSocket();
     ioContext.run();
