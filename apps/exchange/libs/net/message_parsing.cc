@@ -4,7 +4,7 @@
 
 namespace Sim::Net
 {
-    MessageParser::MessageParser(IMessageParser& messageParser) {}
+    MessageParser::MessageParser(ParticipantSession& participant) : mParticipant{ participant } {}
 
     void MessageParser::parseMessage(int32_t messageType, std::string const& message)
     {
@@ -23,11 +23,13 @@ namespace Sim::Net
         case Protocol::INSERT_ORDER: {
             Protocol::InsertOrderRequest insertOrderRequest;
             insertOrderRequest.ParseFromString(message);
+            mParticipant.requestOrderInsert(insertOrderRequest);
             break;
         }
         case Protocol::CANCEL_ORDER: {
             Protocol::CancelOrderRequest cancelOrderRequest;
             cancelOrderRequest.ParseFromString(message);
+            mParticipant.requestOrderCancel(cancelOrderRequest);
             break;
         }
         case Protocol::AMEND_ORDER: {

@@ -4,7 +4,12 @@
 
 namespace Sim::Net
 {
-    ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket) : mSocket(std::move(socket)) {}
+    ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket) : mSocket(std::move(socket))
+    {
+        mParser = std::make_unique<MessageParser>(*this);
+    }
+
+    void ParticipantSession::injectParser(std::unique_ptr<IMessageParser> parser) { mParser = std::move(parser); }
 
     void ParticipantSession::start(message_handler&& on_message, error_handler&& on_error)
     {
@@ -71,7 +76,9 @@ namespace Sim::Net
             std::stringstream message;
             message << mSocket->remote_endpoint(error) << ": " << std::istream(&mStreamBuf).rdbuf();
             mStreamBuf.consume(bytes_transferred);
-            // on_message(message.str());
+
+            // todo parse properly
+            mOnMessage(1, message.str());
 
             asyncRead();
         }

@@ -5,6 +5,7 @@
 #include <boost/asio.hpp>
 #include <functional>
 #include <optional>
+#include <protocol/exchange.pb.h>
 #include <queue>
 #include <tuple>
 #include <unordered_set>
@@ -19,6 +20,8 @@ namespace Sim::Net
     using message_handler = std::function<void(int32_t, std::string)>;
     using error_handler = std::function<void()>;
 
+    struct IMessageParser;
+
     struct Header
     {
         int32_t mMessageType;
@@ -31,9 +34,15 @@ namespace Sim::Net
     {
        public:
         ParticipantSession(std::optional<tcp::socket>&& socket);
+        virtual ~ParticipantSession() = default;
+
+        void injectParser(std::unique_ptr<IMessageParser> parser);
 
         void start(message_handler&& on_message, error_handler&& on_error);
         void sendMessage(int messageType, std::string const& message);
+
+        virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order) = 0;
+        virtual bool requestOrderCancel(Protocol::CancelOrderRequest& order) = 0;
 
        private:
         void asyncRead();
@@ -46,5 +55,7 @@ namespace Sim::Net
         std::queue<SmartBuffer> mOutgoing;
         message_handler mOnMessage;
         error_handler mOnError;
+
+        std::unique_ptr<IMessageParser> mParser;
     };
 } // namespace Sim::Net

@@ -5,14 +5,21 @@
 #include <boost/asio.hpp>
 #include <common/types.h>
 #include <memory>
+#include <net/message_parsing.h>
 #include <net/participant_socket.h>
 #include <optional>
 #include <protocol/exchange.pb.h>
 #include <unordered_map>
 
+namespace Net
+{
+    class IMessageParser;
+}
+
 namespace Sim
 {
     namespace io = boost::asio;
+
     class Participant : public Net::ParticipantSession
     {
         using tcp = io::ip::tcp;
