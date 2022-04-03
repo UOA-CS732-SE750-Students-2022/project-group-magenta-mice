@@ -12,10 +12,22 @@ from .generators.BondPriceGeneratorStrategy import BondPriceGeneratorStrategy
 
 class DataServer:
     """
-    Server for data generator. It uses web socket to communicate with clients.
+    Server for data generator. It uses socket to communicate with clients.
+
+    TODO
+    - Support multiple data generators for an instrument.
     """
 
-    def __init__(self, instrument_id, init_price, volatility, max_position_limit):
+    def __init__(
+        self, instrument_id, 
+        init_price, 
+        volatility, 
+        max_position_limit,
+        port = 3333,
+        num_data_generators = 5,
+        hostname = '127.0.0.1',
+        order_per_second = 5
+        ):
         """
         Instantiate socket to be used.
         """
@@ -25,10 +37,10 @@ class DataServer:
         self.max_position_limit = max_position_limit
 
         ##### To be configured #####
-        self.PORT = 3333
-        self.NUM_DATA_GENRATORS = 5
-        self.HOSTNAME = '127.0.0.1'
-        self.order_per_second = 5
+        self.PORT = port
+        self.NUM_DATA_GENRATORS = num_data_generators
+        self.HOSTNAME = hostname
+        self.order_per_second = order_per_second
 
         self.client_id = 0
 
@@ -47,7 +59,6 @@ class DataServer:
         to the socket
         """
 
-        print('run')
         while True:
             try:
                 buy_price, sell_price = self.data_generator.generate_data()
@@ -97,6 +108,28 @@ class DataServer:
             process.terminate()
             process.join()
 
+    def log_orders(self):
+        """
+        function to log orders without specifically 
+        opening socket.
+        """
+
+        while True:
+            try:
+                buy_price, sell_price = self.data_generator.generate_data()
+                
+                buy_order = self._create_buy_order(buy_price)
+                sell_order = self._create_sell_order(sell_price)
+
+                time.sleep(1/self.order_per_second)
+
+                print(buy_order)
+                print(sell_order)
+                
+                continue
+            except Exception as e:
+                raise e
+
     def __create_order(self, price):
         order = exchange_proto.InsertOrderRequest()
         order.lifespan = exchange_proto.InsertOrderRequest.GFD
@@ -120,3 +153,21 @@ class DataServer:
         buy_order.side = exchange_proto.InsertOrderRequest.BUY
 
         return buy_order
+
+
+if __name__ == '__main__':
+    instrument_id = 0
+    init_price=100
+    volatility=1 
+    max_position_limit = 10
+
+    ds = DataServer(
+        instrument_id, 
+        init_price, 
+        volatility, 
+        max_position_limit
+    )
+
+    ds.log_orders()
+
+    
