@@ -57,5 +57,7 @@ namespace Sim::Net
         error_handler mOnError;
 
         std::unique_ptr<IMessageParser> mParser;
+
+        friend class MessageParser;
     };
 } // namespace Sim::Net

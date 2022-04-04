@@ -38,7 +38,9 @@ namespace Sim::Net
             // amendOrderRequest.ParseFromString(message);
             break;
         }
-        default: throw std::runtime_error("Unknown message type");
+        default: {
+            mParticipant.mOnError();
+        }
         }
     }
 
