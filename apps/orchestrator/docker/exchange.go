@@ -21,11 +21,11 @@ var exchangeProtocol string
 var internalIp = "0.0.0.0"
 
 func init() {
-	godotenv.Load()
+	godotenv.Load(".env.local")
 	dataGenImage = os.Getenv("DATA_GEN_IMAGE")
 	internalExchangePort = os.Getenv("EXCHANGE_PORT_INTERNAL")
 	exchangeImage = os.Getenv("EXCHANGE_IMAGE")
-	exchangeProtocol = os.Getenv("EXCHANGE_PROTOCOL")
+	exchangeProtocol = os.Getenv("PROTOCOL")
 	exchangeRestartPolicy = os.Getenv("EXCHANGE_RESTART_POLICY")
 	min := os.Getenv("EXCHANGE_PORT_MIN")
 	max := os.Getenv("EXCHANGE_PORT_MAX")

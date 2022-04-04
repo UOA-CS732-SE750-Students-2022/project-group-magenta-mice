@@ -3,15 +3,15 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
 	"simulate.exchange-orchestrator/api"
 )
 
-var serverUri = ":7474"
-
 func main() {
-	godotenv.Load()
+	godotenv.Load(".env.local")
+	serverUri := os.Getenv("SERVER_URI")
 	log.Println("Server listening at " + serverUri)
 	log.Fatal(http.ListenAndServe(serverUri, api.Router))
 }
