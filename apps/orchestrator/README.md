@@ -13,5 +13,5 @@ Then you can either:
 2. Run locally via docker
    1. Have docker installed
    2. Run `docker build -t [tag] .` inside this path
-   3. Run `docker run -dp 1000:8008 --env-file=.env.local -v /var/run/docker.sock:/var/run/docker.sock nzbasic/simulate.exchange-orchestrator`
+   3. Run `docker run -dp 1000:8008 --env-file=.env.local -v /var/run/docker.sock:/var/run/docker.sock [tag]`
    4. The server will be running on 1000
