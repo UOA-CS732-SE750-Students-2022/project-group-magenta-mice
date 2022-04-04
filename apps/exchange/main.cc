@@ -1,5 +1,6 @@
 #include <boost/asio.hpp>
 #include <common/timer.h>
+#include <common/types.h>
 #include <engine/exchange.h>
 #include <engine/participant.h>
 #include <net/participant_socket.h>
@@ -56,6 +57,10 @@ namespace Sim::Net
                 [&messageType, &message](Participant& participant) { participant.sendMessage(messageType, message); });
         }
 
+        const Exchange& getExchange() const { return mExchange; }
+
+        void addInstrument(Instrument instrument) { mExchange.addInstrument(instrument); }
+
        private:
         Exchange mExchange;
 
@@ -71,10 +76,12 @@ int main()
     auto port = 15001;
     Sim::Net::ExchangeServer server(ioContext, port);
 
+    server.addInstrument(Sim::Instrument{ .mName = "AAPL", .mPositionLimit = 100, .mTickSizeCents = 1 });
+
     std::cout << "Server started on localhost:" << port << "!" << std::endl;
 
-    Sim::Common::Timer timer(ioContext, boost::posix_time::millisec(1000));
-    timer.start([&]() { std::cout << "tick" << std::endl; });
+    Sim::Common::Timer timer(ioContext, boost::posix_time::millisec(2000));
+    timer.start([&]() { server.getExchange().printBooks(); });
 
     server.acceptSocket();
     ioContext.run();
