@@ -1,0 +1,6 @@
+# jupyter notebook
+*.ipynb
+# compiled protobuf python file
+*_pb2.py
+
+*.pytest_cache

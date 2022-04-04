@@ -39,3 +39,16 @@ Thumbs.db
 
 .env.local
 .eslintcache
+
+# Python
+__pycache__/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Py Environments
+.env
+.venv
+env/
+venv/
+ENV/
