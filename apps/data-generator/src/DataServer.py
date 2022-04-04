@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from distutils.dir_util import copy_tree
-import socket, time
+import socket, time, random
 from multiprocessing import Process
 from select import select
 
@@ -25,8 +25,7 @@ class DataServer:
         max_position_limit,
         port = 3333,
         num_data_generators = 5,
-        hostname = '127.0.0.1',
-        order_per_second = 5
+        hostname = '127.0.0.1'
         ):
         """
         Instantiate socket to be used.
@@ -40,7 +39,7 @@ class DataServer:
         self.PORT = port
         self.NUM_DATA_GENRATORS = num_data_generators
         self.HOSTNAME = hostname
-        self.order_per_second = order_per_second
+        self.order_per_second = 10
 
         self.client_id = 0
 
@@ -69,8 +68,9 @@ class DataServer:
                 sell_order = self._create_sell_order(sell_price)
                 client_socket.send(sell_order.SerializeToString())
 
-                time.sleep(1/self.order_per_second)
+                rand_order_per_sec = self.order_per_second - random.randrange(0, 10)
 
+                time.sleep(1/rand_order_per_sec)
                 continue
             except Exception as e:
                 client_socket.close()
@@ -121,7 +121,9 @@ class DataServer:
                 buy_order = self._create_buy_order(buy_price)
                 sell_order = self._create_sell_order(sell_price)
 
-                time.sleep(1/self.order_per_second)
+                rand_order_per_sec = self.order_per_second - random.randrange(0, 10)
+
+                time.sleep(1/rand_order_per_sec)
 
                 print(buy_order)
                 print(sell_order)
@@ -153,6 +155,3 @@ class DataServer:
         buy_order.side = exchange_proto.InsertOrderRequest.BUY
 
         return buy_order
-
-
-    

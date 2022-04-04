@@ -18,8 +18,7 @@ if __name__ == '__main__':
         instrument_id, 
         init_price, 
         volatility, 
-        max_position_limit,
-        order_per_second = 1
+        max_position_limit
     )
 
     if args.log:
