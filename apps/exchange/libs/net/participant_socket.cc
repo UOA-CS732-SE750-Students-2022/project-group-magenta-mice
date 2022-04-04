@@ -63,24 +63,40 @@ namespace Sim::Net
 
     void ParticipantSession::asyncRead()
     {
-        io::async_read_until(
-            *mSocket, mStreamBuf, "\n", [self = shared_from_this()](error_code error, std::size_t bytes_transferred) {
-                self->onRead(error, bytes_transferred);
-            });
+        io::async_read(
+            *mSocket,
+            mStreamBuf,
+            io::transfer_exactly(8),
+            [self = shared_from_this()](
+                error_code error, std::size_t bytes_transferred) { self->onRead(error, bytes_transferred); });
     }
 
     void ParticipantSession::onRead(error_code error, std::size_t bytes_transferred)
     {
         if (!error)
         {
-            std::stringstream message;
-            message << mSocket->remote_endpoint(error) << ": " << std::istream(&mStreamBuf).rdbuf();
+            std::istream stream(&mStreamBuf);
+
+            char* buf = new char[bytes_transferred];
+            stream.read(buf, bytes_transferred);
+            Header* header = reinterpret_cast<Header*>(buf);
             mStreamBuf.consume(bytes_transferred);
 
-            // todo parse properly
-            mOnMessage(1, message.str());
+            io::async_read(
+                *mSocket,
+                mStreamBuf,
+                io::transfer_exactly(header->mMessageSize),
+                [self = shared_from_this(), header, buf](error_code error, std::size_t bytes_transferred) {
+                    std::stringstream message;
+                    message << std::istream(&self->mStreamBuf).rdbuf();
+                    self->mStreamBuf.consume(bytes_transferred);
 
-            asyncRead();
+                    self->mParser->parseMessage(header->mMessageType, message.str());
+
+                    delete[] buf;
+
+                    self->asyncRead();
+                });
         }
         else
         {
