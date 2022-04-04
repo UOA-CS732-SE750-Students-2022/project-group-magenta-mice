@@ -1,5 +1,7 @@
 #include "timer.h"
 
+#include <iostream>
+
 namespace Sim::Common
 {
     Timer::Timer(boost::asio::io_context& io_context, boost::posix_time::millisec interval)
@@ -35,7 +37,8 @@ namespace Sim::Common
     }
 
     SimulantTimer::SimulantTimer(int repeatCount) : mRepeatCount{ repeatCount } {}
-    SimulantTimer::start(std::function<void()> const& callback)
+
+    void SimulantTimer::start(std::function<void()> const& callback)
     {
         mCallback = callback;
         for (int i = 0; i < mRepeatCount; ++i)
@@ -43,6 +46,7 @@ namespace Sim::Common
             mCallback();
         }
     }
-    SimulantTimer::stop() { std::cout << "SimulantTimer::stop() is a nullop" << std::endl; }
+
+    void SimulantTimer::stop() { std::cout << "SimulantTimer::stop() is a nullop" << std::endl; }
 
 } // namespace Sim::Common
