@@ -39,7 +39,7 @@ namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[6];
+  static const ::google::protobuf::internal::ParseTable schema[10];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -51,6 +51,12 @@ namespace Protocol {
 class CancelOrderRequest;
 class CancelOrderRequestDefaultTypeInternal;
 extern CancelOrderRequestDefaultTypeInternal _CancelOrderRequest_default_instance_;
+class ExchangeFeed;
+class ExchangeFeedDefaultTypeInternal;
+extern ExchangeFeedDefaultTypeInternal _ExchangeFeed_default_instance_;
+class ExchangeFeed_bookEntry;
+class ExchangeFeed_bookEntryDefaultTypeInternal;
+extern ExchangeFeed_bookEntryDefaultTypeInternal _ExchangeFeed_bookEntry_default_instance_;
 class InsertOrderRequest;
 class InsertOrderRequestDefaultTypeInternal;
 extern InsertOrderRequestDefaultTypeInternal _InsertOrderRequest_default_instance_;
@@ -66,16 +72,26 @@ extern LoginResponse_InstrumentDefaultTypeInternal _LoginResponse_Instrument_def
 class LogoutRequest;
 class LogoutRequestDefaultTypeInternal;
 extern LogoutRequestDefaultTypeInternal _LogoutRequest_default_instance_;
+class OrderFillMessage;
+class OrderFillMessageDefaultTypeInternal;
+extern OrderFillMessageDefaultTypeInternal _OrderFillMessage_default_instance_;
+class OrderUpdateMessage;
+class OrderUpdateMessageDefaultTypeInternal;
+extern OrderUpdateMessageDefaultTypeInternal _OrderUpdateMessage_default_instance_;
 }  // namespace Protocol
 }  // namespace Sim
 namespace google {
 namespace protobuf {
 template<> ::Sim::Protocol::CancelOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::CancelOrderRequest>(Arena*);
+template<> ::Sim::Protocol::ExchangeFeed* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed>(Arena*);
+template<> ::Sim::Protocol::ExchangeFeed_bookEntry* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed_bookEntry>(Arena*);
 template<> ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::InsertOrderRequest>(Arena*);
 template<> ::Sim::Protocol::LoginRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LoginRequest>(Arena*);
 template<> ::Sim::Protocol::LoginResponse* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse>(Arena*);
 template<> ::Sim::Protocol::LoginResponse_Instrument* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse_Instrument>(Arena*);
 template<> ::Sim::Protocol::LogoutRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LogoutRequest>(Arena*);
+template<> ::Sim::Protocol::OrderFillMessage* Arena::CreateMaybeMessage<::Sim::Protocol::OrderFillMessage>(Arena*);
+template<> ::Sim::Protocol::OrderUpdateMessage* Arena::CreateMaybeMessage<::Sim::Protocol::OrderUpdateMessage>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace Sim {
@@ -130,13 +146,16 @@ enum MessageType {
   LOGOUT_RESPONSE = 3,
   INSERT_ORDER = 11,
   CANCEL_ORDER = 12,
-  AMMEND_ORDER = 13,
+  AMEND_ORDER = 13,
+  ORDER_UPDATE = 21,
+  ORDER_FILL = 22,
+  EXCHANGE_FEED = 31,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MessageType_IsValid(int value);
 const MessageType MessageType_MIN = LOGIN;
-const MessageType MessageType_MAX = AMMEND_ORDER;
+const MessageType MessageType_MAX = EXCHANGE_FEED;
 const int MessageType_ARRAYSIZE = MessageType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageType_descriptor();
@@ -892,6 +911,481 @@ class CancelOrderRequest : public ::google::protobuf::Message /* @@protoc_insert
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class OrderUpdateMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.OrderUpdateMessage) */ {
+ public:
+  OrderUpdateMessage();
+  virtual ~OrderUpdateMessage();
+
+  OrderUpdateMessage(const OrderUpdateMessage& from);
+
+  inline OrderUpdateMessage& operator=(const OrderUpdateMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  OrderUpdateMessage(OrderUpdateMessage&& from) noexcept
+    : OrderUpdateMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline OrderUpdateMessage& operator=(OrderUpdateMessage&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const OrderUpdateMessage& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const OrderUpdateMessage* internal_default_instance() {
+    return reinterpret_cast<const OrderUpdateMessage*>(
+               &_OrderUpdateMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(OrderUpdateMessage* other);
+  friend void swap(OrderUpdateMessage& a, OrderUpdateMessage& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline OrderUpdateMessage* New() const final {
+    return CreateMaybeMessage<OrderUpdateMessage>(NULL);
+  }
+
+  OrderUpdateMessage* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<OrderUpdateMessage>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const OrderUpdateMessage& from);
+  void MergeFrom(const OrderUpdateMessage& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(OrderUpdateMessage* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 clientId = 1;
+  void clear_clientid();
+  static const int kClientIdFieldNumber = 1;
+  ::google::protobuf::uint32 clientid() const;
+  void set_clientid(::google::protobuf::uint32 value);
+
+  // uint32 instrumentId = 2;
+  void clear_instrumentid();
+  static const int kInstrumentIdFieldNumber = 2;
+  ::google::protobuf::uint32 instrumentid() const;
+  void set_instrumentid(::google::protobuf::uint32 value);
+
+  // uint32 volumeRemaining = 3;
+  void clear_volumeremaining();
+  static const int kVolumeRemainingFieldNumber = 3;
+  ::google::protobuf::uint32 volumeremaining() const;
+  void set_volumeremaining(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.OrderUpdateMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 clientid_;
+  ::google::protobuf::uint32 instrumentid_;
+  ::google::protobuf::uint32 volumeremaining_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class OrderFillMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.OrderFillMessage) */ {
+ public:
+  OrderFillMessage();
+  virtual ~OrderFillMessage();
+
+  OrderFillMessage(const OrderFillMessage& from);
+
+  inline OrderFillMessage& operator=(const OrderFillMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  OrderFillMessage(OrderFillMessage&& from) noexcept
+    : OrderFillMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline OrderFillMessage& operator=(OrderFillMessage&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const OrderFillMessage& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const OrderFillMessage* internal_default_instance() {
+    return reinterpret_cast<const OrderFillMessage*>(
+               &_OrderFillMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(OrderFillMessage* other);
+  friend void swap(OrderFillMessage& a, OrderFillMessage& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline OrderFillMessage* New() const final {
+    return CreateMaybeMessage<OrderFillMessage>(NULL);
+  }
+
+  OrderFillMessage* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<OrderFillMessage>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const OrderFillMessage& from);
+  void MergeFrom(const OrderFillMessage& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(OrderFillMessage* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 clientId = 1;
+  void clear_clientid();
+  static const int kClientIdFieldNumber = 1;
+  ::google::protobuf::uint32 clientid() const;
+  void set_clientid(::google::protobuf::uint32 value);
+
+  // uint32 instrumentId = 2;
+  void clear_instrumentid();
+  static const int kInstrumentIdFieldNumber = 2;
+  ::google::protobuf::uint32 instrumentid() const;
+  void set_instrumentid(::google::protobuf::uint32 value);
+
+  // uint32 price = 3;
+  void clear_price();
+  static const int kPriceFieldNumber = 3;
+  ::google::protobuf::uint32 price() const;
+  void set_price(::google::protobuf::uint32 value);
+
+  // uint32 volumeFilled = 4;
+  void clear_volumefilled();
+  static const int kVolumeFilledFieldNumber = 4;
+  ::google::protobuf::uint32 volumefilled() const;
+  void set_volumefilled(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.OrderFillMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 clientid_;
+  ::google::protobuf::uint32 instrumentid_;
+  ::google::protobuf::uint32 price_;
+  ::google::protobuf::uint32 volumefilled_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ExchangeFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.ExchangeFeed.bookEntry) */ {
+ public:
+  ExchangeFeed_bookEntry();
+  virtual ~ExchangeFeed_bookEntry();
+
+  ExchangeFeed_bookEntry(const ExchangeFeed_bookEntry& from);
+
+  inline ExchangeFeed_bookEntry& operator=(const ExchangeFeed_bookEntry& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ExchangeFeed_bookEntry(ExchangeFeed_bookEntry&& from) noexcept
+    : ExchangeFeed_bookEntry() {
+    *this = ::std::move(from);
+  }
+
+  inline ExchangeFeed_bookEntry& operator=(ExchangeFeed_bookEntry&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExchangeFeed_bookEntry& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ExchangeFeed_bookEntry* internal_default_instance() {
+    return reinterpret_cast<const ExchangeFeed_bookEntry*>(
+               &_ExchangeFeed_bookEntry_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  void Swap(ExchangeFeed_bookEntry* other);
+  friend void swap(ExchangeFeed_bookEntry& a, ExchangeFeed_bookEntry& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ExchangeFeed_bookEntry* New() const final {
+    return CreateMaybeMessage<ExchangeFeed_bookEntry>(NULL);
+  }
+
+  ExchangeFeed_bookEntry* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ExchangeFeed_bookEntry>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ExchangeFeed_bookEntry& from);
+  void MergeFrom(const ExchangeFeed_bookEntry& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExchangeFeed_bookEntry* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 price = 1;
+  void clear_price();
+  static const int kPriceFieldNumber = 1;
+  ::google::protobuf::uint32 price() const;
+  void set_price(::google::protobuf::uint32 value);
+
+  // uint32 volume = 2;
+  void clear_volume();
+  static const int kVolumeFieldNumber = 2;
+  ::google::protobuf::uint32 volume() const;
+  void set_volume(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.bookEntry)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 price_;
+  ::google::protobuf::uint32 volume_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ExchangeFeed : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.ExchangeFeed) */ {
+ public:
+  ExchangeFeed();
+  virtual ~ExchangeFeed();
+
+  ExchangeFeed(const ExchangeFeed& from);
+
+  inline ExchangeFeed& operator=(const ExchangeFeed& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ExchangeFeed(ExchangeFeed&& from) noexcept
+    : ExchangeFeed() {
+    *this = ::std::move(from);
+  }
+
+  inline ExchangeFeed& operator=(ExchangeFeed&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExchangeFeed& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ExchangeFeed* internal_default_instance() {
+    return reinterpret_cast<const ExchangeFeed*>(
+               &_ExchangeFeed_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(ExchangeFeed* other);
+  friend void swap(ExchangeFeed& a, ExchangeFeed& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ExchangeFeed* New() const final {
+    return CreateMaybeMessage<ExchangeFeed>(NULL);
+  }
+
+  ExchangeFeed* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ExchangeFeed>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ExchangeFeed& from);
+  void MergeFrom(const ExchangeFeed& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExchangeFeed* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef ExchangeFeed_bookEntry bookEntry;
+
+  // accessors -------------------------------------------------------
+
+  // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+  int bids_size() const;
+  void clear_bids();
+  static const int kBidsFieldNumber = 1;
+  ::Sim::Protocol::ExchangeFeed_bookEntry* mutable_bids(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
+      mutable_bids();
+  const ::Sim::Protocol::ExchangeFeed_bookEntry& bids(int index) const;
+  ::Sim::Protocol::ExchangeFeed_bookEntry* add_bids();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
+      bids() const;
+
+  // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
+  int asks_size() const;
+  void clear_asks();
+  static const int kAsksFieldNumber = 2;
+  ::Sim::Protocol::ExchangeFeed_bookEntry* mutable_asks(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
+      mutable_asks();
+  const ::Sim::Protocol::ExchangeFeed_bookEntry& asks(int index) const;
+  ::Sim::Protocol::ExchangeFeed_bookEntry* add_asks();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
+      asks() const;
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry > bids_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry > asks_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -1199,9 +1693,219 @@ inline void CancelOrderRequest::set_clientid(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Sim.Protocol.CancelOrderRequest.clientId)
 }
 
+// -------------------------------------------------------------------
+
+// OrderUpdateMessage
+
+// uint32 clientId = 1;
+inline void OrderUpdateMessage::clear_clientid() {
+  clientid_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderUpdateMessage::clientid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderUpdateMessage.clientId)
+  return clientid_;
+}
+inline void OrderUpdateMessage::set_clientid(::google::protobuf::uint32 value) {
+  
+  clientid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderUpdateMessage.clientId)
+}
+
+// uint32 instrumentId = 2;
+inline void OrderUpdateMessage::clear_instrumentid() {
+  instrumentid_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderUpdateMessage::instrumentid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderUpdateMessage.instrumentId)
+  return instrumentid_;
+}
+inline void OrderUpdateMessage::set_instrumentid(::google::protobuf::uint32 value) {
+  
+  instrumentid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderUpdateMessage.instrumentId)
+}
+
+// uint32 volumeRemaining = 3;
+inline void OrderUpdateMessage::clear_volumeremaining() {
+  volumeremaining_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderUpdateMessage::volumeremaining() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderUpdateMessage.volumeRemaining)
+  return volumeremaining_;
+}
+inline void OrderUpdateMessage::set_volumeremaining(::google::protobuf::uint32 value) {
+  
+  volumeremaining_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderUpdateMessage.volumeRemaining)
+}
+
+// -------------------------------------------------------------------
+
+// OrderFillMessage
+
+// uint32 clientId = 1;
+inline void OrderFillMessage::clear_clientid() {
+  clientid_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderFillMessage::clientid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderFillMessage.clientId)
+  return clientid_;
+}
+inline void OrderFillMessage::set_clientid(::google::protobuf::uint32 value) {
+  
+  clientid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderFillMessage.clientId)
+}
+
+// uint32 instrumentId = 2;
+inline void OrderFillMessage::clear_instrumentid() {
+  instrumentid_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderFillMessage::instrumentid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderFillMessage.instrumentId)
+  return instrumentid_;
+}
+inline void OrderFillMessage::set_instrumentid(::google::protobuf::uint32 value) {
+  
+  instrumentid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderFillMessage.instrumentId)
+}
+
+// uint32 price = 3;
+inline void OrderFillMessage::clear_price() {
+  price_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderFillMessage::price() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderFillMessage.price)
+  return price_;
+}
+inline void OrderFillMessage::set_price(::google::protobuf::uint32 value) {
+  
+  price_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderFillMessage.price)
+}
+
+// uint32 volumeFilled = 4;
+inline void OrderFillMessage::clear_volumefilled() {
+  volumefilled_ = 0u;
+}
+inline ::google::protobuf::uint32 OrderFillMessage::volumefilled() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.OrderFillMessage.volumeFilled)
+  return volumefilled_;
+}
+inline void OrderFillMessage::set_volumefilled(::google::protobuf::uint32 value) {
+  
+  volumefilled_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.OrderFillMessage.volumeFilled)
+}
+
+// -------------------------------------------------------------------
+
+// ExchangeFeed_bookEntry
+
+// uint32 price = 1;
+inline void ExchangeFeed_bookEntry::clear_price() {
+  price_ = 0u;
+}
+inline ::google::protobuf::uint32 ExchangeFeed_bookEntry::price() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bookEntry.price)
+  return price_;
+}
+inline void ExchangeFeed_bookEntry::set_price(::google::protobuf::uint32 value) {
+  
+  price_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.bookEntry.price)
+}
+
+// uint32 volume = 2;
+inline void ExchangeFeed_bookEntry::clear_volume() {
+  volume_ = 0u;
+}
+inline ::google::protobuf::uint32 ExchangeFeed_bookEntry::volume() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bookEntry.volume)
+  return volume_;
+}
+inline void ExchangeFeed_bookEntry::set_volume(::google::protobuf::uint32 value) {
+  
+  volume_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.bookEntry.volume)
+}
+
+// -------------------------------------------------------------------
+
+// ExchangeFeed
+
+// repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+inline int ExchangeFeed::bids_size() const {
+  return bids_.size();
+}
+inline void ExchangeFeed::clear_bids() {
+  bids_.Clear();
+}
+inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::mutable_bids(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.bids)
+  return bids_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
+ExchangeFeed::mutable_bids() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.bids)
+  return &bids_;
+}
+inline const ::Sim::Protocol::ExchangeFeed_bookEntry& ExchangeFeed::bids(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bids)
+  return bids_.Get(index);
+}
+inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::add_bids() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.bids)
+  return bids_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
+ExchangeFeed::bids() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.bids)
+  return bids_;
+}
+
+// repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
+inline int ExchangeFeed::asks_size() const {
+  return asks_.size();
+}
+inline void ExchangeFeed::clear_asks() {
+  asks_.Clear();
+}
+inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::mutable_asks(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.asks)
+  return asks_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
+ExchangeFeed::mutable_asks() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.asks)
+  return &asks_;
+}
+inline const ::Sim::Protocol::ExchangeFeed_bookEntry& ExchangeFeed::asks(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.asks)
+  return asks_.Get(index);
+}
+inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::add_asks() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.asks)
+  return asks_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
+ExchangeFeed::asks() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.asks)
+  return asks_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

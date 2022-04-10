@@ -18,11 +18,13 @@ namespace Sim
         void addInstrument(Instrument instrument);
         void addParticipant(std::shared_ptr<Participant> participant);
 
-        void printBooks();
+        void printBooks() const;
 
         Protocol::LoginResponse getExchangeInstruments();
 
         const Orderbook& getOrderbook(uint32_t instrument) const;
+
+        void applyToAllParticipants(std::function<void(Participant&)>&& func);
 
        private:
         std::unique_ptr<OrderbookManager> mOrderbookManager;

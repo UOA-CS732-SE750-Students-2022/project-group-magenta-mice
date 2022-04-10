@@ -1,10 +1,10 @@
 set(test_name unit_test)
 
-set(test_sources 
-  common_test.cc 
-  conversions_test.cc 
-  order_factory_test.cc 
-  exchange_test.cc 
+set(test_sources
+  common_test.cc
+  conversions_test.cc
+  order_factory_test.cc
+  exchange_test.cc
   orderbook_test.cc
   participant_test.cc
   integration_test.cc
@@ -28,6 +28,7 @@ target_link_libraries(
   ${test_name}
   gtest_main
   gmock_main
+  net_lib
   common_lib
   exchange_lib
   protocol_lib

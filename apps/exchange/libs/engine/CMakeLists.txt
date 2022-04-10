@@ -18,4 +18,3 @@ set(sources
 include_directories(${PROJECT_SOURCE_DIR}/libs)
 
 add_library(exchange_lib ${sources})
-target_include_directories(exchange_lib INTERFACE common_lib)

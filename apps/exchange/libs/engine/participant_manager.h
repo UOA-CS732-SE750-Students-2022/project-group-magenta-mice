@@ -14,6 +14,8 @@ namespace Sim
 
         void addParticipant(std::shared_ptr<Participant> participant);
 
+        void applyToAll(std::function<void(Participant&)>&& func);
+
        private:
         std::unordered_map<int, std::shared_ptr<Participant>> mParticipants;
     };

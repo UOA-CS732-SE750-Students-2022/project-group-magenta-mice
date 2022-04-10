@@ -16,10 +16,10 @@ namespace Sim::Testing
                 .mTickSizeCents = 1,
             });
 
-            mParticipant1 = std::make_shared<Participant>(std::make_unique<OrderFactory>());
+            mParticipant1 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
             mExchange.addParticipant(mParticipant1);
 
-            mParticipant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>());
+            mParticipant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
             mExchange.addParticipant(mParticipant2);
         }
 
@@ -164,10 +164,10 @@ namespace Sim::Testing
                 .mVolume = 5,
 
             });
-        
+
         // invalid cancel order here
         cancelAsk1.set_clientid(1);
-        
+
         mParticipant1->requestOrderInsert(ask1);
         ASSERT_EQ(mExchange.getOrderbook(0).getTopAsk()->get()->mVolume, 5);
 
