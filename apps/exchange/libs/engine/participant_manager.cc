@@ -9,4 +9,12 @@ namespace Sim
         mParticipants.insert(std::make_pair(nextParticipant, std::move(participant)));
     }
 
+    void ParticipantManager::applyToAll(std::function<void(Participant&)>&& func)
+    {
+        for (auto& participant : mParticipants)
+        {
+            func(*participant.second);
+        }
+    }
+
 } // namespace Sim

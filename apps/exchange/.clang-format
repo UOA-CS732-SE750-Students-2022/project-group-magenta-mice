@@ -1,3 +1,4 @@
+---
 BasedOnStyle: Chromium
 AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveAssignments: "false"
@@ -83,3 +84,6 @@ SpacesInParentheses: "false"
 SpacesInSquareBrackets: "false"
 TabWidth: "4"
 UseTab: Never
+---
+Language: Proto
+BasedOnStyle: Google
