@@ -48,6 +48,11 @@ func init() {
 	for i := minInt; i < maxInt; i++ {
 		portRange[i-minInt] = strconv.Itoa(i)
 	}
+
+	println("Pulling data generator image: " + dataGenImage)
+	pullImage(dataGenImage)
+	println("Pulling exchange image: " + exchangeImage)
+	pullImage(exchangeImage)
 }
 
 func CreateExchangeBundle() (string, error) {
