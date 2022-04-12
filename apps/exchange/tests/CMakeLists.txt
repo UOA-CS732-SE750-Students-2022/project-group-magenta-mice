@@ -8,6 +8,7 @@ set(test_sources
   orderbook_test.cc
   participant_test.cc
   integration_test.cc
+  message_parsing_test.cc
 )
 
 include(FetchContent)

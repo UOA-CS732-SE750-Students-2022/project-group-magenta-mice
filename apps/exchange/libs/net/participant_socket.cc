@@ -16,6 +16,14 @@ namespace Sim::Net
 
     void ParticipantSession::login() { mFSM = ParticipantFSM::LOGGED_IN; }
 
+    void ParticipantSession::raiseError(std::string errorMessage) const
+    {
+        if (mOnError)
+        {
+            mOnError(errorMessage);
+        }
+    }
+
     void ParticipantSession::start(message_handler&& on_message, error_handler&& on_error)
     {
         this->mOnMessage = std::move(on_message);

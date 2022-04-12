@@ -36,19 +36,39 @@ namespace Sim::Net
 
     using SmartBuffer = std::unique_ptr<io::mutable_buffer, std::function<void(io::mutable_buffer*)>>;
 
-    class ParticipantSession : public std::enable_shared_from_this<ParticipantSession>
+    struct ISession
+    {
+        virtual ~ISession() = default;
+
+        virtual const Protocol::LoginResponse& getLoginResponse() const = 0;
+
+        virtual void sendMessage(int messageType, std::string const& message) = 0;
+
+        virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order) = 0;
+        virtual bool requestOrderCancel(Protocol::CancelOrderRequest& order) = 0;
+
+        virtual void raiseError(std::string errorMessage) const = 0;
+
+        virtual bool isLoggedIn() const = 0;
+        virtual void login() = 0;
+    };
+
+    class ParticipantSession : public std::enable_shared_from_this<ParticipantSession>, public ISession
     {
        public:
         ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse loginResponse);
         virtual ~ParticipantSession() = default;
 
         void injectParser(std::unique_ptr<IMessageParser> parser);
+        const Protocol::LoginResponse& getLoginResponse() const { return mLoginResponse; }
 
         void start(message_handler&& on_message, error_handler&& on_error);
         void sendMessage(int messageType, std::string const& message);
 
         virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order) = 0;
         virtual bool requestOrderCancel(Protocol::CancelOrderRequest& order) = 0;
+
+        virtual void raiseError(std::string errorMessage) const;
 
         bool isLoggedIn() const;
         void login();
@@ -72,7 +92,5 @@ namespace Sim::Net
         std::unique_ptr<IMessageParser> mParser;
 
         ParticipantFSM mFSM;
-
-        friend class MessageParser;
     };
 } // namespace Sim::Net
