@@ -31,15 +31,15 @@ namespace Sim
     Protocol::LoginResponse Exchange::getExchangeInstruments()
     {
         auto res = Protocol::LoginResponse();
-        auto instruments = mOrderbookManager->getInstrumentDefinitions();
+        const auto& instruments = mOrderbookManager->getInstrumentDefinitions();
 
-        for (auto& [id, instrument] : instruments)
+        for (const auto& [id, instrument] : instruments)
         {
             auto protocolInst = res.add_instruments();
             protocolInst->set_id(id);
-            protocolInst->set_ticker(instrument.mName);
-            protocolInst->set_positionlimit(instrument.mPositionLimit);
-            protocolInst->set_ticksizeincents(instrument.mTickSizeCents);
+            protocolInst->set_ticker(instrument->mName);
+            protocolInst->set_positionlimit(instrument->mPositionLimit);
+            protocolInst->set_ticksizeincents(instrument->mTickSizeCents);
         }
 
         return res;

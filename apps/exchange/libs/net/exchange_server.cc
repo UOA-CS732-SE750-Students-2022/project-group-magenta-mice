@@ -11,9 +11,11 @@ namespace Sim::Net
     void ExchangeServer::acceptSocket()
     {
         mSocket.emplace(mIoContext);
+        auto loginResponseInstruments = mExchange.getExchangeInstruments();
 
-        mAcceptor.async_accept(*mSocket, [&](error_code error) {
-            auto client = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::move(*mSocket));
+        mAcceptor.async_accept(*mSocket, [&, loginResponseInstruments](error_code error) {
+            auto client = std::make_shared<Participant>(
+                std::make_unique<OrderFactory>(), std::move(*mSocket), loginResponseInstruments);
 
             mExchange.addParticipant(client);
 
@@ -22,9 +24,10 @@ namespace Sim::Net
                     // on_message(messageType, message);
                     (void)this;
                 },
-                [this, weak = std::weak_ptr(client)]() {
+                [this, weak = std::weak_ptr(client)](std::string message) {
                     (void)this;
                     // on_error();
+                    std::cout << "Client error: " << message << std::endl;
                     // remove participant from exchange
                 });
 

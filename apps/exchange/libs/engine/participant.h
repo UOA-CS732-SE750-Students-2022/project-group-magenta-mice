@@ -5,16 +5,10 @@
 #include <boost/asio.hpp>
 #include <common/types.h>
 #include <memory>
-#include <net/message_parsing.h>
 #include <net/participant_socket.h>
 #include <optional>
 #include <protocol/exchange.pb.h>
 #include <unordered_map>
-
-namespace Net
-{
-    class IMessageParser;
-}
 
 namespace Sim
 {
@@ -25,8 +19,11 @@ namespace Sim
         using tcp = io::ip::tcp;
 
        public:
-        Participant(std::unique_ptr<OrderFactory> orderFactory, std::optional<tcp::socket>&& socket)
-            : ParticipantSession{ std::move(socket) }, mOrderFactory{ std::move(orderFactory) } {};
+        Participant(
+            std::unique_ptr<OrderFactory> orderFactory,
+            std::optional<tcp::socket>&& socket,
+            Protocol::LoginResponse loginResponse)
+            : Net::ParticipantSession(std::move(socket), loginResponse), mOrderFactory{ std::move(orderFactory) } {};
 
         bool requestOrderInsert(Protocol::InsertOrderRequest& order);
         bool requestOrderCancel(Protocol::CancelOrderRequest& order);

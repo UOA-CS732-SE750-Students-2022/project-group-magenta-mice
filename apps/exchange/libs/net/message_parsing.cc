@@ -8,11 +8,36 @@ namespace Sim::Net
 
     void MessageParser::parseMessage(int32_t messageType, std::string const& message)
     {
+        if (!mParticipant.isLoggedIn())
+        {
+            switch (messageType)
+            {
+            case Protocol::LOGIN: {
+                Protocol::LoginRequest loginRequest;
+
+                if (!loginRequest.ParseFromString(message))
+                {
+                    mParticipant.mOnError("Invalid login message type.");
+                    return;
+                }
+
+                mParticipant.sendMessage(Protocol::LOGIN_RESPONSE, mParticipant.mLoginResponse.SerializeAsString());
+
+                mParticipant.login();
+
+                return;
+            }
+            default: {
+                mParticipant.mOnError("Cannot send message before logging in.");
+                return;
+            }
+            }
+        }
+
         switch (messageType)
         {
         case Protocol::LOGIN: {
-            Protocol::LoginRequest loginRequest;
-            loginRequest.ParseFromString(message);
+            mParticipant.mOnError("Cannot login, already logged in.");
             break;
         }
         case Protocol::LOGOUT: {
@@ -39,7 +64,7 @@ namespace Sim::Net
             break;
         }
         default: {
-            mParticipant.mOnError();
+            mParticipant.mOnError("Invalid message type from client.");
         }
         }
     }

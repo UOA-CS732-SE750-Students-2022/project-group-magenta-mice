@@ -6,6 +6,7 @@
 
 #include <common/types.h>
 #include <memory>
+#include <protocol/exchange.pb.h>
 #include <unordered_map>
 
 namespace Sim

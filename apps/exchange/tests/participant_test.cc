@@ -16,7 +16,8 @@ namespace Sim::Testing
             auto orderFactory = std::make_unique<MockOrderFactory>();
             applicator(*orderFactory);
 
-            mParticipant = std::make_unique<Participant>(std::move(orderFactory), std::nullopt);
+            mParticipant =
+                std::make_unique<Participant>(std::move(orderFactory), std::nullopt, Protocol::LoginResponse());
         }
 
         std::unique_ptr<Participant> mParticipant;

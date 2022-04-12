@@ -9,7 +9,10 @@ int main()
     auto port = 15001;
     Sim::Net::ExchangeServer server(ioContext, port);
 
-    server.addInstrument(Sim::Instrument{ .mName = "AAPL", .mPositionLimit = 100, .mTickSizeCents = 1 });
+    auto i1 = Sim::Instrument{ .mName = "AAPL", .mPositionLimit = 100, .mTickSizeCents = 1 };
+    auto i2 = Sim::Instrument{ .mName = "AMZN", .mPositionLimit = 20, .mTickSizeCents = 5 };
+    server.addInstrument(i1);
+    server.addInstrument(i2);
 
     std::cout << "Server started on localhost:" << port << "!" << std::endl;
 
