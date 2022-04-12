@@ -11,7 +11,11 @@ func CreateExchangeHandler(w http.ResponseWriter, r *http.Request) {
 	var settings exchange.ExchangeSettings
 	settings, _ = genericJSONDecode(settings, r.Body)
 
-	docker.CreateExchange()
+	port, err := docker.CreateExchangeBundle()
+	if err != nil {
+		textErrorResponse(w, err.Error())
+		return
+	}
 
-	genericJSONSend(w, true)
+	genericJSONSend(w, port)
 }

@@ -2,7 +2,8 @@ package docker
 
 import (
 	"context"
-	"fmt"
+	"io"
+	"os"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -16,13 +17,13 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{})
+func pullImage(name string) {
+	r, err := cli.ImagePull(context.Background(), name, types.ImagePullOptions{})
 	if err != nil {
 		panic(err)
 	}
-
-	for _, container := range containers {
-		fmt.Printf("%s %s\n", container.ID[:10], container.Image)
-	}
+	io.Copy(os.Stdout, r)
+	r.Close()
 }
