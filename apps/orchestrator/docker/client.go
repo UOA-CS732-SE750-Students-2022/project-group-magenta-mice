@@ -2,6 +2,8 @@ package docker
 
 import (
 	"context"
+	"io"
+	"os"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
@@ -18,9 +20,10 @@ func init() {
 }
 
 func pullImage(name string) {
-	io, err := cli.ImagePull(context.Background(), name, types.ImagePullOptions{})
+	r, err := cli.ImagePull(context.Background(), name, types.ImagePullOptions{})
 	if err != nil {
 		panic(err)
 	}
-	io.Close()
+	io.Copy(os.Stdout, r)
+	r.Close()
 }
