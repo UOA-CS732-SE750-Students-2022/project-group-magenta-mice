@@ -17,8 +17,11 @@ int main()
     std::cout << "Server started on localhost:" << port << "!" << std::endl;
 
     Sim::Common::Timer timer(ioContext, boost::posix_time::millisec(2000));
-    timer.start([&]() { server.getExchange().printBooks(); });
-
+    timer.start([&]() {
+        server.diagnose();
+        server.sendPriceFeed();
+    });
+    // .getExchange().printBooks();
     server.acceptSocket();
     ioContext.run();
 

@@ -22,6 +22,7 @@ namespace Sim
         void printBooks() const;
 
         Protocol::LoginResponse getExchangeInstruments();
+        Protocol::ExchangeFeed getFeed() const;
 
         const Orderbook& getOrderbook(uint32_t instrument) const;
 

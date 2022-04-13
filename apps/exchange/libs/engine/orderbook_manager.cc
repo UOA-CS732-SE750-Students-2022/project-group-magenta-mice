@@ -22,6 +22,36 @@ namespace Sim
         return res;
     }
 
+    Protocol::ExchangeFeed OrderbookManager::getFeeds() const
+    {
+        Protocol::ExchangeFeed feed;
+
+        for (auto& [id, orderbook] : mOrderbooks)
+        {
+            const auto& newFeed = feed.add_instrumentfeeds();
+
+            newFeed->set_instrumentid(id);
+
+            for (auto& [price, volume] : orderbook.getTopAskLevels(5))
+            {
+                const auto& newAsks = newFeed->add_asks();
+
+                newAsks->set_price(price);
+                newAsks->set_price(volume);
+            }
+
+            for (auto& [price, volume] : orderbook.getTopBidLevels(5))
+            {
+                const auto& newBids = newFeed->add_bids();
+
+                newBids->set_price(price);
+                newBids->set_price(volume);
+            }
+        }
+
+        return feed;
+    }
+
     bool OrderbookManager::insertOrder(OrderOwningPtr order)
     {
         auto orderbook = mOrderbooks.find(order->mInstrument);

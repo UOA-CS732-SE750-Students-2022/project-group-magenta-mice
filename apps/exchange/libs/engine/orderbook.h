@@ -29,6 +29,9 @@ namespace Sim
         std::optional<uint32_t> topBidPrice() const;
         std::optional<uint32_t> topAskPrice() const;
 
+        std::vector<std::pair<uint32_t, uint32_t>> getTopAskLevels(uint32_t maxSize) const;
+        std::vector<std::pair<uint32_t, uint32_t>> getTopBidLevels(uint32_t maxSize) const;
+
         void printBook() const;
 
        private:

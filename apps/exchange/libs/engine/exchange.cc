@@ -45,6 +45,8 @@ namespace Sim
         return res;
     }
 
+    Protocol::ExchangeFeed Exchange::getFeed() const { return mOrderbookManager->getFeeds(); }
+
     const Orderbook& Exchange::getOrderbook(uint32_t instrument) const
     {
         return mOrderbookManager->getOrderbook(instrument);

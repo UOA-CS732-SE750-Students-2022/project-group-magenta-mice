@@ -20,8 +20,9 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_libs_2fprotocol_2fexchange_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ExchangeFeed_bookEntry;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_libs_2fprotocol_2fexchange_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ExchangeFeed_InstrumentFeed_bookEntry;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_libs_2fprotocol_2fexchange_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_LoginResponse_Instrument;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_libs_2fprotocol_2fexchange_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_ExchangeFeed_InstrumentFeed;
 }  // namespace protobuf_libs_2fprotocol_2fexchange_2eproto
 namespace Sim {
 namespace Protocol {
@@ -65,11 +66,16 @@ class OrderFillMessageDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<OrderFillMessage>
       _instance;
 } _OrderFillMessage_default_instance_;
-class ExchangeFeed_bookEntryDefaultTypeInternal {
+class ExchangeFeed_InstrumentFeed_bookEntryDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ExchangeFeed_bookEntry>
+  ::google::protobuf::internal::ExplicitlyConstructed<ExchangeFeed_InstrumentFeed_bookEntry>
       _instance;
-} _ExchangeFeed_bookEntry_default_instance_;
+} _ExchangeFeed_InstrumentFeed_bookEntry_default_instance_;
+class ExchangeFeed_InstrumentFeedDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ExchangeFeed_InstrumentFeed>
+      _instance;
+} _ExchangeFeed_InstrumentFeed_default_instance_;
 class ExchangeFeedDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<ExchangeFeed>
@@ -191,19 +197,34 @@ static void InitDefaultsOrderFillMessage() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_OrderFillMessage =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsOrderFillMessage}, {}};
 
-static void InitDefaultsExchangeFeed_bookEntry() {
+static void InitDefaultsExchangeFeed_InstrumentFeed_bookEntry() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::Sim::Protocol::_ExchangeFeed_bookEntry_default_instance_;
-    new (ptr) ::Sim::Protocol::ExchangeFeed_bookEntry();
+    void* ptr = &::Sim::Protocol::_ExchangeFeed_InstrumentFeed_bookEntry_default_instance_;
+    new (ptr) ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::Sim::Protocol::ExchangeFeed_bookEntry::InitAsDefaultInstance();
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ExchangeFeed_bookEntry =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsExchangeFeed_bookEntry}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_ExchangeFeed_InstrumentFeed_bookEntry =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsExchangeFeed_InstrumentFeed_bookEntry}, {}};
+
+static void InitDefaultsExchangeFeed_InstrumentFeed() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::Sim::Protocol::_ExchangeFeed_InstrumentFeed_default_instance_;
+    new (ptr) ::Sim::Protocol::ExchangeFeed_InstrumentFeed();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_ExchangeFeed_InstrumentFeed =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsExchangeFeed_InstrumentFeed}, {
+      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed_bookEntry.base,}};
 
 static void InitDefaultsExchangeFeed() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -218,7 +239,7 @@ static void InitDefaultsExchangeFeed() {
 
 ::google::protobuf::internal::SCCInfo<1> scc_info_ExchangeFeed =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsExchangeFeed}, {
-      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_bookEntry.base,}};
+      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LoginRequest.base);
@@ -229,11 +250,12 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_CancelOrderRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_OrderUpdateMessage.base);
   ::google::protobuf::internal::InitSCC(&scc_info_OrderFillMessage.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_ExchangeFeed_bookEntry.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ExchangeFeed_InstrumentFeed_bookEntry.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ExchangeFeed_InstrumentFeed.base);
   ::google::protobuf::internal::InitSCC(&scc_info_ExchangeFeed.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[10];
+::google::protobuf::Metadata file_level_metadata[11];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -298,19 +320,26 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::OrderFillMessage, price_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::OrderFillMessage, volumefilled_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_bookEntry, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_bookEntry, price_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_bookEntry, volume_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry, price_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry, volume_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed, instrumentid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed, bids_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed_InstrumentFeed, asks_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed, bids_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed, asks_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::Sim::Protocol::ExchangeFeed, instrumentfeeds_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Sim::Protocol::LoginRequest)},
@@ -321,8 +350,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 37, -1, sizeof(::Sim::Protocol::CancelOrderRequest)},
   { 43, -1, sizeof(::Sim::Protocol::OrderUpdateMessage)},
   { 51, -1, sizeof(::Sim::Protocol::OrderFillMessage)},
-  { 60, -1, sizeof(::Sim::Protocol::ExchangeFeed_bookEntry)},
-  { 67, -1, sizeof(::Sim::Protocol::ExchangeFeed)},
+  { 60, -1, sizeof(::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry)},
+  { 67, -1, sizeof(::Sim::Protocol::ExchangeFeed_InstrumentFeed)},
+  { 75, -1, sizeof(::Sim::Protocol::ExchangeFeed)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -334,7 +364,8 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_CancelOrderRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_OrderUpdateMessage_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_OrderFillMessage_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_ExchangeFeed_bookEntry_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_ExchangeFeed_InstrumentFeed_bookEntry_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_ExchangeFeed_InstrumentFeed_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::Sim::Protocol::_ExchangeFeed_default_instance_),
 };
 
@@ -353,7 +384,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 10);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 11);
 }
 
 void AddDescriptorsImpl() {
@@ -377,19 +408,23 @@ void AddDescriptorsImpl() {
       " \001(\r\022\024\n\014instrumentId\030\002 \001(\r\022\027\n\017volumeRema"
       "ining\030\003 \001(\r\"_\n\020OrderFillMessage\022\020\n\010clien"
       "tId\030\001 \001(\r\022\024\n\014instrumentId\030\002 \001(\r\022\r\n\005price"
-      "\030\003 \001(\r\022\024\n\014volumeFilled\030\004 \001(\r\"\242\001\n\014Exchang"
-      "eFeed\0222\n\004bids\030\001 \003(\0132$.Sim.Protocol.Excha"
-      "ngeFeed.bookEntry\0222\n\004asks\030\002 \003(\0132$.Sim.Pr"
-      "otocol.ExchangeFeed.bookEntry\032*\n\tbookEnt"
-      "ry\022\r\n\005price\030\001 \001(\r\022\016\n\006volume\030\002 \001(\r*\267\001\n\013Me"
-      "ssageType\022\t\n\005LOGIN\020\000\022\n\n\006LOGOUT\020\001\022\022\n\016LOGI"
-      "N_RESPONSE\020\002\022\023\n\017LOGOUT_RESPONSE\020\003\022\020\n\014INS"
-      "ERT_ORDER\020\013\022\020\n\014CANCEL_ORDER\020\014\022\017\n\013AMEND_O"
-      "RDER\020\r\022\020\n\014ORDER_UPDATE\020\025\022\016\n\nORDER_FILL\020\026"
-      "\022\021\n\rEXCHANGE_FEED\020\037b\006proto3"
+      "\030\003 \001(\r\022\024\n\014volumeFilled\030\004 \001(\r\"\255\002\n\014Exchang"
+      "eFeed\022B\n\017instrumentFeeds\030\001 \003(\0132).Sim.Pro"
+      "tocol.ExchangeFeed.InstrumentFeed\032\330\001\n\016In"
+      "strumentFeed\022\024\n\014instrumentId\030\001 \001(\r\022A\n\004bi"
+      "ds\030\002 \003(\01323.Sim.Protocol.ExchangeFeed.Ins"
+      "trumentFeed.bookEntry\022A\n\004asks\030\003 \003(\01323.Si"
+      "m.Protocol.ExchangeFeed.InstrumentFeed.b"
+      "ookEntry\032*\n\tbookEntry\022\r\n\005price\030\001 \001(\r\022\016\n\006"
+      "volume\030\002 \001(\r*\267\001\n\013MessageType\022\t\n\005LOGIN\020\000\022"
+      "\n\n\006LOGOUT\020\001\022\022\n\016LOGIN_RESPONSE\020\002\022\023\n\017LOGOU"
+      "T_RESPONSE\020\003\022\020\n\014INSERT_ORDER\020\013\022\020\n\014CANCEL"
+      "_ORDER\020\014\022\017\n\013AMEND_ORDER\020\r\022\020\n\014ORDER_UPDAT"
+      "E\020\025\022\016\n\nORDER_FILL\020\026\022\021\n\rEXCHANGE_FEED\020\037b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1107);
+      descriptor, 1246);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "libs/protocol/exchange.proto", &protobuf_RegisterTypes);
 }
@@ -2757,60 +2792,60 @@ void OrderFillMessage::InternalSwap(OrderFillMessage* other) {
 
 // ===================================================================
 
-void ExchangeFeed_bookEntry::InitAsDefaultInstance() {
+void ExchangeFeed_InstrumentFeed_bookEntry::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ExchangeFeed_bookEntry::kPriceFieldNumber;
-const int ExchangeFeed_bookEntry::kVolumeFieldNumber;
+const int ExchangeFeed_InstrumentFeed_bookEntry::kPriceFieldNumber;
+const int ExchangeFeed_InstrumentFeed_bookEntry::kVolumeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ExchangeFeed_bookEntry::ExchangeFeed_bookEntry()
+ExchangeFeed_InstrumentFeed_bookEntry::ExchangeFeed_InstrumentFeed_bookEntry()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_bookEntry.base);
+      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed_bookEntry.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(constructor:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
 }
-ExchangeFeed_bookEntry::ExchangeFeed_bookEntry(const ExchangeFeed_bookEntry& from)
+ExchangeFeed_InstrumentFeed_bookEntry::ExchangeFeed_InstrumentFeed_bookEntry(const ExchangeFeed_InstrumentFeed_bookEntry& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&price_, &from.price_,
     static_cast<size_t>(reinterpret_cast<char*>(&volume_) -
     reinterpret_cast<char*>(&price_)) + sizeof(volume_));
-  // @@protoc_insertion_point(copy_constructor:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(copy_constructor:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
 }
 
-void ExchangeFeed_bookEntry::SharedCtor() {
+void ExchangeFeed_InstrumentFeed_bookEntry::SharedCtor() {
   ::memset(&price_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&volume_) -
       reinterpret_cast<char*>(&price_)) + sizeof(volume_));
 }
 
-ExchangeFeed_bookEntry::~ExchangeFeed_bookEntry() {
-  // @@protoc_insertion_point(destructor:Sim.Protocol.ExchangeFeed.bookEntry)
+ExchangeFeed_InstrumentFeed_bookEntry::~ExchangeFeed_InstrumentFeed_bookEntry() {
+  // @@protoc_insertion_point(destructor:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   SharedDtor();
 }
 
-void ExchangeFeed_bookEntry::SharedDtor() {
+void ExchangeFeed_InstrumentFeed_bookEntry::SharedDtor() {
 }
 
-void ExchangeFeed_bookEntry::SetCachedSize(int size) const {
+void ExchangeFeed_InstrumentFeed_bookEntry::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ExchangeFeed_bookEntry::descriptor() {
+const ::google::protobuf::Descriptor* ExchangeFeed_InstrumentFeed_bookEntry::descriptor() {
   ::protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ExchangeFeed_bookEntry& ExchangeFeed_bookEntry::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_bookEntry.base);
+const ExchangeFeed_InstrumentFeed_bookEntry& ExchangeFeed_InstrumentFeed_bookEntry::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed_bookEntry.base);
   return *internal_default_instance();
 }
 
 
-void ExchangeFeed_bookEntry::Clear() {
-// @@protoc_insertion_point(message_clear_start:Sim.Protocol.ExchangeFeed.bookEntry)
+void ExchangeFeed_InstrumentFeed_bookEntry::Clear() {
+// @@protoc_insertion_point(message_clear_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -2821,11 +2856,11 @@ void ExchangeFeed_bookEntry::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool ExchangeFeed_bookEntry::MergePartialFromCodedStream(
+bool ExchangeFeed_InstrumentFeed_bookEntry::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(parse_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -2871,17 +2906,17 @@ bool ExchangeFeed_bookEntry::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(parse_success:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(parse_failure:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   return false;
 #undef DO_
 }
 
-void ExchangeFeed_bookEntry::SerializeWithCachedSizes(
+void ExchangeFeed_InstrumentFeed_bookEntry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(serialize_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2899,13 +2934,13 @@ void ExchangeFeed_bookEntry::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(serialize_end:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
 }
 
-::google::protobuf::uint8* ExchangeFeed_bookEntry::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* ExchangeFeed_InstrumentFeed_bookEntry::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(serialize_to_array_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2923,12 +2958,12 @@ void ExchangeFeed_bookEntry::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(serialize_to_array_end:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   return target;
 }
 
-size_t ExchangeFeed_bookEntry::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Sim.Protocol.ExchangeFeed.bookEntry)
+size_t ExchangeFeed_InstrumentFeed_bookEntry::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2955,23 +2990,23 @@ size_t ExchangeFeed_bookEntry::ByteSizeLong() const {
   return total_size;
 }
 
-void ExchangeFeed_bookEntry::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Sim.Protocol.ExchangeFeed.bookEntry)
+void ExchangeFeed_InstrumentFeed_bookEntry::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   GOOGLE_DCHECK_NE(&from, this);
-  const ExchangeFeed_bookEntry* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ExchangeFeed_bookEntry>(
+  const ExchangeFeed_InstrumentFeed_bookEntry* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ExchangeFeed_InstrumentFeed_bookEntry>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
     MergeFrom(*source);
   }
 }
 
-void ExchangeFeed_bookEntry::MergeFrom(const ExchangeFeed_bookEntry& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Sim.Protocol.ExchangeFeed.bookEntry)
+void ExchangeFeed_InstrumentFeed_bookEntry::MergeFrom(const ExchangeFeed_InstrumentFeed_bookEntry& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -2985,36 +3020,349 @@ void ExchangeFeed_bookEntry::MergeFrom(const ExchangeFeed_bookEntry& from) {
   }
 }
 
-void ExchangeFeed_bookEntry::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Sim.Protocol.ExchangeFeed.bookEntry)
+void ExchangeFeed_InstrumentFeed_bookEntry::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ExchangeFeed_bookEntry::CopyFrom(const ExchangeFeed_bookEntry& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Sim.Protocol.ExchangeFeed.bookEntry)
+void ExchangeFeed_InstrumentFeed_bookEntry::CopyFrom(const ExchangeFeed_InstrumentFeed_bookEntry& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ExchangeFeed_bookEntry::IsInitialized() const {
+bool ExchangeFeed_InstrumentFeed_bookEntry::IsInitialized() const {
   return true;
 }
 
-void ExchangeFeed_bookEntry::Swap(ExchangeFeed_bookEntry* other) {
+void ExchangeFeed_InstrumentFeed_bookEntry::Swap(ExchangeFeed_InstrumentFeed_bookEntry* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ExchangeFeed_bookEntry::InternalSwap(ExchangeFeed_bookEntry* other) {
+void ExchangeFeed_InstrumentFeed_bookEntry::InternalSwap(ExchangeFeed_InstrumentFeed_bookEntry* other) {
   using std::swap;
   swap(price_, other->price_);
   swap(volume_, other->volume_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ExchangeFeed_bookEntry::GetMetadata() const {
+::google::protobuf::Metadata ExchangeFeed_InstrumentFeed_bookEntry::GetMetadata() const {
+  protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void ExchangeFeed_InstrumentFeed::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ExchangeFeed_InstrumentFeed::kInstrumentIdFieldNumber;
+const int ExchangeFeed_InstrumentFeed::kBidsFieldNumber;
+const int ExchangeFeed_InstrumentFeed::kAsksFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ExchangeFeed_InstrumentFeed::ExchangeFeed_InstrumentFeed()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+}
+ExchangeFeed_InstrumentFeed::ExchangeFeed_InstrumentFeed(const ExchangeFeed_InstrumentFeed& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      bids_(from.bids_),
+      asks_(from.asks_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  instrumentid_ = from.instrumentid_;
+  // @@protoc_insertion_point(copy_constructor:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+}
+
+void ExchangeFeed_InstrumentFeed::SharedCtor() {
+  instrumentid_ = 0u;
+}
+
+ExchangeFeed_InstrumentFeed::~ExchangeFeed_InstrumentFeed() {
+  // @@protoc_insertion_point(destructor:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  SharedDtor();
+}
+
+void ExchangeFeed_InstrumentFeed::SharedDtor() {
+}
+
+void ExchangeFeed_InstrumentFeed::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* ExchangeFeed_InstrumentFeed::descriptor() {
+  ::protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const ExchangeFeed_InstrumentFeed& ExchangeFeed_InstrumentFeed::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_libs_2fprotocol_2fexchange_2eproto::scc_info_ExchangeFeed_InstrumentFeed.base);
+  return *internal_default_instance();
+}
+
+
+void ExchangeFeed_InstrumentFeed::Clear() {
+// @@protoc_insertion_point(message_clear_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  bids_.Clear();
+  asks_.Clear();
+  instrumentid_ = 0u;
+  _internal_metadata_.Clear();
+}
+
+bool ExchangeFeed_InstrumentFeed::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // uint32 instrumentId = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &instrumentid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_bids()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_asks()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  return false;
+#undef DO_
+}
+
+void ExchangeFeed_InstrumentFeed::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 instrumentId = 1;
+  if (this->instrumentid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->instrumentid(), output);
+  }
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->bids_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2,
+      this->bids(static_cast<int>(i)),
+      output);
+  }
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->asks_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      3,
+      this->asks(static_cast<int>(i)),
+      output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+}
+
+::google::protobuf::uint8* ExchangeFeed_InstrumentFeed::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 instrumentId = 1;
+  if (this->instrumentid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->instrumentid(), target);
+  }
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->bids_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        2, this->bids(static_cast<int>(i)), deterministic, target);
+  }
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->asks_size()); i < n; i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        3, this->asks(static_cast<int>(i)), deterministic, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  return target;
+}
+
+size_t ExchangeFeed_InstrumentFeed::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+  {
+    unsigned int count = static_cast<unsigned int>(this->bids_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->bids(static_cast<int>(i)));
+    }
+  }
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+  {
+    unsigned int count = static_cast<unsigned int>(this->asks_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->asks(static_cast<int>(i)));
+    }
+  }
+
+  // uint32 instrumentId = 1;
+  if (this->instrumentid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->instrumentid());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ExchangeFeed_InstrumentFeed::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ExchangeFeed_InstrumentFeed* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ExchangeFeed_InstrumentFeed>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+    MergeFrom(*source);
+  }
+}
+
+void ExchangeFeed_InstrumentFeed::MergeFrom(const ExchangeFeed_InstrumentFeed& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  bids_.MergeFrom(from.bids_);
+  asks_.MergeFrom(from.asks_);
+  if (from.instrumentid() != 0) {
+    set_instrumentid(from.instrumentid());
+  }
+}
+
+void ExchangeFeed_InstrumentFeed::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ExchangeFeed_InstrumentFeed::CopyFrom(const ExchangeFeed_InstrumentFeed& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExchangeFeed_InstrumentFeed::IsInitialized() const {
+  return true;
+}
+
+void ExchangeFeed_InstrumentFeed::Swap(ExchangeFeed_InstrumentFeed* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ExchangeFeed_InstrumentFeed::InternalSwap(ExchangeFeed_InstrumentFeed* other) {
+  using std::swap;
+  CastToBase(&bids_)->InternalSwap(CastToBase(&other->bids_));
+  CastToBase(&asks_)->InternalSwap(CastToBase(&other->asks_));
+  swap(instrumentid_, other->instrumentid_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata ExchangeFeed_InstrumentFeed::GetMetadata() const {
   protobuf_libs_2fprotocol_2fexchange_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_libs_2fprotocol_2fexchange_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -3025,8 +3373,7 @@ void ExchangeFeed_bookEntry::InternalSwap(ExchangeFeed_bookEntry* other) {
 void ExchangeFeed::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ExchangeFeed::kBidsFieldNumber;
-const int ExchangeFeed::kAsksFieldNumber;
+const int ExchangeFeed::kInstrumentFeedsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ExchangeFeed::ExchangeFeed()
@@ -3039,8 +3386,7 @@ ExchangeFeed::ExchangeFeed()
 ExchangeFeed::ExchangeFeed(const ExchangeFeed& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      bids_(from.bids_),
-      asks_(from.asks_) {
+      instrumentfeeds_(from.instrumentfeeds_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:Sim.Protocol.ExchangeFeed)
 }
@@ -3076,8 +3422,7 @@ void ExchangeFeed::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  bids_.Clear();
-  asks_.Clear();
+  instrumentfeeds_.Clear();
   _internal_metadata_.Clear();
 }
 
@@ -3091,24 +3436,12 @@ bool ExchangeFeed::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+      // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_bids()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_asks()));
+                input, add_instrumentfeeds()));
         } else {
           goto handle_unusual;
         }
@@ -3141,21 +3474,12 @@ void ExchangeFeed::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->bids_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->instrumentfeeds_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1,
-      this->bids(static_cast<int>(i)),
-      output);
-  }
-
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->asks_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->asks(static_cast<int>(i)),
+      this->instrumentfeeds(static_cast<int>(i)),
       output);
   }
 
@@ -3173,20 +3497,12 @@ void ExchangeFeed::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->bids_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->instrumentfeeds_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, this->bids(static_cast<int>(i)), deterministic, target);
-  }
-
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->asks_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->asks(static_cast<int>(i)), deterministic, target);
+        1, this->instrumentfeeds(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3206,25 +3522,14 @@ size_t ExchangeFeed::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
   {
-    unsigned int count = static_cast<unsigned int>(this->bids_size());
+    unsigned int count = static_cast<unsigned int>(this->instrumentfeeds_size());
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->bids(static_cast<int>(i)));
-    }
-  }
-
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-  {
-    unsigned int count = static_cast<unsigned int>(this->asks_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->asks(static_cast<int>(i)));
+          this->instrumentfeeds(static_cast<int>(i)));
     }
   }
 
@@ -3255,8 +3560,7 @@ void ExchangeFeed::MergeFrom(const ExchangeFeed& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  bids_.MergeFrom(from.bids_);
-  asks_.MergeFrom(from.asks_);
+  instrumentfeeds_.MergeFrom(from.instrumentfeeds_);
 }
 
 void ExchangeFeed::CopyFrom(const ::google::protobuf::Message& from) {
@@ -3283,8 +3587,7 @@ void ExchangeFeed::Swap(ExchangeFeed* other) {
 }
 void ExchangeFeed::InternalSwap(ExchangeFeed* other) {
   using std::swap;
-  CastToBase(&bids_)->InternalSwap(CastToBase(&other->bids_));
-  CastToBase(&asks_)->InternalSwap(CastToBase(&other->asks_));
+  CastToBase(&instrumentfeeds_)->InternalSwap(CastToBase(&other->instrumentfeeds_));
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
@@ -3323,8 +3626,11 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::OrderUpdateMessag
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::OrderFillMessage* Arena::CreateMaybeMessage< ::Sim::Protocol::OrderFillMessage >(Arena* arena) {
   return Arena::CreateInternal< ::Sim::Protocol::OrderFillMessage >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::ExchangeFeed_bookEntry* Arena::CreateMaybeMessage< ::Sim::Protocol::ExchangeFeed_bookEntry >(Arena* arena) {
-  return Arena::CreateInternal< ::Sim::Protocol::ExchangeFeed_bookEntry >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* Arena::CreateMaybeMessage< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >(Arena* arena) {
+  return Arena::CreateInternal< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::ExchangeFeed_InstrumentFeed* Arena::CreateMaybeMessage< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >(Arena* arena) {
+  return Arena::CreateInternal< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::Sim::Protocol::ExchangeFeed* Arena::CreateMaybeMessage< ::Sim::Protocol::ExchangeFeed >(Arena* arena) {
   return Arena::CreateInternal< ::Sim::Protocol::ExchangeFeed >(arena);
