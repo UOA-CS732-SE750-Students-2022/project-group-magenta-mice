@@ -19,6 +19,8 @@ namespace Sim
         void addInstrument(Instrument instrument);
         void addParticipant(std::shared_ptr<Participant> participant);
 
+        bool removeParticipant(std::shared_ptr<Participant>);
+
         void printBooks() const;
 
         Protocol::LoginResponse getExchangeInstruments();

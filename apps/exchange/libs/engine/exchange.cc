@@ -21,6 +21,11 @@ namespace Sim
         mParticipantManager->addParticipant(std::move(participant));
     }
 
+    bool Exchange::removeParticipant(std::shared_ptr<Participant> participant)
+    {
+        return mParticipantManager->removeParticipant(std::move(participant));
+    }
+
     void Exchange::applyToAllParticipants(std::function<void(Participant&)>&& func)
     {
         mParticipantManager->applyToAll(std::move(func));

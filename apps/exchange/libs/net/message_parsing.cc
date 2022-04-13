@@ -43,6 +43,8 @@ namespace Sim::Net
         case Protocol::LOGOUT: {
             Protocol::LogoutRequest logoutRequest;
             logoutRequest.ParseFromString(message);
+
+            mParticipant.logout();
             break;
         }
         case Protocol::INSERT_ORDER: {

@@ -51,6 +51,7 @@ namespace Sim::Net
 
         virtual bool isLoggedIn() const = 0;
         virtual void login() = 0;
+        virtual void logout() = 0;
     };
 
     class ParticipantSession : public std::enable_shared_from_this<ParticipantSession>, public ISession
@@ -72,6 +73,7 @@ namespace Sim::Net
 
         bool isLoggedIn() const;
         void login();
+        void logout();
 
        private:
         void asyncRead();

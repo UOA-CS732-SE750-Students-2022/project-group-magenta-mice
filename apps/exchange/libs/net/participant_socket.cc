@@ -5,16 +5,19 @@
 namespace Sim::Net
 {
     ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse response)
-        : mSocket(std::move(socket)), mLoginResponse{ response }
-    {
-        mParser = std::make_unique<MessageParser>(*this);
-    }
+        : mSocket(std::move(socket)),
+          mLoginResponse{ response },
+          mParser{ std::make_unique<MessageParser>(*this) },
+          mFSM{ ParticipantFSM::CONNECTED }
+    {}
 
     void ParticipantSession::injectParser(std::unique_ptr<IMessageParser> parser) { mParser = std::move(parser); }
 
     bool ParticipantSession::isLoggedIn() const { return mFSM == ParticipantFSM::LOGGED_IN; }
 
     void ParticipantSession::login() { mFSM = ParticipantFSM::LOGGED_IN; }
+
+    void ParticipantSession::logout() { mFSM = ParticipantFSM::CONNECTED; }
 
     void ParticipantSession::raiseError(std::string errorMessage) const
     {
