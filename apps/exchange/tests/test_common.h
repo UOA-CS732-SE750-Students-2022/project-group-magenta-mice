@@ -17,6 +17,8 @@ namespace Sim::Testing
     using ::testing::TestWithParam;
     using ::testing::Values;
 
+    using ::testing::NiceMock;
+
     struct MockOrderFactory : public OrderFactory
     {
        public:
@@ -36,6 +38,14 @@ namespace Sim::Testing
         MOCK_METHOD(void, raiseError, (std::string errorMessage), (const));
         MOCK_METHOD(bool, isLoggedIn, (), (const));
         MOCK_METHOD(void, login, ());
+        MOCK_METHOD(void, logout, ());
+    };
+
+    struct MockParticipant : Participant
+    {
+        using Participant::Participant;
+
+        MOCK_METHOD(void, sendMessage, (int messageType, std::string const& message));
     };
 
 } // namespace Sim::Testing

@@ -17,10 +17,10 @@ namespace Sim::Testing
             applicator(*orderFactory);
 
             mParticipant =
-                std::make_unique<Participant>(std::move(orderFactory), std::nullopt, Protocol::LoginResponse());
+                std::make_unique<MockParticipant>(std::move(orderFactory), std::nullopt, Protocol::LoginResponse());
         }
 
-        std::unique_ptr<Participant> mParticipant;
+        std::unique_ptr<MockParticipant> mParticipant;
     };
 
     TEST_F(ParticipantTestFixture, TestRequestingInsertCallsFactory)
@@ -117,6 +117,8 @@ namespace Sim::Testing
         setupParticipant([&order](MockOrderFactory& factory) {
             EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(ByMove(std::move(order))));
         });
+
+        EXPECT_CALL(*mParticipant, sendMessage(_, _)).Times(1);
 
         // keep this in memory
         OrderOwningPtr placedOrder;

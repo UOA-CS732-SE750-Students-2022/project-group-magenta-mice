@@ -25,10 +25,15 @@ namespace Sim
             Protocol::LoginResponse loginResponse)
             : Net::ParticipantSession(std::move(socket), loginResponse), mOrderFactory{ std::move(orderFactory) } {};
 
+        virtual ~Participant() = default;
+
+        void setId(uint32_t id);
+        uint32_t getId() const;
+
         bool requestOrderInsert(Protocol::InsertOrderRequest& order);
         bool requestOrderCancel(Protocol::CancelOrderRequest& order);
 
-        void sendError(std::string&& error);
+        bool prepareLogout();
 
         void setOrderInsertionHandler(std::function<bool(OrderOwningPtr)>&& handler);
         void setOrderCancellationHandler(std::function<bool(const Order*)>&& handler);
@@ -39,8 +44,12 @@ namespace Sim
         int64_t getCash() const;
         int32_t getPosition(uint32_t forInstrument) const;
 
+        void diagnose() const;
+
        private:
         bool checkAndIncrementOrderId(uint32_t id);
+
+        uint32_t mIdentifier;
 
         std::unique_ptr<OrderFactory> mOrderFactory;
 
