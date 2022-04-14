@@ -6,7 +6,9 @@ type User {
   name: String!
   profilePicUrl: String
 
-  """the google ID"""
+  """
+  the google ID
+  """
   id: ID!
 }
 
@@ -19,10 +21,24 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """Google Id"""
+  """
+  Google Id
+  """
   id: ID!
   name: String!
 
-  """Google ProfilePic of user"""
+  """
+  Google ProfilePic of user
+  """
+  profilePicUrl: String
+}
+
+input UpdateUserInput {
+  id: String!
+  name: String
+
+  """
+  Google ProfilePic of user
+  """
   profilePicUrl: String
 }
