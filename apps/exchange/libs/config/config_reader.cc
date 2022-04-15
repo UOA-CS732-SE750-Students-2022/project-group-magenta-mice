@@ -7,15 +7,13 @@
 
 namespace Sim::Config
 {
-    Config ConfigReader::Read(char* relativeConfigFilePath)
+    ConfigReader::ConfigReader(Common::IFileStringReader& fileStringReader) : mFileStringReader(fileStringReader) {}
+
+    ExchangeConfig ConfigReader::read(const char* relativeConfigFilePath)
     {
         auto path = getPathFromRelative(relativeConfigFilePath);
 
-        std::ifstream file(path);
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-
-        auto jsonString = buffer.str();
+        auto jsonString = mFileStringReader.getContents(path);
 
         rapidjson::Document document;
         document.Parse(jsonString.c_str());
@@ -34,10 +32,10 @@ namespace Sim::Config
                 Instrument{ .mName = name, .mPositionLimit = positionLimit, .mTickSizeCents = tickSizeCents });
         }
 
-        return Config(port, instrumentVector);
+        return ExchangeConfig(port, instrumentVector);
     }
 
-    bool ConfigReader::Validate(int argc, char* argv[]) const
+    bool ConfigReader::validate(int argc, char* argv[]) const
     {
         if (argc != 2)
         {
@@ -54,7 +52,7 @@ namespace Sim::Config
         return true;
     }
 
-    std::filesystem::path ConfigReader::getPathFromRelative(char* relativeConfigFilePath) const
+    std::filesystem::path ConfigReader::getPathFromRelative(const char* relativeConfigFilePath) const
     {
         return std::filesystem::current_path().append(relativeConfigFilePath);
     }

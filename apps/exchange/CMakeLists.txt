@@ -37,12 +37,12 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/include)
 
 add_executable(exchange main.cc)
 target_link_libraries(exchange
-PRIVATE
+  PRIVATE
   net_lib
-  common_lib
-  config_lib
   exchange_lib
   protocol_lib
+  config_lib
+  common_lib
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Protobuf_LIBRARIES}

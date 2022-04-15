@@ -15,11 +15,11 @@ namespace Sim::Config
         virtual const std::vector<Instrument>& getInstruments() const = 0;
     };
 
-    class Config : IConfig
+    class ExchangeConfig : IConfig
     {
        public:
-        Config(uint32_t port, std::vector<Instrument> instruments);
-        ~Config() override = default;
+        ExchangeConfig(uint32_t port, std::vector<Instrument> instruments);
+        virtual ~ExchangeConfig() override = default;
 
         uint32_t getPort() const override;
         const std::vector<Instrument>& getInstruments() const override;

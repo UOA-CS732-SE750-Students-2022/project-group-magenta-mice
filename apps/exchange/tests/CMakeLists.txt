@@ -8,6 +8,9 @@ set(test_sources
   orderbook_test.cc
   participant_test.cc
   integration_test.cc
+  message_parsing_test.cc
+  config_test.cc
+  config_reader_test.cc
 )
 
 include(FetchContent)
@@ -29,9 +32,10 @@ target_link_libraries(
   gtest_main
   gmock_main
   net_lib
-  common_lib
   exchange_lib
   protocol_lib
+  config_lib
+  common_lib
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Protobuf_LIBRARIES}

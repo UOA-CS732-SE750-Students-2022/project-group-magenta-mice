@@ -6,13 +6,15 @@
 
 int main(int argc, char* argv[])
 {
-    Sim::Config::ConfigReader reader;
-    if (!reader.Validate(argc, argv))
+    Sim::Common::FileStringReader fileReader;
+    Sim::Config::ConfigReader reader(fileReader);
+
+    if (!reader.validate(argc, argv))
     {
         return 1;
     }
 
-    auto config = reader.Read(argv[1]);
+    auto config = reader.read(argv[1]);
     auto port = config.getPort();
     auto instruments = config.getInstruments();
 

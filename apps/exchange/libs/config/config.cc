@@ -2,10 +2,12 @@
 
 namespace Sim::Config
 {
-    Config::Config(uint32_t port, std::vector<Instrument> instruments) : mPort(port), mInstruments(instruments) {}
+    ExchangeConfig::ExchangeConfig(uint32_t port, std::vector<Instrument> instruments)
+        : mPort(port), mInstruments(instruments)
+    {}
 
-    const std::vector<Instrument>& Config::getInstruments() const { return mInstruments; }
+    const std::vector<Instrument>& ExchangeConfig::getInstruments() const { return mInstruments; }
 
-    uint32_t Config::getPort() const { return mPort; }
+    uint32_t ExchangeConfig::getPort() const { return mPort; }
 
 } // namespace Sim::Config
