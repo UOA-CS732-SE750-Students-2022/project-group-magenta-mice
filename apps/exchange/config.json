@@ -1,0 +1,15 @@
+{
+  "port": 15001,
+  "instruments": [
+    {
+      "name": "AAPL",
+      "positionLimit": 100,
+      "tickSize": 1
+    },
+    {
+      "name": "AMZN",
+      "positionLimit": 20,
+      "tickSize": 5
+    }
+  ]
+}

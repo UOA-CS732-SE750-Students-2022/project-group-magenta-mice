@@ -26,8 +26,10 @@ find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 
 add_subdirectory(libs)
-
 include_directories(${PROJECT_SOURCE_DIR}/libs)
+
+include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/include)
+
 
 #################
 # EXCHANGE
@@ -38,6 +40,7 @@ target_link_libraries(exchange
 PRIVATE
   net_lib
   common_lib
+  config_lib
   exchange_lib
   protocol_lib
   ${Boost_LIBRARIES}
