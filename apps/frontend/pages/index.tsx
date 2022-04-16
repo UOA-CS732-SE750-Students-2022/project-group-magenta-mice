@@ -1,3 +1,5 @@
+import { Layout } from "@simulate-exchange/components";
+
 export default function Index() {
-  return <></>;
+  return <Layout.Page></Layout.Page>;
 }
