@@ -11,7 +11,7 @@ export class UserStoreService {
   }
 
   async findById(id: string) {
-    return await this.prismaService.user.findFirst({ where: { id } });
+    return await this.prismaService.user.findFirst({ where: { id }, include: { userPermissions: true } });
   }
 
   async createUser(name: string, pppic: string, id: string) {
