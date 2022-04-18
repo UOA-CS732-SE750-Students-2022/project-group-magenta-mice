@@ -11,15 +11,31 @@ datasource db {
 }
 
 model User {
-  id            String @id
-  name          String
-  profilePicUrl String
+  id              String           @id
+  name            String
+  profilePicUrl   String
+  userPermissions UserPermission[]
 }
 
 model Exchange {
-  id          String       @id
-  public      Boolean      @default(false)
-  instruments Instrument[]
+  id              String           @id
+  public          Boolean          @default(false)
+  instruments     Instrument[]
+  userPermissions UserPermission[]
+}
+
+model UserPermission {
+  id         String         @id
+  exchangeId String         @unique
+  exchange   Exchange       @relation(fields: [exchangeId], references: [id])
+  userId     String         @unique
+  user       User           @relation(fields: [userId], references: [id])
+  permission PermissionType
+}
+
+enum PermissionType {
+  ADMIN
+  USER
 }
 
 model Instrument {
