@@ -13,10 +13,15 @@ export interface CreateUserInput {
     profilePicUrl?: Nullable<string>;
 }
 
+export interface UserPermission {
+    exchangeId: string;
+}
+
 export interface User {
     name: string;
     profilePicUrl?: Nullable<string>;
     id: string;
+    userPermissions: UserPermission[];
 }
 
 export interface IQuery {

@@ -1,6 +1,10 @@
 query CurrentUser {
   currentUser {
     name
+    profilePicUrl
+    userPermissions {
+      exchangeId
+    }
   }
 }
 

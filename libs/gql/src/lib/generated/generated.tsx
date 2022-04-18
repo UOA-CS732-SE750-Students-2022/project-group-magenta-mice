@@ -44,12 +44,18 @@ export type User = {
   id: Scalars['ID'];
   name: Scalars['String'];
   profilePicUrl?: Maybe<Scalars['String']>;
+  userPermissions: UserPermission;
+};
+
+export type UserPermission = {
+  __typename?: 'UserPermission';
+  exchangeId: Scalars['String'];
 };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: { __typename?: 'UserPermission', exchangeId: string } } };
 
 export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
@@ -65,6 +71,10 @@ export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
     name
+    profilePicUrl
+    userPermissions {
+      exchangeId
+    }
   }
 }
     `;

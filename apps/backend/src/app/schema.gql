@@ -2,12 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserPermission {
+  exchangeId: String!
+}
+
 type User {
   name: String!
   profilePicUrl: String
 
   """the google ID"""
   id: ID!
+  userPermissions: [UserPermission!]!
 }
 
 type Query {
