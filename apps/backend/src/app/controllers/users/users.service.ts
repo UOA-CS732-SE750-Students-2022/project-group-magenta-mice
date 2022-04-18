@@ -8,23 +8,15 @@ export class UsersService {
   constructor(private readonly userStore: UserStoreService) {}
 
   create(createUserInput: CreateUserInput) {
-    return this.userStore.createUser(createUserInput.name,createUserInput.profilePicUrl,createUserInput.id)
+    return this.userStore.createUser(
+      createUserInput.name,
+      createUserInput.profilePicUrl,
+      createUserInput.id,
+    );
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
-
-  async findOne(id: number) {
-    const user = await this.userStore.findAny();
+  async findById(id: string) {
+    const user = await this.userStore.findById(id);
     return user;
-  }
-
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }
