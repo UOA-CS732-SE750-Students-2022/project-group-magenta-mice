@@ -13,12 +13,6 @@ export interface CreateUserInput {
     profilePicUrl?: Nullable<string>;
 }
 
-export interface UpdateUserInput {
-    id: string;
-    name?: Nullable<string>;
-    profilePicUrl?: Nullable<string>;
-}
-
 export interface User {
     name: string;
     profilePicUrl?: Nullable<string>;
@@ -26,14 +20,11 @@ export interface User {
 }
 
 export interface IQuery {
-    users(): User[] | Promise<User[]>;
-    user(id: number): User | Promise<User>;
+    currentUser(): User | Promise<User>;
 }
 
 export interface IMutation {
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
-    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
-    removeUser(id: number): User | Promise<User>;
 }
 
 type Nullable<T> = T | null;
