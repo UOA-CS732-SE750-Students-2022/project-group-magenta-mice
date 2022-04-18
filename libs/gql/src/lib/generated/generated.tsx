@@ -18,7 +18,6 @@ export type Scalars = {
 export type CreateUserInput = {
   /** Google Id */
   id: Scalars['ID'];
-  /** Name of user */
   name: Scalars['String'];
   /** Google ProfilePic of user */
   profilePicUrl?: InputMaybe<Scalars['String']>;
@@ -27,8 +26,6 @@ export type CreateUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
-  removeUser: User;
-  updateUser: User;
 };
 
 
@@ -36,33 +33,9 @@ export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
 };
 
-
-export type MutationRemoveUserArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationUpdateUserArgs = {
-  updateUserInput: UpdateUserInput;
-};
-
 export type Query = {
   __typename?: 'Query';
-  user: User;
-  users: Array<User>;
-};
-
-
-export type QueryUserArgs = {
-  id: Scalars['Int'];
-};
-
-export type UpdateUserInput = {
-  id: Scalars['String'];
-  /** Name of user */
-  name?: InputMaybe<Scalars['String']>;
-  /** Google ProfilePic of user */
-  profilePicUrl?: InputMaybe<Scalars['String']>;
+  currentUser: User;
 };
 
 export type User = {
@@ -73,12 +46,10 @@ export type User = {
   profilePicUrl?: Maybe<Scalars['String']>;
 };
 
-export type GetUserQueryVariables = Exact<{
-  unused: Scalars['Int'];
-}>;
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string } };
 
 export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
@@ -90,41 +61,40 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, id: string } };
 
 
-export const GetUserDocument = gql`
-    query getUser($unused: Int!) {
-  user(id: $unused) {
+export const CurrentUserDocument = gql`
+    query CurrentUser {
+  currentUser {
     name
   }
 }
     `;
 
 /**
- * __useGetUserQuery__
+ * __useCurrentUserQuery__
  *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserQuery({
+ * const { data, loading, error } = useCurrentUserQuery({
  *   variables: {
- *      unused: // value for 'unused'
  *   },
  * });
  */
-export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+export function useCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
       }
-export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+          return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
         }
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($name: String!, $profilePicUrl: String, $id: ID!) {
   createUser(

@@ -11,28 +11,17 @@ type User {
 }
 
 type Query {
-  users: [User!]!
-  user(id: Int!): User!
+  currentUser: User!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
 }
 
 input CreateUserInput {
   """Google Id"""
   id: ID!
   name: String!
-
-  """Google ProfilePic of user"""
-  profilePicUrl: String
-}
-
-input UpdateUserInput {
-  id: String!
-  name: String
 
   """Google ProfilePic of user"""
   profilePicUrl: String
