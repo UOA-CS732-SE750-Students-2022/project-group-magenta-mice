@@ -1,23 +1,23 @@
-import { AppProps } from "next/app";
-import Head from "next/head";
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   createHttpLink,
+  InMemoryCache,
 } from "@apollo/client";
-import "./styles.css";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { setContext } from "@apollo/client/link/context";
 import { Loading } from "@simulate-exchange/components";
 import {
   LoaderCounterContext,
   LoggedInProvider,
 } from "@simulate-exchange/hooks";
-import "../services/firebase";
 import { getAuth } from "firebase/auth";
-import { setContext } from "@apollo/client/link/context";
+import { AppProps } from "next/app";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import "../services/firebase";
+import "./styles.css";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:3333/graphql",
