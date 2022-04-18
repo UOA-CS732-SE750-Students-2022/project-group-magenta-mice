@@ -25,7 +25,7 @@ export function Index() {
         style={{
           backgroundImage: "url(" + randomImage + ")",
         }}
-        className={"h-screen w-screen bg-no-repeat bg-cover absolute"}
+        className={"h-screen w-screen bg-no-repeat bg-cover absolute -z-10"}
       />
       <div className="h-screen w-screen justify-center items-center flex">
         <LoginPanel useController={useLoginPanelController} />
