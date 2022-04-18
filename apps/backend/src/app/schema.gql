@@ -24,8 +24,6 @@ type Mutation {
 input CreateUserInput {
   """Google Id"""
   id: ID!
-
-  """Name of user"""
   name: String!
 
   """Google ProfilePic of user"""
@@ -34,8 +32,6 @@ input CreateUserInput {
 
 input UpdateUserInput {
   id: String!
-
-  """Name of user"""
   name: String
 
   """Google ProfilePic of user"""
