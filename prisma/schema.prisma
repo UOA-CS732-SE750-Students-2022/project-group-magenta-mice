@@ -11,7 +11,32 @@ datasource db {
 }
 
 model User {
-  id   String @id
-  name String
-  profilePicUrl String 
+  id            String @id
+  name          String
+  profilePicUrl String
+}
+
+model Exchange {
+  id          String       @id
+  public      Boolean      @default(false)
+  instruments Instrument[]
+}
+
+model Instrument {
+  id                String         @id
+  exchangeId        String         @unique
+  name              String
+  tickSizeMin       Int
+  positionLimit     Int
+  exchange          Exchange       @relation(fields: [exchangeId], references: [id])
+  instrumentType    InstrumentType
+  bondFixedPrice    Int?
+  bondVolatility    Int?
+  stockInitialPrice Int?
+  stockVolatility   Int?
+}
+
+enum InstrumentType {
+  BOND
+  STOCK
 }
