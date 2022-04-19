@@ -1,5 +1,6 @@
 #pragma once
 
+#include <common/reader.h>
 #include <engine/exchange.h>
 #include <engine/order_factory.h>
 #include <gmock/gmock.h>
@@ -39,6 +40,11 @@ namespace Sim::Testing
         MOCK_METHOD(bool, isLoggedIn, (), (const));
         MOCK_METHOD(void, login, ());
         MOCK_METHOD(void, logout, ());
+    };
+
+    struct MockFileStringReader : public Common::IFileStringReader
+    {
+        MOCK_METHOD(std::string, getContents, (const std::filesystem::path& filePath), (const));
     };
 
     struct MockParticipant : Participant

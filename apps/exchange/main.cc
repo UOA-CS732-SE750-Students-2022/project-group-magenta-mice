@@ -1,27 +1,42 @@
 #include <boost/asio.hpp>
 #include <common/timer.h>
+#include <config/config_reader.h>
 #include <iostream>
 #include <net/exchange_server.h>
 
-int main()
+int main(int argc, char* argv[])
 {
+    Sim::Common::FileStringReader fileReader;
+    Sim::Config::ConfigReader reader(fileReader);
+
+    if (!reader.validate(argc, argv))
+    {
+        return 1;
+    }
+
+    auto config = reader.read(argv[1]);
+    auto port = config.getPort();
+    auto instruments = config.getInstruments();
+
     io::io_context ioContext;
-    auto port = 15001;
     Sim::Net::ExchangeServer server(ioContext, port);
 
-    auto i1 = Sim::Instrument{ .mName = "AAPL", .mPositionLimit = 100, .mTickSizeCents = 1 };
-    auto i2 = Sim::Instrument{ .mName = "AMZN", .mPositionLimit = 20, .mTickSizeCents = 5 };
-    server.addInstrument(i1);
-    server.addInstrument(i2);
+    for (const auto& instrument : instruments)
+    {
+        server.addInstrument(instrument);
+    }
 
     std::cout << "Server started on localhost:" << port << "!" << std::endl;
 
     Sim::Common::Timer timer(ioContext, boost::posix_time::millisec(2000));
+
     timer.start([&]() {
         server.diagnose();
         server.sendPriceFeed();
+        server.getExchange().printBooks();
     });
     // .getExchange().printBooks();
+
     server.acceptSocket();
     ioContext.run();
 
