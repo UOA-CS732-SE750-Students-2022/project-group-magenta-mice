@@ -28,12 +28,14 @@ export function Index() {
 
       }}
       >
-        <h1 className="text-3xl lg:text-7xl md:text-5xl text-white  font-bold">
+        <h1 className="text-3xl lg:text-7xl md:text-5xl text-white  font-bold text-center">
           Simulate.Exchange
           </h1>
-        <div className="my-2"></div>
-        <DividedText text="Create an exchange NOW" className="lg:text-2xl md:text-1xl text-gray-200" />
-        <div className="my-2"></div>
+        <div className="my-3"></div>
+        <p className="lg:text-2xl md:text-1xl text-gray-300 lg:w-1/3 md:w-1/3 w-1/2 text-center	">
+          Create your own transparent simulated stock exchange to test out various trading strategies and methods
+        </p>
+        <div className="my-3"></div>
         <Link href="/auth" passHref>
           <button
             className={cx(
