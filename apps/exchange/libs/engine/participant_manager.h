@@ -13,6 +13,7 @@ namespace Sim
         ParticipantManager() {}
 
         void addParticipant(std::shared_ptr<Participant> participant);
+        bool removeParticipant(std::shared_ptr<Participant> participant);
 
         void applyToAll(std::function<void(Participant&)>&& func);
 

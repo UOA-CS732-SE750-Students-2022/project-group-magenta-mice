@@ -5,6 +5,10 @@
 
 namespace Sim
 {
+    void Participant::setId(uint32_t id) { mIdentifier = id; }
+
+    uint32_t Participant::getId() const { return mIdentifier; }
+
     bool Participant::checkAndIncrementOrderId(uint32_t id)
     {
         if (id != expectedOrderId)
@@ -29,7 +33,7 @@ namespace Sim
     {
         if (!checkAndIncrementOrderId(order.clientid()))
         {
-            sendError("Order ID mismatch (out of order)");
+            raiseError("Order ID mismatch (out of order)");
             return false;
         }
 
@@ -75,7 +79,7 @@ namespace Sim
             }
             else
             {
-                sendError("Order ID not found");
+                raiseError("Order ID not found");
                 return false;
             }
         }
@@ -85,10 +89,35 @@ namespace Sim
         }
     }
 
-    void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining) {}
+    bool Participant::prepareLogout()
+    {
+        if (this->mRequestCancelOrder.has_value())
+        {
+            for (auto& order : mOrders)
+            {
+                (*this->mRequestCancelOrder)(order.second);
+            }
+            return true;
+        }
+        else
+        {
+            throw std::runtime_error("No handler for order cancel requests");
+        }
+    }
+
+    void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining)
+    {
+        Protocol::OrderUpdateMessage message;
+        message.set_clientid(order.mClientId);
+        message.set_instrumentid(order.mInstrument);
+        message.set_volumeremaining(volumeRemaining);
+
+        sendMessage(Protocol::ORDER_UPDATE, message.SerializeAsString());
+    }
 
     void Participant::handleOrderFill(const Order& order, uint32_t volumeFilled, uint32_t price)
     {
+        // todo socket message
         if (order.mSide == Side::BID)
         {
             mPositions[order.mInstrument] += volumeFilled;
@@ -99,9 +128,15 @@ namespace Sim
             mPositions[order.mInstrument] -= volumeFilled;
             mCash += volumeFilled * price;
         }
-    }
 
-    void Participant::sendError(std::string&& error) { std::cout << "Error: " << error << std::endl; }
+        Protocol::OrderFillMessage message;
+        message.set_clientid(order.mClientId);
+        message.set_instrumentid(order.mInstrument);
+        message.set_volumefilled(volumeFilled);
+        message.set_price(price);
+
+        sendMessage(Protocol::ORDER_FILL, message.SerializeAsString());
+    }
 
     int64_t Participant::getCash() const { return mCash; }
     int32_t Participant::getPosition(uint32_t forInstrument) const
@@ -111,6 +146,16 @@ namespace Sim
             return 0;
         }
         return mPositions.at(forInstrument);
+    }
+
+    void Participant::diagnose() const
+    {
+        std::cout << "-------- " << mIdentifier << " --------" << std::endl;
+        std::cout << "Cash: " << mCash << std::endl;
+        for (auto const& [instrument, position] : mPositions)
+        {
+            std::cout << "Position for " << instrument << ": " << position << std::endl;
+        }
     }
 
 } // namespace Sim

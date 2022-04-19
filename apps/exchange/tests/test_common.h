@@ -5,6 +5,7 @@
 #include <engine/order_factory.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <net/participant_socket.h>
 
 namespace Sim::Testing
 {
@@ -12,9 +13,12 @@ namespace Sim::Testing
     using ::testing::ByMove;
     using ::testing::Invoke;
     using ::testing::Return;
+    using ::testing::ReturnRef;
     using ::testing::Test;
     using ::testing::TestWithParam;
     using ::testing::Values;
+
+    using ::testing::NiceMock;
 
     struct MockOrderFactory : public OrderFactory
     {

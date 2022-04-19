@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='Sim.Protocol',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x1clibs/protocol/exchange.proto\x12\x0cSim.Protocol\"\x1b\n\x0cLoginRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"\xa6\x01\n\rLoginResponse\x12;\n\x0binstruments\x18\x01 \x03(\x0b\x32&.Sim.Protocol.LoginResponse.Instrument\x1aX\n\nInstrument\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06ticker\x18\x02 \x01(\t\x12\x15\n\rpositionLimit\x18\x03 \x01(\r\x12\x17\n\x0ftickSizeInCents\x18\x04 \x01(\r\"\x0f\n\rLogoutRequest\"\x86\x02\n\x12InsertOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12;\n\x08lifespan\x18\x03 \x01(\x0e\x32).Sim.Protocol.InsertOrderRequest.Lifespan\x12\x33\n\x04side\x18\x04 \x01(\x0e\x32%.Sim.Protocol.InsertOrderRequest.Side\x12\r\n\x05price\x18\x05 \x01(\r\x12\x0e\n\x06volume\x18\x06 \x01(\r\"\x1c\n\x08Lifespan\x12\x07\n\x03GFD\x10\x00\x12\x07\n\x03\x46\x41K\x10\x01\"\x19\n\x04Side\x12\x07\n\x03\x42UY\x10\x00\x12\x08\n\x04SELL\x10\x01\"&\n\x12\x43\x61ncelOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\"U\n\x12OrderUpdateMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\x17\n\x0fvolumeRemaining\x18\x03 \x01(\r\"_\n\x10OrderFillMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\r\n\x05price\x18\x03 \x01(\r\x12\x14\n\x0cvolumeFilled\x18\x04 \x01(\r\"\xa2\x01\n\x0c\x45xchangeFeed\x12\x32\n\x04\x62ids\x18\x01 \x03(\x0b\x32$.Sim.Protocol.ExchangeFeed.bookEntry\x12\x32\n\x04\x61sks\x18\x02 \x03(\x0b\x32$.Sim.Protocol.ExchangeFeed.bookEntry\x1a*\n\tbookEntry\x12\r\n\x05price\x18\x01 \x01(\r\x12\x0e\n\x06volume\x18\x02 \x01(\r*\xb7\x01\n\x0bMessageType\x12\t\n\x05LOGIN\x10\x00\x12\n\n\x06LOGOUT\x10\x01\x12\x12\n\x0eLOGIN_RESPONSE\x10\x02\x12\x13\n\x0fLOGOUT_RESPONSE\x10\x03\x12\x10\n\x0cINSERT_ORDER\x10\x0b\x12\x10\n\x0c\x43\x41NCEL_ORDER\x10\x0c\x12\x0f\n\x0b\x41MEND_ORDER\x10\r\x12\x10\n\x0cORDER_UPDATE\x10\x15\x12\x0e\n\nORDER_FILL\x10\x16\x12\x11\n\rEXCHANGE_FEED\x10\x1f\x62\x06proto3')
+  serialized_pb=_b('\n\x1clibs/protocol/exchange.proto\x12\x0cSim.Protocol\"\x1b\n\x0cLoginRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\"\xa6\x01\n\rLoginResponse\x12;\n\x0binstruments\x18\x01 \x03(\x0b\x32&.Sim.Protocol.LoginResponse.Instrument\x1aX\n\nInstrument\x12\n\n\x02id\x18\x01 \x01(\r\x12\x0e\n\x06ticker\x18\x02 \x01(\t\x12\x15\n\rpositionLimit\x18\x03 \x01(\r\x12\x17\n\x0ftickSizeInCents\x18\x04 \x01(\r\"\x0f\n\rLogoutRequest\"\x86\x02\n\x12InsertOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12;\n\x08lifespan\x18\x03 \x01(\x0e\x32).Sim.Protocol.InsertOrderRequest.Lifespan\x12\x33\n\x04side\x18\x04 \x01(\x0e\x32%.Sim.Protocol.InsertOrderRequest.Side\x12\r\n\x05price\x18\x05 \x01(\r\x12\x0e\n\x06volume\x18\x06 \x01(\r\"\x1c\n\x08Lifespan\x12\x07\n\x03GFD\x10\x00\x12\x07\n\x03\x46\x41K\x10\x01\"\x19\n\x04Side\x12\x07\n\x03\x42UY\x10\x00\x12\x08\n\x04SELL\x10\x01\"&\n\x12\x43\x61ncelOrderRequest\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\"U\n\x12OrderUpdateMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\x17\n\x0fvolumeRemaining\x18\x03 \x01(\r\"_\n\x10OrderFillMessage\x12\x10\n\x08\x63lientId\x18\x01 \x01(\r\x12\x14\n\x0cinstrumentId\x18\x02 \x01(\r\x12\r\n\x05price\x18\x03 \x01(\r\x12\x14\n\x0cvolumeFilled\x18\x04 \x01(\r\"\xad\x02\n\x0c\x45xchangeFeed\x12\x42\n\x0finstrumentFeeds\x18\x01 \x03(\x0b\x32).Sim.Protocol.ExchangeFeed.InstrumentFeed\x1a\xd8\x01\n\x0eInstrumentFeed\x12\x14\n\x0cinstrumentId\x18\x01 \x01(\r\x12\x41\n\x04\x62ids\x18\x02 \x03(\x0b\x32\x33.Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry\x12\x41\n\x04\x61sks\x18\x03 \x03(\x0b\x32\x33.Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry\x1a*\n\tbookEntry\x12\r\n\x05price\x18\x01 \x01(\r\x12\x0e\n\x06volume\x18\x02 \x01(\r*\xb7\x01\n\x0bMessageType\x12\t\n\x05LOGIN\x10\x00\x12\n\n\x06LOGOUT\x10\x01\x12\x12\n\x0eLOGIN_RESPONSE\x10\x02\x12\x13\n\x0fLOGOUT_RESPONSE\x10\x03\x12\x10\n\x0cINSERT_ORDER\x10\x0b\x12\x10\n\x0c\x43\x41NCEL_ORDER\x10\x0c\x12\x0f\n\x0b\x41MEND_ORDER\x10\r\x12\x10\n\x0cORDER_UPDATE\x10\x15\x12\x0e\n\nORDER_FILL\x10\x16\x12\x11\n\rEXCHANGE_FEED\x10\x1f\x62\x06proto3')
 )
 
 _MESSAGETYPE = _descriptor.EnumDescriptor(
@@ -72,8 +72,8 @@ _MESSAGETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=916,
-  serialized_end=1099,
+  serialized_start=1055,
+  serialized_end=1238,
 )
 _sym_db.RegisterEnumDescriptor(_MESSAGETYPE)
 
@@ -468,22 +468,22 @@ _ORDERFILLMESSAGE = _descriptor.Descriptor(
 )
 
 
-_EXCHANGEFEED_BOOKENTRY = _descriptor.Descriptor(
+_EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY = _descriptor.Descriptor(
   name='bookEntry',
-  full_name='Sim.Protocol.ExchangeFeed.bookEntry',
+  full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='price', full_name='Sim.Protocol.ExchangeFeed.bookEntry.price', index=0,
+      name='price', full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.price', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='volume', full_name='Sim.Protocol.ExchangeFeed.bookEntry.volume', index=1,
+      name='volume', full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.volume', index=1,
       number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -501,8 +501,52 @@ _EXCHANGEFEED_BOOKENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=871,
-  serialized_end=913,
+  serialized_start=1010,
+  serialized_end=1052,
+)
+
+_EXCHANGEFEED_INSTRUMENTFEED = _descriptor.Descriptor(
+  name='InstrumentFeed',
+  full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='instrumentId', full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.instrumentId', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bids', full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.bids', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='asks', full_name='Sim.Protocol.ExchangeFeed.InstrumentFeed.asks', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=836,
+  serialized_end=1052,
 )
 
 _EXCHANGEFEED = _descriptor.Descriptor(
@@ -513,15 +557,8 @@ _EXCHANGEFEED = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='bids', full_name='Sim.Protocol.ExchangeFeed.bids', index=0,
+      name='instrumentFeeds', full_name='Sim.Protocol.ExchangeFeed.instrumentFeeds', index=0,
       number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='asks', full_name='Sim.Protocol.ExchangeFeed.asks', index=1,
-      number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -529,7 +566,7 @@ _EXCHANGEFEED = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_EXCHANGEFEED_BOOKENTRY, ],
+  nested_types=[_EXCHANGEFEED_INSTRUMENTFEED, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -539,7 +576,7 @@ _EXCHANGEFEED = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=751,
-  serialized_end=913,
+  serialized_end=1052,
 )
 
 _LOGINRESPONSE_INSTRUMENT.containing_type = _LOGINRESPONSE
@@ -548,9 +585,11 @@ _INSERTORDERREQUEST.fields_by_name['lifespan'].enum_type = _INSERTORDERREQUEST_L
 _INSERTORDERREQUEST.fields_by_name['side'].enum_type = _INSERTORDERREQUEST_SIDE
 _INSERTORDERREQUEST_LIFESPAN.containing_type = _INSERTORDERREQUEST
 _INSERTORDERREQUEST_SIDE.containing_type = _INSERTORDERREQUEST
-_EXCHANGEFEED_BOOKENTRY.containing_type = _EXCHANGEFEED
-_EXCHANGEFEED.fields_by_name['bids'].message_type = _EXCHANGEFEED_BOOKENTRY
-_EXCHANGEFEED.fields_by_name['asks'].message_type = _EXCHANGEFEED_BOOKENTRY
+_EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY.containing_type = _EXCHANGEFEED_INSTRUMENTFEED
+_EXCHANGEFEED_INSTRUMENTFEED.fields_by_name['bids'].message_type = _EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY
+_EXCHANGEFEED_INSTRUMENTFEED.fields_by_name['asks'].message_type = _EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY
+_EXCHANGEFEED_INSTRUMENTFEED.containing_type = _EXCHANGEFEED
+_EXCHANGEFEED.fields_by_name['instrumentFeeds'].message_type = _EXCHANGEFEED_INSTRUMENTFEED
 DESCRIPTOR.message_types_by_name['LoginRequest'] = _LOGINREQUEST
 DESCRIPTOR.message_types_by_name['LoginResponse'] = _LOGINRESPONSE
 DESCRIPTOR.message_types_by_name['LogoutRequest'] = _LOGOUTREQUEST
@@ -621,10 +660,17 @@ _sym_db.RegisterMessage(OrderFillMessage)
 
 ExchangeFeed = _reflection.GeneratedProtocolMessageType('ExchangeFeed', (_message.Message,), dict(
 
-  bookEntry = _reflection.GeneratedProtocolMessageType('bookEntry', (_message.Message,), dict(
-    DESCRIPTOR = _EXCHANGEFEED_BOOKENTRY,
+  InstrumentFeed = _reflection.GeneratedProtocolMessageType('InstrumentFeed', (_message.Message,), dict(
+
+    bookEntry = _reflection.GeneratedProtocolMessageType('bookEntry', (_message.Message,), dict(
+      DESCRIPTOR = _EXCHANGEFEED_INSTRUMENTFEED_BOOKENTRY,
+      __module__ = 'libs.protocol.exchange_pb2'
+      # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
+      ))
+    ,
+    DESCRIPTOR = _EXCHANGEFEED_INSTRUMENTFEED,
     __module__ = 'libs.protocol.exchange_pb2'
-    # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.bookEntry)
+    # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.InstrumentFeed)
     ))
   ,
   DESCRIPTOR = _EXCHANGEFEED,
@@ -632,7 +678,8 @@ ExchangeFeed = _reflection.GeneratedProtocolMessageType('ExchangeFeed', (_messag
   # @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed)
   ))
 _sym_db.RegisterMessage(ExchangeFeed)
-_sym_db.RegisterMessage(ExchangeFeed.bookEntry)
+_sym_db.RegisterMessage(ExchangeFeed.InstrumentFeed)
+_sym_db.RegisterMessage(ExchangeFeed.InstrumentFeed.bookEntry)
 
 
 # @@protoc_insertion_point(module_scope)

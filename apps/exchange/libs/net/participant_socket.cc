@@ -4,30 +4,46 @@
 
 namespace Sim::Net
 {
-    ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket) : mSocket(std::move(socket))
-    {
-        mParser = std::make_unique<MessageParser>(*this);
-    }
+    ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse response)
+        : mSocket(std::move(socket)),
+          mLoginResponse{ response },
+          mParser{ std::make_unique<MessageParser>(*this) },
+          mFSM{ ParticipantFSM::CONNECTED }
+    {}
 
     void ParticipantSession::injectParser(std::unique_ptr<IMessageParser> parser) { mParser = std::move(parser); }
+
+    bool ParticipantSession::isLoggedIn() const { return mFSM == ParticipantFSM::LOGGED_IN; }
+
+    void ParticipantSession::login() { mFSM = ParticipantFSM::LOGGED_IN; }
+
+    void ParticipantSession::logout() { mFSM = ParticipantFSM::CONNECTED; }
+
+    void ParticipantSession::raiseError(std::string errorMessage) const
+    {
+        if (mOnError)
+        {
+            mOnError(errorMessage);
+        }
+    }
 
     void ParticipantSession::start(message_handler&& on_message, error_handler&& on_error)
     {
         this->mOnMessage = std::move(on_message);
         this->mOnError = std::move(on_error);
 
-        Protocol::InsertOrderRequest req;
-        req.set_clientid(1);
-        req.set_instrumentid(2);
-        req.set_price(100);
-        req.set_volume(12);
-        req.set_side(Protocol::InsertOrderRequest::SELL);
-        req.set_lifespan(Protocol::InsertOrderRequest::FAK);
+        // Protocol::InsertOrderRequest req;
+        // req.set_clientid(1);
+        // req.set_instrumentid(2);
+        // req.set_price(100);
+        // req.set_volume(12);
+        // req.set_side(Protocol::InsertOrderRequest::SELL);
+        // req.set_lifespan(Protocol::InsertOrderRequest::FAK);
 
-        std::string msg;
-        req.SerializeToString(&msg);
+        // std::string msg;
+        // req.SerializeToString(&msg);
 
-        sendMessage(Protocol::INSERT_ORDER, msg);
+        // sendMessage(Protocol::INSERT_ORDER, msg);
 
         asyncRead();
     }
@@ -101,7 +117,7 @@ namespace Sim::Net
         else
         {
             mSocket->close(error);
-            mOnError();
+            mOnError("Socket read error: " + error.message());
         }
     }
 
@@ -128,7 +144,7 @@ namespace Sim::Net
         else
         {
             mSocket->close(error);
-            mOnError();
+            mOnError("Socket write error: " + error.message());
         }
     }
 

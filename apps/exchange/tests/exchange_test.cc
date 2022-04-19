@@ -11,7 +11,7 @@ namespace Sim::Testing
         MOCK_METHOD(size_t, size, (), (const override));
         MOCK_METHOD(void, printBooks, (), (const override));
         MOCK_METHOD(
-            (std::vector<std::tuple<uint32_t, const Instrument&>>),
+            (std::vector<std::pair<uint32_t, const Instrument*>>),
             getInstrumentDefinitions,
             (),
             (const override));
@@ -63,10 +63,10 @@ namespace Sim::Testing
         auto inst1 = getExampleInstrument("AAPL", 100, 1);
         auto inst2 = getExampleInstrument("MSFT", 150, 2);
 
-        auto inst1Tuple = std::make_tuple(1, inst1);
-        auto inst2Tuple = std::make_tuple(2, inst2);
+        auto inst1Tuple = std::make_pair(1, &inst1);
+        auto inst2Tuple = std::make_pair(2, &inst2);
 
-        auto instVector = std::vector<std::tuple<uint32_t, const Instrument&>>{ inst1Tuple, inst2Tuple };
+        auto instVector = std::vector<std::pair<uint32_t, const Instrument*>>{ inst1Tuple, inst2Tuple };
 
         EXPECT_CALL(*mOrderbookManager, getInstrumentDefinitions()).Times(1).WillOnce(Return(instVector));
 
