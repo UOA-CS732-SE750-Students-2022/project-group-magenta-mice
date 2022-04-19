@@ -32,6 +32,7 @@ target_link_libraries(
   gtest_main
   gmock_main
   net_lib
+  db_lib
   exchange_lib
   protocol_lib
   config_lib
