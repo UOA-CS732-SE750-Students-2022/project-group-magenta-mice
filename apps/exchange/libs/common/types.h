@@ -12,6 +12,8 @@ namespace Sim
         std::string mName;
         uint32_t mPositionLimit;
         uint32_t mTickSizeCents;
+
+        bool operator==(const Instrument& rhs) const;
     };
 
     enum class Lifespan
