@@ -25,10 +25,14 @@ link_directories(${Boost_LIBRARY_DIRS})
 find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 
+find_library(PQXX_LIB pqxx REQUIRED)
+find_library(PQ_LIB pq REQUIRED)
+include_directories(${PQXX_INCLUDE_DIRS})
+
 add_subdirectory(libs)
 include_directories(${PROJECT_SOURCE_DIR}/libs)
 
-include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/include)
+include_directories(SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
 #################
@@ -39,6 +43,7 @@ add_executable(exchange main.cc)
 target_link_libraries(exchange
   PRIVATE
   net_lib
+  db_lib
   exchange_lib
   protocol_lib
   config_lib
@@ -46,6 +51,8 @@ target_link_libraries(exchange
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Protobuf_LIBRARIES}
+  ${PQXX_LIB}
+  ${PQ_LIB}
 )
 
 add_subdirectory(tests)

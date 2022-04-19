@@ -32,7 +32,9 @@ namespace Sim::Config
                 Instrument{ .mName = name, .mPositionLimit = positionLimit, .mTickSizeCents = tickSizeCents });
         }
 
-        return ExchangeConfig(port, instrumentVector);
+        auto dbString = document["database"].GetString();
+
+        return ExchangeConfig(port, instrumentVector, dbString);
     }
 
     bool ConfigReader::validate(int argc, char* argv[]) const

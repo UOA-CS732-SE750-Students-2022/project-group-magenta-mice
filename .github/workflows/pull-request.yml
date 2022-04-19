@@ -12,9 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: "true"
 
       - name: Install C++ Dependencies
-        run: sudo apt-get update && sudo apt-get install -y g++ rsync zip openssh-server make cmake autoconf automake libtool curl unzip protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev ninja-build
+        run: sudo apt-get update && sudo apt-get install -y g++ rsync zip openssh-server make cmake autoconf automake libtool curl unzip protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev ninja-build libpq-dev postgresql-server-dev-all libpqxx-dev
 
       - name: Build Exchange
         working-directory: ./apps/exchange
@@ -23,6 +25,18 @@ jobs:
       - name: Execute Tests
         working-directory: ./apps/exchange
         run: ./build/unit_test
+
+      - name: Upload Exchange
+        uses: actions/upload-artifact@v3
+        with:
+          name: exchange
+          path: ./apps/exchange/build/exchange
+
+      - name: Upload Exchange Unit Tests
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit_test
+          path: ./apps/exchange/build/unit_test
 
   javascript:
     runs-on: ubuntu-latest
@@ -49,3 +63,11 @@ jobs:
 
       - name: Build JavaScript
         run: npm run build
+
+      - name: Upload JavaScript Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: JavaScript Output
+          path: |
+            ./dist/apps/*
+            !./dist/apps/frontend/.next/cache
