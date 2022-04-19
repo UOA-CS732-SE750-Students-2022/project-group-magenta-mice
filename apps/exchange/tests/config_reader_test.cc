@@ -31,7 +31,8 @@ namespace Sim::Testing
                     "positionLimit": 5,
                     "tickSize": 10
                 }
-            ]
+            ],
+            "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange"
         }
         )";
 
@@ -46,5 +47,8 @@ namespace Sim::Testing
             testing::ElementsAre(
                 Instrument{ .mName = "AAPL", .mPositionLimit = 10, .mTickSizeCents = 5 },
                 Instrument{ .mName = "AMZN", .mPositionLimit = 5, .mTickSizeCents = 10 }));
+        EXPECT_STREQ(
+            "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange",
+            config.getDbString().c_str());
     }
 } // namespace Sim::Testing

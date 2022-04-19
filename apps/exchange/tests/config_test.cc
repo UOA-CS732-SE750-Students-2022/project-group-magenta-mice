@@ -8,17 +8,18 @@ namespace Sim::Testing
     class ConfigTestFixture : public Test
     {
        protected:
-        ConfigTestFixture() : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>())) {}
+        ConfigTestFixture() : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>(), std::string())) {}
 
         struct ConfigOptions
         {
             uint32_t mPort = 0;
             std::vector<Instrument> mInstruments;
+            std::string mDbString;
         };
 
         void createConfig(ConfigOptions options)
         {
-            mConfig = Config::ExchangeConfig(options.mPort, options.mInstruments);
+            mConfig = Config::ExchangeConfig(options.mPort, options.mInstruments, options.mDbString);
         }
 
         Config::ExchangeConfig mConfig;
@@ -41,5 +42,11 @@ namespace Sim::Testing
             testing::ElementsAre(
                 Instrument{ .mName = "AAPL", .mPositionLimit = 10, .mTickSizeCents = 5 },
                 Instrument{ .mName = "AMZN", .mPositionLimit = 5, .mTickSizeCents = 10 }));
+    }
+
+    TEST_F(ConfigTestFixture, TestDbStringIsReturnedCorrectly)
+    {
+        createConfig(ConfigOptions{ .mDbString = "my database string" });
+        EXPECT_EQ("my database string", mConfig.getDbString());
     }
 } // namespace Sim::Testing
