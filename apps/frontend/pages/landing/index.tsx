@@ -1,22 +1,8 @@
-import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
-import { useEffect, useState } from "react";
 import Link from 'next/link'
 import cx from "classnames";
 
 const color = "bg-emerald-600 hover:bg-emerald-500 transition-colors";
 export function Index() {
-  const { randomImage, isLoading } = useRandomImage();
-  const [urlLoading, setUrlLoading] = useState(true);
-
-  useEffect(() => {
-    const img = new Image();
-    const finishLoading = () => setUrlLoading(false);
-    img.addEventListener("load", finishLoading);
-    img.src = randomImage;
-    return () => img.removeEventListener("load", finishLoading);
-  }, [setUrlLoading, randomImage]);
-
-  useFullLoader(isLoading || urlLoading);
 
   return (
     <>
