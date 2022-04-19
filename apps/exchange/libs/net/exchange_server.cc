@@ -11,9 +11,11 @@ namespace Sim::Net
     void ExchangeServer::acceptSocket()
     {
         mSocket.emplace(mIoContext);
+        auto loginResponseInstruments = mExchange.getExchangeInstruments();
 
-        mAcceptor.async_accept(*mSocket, [&](error_code error) {
-            auto client = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::move(*mSocket));
+        mAcceptor.async_accept(*mSocket, [&, loginResponseInstruments](error_code error) {
+            auto client = std::make_shared<Participant>(
+                std::make_unique<OrderFactory>(), std::move(*mSocket), loginResponseInstruments);
 
             mExchange.addParticipant(client);
 
@@ -22,10 +24,15 @@ namespace Sim::Net
                     // on_message(messageType, message);
                     (void)this;
                 },
-                [this, weak = std::weak_ptr(client)]() {
-                    (void)this;
-                    // on_error();
-                    // remove participant from exchange
+                [this, weak = std::weak_ptr(client)](std::string message) {
+                    if (auto shared = weak.lock(); shared && mExchange.removeParticipant(shared))
+                    {
+                        std::cout << "Client error: " << message << std::endl;
+                    }
+                    else
+                    {
+                        std::cout << "Error locking and removing client" << std::endl;
+                    }
                 });
 
             acceptSocket();
@@ -38,7 +45,18 @@ namespace Sim::Net
             [&messageType, &message](Participant& participant) { participant.sendMessage(messageType, message); });
     }
 
+    void ExchangeServer::sendPriceFeed()
+    {
+        const auto& feed = mExchange.getFeed();
+        messageAll(Protocol::EXCHANGE_FEED, feed.SerializeAsString());
+    }
+
     const Exchange& ExchangeServer::getExchange() const { return mExchange; }
 
     void ExchangeServer::addInstrument(Instrument instrument) { mExchange.addInstrument(instrument); }
+
+    void ExchangeServer::diagnose()
+    {
+        mExchange.applyToAllParticipants([](Participant& participant) { participant.diagnose(); });
+    }
 } // namespace Sim::Net
