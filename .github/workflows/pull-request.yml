@@ -26,6 +26,18 @@ jobs:
         working-directory: ./apps/exchange
         run: ./build/unit_test
 
+      - name: Upload Exchange
+        uses: actions/upload-artifact@v3
+        with:
+          name: exchange
+          path: ./apps/exchange/build/exchange
+
+      - Name: Upload Exchange Unit Tests
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit_test
+          path: ./apps/exchange/build/exchange
+
   javascript:
     runs-on: ubuntu-latest
     if: ${{ !github.event.pull_request.draft }}
