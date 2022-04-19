@@ -21,6 +21,11 @@ namespace Sim
         mParticipantManager->addParticipant(std::move(participant));
     }
 
+    bool Exchange::removeParticipant(std::shared_ptr<Participant> participant)
+    {
+        return mParticipantManager->removeParticipant(std::move(participant));
+    }
+
     void Exchange::applyToAllParticipants(std::function<void(Participant&)>&& func)
     {
         mParticipantManager->applyToAll(std::move(func));
@@ -31,19 +36,21 @@ namespace Sim
     Protocol::LoginResponse Exchange::getExchangeInstruments()
     {
         auto res = Protocol::LoginResponse();
-        auto instruments = mOrderbookManager->getInstrumentDefinitions();
+        const auto& instruments = mOrderbookManager->getInstrumentDefinitions();
 
-        for (auto& [id, instrument] : instruments)
+        for (const auto& [id, instrument] : instruments)
         {
             auto protocolInst = res.add_instruments();
             protocolInst->set_id(id);
-            protocolInst->set_ticker(instrument.mName);
-            protocolInst->set_positionlimit(instrument.mPositionLimit);
-            protocolInst->set_ticksizeincents(instrument.mTickSizeCents);
+            protocolInst->set_ticker(instrument->mName);
+            protocolInst->set_positionlimit(instrument->mPositionLimit);
+            protocolInst->set_ticksizeincents(instrument->mTickSizeCents);
         }
 
         return res;
     }
+
+    Protocol::ExchangeFeed Exchange::getFeed() const { return mOrderbookManager->getFeeds(); }
 
     const Orderbook& Exchange::getOrderbook(uint32_t instrument) const
     {

@@ -3,6 +3,7 @@
 #include "orderbook.h"
 
 #include <common/types.h>
+#include <protocol/exchange.pb.h>
 #include <tuple>
 #include <unordered_map>
 #include <vector>
@@ -19,7 +20,8 @@ namespace Sim
         virtual size_t size() const;
         virtual void printBooks() const;
 
-        virtual std::vector<std::tuple<uint32_t, const Instrument&>> getInstrumentDefinitions() const;
+        virtual std::vector<std::pair<uint32_t, const Instrument*>> getInstrumentDefinitions() const;
+        virtual Protocol::ExchangeFeed getFeeds() const;
 
         virtual bool insertOrder(OrderOwningPtr order);
         virtual bool cancelOrder(const Order* order);

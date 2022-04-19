@@ -273,4 +273,95 @@ namespace Sim::Testing
         ASSERT_EQ(bidOrder2Ptr->mVolume, 4);
     }
 
+    TEST_F(OrderbookTestFixture, TestGettingTopBids)
+    {
+        auto bidOrder1 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 90, 5);
+        auto bidOrder2 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 91, 5);
+        auto bidOrder3 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 92, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder1)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder2)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder3)));
+
+        auto topBidsGetThree = mOrderbook.getTopBidLevels(3);
+        ASSERT_THAT(
+            topBidsGetThree, testing::ElementsAre(std::make_pair(92, 5), std::make_pair(91, 5), std::make_pair(90, 5)));
+
+        auto topBidsGetTwo = mOrderbook.getTopBidLevels(2);
+        ASSERT_THAT(topBidsGetTwo, testing::ElementsAre(std::make_pair(92, 5), std::make_pair(91, 5)));
+
+        auto topBidsGetFour = mOrderbook.getTopBidLevels(4);
+        ASSERT_THAT(
+            topBidsGetFour, testing::ElementsAre(std::make_pair(92, 5), std::make_pair(91, 5), std::make_pair(90, 5)));
+    }
+
+    TEST_F(OrderbookTestFixture, TestGettingTopBidsCombinesOrdersOnSameLevel)
+    {
+        auto bidOrder1 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 90, 5);
+        auto bidOrder2 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 91, 5);
+        auto bidOrder3 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 92, 5);
+        auto bidOrder4 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::BID, 92, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder1)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder2)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder3)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(bidOrder4)));
+
+        auto topBidsGetThree = mOrderbook.getTopBidLevels(3);
+        ASSERT_THAT(
+            topBidsGetThree,
+            testing::ElementsAre(std::make_pair(92, 10), std::make_pair(91, 5), std::make_pair(90, 5)));
+
+        auto topBidsGetTwo = mOrderbook.getTopBidLevels(2);
+        ASSERT_THAT(topBidsGetTwo, testing::ElementsAre(std::make_pair(92, 10), std::make_pair(91, 5)));
+
+        auto topBidsGetFour = mOrderbook.getTopBidLevels(4);
+        ASSERT_THAT(
+            topBidsGetFour, testing::ElementsAre(std::make_pair(92, 10), std::make_pair(91, 5), std::make_pair(90, 5)));
+    }
+
+    TEST_F(OrderbookTestFixture, TestGettingTopAsks)
+    {
+        auto askOrder1 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 90, 5);
+        auto askOrder2 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 91, 5);
+        auto askOrder3 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 92, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder1)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder2)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder3)));
+
+        auto topAsksGetThree = mOrderbook.getTopAskLevels(3);
+        ASSERT_THAT(
+            topAsksGetThree, testing::ElementsAre(std::make_pair(90, 5), std::make_pair(91, 5), std::make_pair(92, 5)));
+
+        auto topAsksGetTwo = mOrderbook.getTopAskLevels(2);
+        ASSERT_THAT(topAsksGetTwo, testing::ElementsAre(std::make_pair(90, 5), std::make_pair(91, 5)));
+
+        auto topAsksGetFour = mOrderbook.getTopAskLevels(4);
+        ASSERT_THAT(
+            topAsksGetFour, testing::ElementsAre(std::make_pair(90, 5), std::make_pair(91, 5), std::make_pair(92, 5)));
+    }
+
+    TEST_F(OrderbookTestFixture, TestGettingTopAsksCombinesOrdersOnSameLevel)
+    {
+        auto askOrder1 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 90, 5);
+        auto askOrder2 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 91, 5);
+        auto askOrder3 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 92, 5);
+        auto askOrder4 = std::make_unique<Order>(1, 1, Lifespan::GFD, Side::ASK, 92, 5);
+
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder1)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder2)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder3)));
+        ASSERT_TRUE(mOrderbook.insertOrder(std::move(askOrder4)));
+
+        auto topAsksGetThree = mOrderbook.getTopAskLevels(3);
+        ASSERT_THAT(
+            topAsksGetThree,
+            testing::ElementsAre(std::make_pair(90, 5), std::make_pair(91, 5), std::make_pair(92, 10)));
+
+        auto topAsksGetFour = mOrderbook.getTopAskLevels(4);
+        ASSERT_THAT(
+            topAsksGetFour, testing::ElementsAre(std::make_pair(90, 5), std::make_pair(91, 5), std::make_pair(92, 10)));
+    }
+
 } // namespace Sim::Testing

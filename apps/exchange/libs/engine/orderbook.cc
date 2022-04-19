@@ -277,6 +277,52 @@ namespace Sim
         return {};
     }
 
+    std::vector<std::pair<uint32_t, uint32_t>> Orderbook::getTopAskLevels(uint32_t maxSize) const
+    {
+        auto list = std::vector<std::pair<uint32_t, uint32_t>>();
+
+        // Iterate through each price level
+        for (auto levelBegin = mAskOrders.begin(); levelBegin != mAskOrders.end() && list.size() < maxSize;
+             ++levelBegin)
+        {
+            if (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end())
+            {
+                uint32_t volumeCount = 0;
+                // reduce to volume of each order in the price level
+                for (auto order = orderBegin; order != levelBegin->second.end(); ++order)
+                {
+                    volumeCount += order->get()->mVolume;
+                }
+
+                list.emplace_back(levelBegin->first, volumeCount);
+            }
+        }
+
+        return list;
+    }
+
+    std::vector<std::pair<uint32_t, uint32_t>> Orderbook::getTopBidLevels(uint32_t maxSize) const
+    {
+        auto list = std::vector<std::pair<uint32_t, uint32_t>>();
+
+        for (auto levelBegin = mBidOrders.begin(); levelBegin != mBidOrders.end() && list.size() < maxSize;
+             ++levelBegin)
+        {
+            if (auto orderBegin = levelBegin->second.begin(); orderBegin != levelBegin->second.end())
+            {
+                uint32_t volumeCount = 0;
+                for (auto order = orderBegin; order != levelBegin->second.end(); ++order)
+                {
+                    volumeCount += order->get()->mVolume;
+                }
+
+                list.emplace_back(levelBegin->first, volumeCount);
+            }
+        }
+
+        return list;
+    }
+
     std::ostream& operator<<(std::ostream& os, const Orderbook& ob)
     {
         for (auto levelBegin = ob.mAskOrders.begin(); levelBegin != ob.mAskOrders.end(); ++levelBegin)
