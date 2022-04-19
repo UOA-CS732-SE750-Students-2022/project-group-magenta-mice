@@ -22,11 +22,11 @@ export function Index() {
   return (
     <>
       <div 
-      className="h-screen w-screen justify-center items-center flex flex-col bg-cover bg-center bg-no-repeat"  
-      // style={{backgroundImage: 
-      //   "linear-gradient(to top, rgba(23, 23, 23, 1), rgba(195, 195, 195, 0.3)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-1.2.1)"
+      className="h-screen w-screen justify-center items-center flex flex-col bg-cover bg-center bg-no-repeat bg-blend-multiply"  
+      style={{backgroundImage: 
+        "linear-gradient(to top, rgba(23, 23, 23, 1), rgba(195, 195, 195, 0.3)), url('https://images.unsplash.com/photo-1643101810111-d364a77127b7?ixlib=rb-1.2.1)"
 
-      // }}
+      }}
       >
         <h1 className="text-3xl lg:text-7xl md:text-5xl text-white  font-bold">
           Simulate.Exchange
