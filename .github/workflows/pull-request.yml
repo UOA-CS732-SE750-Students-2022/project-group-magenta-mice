@@ -1,0 +1,51 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  exchange:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install C++ Dependencies
+        run: sudo apt-get update && sudo apt-get install -y g++ rsync zip openssh-server make cmake autoconf automake libtool curl unzip protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev ninja-build
+
+      - name: Build Exchange
+        working-directory: ./apps/exchange
+        run: ./release.sh
+
+      - name: Execute Tests
+        working-directory: ./apps/exchange
+        run: ./build/unit_test
+
+  javascript:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: NPM Install
+        run: npm ci
+
+      - name: Build JavaScript
+        run: npm run build
