@@ -1,4 +1,3 @@
-import { DividedText } from "@simulate-exchange/components";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
 import { useEffect, useState } from "react";
 import Link from 'next/link'
@@ -33,7 +32,7 @@ export function Index() {
           </h1>
         <div className="my-3"></div>
         <p className="lg:text-2xl md:text-1xl text-gray-300 lg:w-1/3 md:w-1/3 w-1/2 text-center	">
-          Create your own transparent simulated stock exchange to test out various trading strategies and methods
+          Create your own transparent simulated stock exchange and test out various trading strategies and methods
         </p>
         <div className="my-3"></div>
         <Link href="/auth" passHref>
