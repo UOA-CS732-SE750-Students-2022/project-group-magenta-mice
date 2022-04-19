@@ -32,7 +32,7 @@ jobs:
           name: exchange
           path: ./apps/exchange/build/exchange
 
-      - Name: Upload Exchange Unit Tests
+      - name: Upload Exchange Unit Tests
         uses: actions/upload-artifact@v3
         with:
           name: unit_test
