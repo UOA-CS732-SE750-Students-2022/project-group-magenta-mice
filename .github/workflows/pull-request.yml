@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: "true"
 
       - name: Install C++ Dependencies
         run: sudo apt-get update && sudo apt-get install -y g++ rsync zip openssh-server make cmake autoconf automake libtool curl unzip protobuf-compiler libprotobuf-dev libprotoc-dev libboost-all-dev ninja-build libpq-dev postgresql-server-dev-all libpqxx-dev
