@@ -26,9 +26,9 @@ export function Index() {
       style={{backgroundImage: "linear-gradient(to top, rgba(23, 23, 23, 1), rgba(195, 195, 195, 0.3)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-1.2.1)"}}
       >
         <h1 className="text-white text-7xl font-semibold">Simulate.Exchange</h1>
-        <br/>
+        <div className="my-2"></div>
         <DividedText text="Create an exchange NOW" className="text-gray-200 text-2xl" />
-        <br/>
+        <div className="my-2"></div>
         <Link href="/auth" passHref>
           <button
             className={cx(
