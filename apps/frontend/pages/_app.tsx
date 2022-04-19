@@ -15,6 +15,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { CornerAlertManager } from "@simulate-exchange/hooks";
 import { createPortal } from "react-dom";
 import "../services/firebase";
 import "./styles.css";
@@ -72,18 +73,22 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <LoaderCounterContext.Provider value={{ loadingCount, setLoadingCount }}>
-        <LoggedInProvider>
-          {loadingCount > 0 && createPortal(<Loading />, document.body)}
+      <CornerAlertManager>
+        <LoaderCounterContext.Provider
+          value={{ loadingCount, setLoadingCount }}
+        >
+          <LoggedInProvider>
+            {loadingCount > 0 && createPortal(<Loading />, document.body)}
 
-          <Head>
-            <title>Welcome to frontend!</title>
-          </Head>
-          <main className="app">
-            <Component {...pageProps} />
-          </main>
-        </LoggedInProvider>
-      </LoaderCounterContext.Provider>
+            <Head>
+              <title>Welcome to frontend!</title>
+            </Head>
+            <main className="app">
+              <Component {...pageProps} />
+            </main>
+          </LoggedInProvider>
+        </LoaderCounterContext.Provider>
+      </CornerAlertManager>
     </ApolloProvider>
   );
 }
