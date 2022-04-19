@@ -1,0 +1,3 @@
+[submodule "apps/exchange/include"]
+	path = apps/exchange/include/rapidjson
+	url = git@github.com:Tencent/rapidjson.git

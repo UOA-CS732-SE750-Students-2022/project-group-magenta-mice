@@ -32,7 +32,7 @@ include_directories(${PQXX_INCLUDE_DIRS})
 add_subdirectory(libs)
 include_directories(${PROJECT_SOURCE_DIR}/libs)
 
-include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/include)
+include_directories(SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
 #################
