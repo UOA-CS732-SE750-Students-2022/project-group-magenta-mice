@@ -6,23 +6,23 @@ This project was generated using [Nx](https://nx.dev).
 
 | Directory      | Description                                          |
 | -------------- | ---------------------------------------------------- |
-| **apps**       | Primary applications and e2e tests                   |
+| **_apps_**     | Primary applications and e2e tests                   |
 | backend        | NestJS backend server                                |
 | data-generator | Python server that generates data for an exchange    |
 | exchange       | C++ Matching Engine, Exchange and Networking         |
 | frontend       | NextJS frontend website                              |
 | orchestrator   | Go application for managing exchanges                |
-| **libs**       | Various libraries for the main applications          |
+| **_libs_**     | Various libraries for the main applications          |
 | assets         | Various assets (mostly images) for the frontend      |
 | components     | Frontend components inside storybook                 |
 | database       | Backend library for Prisma database communication    |
 | gql            | Frontend library that defines GraphQL requests       |
 | hooks          | Frontend library that contains various React hooks   |
-| **prisma**     | PostgreSQL schema definition and migrations          |
-| **tools**      | Various development tools                            |
+| **_prisma_**   | PostgreSQL schema definition and migrations          |
+| **_tools_**    | Various development tools                            |
 | scripts        | More complex scripts to improve developer experience |
 | spm            | SimulatePackageManager, manages our C++ applications |
-| **media**      | Project files for custom media                       |
+| **_media_**    | Project files for custom media                       |
 
 ## Development server
 
