@@ -1,25 +1,36 @@
-import { Layout } from "@simulate-exchange/components";
+import { Layout, Loading } from "@simulate-exchange/components";
 import { useRouter } from "next/router";
-import { useUser } from "@simulate-exchange/hooks";
+import { useFullLoader, useIsLoggedIn } from "@simulate-exchange/hooks";
 import { useEffect } from "react";
+import { useCheckInviteQuery, useJoinExchangeMutation } from "@simulate-exchange/gql";
 
 export function Invite() {
+  const { loading, loggedIn } = useIsLoggedIn();
+  useFullLoader(loading)
+  return <Layout.Page>{!loading ? <AuthComponent loggedIn={loggedIn} /> : <></>}</Layout.Page>
+}
+
+const AuthComponent = ({ loggedIn }: { loggedIn: boolean }) => {
   const router = useRouter()
-  const { user, loading } = useUser()
   const { hash } = router.query
+  const { data, loading } = useCheckInviteQuery({ variables: { id: hash as string }, skip: !router.isReady })
+  const [joinExchange] = useJoinExchangeMutation()
 
   useEffect(() => {
-    if (router.isReady && !user && !loading) {
+    if (router.isReady && !loggedIn) {
       router.push(`/auth?invite=${hash}`)
     }
 
-    // todo: verify that invite is legit
-  }, [router, user, hash, loading])
+    if (loggedIn && data && data.checkInvite) {
+      joinExchange({ variables: { id: hash as string }}).then(res => {
+        router.push(`/exchange/${res.data.joinExchange.exchange.id}`)
+      })
+    }
+  }, [router, hash, loggedIn, data, loading, joinExchange])
 
-  if (!user) return <></>
-  return (
-    <Layout.Page>{hash} - {user.email}</Layout.Page>
-  );
+  if (!loggedIn) return <></>
+  if (data && !data.checkInvite) return <Layout.Page>Invite is invalid</Layout.Page>
+  return <Loading />
 }
 
 export default Invite;
