@@ -1,19 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, User } from "firebase/auth";
+import { useCurrentUserQuery } from '@simulate-exchange/gql'
 
 type LoggedInData = {
   loggedIn: boolean;
+  loading: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const LoggedInContext = React.createContext<LoggedInData>({
+export const LoggedInContext = React.createContext<LoggedInData>({
   loggedIn: false,
-
+  loading: true,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setLoggedIn: () => {},
 });
 
 export const LoggedInProvider: React.FC = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {
@@ -22,6 +26,7 @@ export const LoggedInProvider: React.FC = ({ children }) => {
       } else {
         setLoggedIn(false);
       }
+      setLoading(false);
     });
     return () => {
       clearListener();
@@ -29,7 +34,7 @@ export const LoggedInProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <LoggedInContext.Provider value={{ loggedIn, setLoggedIn }}>
+    <LoggedInContext.Provider value={{ loggedIn, setLoggedIn, loading }}>
       {children}
     </LoggedInContext.Provider>
   );
