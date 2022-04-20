@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 export function Index() {
   const { randomImage, isLoading } = useRandomImage();
   const [urlLoading, setUrlLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(true);
 
   useEffect(() => {
     const img = new Image();
@@ -24,8 +23,7 @@ export function Index() {
         </p>
         <p className="text-2xl pt-10 pl-10 text-gray-50">My exchanges</p>
         <div className="flex flex-row flex-wrap">
-          <ExchangeCard name={"Name of Exchange"} isAddCard={false} />
-          <ExchangeCard name={"Name of Exchange"} isAddCard={false} />
+          <ExchangeCard name={"An Exchange"} isAddCard={false} />
           <ExchangeCard isAddCard={true} />
         </div>
       </div>
