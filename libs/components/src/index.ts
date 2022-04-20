@@ -5,3 +5,4 @@ export * from "./lib/layout";
 export * from "./lib/loading";
 export * from "./lib/login-panel";
 export * from "./lib/exchange-card";
+export * from "./lib/custom-modal";
