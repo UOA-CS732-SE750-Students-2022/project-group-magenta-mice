@@ -12,6 +12,6 @@ export class User {
   @Field(() => ID, { description: "the google ID" })
   id: string;
 
-  @Field(() => [UserPermission])
+  @Field(() => [UserPermission], {nullable : true})
   userPermissions: UserPermission[]
 }

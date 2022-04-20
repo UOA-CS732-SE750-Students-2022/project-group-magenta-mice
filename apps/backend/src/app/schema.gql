@@ -19,7 +19,7 @@ type User {
   profilePicUrl: String
 
   """the google ID"""
-  id: ID
+  id: ID!
   userPermissions: [UserPermission!]
 }
 

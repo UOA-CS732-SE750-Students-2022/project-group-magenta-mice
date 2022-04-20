@@ -33,7 +33,7 @@ export interface UserPermission {
 export interface User {
     name: string;
     profilePicUrl?: Nullable<string>;
-    id?: Nullable<string>;
+    id: string;
     userPermissions?: Nullable<UserPermission[]>;
 }
 
