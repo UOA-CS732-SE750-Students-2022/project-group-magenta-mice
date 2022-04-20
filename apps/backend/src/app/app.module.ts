@@ -7,6 +7,7 @@ import { AppService } from "./app.service";
 import { UsersModule } from "./controllers/users/users.module";
 import { FirebaseAuthStrategy } from "./middleware/firebase.auth";
 import { FirebaseGuard } from "./middleware/firebase.guard";
+import { ExchangesModule } from "./controllers/exchanges/exchanges.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { FirebaseGuard } from "./middleware/firebase.guard";
       },
     }),
     UsersModule,
+    ExchangesModule,
   ],
   controllers: [AppController],
   providers: [AppService, FirebaseGuard, FirebaseAuthStrategy],

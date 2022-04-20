@@ -3,7 +3,10 @@ query CurrentUser {
     name
     profilePicUrl
     userPermissions {
-      exchangeId
+      permission
+      exchange {
+        id
+      }
     }
   }
 }

@@ -1,0 +1,40 @@
+query FindExchange($id: ID!) {
+  exchange(id: $id) {
+    public
+    userPermissions {
+      user {
+        name
+        id
+      }
+      permission
+    }
+  }
+}
+
+mutation CreateInvite($exchangeId: String!, $userId: String!) {
+  createInvite(
+    createInviteInput: { exchangeId: $exchangeId, userId: $userId }
+  ) {
+    exchangeId
+    userId
+    id
+  }
+}
+
+query CheckInvite($id: ID!) {
+  checkInvite(id: $id)
+}
+
+mutation JoinExchange($id: String!) {
+  joinExchange(id: $id) {
+    exchange {
+      id
+    }
+  }
+}
+
+mutation CreateTestExchange {
+  createTestExchange {
+    id
+  }
+}

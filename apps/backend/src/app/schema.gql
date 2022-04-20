@@ -2,8 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Exchange {
+  id: String!
+  public: Boolean!
+  userPermissions: [UserPermission!]!
+}
+
 type UserPermission {
-  exchangeId: String!
+  exchange: Exchange!
+  user: User!
+  permission: String!
 }
 
 type User {
@@ -11,16 +19,27 @@ type User {
   profilePicUrl: String
 
   """the google ID"""
+  id: ID
+  userPermissions: [UserPermission!]
+}
+
+type Invite {
   id: ID!
-  userPermissions: [UserPermission!]!
+  exchangeId: String!
+  userId: String
 }
 
 type Query {
   currentUser: User!
+  exchange(id: ID!): Exchange!
+  checkInvite(id: ID!): Boolean!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  createInvite(createInviteInput: CreateInviteInput!): Invite!
+  joinExchange(id: String!): UserPermission!
+  createTestExchange: Exchange!
 }
 
 input CreateUserInput {
@@ -30,4 +49,9 @@ input CreateUserInput {
 
   """Google ProfilePic of user"""
   profilePicUrl: String
+}
+
+input CreateInviteInput {
+  exchangeId: String!
+  userId: String
 }
