@@ -25,43 +25,43 @@ export function Index() {
   return (
     <Layout.Page>
       <div className="flex flex-col">
-        <p className="flex items-center gap-x-2  pt-10 text-4xl font-bold text-gray-50">
+        <p className="flex items-center gap-x-4 pt-10 text-4xl font-bold text-gray-50">
           Welcome, Name
           <Celebrate />
         </p>
-        <p className="bg- mb-5 flex items-center gap-x-2 pt-10 text-2xl font-light text-gray-50">
-          <Bank />
+        <p className="bg- mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
           My Exchanges
+          <Bank />
         </p>
         <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
           <ExchangeCard
             colour={CardColours[1]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
             colour={CardColours[2]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
             colour={CardColours[3]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
             colour={CardColours[4]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
             colour={CardColours[5]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
             colour={CardColours[6]}
-            name={"New York Exchange"}
+            name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard isAddCard={true} />

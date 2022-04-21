@@ -6,11 +6,22 @@ export default {
   title: "Exchange Card",
 } as Meta;
 
-const Template: Story<ExchangeCardProps> = (args) => <ExchangeCard {...args} />;
+const Template: Story<ExchangeCardProps> = (args) => (
+  <div className="max-w-xl">
+    <ExchangeCard {...args} />
+  </div>
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
-  name: "This is my Name",
+  name: "NASDAQ Exchange",
   colour: "bg-rose-600",
   isAddCard: false,
+  currentInstruments: [
+    { name: "BND", type: "Bond" },
+    { name: "SPY", type: "ETF" },
+    { name: "QQQ", type: "ETF" },
+  ],
+  participants: 4,
+  profitLoss: 7300,
 };
