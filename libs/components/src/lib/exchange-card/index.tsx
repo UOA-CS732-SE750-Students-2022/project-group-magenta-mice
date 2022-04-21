@@ -429,9 +429,8 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             <div className="flex h-full w-full flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between">
-                  <div className="text-2xl font-bold text-gray-200">{name}</div>
-                  <div className="flex items-center gap-x-2 font-medium text-gray-200">
-                    <ShakeHands /> {participants} Participants
+                  <div className="text-lg font-bold text-gray-200 lg:text-2xl">
+                    {name}
                   </div>
                 </div>
                 <div className="ml-4">
@@ -448,11 +447,16 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
                   )}
                 </div>
               </div>
-              <div className="flex items-center gap-x-2">
-                <GraphEmoji />
-                <span className="font-bold text-gray-200">
-                  {formatMoney(profitLoss)} P/L
-                </span>
+              <div className="flex justify-between">
+                <div className="flex items-center gap-x-2">
+                  <GraphEmoji />
+                  <span className="font-bold text-gray-200">
+                    {formatMoney(profitLoss)} P/L
+                  </span>
+                </div>
+                <div className="flex items-center gap-x-2 font-medium text-gray-200">
+                  <ShakeHands /> {participants} Participants
+                </div>
               </div>
             </div>
           </div>
