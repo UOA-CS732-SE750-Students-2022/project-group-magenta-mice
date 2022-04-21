@@ -9,7 +9,7 @@ import { useMemo } from "react";
 export function Index() {
   const { user } = useLoggedInRedirect();
   const firstName = useMemo(
-    () => ", " + user.displayName.split(" ")?.[0] ?? "",
+    () => ", " + user?.displayName?.split(" ")?.[0] ?? "",
     [user],
   );
 

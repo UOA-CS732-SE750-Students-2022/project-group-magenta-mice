@@ -15,6 +15,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddInstrumentDto = {
+  instrumentType: Scalars['String'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSizeMin: Scalars['Int'];
+};
+
 export type CreateExchangeInput = {
   exchangeColor: Scalars['Int'];
   exchangeName: Scalars['String'];
@@ -36,8 +43,17 @@ export type CreateUserInput = {
 export type Exchange = {
   __typename?: 'Exchange';
   id: Scalars['String'];
+  instruments: Array<Instrument>;
   public: Scalars['Boolean'];
   userPermissions: Array<UserPermission>;
+};
+
+export type Instrument = {
+  __typename?: 'Instrument';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSizeMin: Scalars['Int'];
 };
 
 export type Invite = {
@@ -49,11 +65,18 @@ export type Invite = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addInstrument: Scalars['Boolean'];
   createExchange: Exchange;
   createInvite: Invite;
   createTestExchange: Exchange;
   createUser: User;
   joinExchange: UserPermission;
+};
+
+
+export type MutationAddInstrumentArgs = {
+  exchangeId: Scalars['String'];
+  instrument: AddInstrumentDto;
 };
 
 
@@ -114,7 +137,18 @@ export type FindExchangeQueryVariables = Exact<{
 }>;
 
 
-export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, userPermissions: Array<{ __typename?: 'UserPermission', permission: string, user: { __typename?: 'User', name: string, id: string } }> } };
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, userPermissions: Array<{ __typename?: 'UserPermission', permission: string, user: { __typename?: 'User', name: string, id: string } }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } };
+
+export type AddInstrumentMutationVariables = Exact<{
+  exchangeId: Scalars['String'];
+  instrumentType: Scalars['String'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSize: Scalars['Int'];
+}>;
+
+
+export type AddInstrumentMutation = { __typename?: 'Mutation', addInstrument: boolean };
 
 export type CreateInviteMutationVariables = Exact<{
   exchangeId: Scalars['String'];
@@ -177,6 +211,9 @@ export const FindExchangeDocument = gql`
       }
       permission
     }
+    instruments {
+      name
+    }
   }
 }
     `;
@@ -208,6 +245,44 @@ export function useFindExchangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type FindExchangeQueryHookResult = ReturnType<typeof useFindExchangeQuery>;
 export type FindExchangeLazyQueryHookResult = ReturnType<typeof useFindExchangeLazyQuery>;
 export type FindExchangeQueryResult = Apollo.QueryResult<FindExchangeQuery, FindExchangeQueryVariables>;
+export const AddInstrumentDocument = gql`
+    mutation AddInstrument($exchangeId: String!, $instrumentType: String!, $name: String!, $positionLimit: Int!, $tickSize: Int!) {
+  addInstrument(
+    exchangeId: $exchangeId
+    instrument: {instrumentType: $instrumentType, name: $name, positionLimit: $positionLimit, tickSizeMin: $tickSize}
+  )
+}
+    `;
+export type AddInstrumentMutationFn = Apollo.MutationFunction<AddInstrumentMutation, AddInstrumentMutationVariables>;
+
+/**
+ * __useAddInstrumentMutation__
+ *
+ * To run a mutation, you first call `useAddInstrumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddInstrumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addInstrumentMutation, { data, loading, error }] = useAddInstrumentMutation({
+ *   variables: {
+ *      exchangeId: // value for 'exchangeId'
+ *      instrumentType: // value for 'instrumentType'
+ *      name: // value for 'name'
+ *      positionLimit: // value for 'positionLimit'
+ *      tickSize: // value for 'tickSize'
+ *   },
+ * });
+ */
+export function useAddInstrumentMutation(baseOptions?: Apollo.MutationHookOptions<AddInstrumentMutation, AddInstrumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddInstrumentMutation, AddInstrumentMutationVariables>(AddInstrumentDocument, options);
+      }
+export type AddInstrumentMutationHookResult = ReturnType<typeof useAddInstrumentMutation>;
+export type AddInstrumentMutationResult = Apollo.MutationResult<AddInstrumentMutation>;
+export type AddInstrumentMutationOptions = Apollo.BaseMutationOptions<AddInstrumentMutation, AddInstrumentMutationVariables>;
 export const CreateInviteDocument = gql`
     mutation CreateInvite($exchangeId: String!, $userId: String!) {
   createInvite(createInviteInput: {exchangeId: $exchangeId, userId: $userId}) {

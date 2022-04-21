@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ValidationError } from "apollo-server-express";
+import { InstrumentType } from ".prisma/client";
 
 @Injectable()
 export class ExchangeStoreService {
@@ -14,9 +15,13 @@ export class ExchangeStoreService {
   async findById(id: string) {
     const exchange = await this.prismaService.exchange.findFirst({
       where: { id },
-      include: { userPermissions: { include: { user: true } } },
+      include: {
+        userPermissions: { include: { user: true } },
+        instruments: true,
+      },
     });
     if (!exchange) throw new ValidationError("Exchange not found");
+
     return exchange;
   }
 
@@ -91,5 +96,26 @@ export class ExchangeStoreService {
       data: { userId: uid, exchangeId: exchange.id, permission: "ADMIN" },
     });
     return exchange;
+  }
+
+  async addInstrument(
+    exchangeId: string,
+    data: {
+      instrumentType: InstrumentType;
+      name: string;
+      positionLimit: number;
+      tickSizeMin: number;
+    },
+  ) {
+    await this.prismaService.exchange.update({
+      where: { id: exchangeId },
+      data: {
+        instruments: {
+          create: {
+            ...data,
+          },
+        },
+      },
+    });
   }
 }

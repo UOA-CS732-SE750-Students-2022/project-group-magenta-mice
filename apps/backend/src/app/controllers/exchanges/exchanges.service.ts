@@ -1,8 +1,9 @@
+import { InstrumentType } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { ExchangeStoreService } from "@simulate-exchange/database";
+import { AddInstrumentDto } from "./dto/add-instrument.input";
 import { CreateExchangeInput } from "./dto/create-exchange.input";
 import { CreateInviteInput } from "./dto/create-invite.input";
-import { Exchange } from "./entities/exchange.entity";
 
 @Injectable()
 export class ExchangesService {
@@ -41,5 +42,25 @@ export class ExchangesService {
       name.exchangeColor,
       name.exchangeName,
     );
+  }
+
+  async addInstrument(
+    userId: string,
+    exchangeId: string,
+    instrument: AddInstrumentDto,
+  ) {
+    //TODO: CHECK EXCHANGE OWNERSHIP
+
+    let typeEnum;
+    if (instrument.instrumentType === "stock") {
+      typeEnum = InstrumentType.STOCK;
+    } else {
+      typeEnum = InstrumentType.BOND;
+    }
+
+    return await this.exchangeStore.addInstrument(exchangeId, {
+      ...instrument,
+      instrumentType: typeEnum,
+    });
   }
 }

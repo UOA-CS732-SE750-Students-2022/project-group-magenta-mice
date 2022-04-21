@@ -9,6 +9,7 @@ import { UseGuards } from "@nestjs/common";
 import { FirebaseGuard } from "../../middleware/firebase.guard";
 import { UserPermission } from "../users/entities/permissions.entity";
 import { CreateExchangeInput } from "./dto/create-exchange.input";
+import { AddInstrumentDto } from "./dto/add-instrument.input";
 
 @UseGuards(FirebaseGuard)
 @Resolver(() => Exchange)
@@ -56,5 +57,15 @@ export class ExchangesResolver {
     @Args("exchangeData") name: CreateExchangeInput,
   ) {
     return await this.exchangesService.createExchange(user.uid, name);
+  }
+
+  @Mutation(() => Boolean)
+  async addInstrument(
+    @CurrentUser() user: DecodedIdToken,
+    @Args("exchangeId") exchangeId: string,
+    @Args("instrument") instrument: AddInstrumentDto,
+  ) {
+    await this.exchangesService.addInstrument(user.uid, exchangeId, instrument);
+    return true;
   }
 }
