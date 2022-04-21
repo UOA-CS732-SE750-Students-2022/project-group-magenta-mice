@@ -2,10 +2,19 @@ import { Layout, Loading } from "@simulate-exchange/components";
 import { useCreateTestExchangeMutation, useCurrentUserQuery } from "@simulate-exchange/gql";
 import { useFullLoader, useIsLoggedIn } from "@simulate-exchange/hooks";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Index() {
-  const { loggedIn } = useIsLoggedIn();
-  useFullLoader(!loggedIn)
+  const { loggedIn, loading } = useIsLoggedIn();
+  const router = useRouter()
+  useFullLoader(loading)
+
+  useEffect(() => {
+    if (!loading && !loggedIn) {
+      router.push("/auth");
+    }
+  }, [loggedIn, loading, router])
+
   return <Layout.Page>{loggedIn ? <AuthComponent /> : <></>}</Layout.Page>
 }
 
@@ -16,7 +25,6 @@ const AuthComponent = () => {
 
   const onClick = async () => {
     const { data } = await createTestExchange()
-    console.log(data)
     router.push(`/exchange/${data.createTestExchange.id}`)
   }
 
