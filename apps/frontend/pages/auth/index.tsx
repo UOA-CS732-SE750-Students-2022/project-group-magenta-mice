@@ -3,11 +3,14 @@ import {
   useLoginPanelController,
 } from "@simulate-exchange/components";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export function Index() {
   const { randomImage, isLoading } = useRandomImage();
   const [urlLoading, setUrlLoading] = useState(true);
+  const router = useRouter();
+  const { invite } = router.query
 
   useEffect(() => {
     const img = new Image();
@@ -25,10 +28,10 @@ export function Index() {
         style={{
           backgroundImage: "url(" + randomImage + ")",
         }}
-        className={"h-screen w-screen bg-no-repeat bg-cover absolute"}
+        className={"h-screen w-screen bg-no-repeat bg-cover absolute -z-10"}
       />
       <div className="h-screen w-screen justify-center items-center flex">
-        <LoginPanel useController={useLoginPanelController} />
+        <LoginPanel useController={useLoginPanelController} invite={invite as string} />
       </div>
     </>
   );

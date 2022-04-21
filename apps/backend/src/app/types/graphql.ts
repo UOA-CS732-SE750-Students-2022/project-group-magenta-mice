@@ -13,18 +13,47 @@ export interface CreateUserInput {
     profilePicUrl?: Nullable<string>;
 }
 
+export interface CreateInviteInput {
+    exchangeId: string;
+    userId?: Nullable<string>;
+}
+
+export interface Exchange {
+    id: string;
+    public: boolean;
+    userPermissions: UserPermission[];
+}
+
+export interface UserPermission {
+    exchange: Exchange;
+    user: User;
+    permission: string;
+}
+
 export interface User {
     name: string;
     profilePicUrl?: Nullable<string>;
     id: string;
+    userPermissions?: Nullable<UserPermission[]>;
+}
+
+export interface Invite {
+    id: string;
+    exchangeId: string;
+    userId?: Nullable<string>;
 }
 
 export interface IQuery {
     currentUser(): User | Promise<User>;
+    exchange(id: string): Exchange | Promise<Exchange>;
+    checkInvite(id: string): boolean | Promise<boolean>;
 }
 
 export interface IMutation {
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
+    createInvite(createInviteInput: CreateInviteInput): Invite | Promise<Invite>;
+    joinExchange(id: string): UserPermission | Promise<UserPermission>;
+    createTestExchange(): Exchange | Promise<Exchange>;
 }
 
 type Nullable<T> = T | null;

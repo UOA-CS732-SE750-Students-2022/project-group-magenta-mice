@@ -1,6 +1,5 @@
 import { ReactComponent as GoogleIcon } from "@simulate-exchange/assets";
-import { Glass } from "@simulate-exchange/components";
-import { DividedText } from "@simulate-exchange/components";
+import { Glass, DividedText } from "../..";
 import { MailIcon } from "@heroicons/react/solid";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import cx from "classnames";
@@ -12,10 +11,11 @@ import { useRouter } from "next/router";
 
 export interface LoginPanelProps {
   useController: typeof useLoginPanelController;
+  invite?: string;
 }
 
-export const LoginPanel: React.FC<LoginPanelProps> = ({ useController }) => {
-  const { onClick } = useController();
+export const LoginPanel: React.FC<LoginPanelProps> = ({ useController, invite }) => {
+  const { onClick } = useController(invite);
 
   const color = "bg-emerald-600 hover:bg-emerald-500 transition-colors";
 
@@ -96,7 +96,7 @@ export const LoginPanel: React.FC<LoginPanelProps> = ({ useController }) => {
   );
 };
 
-export const useLoginPanelController = () => {
+export const useLoginPanelController = (invite?: string) => {
   const router = useRouter();
 
   const provider = useMemo(() => new GoogleAuthProvider(), []);
@@ -105,9 +105,13 @@ export const useLoginPanelController = () => {
   const { loggedIn } = useIsLoggedIn();
   useEffect(() => {
     if (loggedIn) {
-      router.push("/");
+      if (invite) {
+        router.push(`/invite/${invite}`);
+      } else {
+        router.push("/");
+      }
     }
-  }, [loggedIn, router]);
+  }, [loggedIn, router, invite]);
 
   const [createUser] = useCreateUserMutation();
 
