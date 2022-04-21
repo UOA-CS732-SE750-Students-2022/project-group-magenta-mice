@@ -66,7 +66,6 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const [openAddInstrument, setOpenAddInstrument] = useState(false);
   const [openBondInstrument, setOpenBondInstrument] = useState(false);
   const [openEditInstruments, setOpenEditInstruments] = useState(false);
-  const [newExchangeName, setNewExchangeName] = useState("");
 
   const ShakeHands = useEmoji("🤝", "1.75rem");
   const GraphEmoji = useEmoji(profitLoss >= 0 ? "📈" : "📉", "1rem");

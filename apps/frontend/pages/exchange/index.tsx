@@ -4,9 +4,14 @@ import {
   Layout,
 } from "@simulate-exchange/components";
 import { useEmoji, useLoggedInRedirect } from "@simulate-exchange/hooks";
+import { useMemo } from "react";
 
 export function Index() {
-  useLoggedInRedirect();
+  const { user } = useLoggedInRedirect();
+  const firstName = useMemo(
+    () => ", " + user.displayName.split(" ")?.[0] ?? "",
+    [user],
+  );
 
   const Celebrate = useEmoji("🎉", "3rem");
   const Bank = useEmoji("🏦", "2rem");
@@ -15,7 +20,7 @@ export function Index() {
     <Layout.Page>
       <div className="flex flex-col">
         <p className="flex items-center gap-x-4 pt-10 text-4xl font-bold text-gray-50">
-          Welcome, Name
+          {`Welcome${firstName}`}
           <Celebrate />
         </p>
         <p className="bg- mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">

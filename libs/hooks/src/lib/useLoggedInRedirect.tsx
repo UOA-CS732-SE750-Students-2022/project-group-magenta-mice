@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useIsLoggedIn, useFullLoader } from "..";
 
 export const useLoggedInRedirect = () => {
-  const { loggedIn, loading } = useIsLoggedIn();
+  const { loggedIn, loading, user } = useIsLoggedIn();
   const router = useRouter();
 
   useEffect(() => {
@@ -14,5 +14,5 @@ export const useLoggedInRedirect = () => {
 
   useFullLoader(loading);
 
-  return { loggedIn, loading };
+  return { loggedIn, loading, user };
 };
