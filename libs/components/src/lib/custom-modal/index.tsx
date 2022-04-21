@@ -41,7 +41,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 transition-opacity bg-neutral-800 bg-opacity-70 backdrop-blur" />
+              <Dialog.Overlay className="fixed inset-0 bg-neutral-800 bg-opacity-70 backdrop-blur transition-opacity" />
             </Transition.Child>
 
             <span
@@ -59,33 +59,35 @@ export const CustomModal: React.FC<CustomModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-center align-middle transition-all transform bg-neutral-800 shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-50"
-                >
-                  {title}
-                </Dialog.Title>
-                <div>{children}</div>
-                <div className="mt-6 flex justify-center">
-                  {hasConfim && (
-                    <button
-                      type="button"
-                      className="inline-flex justify-center mr-4 px-4 py-2 text-sm font-medium text-white bg-emerald-400 border border-transparent rounded-md hover:bg-emerald-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={onConfirm}
-                    >
-                      Confirm
-                    </button>
-                  )}
-                  {hasCancel && (
-                    <button
-                      type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-md hover:bg-emerald-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={onClose}
-                    >
-                      Cancel
-                    </button>
-                  )}
+              <div className="my-8 inline-block w-full max-w-md transform rounded-2xl bg-gradient-to-r from-sky-400 to-emerald-400 p-px align-middle shadow-xl transition-all">
+                <div className="relative rounded-2xl bg-neutral-900 p-8">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-50"
+                  >
+                    {title}
+                  </Dialog.Title>
+                  <div>{children}</div>
+                  <div className="mt-6 flex justify-center">
+                    {hasConfim && (
+                      <button
+                        type="button"
+                        className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-emerald-400 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={onConfirm}
+                      >
+                        Confirm
+                      </button>
+                    )}
+                    {hasCancel && (
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={onClose}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </Transition.Child>
