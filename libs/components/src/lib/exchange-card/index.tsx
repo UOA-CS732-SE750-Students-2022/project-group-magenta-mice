@@ -15,16 +15,16 @@ export interface ExchangeCardProps {
   name?: string;
   colour?: string;
   isAddCard: boolean;
-  currentInsturments: { name: string; type: string }[];
-  profitLoss: number;
-  participants: number;
+  currentInstruments?: { name: string; type: string }[];
+  profitLoss?: number;
+  participants?: number;
 }
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   name = "",
   colour = "bg-gray-600",
   isAddCard,
-  currentInsturments = [
+  currentInstruments = [
     {
       name: "ABCD",
       type: "Bond",
