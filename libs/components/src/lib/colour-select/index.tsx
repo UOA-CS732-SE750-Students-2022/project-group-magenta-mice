@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import cx from "classnames";
 
 interface ColorSelectProps {
-  useController: typeof useColorSelectController;
+  selectedColor: number;
+  setSelectedColor: React.Dispatch<React.SetStateAction<number>>;
 }
 export const CardColors = {
   1: "bg-rose-600 ",
@@ -12,9 +13,10 @@ export const CardColors = {
   5: "bg-gradient-to-br from-teal-500 to-lime-500 ",
   6: "bg-gradient-to-br from-fuchsia-500 to-rose-700 ",
 };
-export const ColorSelect: React.FC<ColorSelectProps> = ({ useController }) => {
-  const { selectedColor, setSelectedColor } = useController();
-
+export const ColorSelect: React.FC<ColorSelectProps> = ({
+  selectedColor,
+  setSelectedColor,
+}) => {
   return (
     <div className=" flex justify-center gap-2.5">
       {Object.entries(CardColors).map(([key, value]) => (
@@ -28,24 +30,10 @@ export const ColorSelect: React.FC<ColorSelectProps> = ({ useController }) => {
             value,
             "h-10 w-10 cursor-pointer rounded-full transition-transform duration-200 hover:scale-110 hover:brightness-110",
           )}
-        ></div>
+        />
       ))}
     </div>
   );
 };
-
-export const useColorSelectController = () => {
-  const [selectedColor, setSelectedColor] = useState(1);
-  return { selectedColor, setSelectedColor };
-};
-
-export const useMockColorSelectController: typeof useColorSelectController =
-  () => {
-    const [selectedColor, setSelectedColor] = useState(1);
-    return {
-      selectedColor,
-      setSelectedColor,
-    };
-  };
 
 export default ColorSelect;

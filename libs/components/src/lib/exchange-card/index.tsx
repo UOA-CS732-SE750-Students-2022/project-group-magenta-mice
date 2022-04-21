@@ -1,16 +1,14 @@
-import React, { useCallback, useState } from "react";
-import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
-import { ReactComponent as CheckIcon } from "../../../../../libs/assets/src/lib/check-icon.svg";
 import { RadioGroup } from "@headlessui/react";
-import cx from "classnames";
-
-import {
-  CustomModal,
-  useCustomModalController,
-  ColorSelect,
-  useColorSelectController,
-} from "../..";
 import { useEmoji } from "@simulate-exchange/hooks";
+import cx from "classnames";
+import React, { useCallback, useState } from "react";
+import { CustomModal, useCustomModalController } from "../..";
+import { ReactComponent as CheckIcon } from "../../../../../libs/assets/src/lib/check-icon.svg";
+import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
+import CreateExchangeModal, {
+  useCreateExchangeModalController,
+} from "./CreateExchangeModal";
+import EditExchangeModal from "./EditExchangeModal";
 
 export interface ExchangeCardProps {
   name?: string;
@@ -109,79 +107,27 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
     setOpenEditInstruments(false);
   };
   const ModalCreateExchange = (
-    <CustomModal
-      open={isOpen}
-      hasConfim={true}
-      hasCancel={true}
-      onClose={handleCloseModal}
-      onConfirm={handleCloseModal}
-      title="Create An Exchange"
-      useController={useCustomModalController}
-    >
-      <div className="mx-8 mt-4">
-        <form className="">
-          <label className="mr-4 flex flex-col gap-y-2 text-left text-gray-50">
-            Name:
-            <input
-              type="text"
-              autoComplete="none"
-              name="name"
-              className="rounded-lg bg-neutral-700 py-2 px-3 outline-none focus:ring-1 focus:ring-emerald-600 "
-              onChange={(e) => setNewExchangeName(e.target.value)}
-              placeholder="My Stock Exchange"
-            />
-          </label>
-          <div className="flex flex-col pb-2 text-left">
-            <label className="float-left mt-8 mb-2 text-gray-50">Colour:</label>
-            <ColorSelect useController={useColorSelectController} />
-          </div>
-        </form>
-      </div>
-    </CustomModal>
+    <CreateExchangeModal
+      useController={useCreateExchangeModalController}
+      isOpen={isOpen}
+      handleCloseModal={handleCloseModal}
+    />
   );
 
   const ModalEditExchange = (
-    <CustomModal
-      open={isOpen}
-      hasConfim={false}
-      hasCancel={false}
-      onClose={handleCloseModal}
-      onConfirm={handleCloseModal}
-      title={name}
-      useController={useCustomModalController}
-    >
-      <div className="mt-6">
-        <button
-          type="button"
-          className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          onClick={handleOpenEditInstrumentsModal}
-        >
-          Edit Instruments
-        </button>
-        <button
-          type="button"
-          className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          onClick={handleOpenAddInstrumentModal}
-        >
-          Add Instruments
-        </button>
-      </div>
-      <div className="mt-6">
-        <button
-          type="button"
-          className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          onClick={handleCloseModal}
-        >
-          Delete Exchange
-        </button>
-      </div>
-    </CustomModal>
+    <EditExchangeModal
+      handleCloseModal={handleCloseModal}
+      handleOpenAddInstrumentModal={handleOpenEditInstrumentsModal}
+      handleOpenEditInstrumentsModal={handleOpenEditInstrumentsModal}
+      isOpen={isOpen}
+      name={name}
+    />
   );
 
-  const ModalAddInsturment = (
+  const ModalAddInstrument = (
     <CustomModal
       open={openAddInstrument}
-      hasConfim={true}
+      hasConfirm={true}
       hasCancel={true}
       onClose={handleCloseAddInstrumentModal}
       onConfirm={handleOpenBondInstrumentModal}
@@ -195,6 +141,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             <div className="space-y-2">
               {allInstruments.map((instrument) => (
                 <RadioGroup.Option
+                  key={instrument.name}
                   value={instrument.name}
                   className={({ active, checked }) =>
                     `${
@@ -243,7 +190,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const ModalBondsInstrument = (
     <CustomModal
       open={openBondInstrument}
-      hasConfim={true}
+      hasConfirm={true}
       hasCancel={true}
       onClose={handleCloseBondInstrumentModal}
       onConfirm={handleCloseBondInstrumentModal}
@@ -306,7 +253,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const ModalEditInstruments = (
     <CustomModal
       open={openEditInstruments}
-      hasConfim={false}
+      hasConfirm={false}
       hasCancel={false}
       onClose={handleCloseEditInstrumentsModal}
       title="Select Instrument to Edit"
@@ -319,6 +266,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             <div className="space-y-2">
               {currentInstruments.map((instrument) => (
                 <RadioGroup.Option
+                  key={instrument.name}
                   value={instrument.name}
                   className={({ active, checked }) =>
                     `${
@@ -415,7 +363,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
     return (
       <div>
         {ModalEditExchange}
-        {ModalAddInsturment}
+        {ModalAddInstrument}
         {ModalBondsInstrument}
         {ModalEditInstruments}
         <div
@@ -435,7 +383,10 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
                 </div>
                 <div className="ml-4">
                   {currentInstruments.slice(0, 3).map((instrument) => (
-                    <li className="font-medium text-gray-200">
+                    <li
+                      key={instrument.name}
+                      className="font-medium text-gray-200"
+                    >
                       ${instrument.name}
                     </li>
                   ))}

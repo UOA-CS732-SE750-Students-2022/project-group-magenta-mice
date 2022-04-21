@@ -40,6 +40,7 @@ type Mutation {
   createInvite(createInviteInput: CreateInviteInput!): Invite!
   joinExchange(id: String!): UserPermission!
   createTestExchange: Exchange!
+  createExchange(exchangeData: CreateExchangeInput!): Exchange!
 }
 
 input CreateUserInput {
@@ -54,4 +55,9 @@ input CreateUserInput {
 input CreateInviteInput {
   exchangeId: String!
   userId: String
+}
+
+input CreateExchangeInput {
+  exchangeName: String!
+  exchangeColor: Int!
 }

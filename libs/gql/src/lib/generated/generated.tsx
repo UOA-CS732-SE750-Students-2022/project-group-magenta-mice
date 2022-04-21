@@ -15,6 +15,11 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateExchangeInput = {
+  exchangeColor: Scalars['Int'];
+  exchangeName: Scalars['String'];
+};
+
 export type CreateInviteInput = {
   exchangeId: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
@@ -44,10 +49,16 @@ export type Invite = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createExchange: Exchange;
   createInvite: Invite;
   createTestExchange: Exchange;
   createUser: User;
   joinExchange: UserPermission;
+};
+
+
+export type MutationCreateExchangeArgs = {
+  exchangeData: CreateExchangeInput;
 };
 
 
@@ -131,6 +142,14 @@ export type CreateTestExchangeMutationVariables = Exact<{ [key: string]: never; 
 
 
 export type CreateTestExchangeMutation = { __typename?: 'Mutation', createTestExchange: { __typename?: 'Exchange', id: string } };
+
+export type CreateExchangeMutationVariables = Exact<{
+  name: Scalars['String'];
+  color: Scalars['Int'];
+}>;
+
+
+export type CreateExchangeMutation = { __typename?: 'Mutation', createExchange: { __typename?: 'Exchange', id: string } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -325,6 +344,40 @@ export function useCreateTestExchangeMutation(baseOptions?: Apollo.MutationHookO
 export type CreateTestExchangeMutationHookResult = ReturnType<typeof useCreateTestExchangeMutation>;
 export type CreateTestExchangeMutationResult = Apollo.MutationResult<CreateTestExchangeMutation>;
 export type CreateTestExchangeMutationOptions = Apollo.BaseMutationOptions<CreateTestExchangeMutation, CreateTestExchangeMutationVariables>;
+export const CreateExchangeDocument = gql`
+    mutation CreateExchange($name: String!, $color: Int!) {
+  createExchange(exchangeData: {exchangeColor: $color, exchangeName: $name}) {
+    id
+  }
+}
+    `;
+export type CreateExchangeMutationFn = Apollo.MutationFunction<CreateExchangeMutation, CreateExchangeMutationVariables>;
+
+/**
+ * __useCreateExchangeMutation__
+ *
+ * To run a mutation, you first call `useCreateExchangeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateExchangeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createExchangeMutation, { data, loading, error }] = useCreateExchangeMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      color: // value for 'color'
+ *   },
+ * });
+ */
+export function useCreateExchangeMutation(baseOptions?: Apollo.MutationHookOptions<CreateExchangeMutation, CreateExchangeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateExchangeMutation, CreateExchangeMutationVariables>(CreateExchangeDocument, options);
+      }
+export type CreateExchangeMutationHookResult = ReturnType<typeof useCreateExchangeMutation>;
+export type CreateExchangeMutationResult = Apollo.MutationResult<CreateExchangeMutation>;
+export type CreateExchangeMutationOptions = Apollo.BaseMutationOptions<CreateExchangeMutation, CreateExchangeMutationVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {

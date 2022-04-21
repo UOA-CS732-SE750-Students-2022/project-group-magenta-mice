@@ -18,6 +18,11 @@ export interface CreateInviteInput {
     userId?: Nullable<string>;
 }
 
+export interface CreateExchangeInput {
+    exchangeName: string;
+    exchangeColor: number;
+}
+
 export interface Exchange {
     id: string;
     public: boolean;
@@ -54,6 +59,7 @@ export interface IMutation {
     createInvite(createInviteInput: CreateInviteInput): Invite | Promise<Invite>;
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
+    createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
 }
 
 type Nullable<T> = T | null;

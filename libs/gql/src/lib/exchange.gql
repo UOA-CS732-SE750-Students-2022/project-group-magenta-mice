@@ -38,3 +38,9 @@ mutation CreateTestExchange {
     id
   }
 }
+
+mutation CreateExchange($name: String!, $color: Int!) {
+  createExchange(exchangeData: { exchangeColor: $color, exchangeName: $name }) {
+    id
+  }
+}
