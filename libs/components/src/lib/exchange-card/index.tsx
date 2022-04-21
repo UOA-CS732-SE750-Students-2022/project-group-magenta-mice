@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
 import { ReactComponent as CheckIcon } from "../../../../../libs/assets/src/lib/check-icon.svg";
-import { Combobox, RadioGroup } from "@headlessui/react";
+import { RadioGroup } from "@headlessui/react";
 import cx from "classnames";
 
 import {
@@ -10,6 +10,7 @@ import {
   ColourSelect,
   useColourSelectController,
 } from "../..";
+import { useEmoji } from "@simulate-exchange/hooks";
 
 export interface ExchangeCardProps {
   name?: string;
@@ -22,7 +23,7 @@ export interface ExchangeCardProps {
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   name = "",
-  colour = "bg-gray-600",
+  colour: color = "bg-gray-600",
   isAddCard,
   currentInstruments = [
     {
@@ -36,6 +37,10 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
     {
       name: "AAPL",
       type: "Bond",
+    },
+    {
+      name: "QQQ",
+      type: "Stock",
     },
   ],
   profitLoss = 2000,
@@ -64,6 +69,17 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const [openBondInstrument, setOpenBondInstrument] = useState(false);
   const [openEditInstruments, setOpenEditInstruments] = useState(false);
   const [newExchangeName, setNewExchangeName] = useState("");
+
+  const ShakeHands = useEmoji("🤝", "1.75rem");
+  const GraphEmoji = useEmoji(profitLoss >= 0 ? "📈" : "📉", "1rem");
+
+  const formatMoney = useCallback((money: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+    }).format(money);
+  }, []);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -385,8 +401,8 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
         {ModalCreateExchange}
         <div
           className={cx(
-            colour,
-            "h-44 w-full cursor-pointer rounded-lg p-4 text-2xl font-semibold text-gray-200 transition-all hover:brightness-110",
+            color,
+            "h-48 w-full cursor-pointer rounded-lg p-4 text-2xl font-semibold text-gray-200 transition-all hover:brightness-110",
           )}
           onClick={handleOpenModal}
         >
@@ -403,14 +419,43 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
         {ModalEditInstruments}
         <div
           className={cx(
-            colour,
-            "h-44 w-full cursor-pointer rounded-lg p-4 text-2xl font-semibold text-gray-200  transition-all hover:brightness-110",
+            color,
+            "h-48 w-full cursor-pointer rounded-lg p-4 transition-all hover:brightness-110",
           )}
           onClick={handleOpenModal}
         >
-          {name}
+          <div className="flex h-full w-full justify-between px-2">
+            <div className="flex h-full w-full flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="text-2xl font-bold text-gray-200">{name}</div>
+                  <div className="flex items-center gap-x-2 font-medium text-gray-200">
+                    <ShakeHands /> {participants} Participants
+                  </div>
+                </div>
+                <div className="ml-4">
+                  {currentInstruments.slice(0, 3).map((instrument) => (
+                    <li className="font-medium text-gray-200">
+                      ${instrument.name}
+                    </li>
+                  ))}
+                  {currentInstruments.length > 3 && (
+                    <div className="ml-6 text-sm text-gray-200">
+                      and {currentInstruments.length - 3} other instrument
+                      {currentInstruments.length - 3 > 1 ? "s" : ""}...
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-x-2">
+                <GraphEmoji />
+                <span className="font-bold text-gray-200">
+                  {formatMoney(profitLoss)} P/L
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div></div>
       </div>
     );
   }
