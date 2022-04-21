@@ -43,22 +43,19 @@ function AuthComponent() {
   }, [router, data, loading, createInvite, id, currentUserPermission])
 
   return (
-    <Layout.Page>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1">
-          <span>Users</span>
-          {permissions?.map(permission => (
-            <div key={permission.user.id}>
-              {permission.user.name} - {permission.permission}
-            </div>
-          ))}
-        </div>
-        {currentUserPermission?.permission === "ADMIN" && (
-          <span>Invite Link: <a rel="noreferrer" target="_blank" href={invite}>{invite}</a></span>
-        )}
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
+        <span>Users</span>
+        {permissions?.map(permission => (
+          <div key={permission.user.id}>
+            {permission.user.name} - {permission.permission}
+          </div>
+        ))}
       </div>
-
-    </Layout.Page>
+      {currentUserPermission?.permission === "ADMIN" && (
+        <span>Invite Link: <a rel="noreferrer" target="_blank" href={invite}>{invite}</a></span>
+      )}
+    </div>
   );
 }
 

@@ -31,24 +31,22 @@ const AuthComponent = () => {
 
   if (loading) return <Loading />
   return (
-    <Layout.Page>
-      <div className="flex flex-col gap-2">
-        <span>Hi {data?.currentUser.name}</span>
-        <div>
-          <span>Your Exchanges:</span>
-          {data?.currentUser.userPermissions.map(permission => (
-            <div key={permission.exchange.id} className="flex gap-1">
-              <a className="text-blue-500" href={`/exchange/${permission.exchange.id}`}>{permission.exchange.id}</a>
-              <span>-</span>
-              <span>{permission.permission}</span>
-            </div>
-          ))}
-        </div>
-        <button
-          className="self-start bg-green-500 px-2 py-1 text-white rounded font-bold"
-          onClick={onClick}
-        >Create Test Exchange</button>
+    <div className="flex flex-col gap-2">
+      <span>Hi {data?.currentUser.name}</span>
+      <div>
+        <span>Your Exchanges:</span>
+        {data?.currentUser.userPermissions.map(permission => (
+          <div key={permission.exchange.id} className="flex gap-1">
+            <a className="text-blue-500" href={`/exchange/${permission.exchange.id}`}>{permission.exchange.id}</a>
+            <span>-</span>
+            <span>{permission.permission}</span>
+          </div>
+        ))}
       </div>
-    </Layout.Page>
+      <button
+        className="self-start bg-green-500 px-2 py-1 text-white rounded font-bold"
+        onClick={onClick}
+      >Create Test Exchange</button>
+    </div>
   )
 }
