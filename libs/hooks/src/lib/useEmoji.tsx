@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { parse } from "twemoji-parser";
 
 /**
@@ -17,21 +17,23 @@ export function useEmoji(
   emoji: string | null,
   textSize: string,
 ): React.FC<{ className?: string }> {
-  if (!emoji) {
-    const InlineEmoji: React.FC<{ className?: string }> = ({ className }) =>
-      null;
+  return useMemo(() => {
+    if (!emoji) {
+      return () => null;
+    }
+
+    const URL = parse(emoji)[0]?.url;
+
+    const InlineEmoji: React.FC<{ className?: string }> = ({ className }) => (
+      <img
+        src={URL}
+        alt=""
+        draggable={false}
+        style={{ width: textSize }}
+        width={textSize}
+        className={"inline " + className}
+      />
+    );
     return InlineEmoji;
-  }
-  const URL = parse(emoji)[0]?.url;
-  const InlineEmoji: React.FC<{ className?: string }> = ({ className }) => (
-    <img
-      src={URL}
-      alt=""
-      draggable={false}
-      style={{ width: textSize }}
-      width={textSize}
-      className={"inline " + className}
-    />
-  );
-  return InlineEmoji;
+  }, [emoji, textSize]);
 }
