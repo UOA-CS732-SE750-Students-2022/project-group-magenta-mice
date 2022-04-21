@@ -9,12 +9,12 @@ export default function Index() {
   const { loggedIn, loading } = useIsLoggedIn();
   const router = useRouter()
   useFullLoader(loading)
-  
+
   useEffect(() => {
     if (!loading && !loggedIn) {
       router.push("/landing");
     }
-  }, [loggedIn, isLoading, router]);
+  }, [loggedIn, loading, router]);
 
   return <Layout.Page>{loggedIn ? <AuthComponent /> : <></>}</Layout.Page>
 }
