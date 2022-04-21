@@ -6,6 +6,7 @@
 
 #include <common/types.h>
 #include <memory>
+#include <protocol/exchange.pb.h>
 #include <unordered_map>
 
 namespace Sim
@@ -18,9 +19,12 @@ namespace Sim
         void addInstrument(Instrument instrument);
         void addParticipant(std::shared_ptr<Participant> participant);
 
+        bool removeParticipant(std::shared_ptr<Participant>);
+
         void printBooks() const;
 
         Protocol::LoginResponse getExchangeInstruments();
+        Protocol::ExchangeFeed getFeed() const;
 
         const Orderbook& getOrderbook(uint32_t instrument) const;
 

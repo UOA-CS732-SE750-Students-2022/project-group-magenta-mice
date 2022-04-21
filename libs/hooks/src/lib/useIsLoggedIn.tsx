@@ -17,7 +17,6 @@ export const LoggedInContext = React.createContext<LoggedInData>({
 export const LoggedInProvider: React.FC = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {

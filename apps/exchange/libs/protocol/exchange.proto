@@ -72,11 +72,16 @@ message OrderFillMessage {
 }
 
 message ExchangeFeed {
-  message bookEntry {
-    uint32 price = 1;
-    uint32 volume = 2;
+  message InstrumentFeed {
+    message bookEntry {
+      uint32 price = 1;
+      uint32 volume = 2;
+    }
+
+    uint32 instrumentId = 1;
+    repeated bookEntry bids = 2;
+    repeated bookEntry asks = 3;
   }
 
-  repeated bookEntry bids = 1;
-  repeated bookEntry asks = 2;
+  repeated InstrumentFeed instrumentFeeds = 1;
 }

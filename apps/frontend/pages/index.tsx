@@ -1,3 +1,4 @@
+
 import { Layout, Loading } from "@simulate-exchange/components";
 import { useCreateTestExchangeMutation, useCurrentUserQuery } from "@simulate-exchange/gql";
 import { useFullLoader, useIsLoggedIn } from "@simulate-exchange/hooks";
@@ -8,12 +9,12 @@ export default function Index() {
   const { loggedIn, loading } = useIsLoggedIn();
   const router = useRouter()
   useFullLoader(loading)
-
+  
   useEffect(() => {
     if (!loading && !loggedIn) {
-      router.push("/auth");
+      router.push("/landing");
     }
-  }, [loggedIn, loading, router])
+  }, [loggedIn, isLoading, router]);
 
   return <Layout.Page>{loggedIn ? <AuthComponent /> : <></>}</Layout.Page>
 }

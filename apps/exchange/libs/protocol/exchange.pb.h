@@ -39,7 +39,7 @@ namespace protobuf_libs_2fprotocol_2fexchange_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[10];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -54,9 +54,12 @@ extern CancelOrderRequestDefaultTypeInternal _CancelOrderRequest_default_instanc
 class ExchangeFeed;
 class ExchangeFeedDefaultTypeInternal;
 extern ExchangeFeedDefaultTypeInternal _ExchangeFeed_default_instance_;
-class ExchangeFeed_bookEntry;
-class ExchangeFeed_bookEntryDefaultTypeInternal;
-extern ExchangeFeed_bookEntryDefaultTypeInternal _ExchangeFeed_bookEntry_default_instance_;
+class ExchangeFeed_InstrumentFeed;
+class ExchangeFeed_InstrumentFeedDefaultTypeInternal;
+extern ExchangeFeed_InstrumentFeedDefaultTypeInternal _ExchangeFeed_InstrumentFeed_default_instance_;
+class ExchangeFeed_InstrumentFeed_bookEntry;
+class ExchangeFeed_InstrumentFeed_bookEntryDefaultTypeInternal;
+extern ExchangeFeed_InstrumentFeed_bookEntryDefaultTypeInternal _ExchangeFeed_InstrumentFeed_bookEntry_default_instance_;
 class InsertOrderRequest;
 class InsertOrderRequestDefaultTypeInternal;
 extern InsertOrderRequestDefaultTypeInternal _InsertOrderRequest_default_instance_;
@@ -84,7 +87,8 @@ namespace google {
 namespace protobuf {
 template<> ::Sim::Protocol::CancelOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::CancelOrderRequest>(Arena*);
 template<> ::Sim::Protocol::ExchangeFeed* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed>(Arena*);
-template<> ::Sim::Protocol::ExchangeFeed_bookEntry* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed_bookEntry>(Arena*);
+template<> ::Sim::Protocol::ExchangeFeed_InstrumentFeed* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed_InstrumentFeed>(Arena*);
+template<> ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* Arena::CreateMaybeMessage<::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry>(Arena*);
 template<> ::Sim::Protocol::InsertOrderRequest* Arena::CreateMaybeMessage<::Sim::Protocol::InsertOrderRequest>(Arena*);
 template<> ::Sim::Protocol::LoginRequest* Arena::CreateMaybeMessage<::Sim::Protocol::LoginRequest>(Arena*);
 template<> ::Sim::Protocol::LoginResponse* Arena::CreateMaybeMessage<::Sim::Protocol::LoginResponse>(Arena*);
@@ -1154,24 +1158,24 @@ class OrderFillMessage : public ::google::protobuf::Message /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
-class ExchangeFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.ExchangeFeed.bookEntry) */ {
+class ExchangeFeed_InstrumentFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry) */ {
  public:
-  ExchangeFeed_bookEntry();
-  virtual ~ExchangeFeed_bookEntry();
+  ExchangeFeed_InstrumentFeed_bookEntry();
+  virtual ~ExchangeFeed_InstrumentFeed_bookEntry();
 
-  ExchangeFeed_bookEntry(const ExchangeFeed_bookEntry& from);
+  ExchangeFeed_InstrumentFeed_bookEntry(const ExchangeFeed_InstrumentFeed_bookEntry& from);
 
-  inline ExchangeFeed_bookEntry& operator=(const ExchangeFeed_bookEntry& from) {
+  inline ExchangeFeed_InstrumentFeed_bookEntry& operator=(const ExchangeFeed_InstrumentFeed_bookEntry& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ExchangeFeed_bookEntry(ExchangeFeed_bookEntry&& from) noexcept
-    : ExchangeFeed_bookEntry() {
+  ExchangeFeed_InstrumentFeed_bookEntry(ExchangeFeed_InstrumentFeed_bookEntry&& from) noexcept
+    : ExchangeFeed_InstrumentFeed_bookEntry() {
     *this = ::std::move(from);
   }
 
-  inline ExchangeFeed_bookEntry& operator=(ExchangeFeed_bookEntry&& from) noexcept {
+  inline ExchangeFeed_InstrumentFeed_bookEntry& operator=(ExchangeFeed_InstrumentFeed_bookEntry&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1181,34 +1185,34 @@ class ExchangeFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_in
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ExchangeFeed_bookEntry& default_instance();
+  static const ExchangeFeed_InstrumentFeed_bookEntry& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ExchangeFeed_bookEntry* internal_default_instance() {
-    return reinterpret_cast<const ExchangeFeed_bookEntry*>(
-               &_ExchangeFeed_bookEntry_default_instance_);
+  static inline const ExchangeFeed_InstrumentFeed_bookEntry* internal_default_instance() {
+    return reinterpret_cast<const ExchangeFeed_InstrumentFeed_bookEntry*>(
+               &_ExchangeFeed_InstrumentFeed_bookEntry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     8;
 
-  void Swap(ExchangeFeed_bookEntry* other);
-  friend void swap(ExchangeFeed_bookEntry& a, ExchangeFeed_bookEntry& b) {
+  void Swap(ExchangeFeed_InstrumentFeed_bookEntry* other);
+  friend void swap(ExchangeFeed_InstrumentFeed_bookEntry& a, ExchangeFeed_InstrumentFeed_bookEntry& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ExchangeFeed_bookEntry* New() const final {
-    return CreateMaybeMessage<ExchangeFeed_bookEntry>(NULL);
+  inline ExchangeFeed_InstrumentFeed_bookEntry* New() const final {
+    return CreateMaybeMessage<ExchangeFeed_InstrumentFeed_bookEntry>(NULL);
   }
 
-  ExchangeFeed_bookEntry* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ExchangeFeed_bookEntry>(arena);
+  ExchangeFeed_InstrumentFeed_bookEntry* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ExchangeFeed_InstrumentFeed_bookEntry>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ExchangeFeed_bookEntry& from);
-  void MergeFrom(const ExchangeFeed_bookEntry& from);
+  void CopyFrom(const ExchangeFeed_InstrumentFeed_bookEntry& from);
+  void MergeFrom(const ExchangeFeed_InstrumentFeed_bookEntry& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -1225,7 +1229,7 @@ class ExchangeFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_in
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ExchangeFeed_bookEntry* other);
+  void InternalSwap(ExchangeFeed_InstrumentFeed_bookEntry* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -1253,12 +1257,143 @@ class ExchangeFeed_bookEntry : public ::google::protobuf::Message /* @@protoc_in
   ::google::protobuf::uint32 volume() const;
   void set_volume(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.bookEntry)
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 price_;
   ::google::protobuf::uint32 volume_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ExchangeFeed_InstrumentFeed : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Sim.Protocol.ExchangeFeed.InstrumentFeed) */ {
+ public:
+  ExchangeFeed_InstrumentFeed();
+  virtual ~ExchangeFeed_InstrumentFeed();
+
+  ExchangeFeed_InstrumentFeed(const ExchangeFeed_InstrumentFeed& from);
+
+  inline ExchangeFeed_InstrumentFeed& operator=(const ExchangeFeed_InstrumentFeed& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ExchangeFeed_InstrumentFeed(ExchangeFeed_InstrumentFeed&& from) noexcept
+    : ExchangeFeed_InstrumentFeed() {
+    *this = ::std::move(from);
+  }
+
+  inline ExchangeFeed_InstrumentFeed& operator=(ExchangeFeed_InstrumentFeed&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExchangeFeed_InstrumentFeed& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ExchangeFeed_InstrumentFeed* internal_default_instance() {
+    return reinterpret_cast<const ExchangeFeed_InstrumentFeed*>(
+               &_ExchangeFeed_InstrumentFeed_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(ExchangeFeed_InstrumentFeed* other);
+  friend void swap(ExchangeFeed_InstrumentFeed& a, ExchangeFeed_InstrumentFeed& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ExchangeFeed_InstrumentFeed* New() const final {
+    return CreateMaybeMessage<ExchangeFeed_InstrumentFeed>(NULL);
+  }
+
+  ExchangeFeed_InstrumentFeed* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ExchangeFeed_InstrumentFeed>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ExchangeFeed_InstrumentFeed& from);
+  void MergeFrom(const ExchangeFeed_InstrumentFeed& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExchangeFeed_InstrumentFeed* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef ExchangeFeed_InstrumentFeed_bookEntry bookEntry;
+
+  // accessors -------------------------------------------------------
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+  int bids_size() const;
+  void clear_bids();
+  static const int kBidsFieldNumber = 2;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* mutable_bids(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >*
+      mutable_bids();
+  const ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry& bids(int index) const;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* add_bids();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >&
+      bids() const;
+
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+  int asks_size() const;
+  void clear_asks();
+  static const int kAsksFieldNumber = 3;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* mutable_asks(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >*
+      mutable_asks();
+  const ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry& asks(int index) const;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* add_asks();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >&
+      asks() const;
+
+  // uint32 instrumentId = 1;
+  void clear_instrumentid();
+  static const int kInstrumentIdFieldNumber = 1;
+  ::google::protobuf::uint32 instrumentid() const;
+  void set_instrumentid(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed.InstrumentFeed)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry > bids_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry > asks_;
+  ::google::protobuf::uint32 instrumentid_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
 };
@@ -1299,7 +1434,7 @@ class ExchangeFeed : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_ExchangeFeed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(ExchangeFeed* other);
   friend void swap(ExchangeFeed& a, ExchangeFeed& b) {
@@ -1349,40 +1484,27 @@ class ExchangeFeed : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // nested types ----------------------------------------------------
 
-  typedef ExchangeFeed_bookEntry bookEntry;
+  typedef ExchangeFeed_InstrumentFeed InstrumentFeed;
 
   // accessors -------------------------------------------------------
 
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
-  int bids_size() const;
-  void clear_bids();
-  static const int kBidsFieldNumber = 1;
-  ::Sim::Protocol::ExchangeFeed_bookEntry* mutable_bids(int index);
-  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
-      mutable_bids();
-  const ::Sim::Protocol::ExchangeFeed_bookEntry& bids(int index) const;
-  ::Sim::Protocol::ExchangeFeed_bookEntry* add_bids();
-  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
-      bids() const;
-
-  // repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-  int asks_size() const;
-  void clear_asks();
-  static const int kAsksFieldNumber = 2;
-  ::Sim::Protocol::ExchangeFeed_bookEntry* mutable_asks(int index);
-  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
-      mutable_asks();
-  const ::Sim::Protocol::ExchangeFeed_bookEntry& asks(int index) const;
-  ::Sim::Protocol::ExchangeFeed_bookEntry* add_asks();
-  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
-      asks() const;
+  // repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
+  int instrumentfeeds_size() const;
+  void clear_instrumentfeeds();
+  static const int kInstrumentFeedsFieldNumber = 1;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed* mutable_instrumentfeeds(int index);
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >*
+      mutable_instrumentfeeds();
+  const ::Sim::Protocol::ExchangeFeed_InstrumentFeed& instrumentfeeds(int index) const;
+  ::Sim::Protocol::ExchangeFeed_InstrumentFeed* add_instrumentfeeds();
+  const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >&
+      instrumentfeeds() const;
 
   // @@protoc_insertion_point(class_scope:Sim.Protocol.ExchangeFeed)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry > bids_;
-  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry > asks_;
+  ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed > instrumentfeeds_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_libs_2fprotocol_2fexchange_2eproto::TableStruct;
 };
@@ -1801,103 +1923,153 @@ inline void OrderFillMessage::set_volumefilled(::google::protobuf::uint32 value)
 
 // -------------------------------------------------------------------
 
-// ExchangeFeed_bookEntry
+// ExchangeFeed_InstrumentFeed_bookEntry
 
 // uint32 price = 1;
-inline void ExchangeFeed_bookEntry::clear_price() {
+inline void ExchangeFeed_InstrumentFeed_bookEntry::clear_price() {
   price_ = 0u;
 }
-inline ::google::protobuf::uint32 ExchangeFeed_bookEntry::price() const {
-  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bookEntry.price)
+inline ::google::protobuf::uint32 ExchangeFeed_InstrumentFeed_bookEntry::price() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.price)
   return price_;
 }
-inline void ExchangeFeed_bookEntry::set_price(::google::protobuf::uint32 value) {
+inline void ExchangeFeed_InstrumentFeed_bookEntry::set_price(::google::protobuf::uint32 value) {
   
   price_ = value;
-  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.bookEntry.price)
+  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.price)
 }
 
 // uint32 volume = 2;
-inline void ExchangeFeed_bookEntry::clear_volume() {
+inline void ExchangeFeed_InstrumentFeed_bookEntry::clear_volume() {
   volume_ = 0u;
 }
-inline ::google::protobuf::uint32 ExchangeFeed_bookEntry::volume() const {
-  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bookEntry.volume)
+inline ::google::protobuf::uint32 ExchangeFeed_InstrumentFeed_bookEntry::volume() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.volume)
   return volume_;
 }
-inline void ExchangeFeed_bookEntry::set_volume(::google::protobuf::uint32 value) {
+inline void ExchangeFeed_InstrumentFeed_bookEntry::set_volume(::google::protobuf::uint32 value) {
   
   volume_ = value;
-  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.bookEntry.volume)
+  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry.volume)
+}
+
+// -------------------------------------------------------------------
+
+// ExchangeFeed_InstrumentFeed
+
+// uint32 instrumentId = 1;
+inline void ExchangeFeed_InstrumentFeed::clear_instrumentid() {
+  instrumentid_ = 0u;
+}
+inline ::google::protobuf::uint32 ExchangeFeed_InstrumentFeed::instrumentid() const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.InstrumentFeed.instrumentId)
+  return instrumentid_;
+}
+inline void ExchangeFeed_InstrumentFeed::set_instrumentid(::google::protobuf::uint32 value) {
+  
+  instrumentid_ = value;
+  // @@protoc_insertion_point(field_set:Sim.Protocol.ExchangeFeed.InstrumentFeed.instrumentId)
+}
+
+// repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry bids = 2;
+inline int ExchangeFeed_InstrumentFeed::bids_size() const {
+  return bids_.size();
+}
+inline void ExchangeFeed_InstrumentFeed::clear_bids() {
+  bids_.Clear();
+}
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* ExchangeFeed_InstrumentFeed::mutable_bids(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.InstrumentFeed.bids)
+  return bids_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >*
+ExchangeFeed_InstrumentFeed::mutable_bids() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.InstrumentFeed.bids)
+  return &bids_;
+}
+inline const ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry& ExchangeFeed_InstrumentFeed::bids(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.InstrumentFeed.bids)
+  return bids_.Get(index);
+}
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* ExchangeFeed_InstrumentFeed::add_bids() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.InstrumentFeed.bids)
+  return bids_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >&
+ExchangeFeed_InstrumentFeed::bids() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.InstrumentFeed.bids)
+  return bids_;
+}
+
+// repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed.bookEntry asks = 3;
+inline int ExchangeFeed_InstrumentFeed::asks_size() const {
+  return asks_.size();
+}
+inline void ExchangeFeed_InstrumentFeed::clear_asks() {
+  asks_.Clear();
+}
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* ExchangeFeed_InstrumentFeed::mutable_asks(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.InstrumentFeed.asks)
+  return asks_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >*
+ExchangeFeed_InstrumentFeed::mutable_asks() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.InstrumentFeed.asks)
+  return &asks_;
+}
+inline const ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry& ExchangeFeed_InstrumentFeed::asks(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.InstrumentFeed.asks)
+  return asks_.Get(index);
+}
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry* ExchangeFeed_InstrumentFeed::add_asks() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.InstrumentFeed.asks)
+  return asks_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed_bookEntry >&
+ExchangeFeed_InstrumentFeed::asks() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.InstrumentFeed.asks)
+  return asks_;
 }
 
 // -------------------------------------------------------------------
 
 // ExchangeFeed
 
-// repeated .Sim.Protocol.ExchangeFeed.bookEntry bids = 1;
-inline int ExchangeFeed::bids_size() const {
-  return bids_.size();
+// repeated .Sim.Protocol.ExchangeFeed.InstrumentFeed instrumentFeeds = 1;
+inline int ExchangeFeed::instrumentfeeds_size() const {
+  return instrumentfeeds_.size();
 }
-inline void ExchangeFeed::clear_bids() {
-  bids_.Clear();
+inline void ExchangeFeed::clear_instrumentfeeds() {
+  instrumentfeeds_.Clear();
 }
-inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::mutable_bids(int index) {
-  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.bids)
-  return bids_.Mutable(index);
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed* ExchangeFeed::mutable_instrumentfeeds(int index) {
+  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.instrumentFeeds)
+  return instrumentfeeds_.Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
-ExchangeFeed::mutable_bids() {
-  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.bids)
-  return &bids_;
+inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >*
+ExchangeFeed::mutable_instrumentfeeds() {
+  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.instrumentFeeds)
+  return &instrumentfeeds_;
 }
-inline const ::Sim::Protocol::ExchangeFeed_bookEntry& ExchangeFeed::bids(int index) const {
-  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.bids)
-  return bids_.Get(index);
+inline const ::Sim::Protocol::ExchangeFeed_InstrumentFeed& ExchangeFeed::instrumentfeeds(int index) const {
+  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.instrumentFeeds)
+  return instrumentfeeds_.Get(index);
 }
-inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::add_bids() {
-  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.bids)
-  return bids_.Add();
+inline ::Sim::Protocol::ExchangeFeed_InstrumentFeed* ExchangeFeed::add_instrumentfeeds() {
+  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.instrumentFeeds)
+  return instrumentfeeds_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
-ExchangeFeed::bids() const {
-  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.bids)
-  return bids_;
-}
-
-// repeated .Sim.Protocol.ExchangeFeed.bookEntry asks = 2;
-inline int ExchangeFeed::asks_size() const {
-  return asks_.size();
-}
-inline void ExchangeFeed::clear_asks() {
-  asks_.Clear();
-}
-inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::mutable_asks(int index) {
-  // @@protoc_insertion_point(field_mutable:Sim.Protocol.ExchangeFeed.asks)
-  return asks_.Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >*
-ExchangeFeed::mutable_asks() {
-  // @@protoc_insertion_point(field_mutable_list:Sim.Protocol.ExchangeFeed.asks)
-  return &asks_;
-}
-inline const ::Sim::Protocol::ExchangeFeed_bookEntry& ExchangeFeed::asks(int index) const {
-  // @@protoc_insertion_point(field_get:Sim.Protocol.ExchangeFeed.asks)
-  return asks_.Get(index);
-}
-inline ::Sim::Protocol::ExchangeFeed_bookEntry* ExchangeFeed::add_asks() {
-  // @@protoc_insertion_point(field_add:Sim.Protocol.ExchangeFeed.asks)
-  return asks_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_bookEntry >&
-ExchangeFeed::asks() const {
-  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.asks)
-  return asks_;
+inline const ::google::protobuf::RepeatedPtrField< ::Sim::Protocol::ExchangeFeed_InstrumentFeed >&
+ExchangeFeed::instrumentfeeds() const {
+  // @@protoc_insertion_point(field_list:Sim.Protocol.ExchangeFeed.instrumentFeeds)
+  return instrumentfeeds_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

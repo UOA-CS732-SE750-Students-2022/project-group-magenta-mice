@@ -5,5 +5,4 @@
 namespace Sim::Common
 {
     std::string boolToString(bool value);
-
-}
+} // namespace Sim::Common

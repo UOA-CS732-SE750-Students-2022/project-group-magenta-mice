@@ -9,7 +9,7 @@
 
 namespace Sim::Net
 {
-    class ParticipantSession;
+    struct ISession;
 
     struct IMessageParser
     {
@@ -21,11 +21,11 @@ namespace Sim::Net
     class MessageParser : public IMessageParser
     {
        public:
-        MessageParser(ParticipantSession& participant);
+        MessageParser(ISession& participant);
 
         void parseMessage(int32_t messageType, std::string const& message);
 
        private:
-        ParticipantSession& mParticipant;
+        ISession& mParticipant;
     };
 } // namespace Sim::Net

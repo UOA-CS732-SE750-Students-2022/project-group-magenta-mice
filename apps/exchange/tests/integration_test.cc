@@ -16,10 +16,12 @@ namespace Sim::Testing
                 .mTickSizeCents = 1,
             });
 
-            mParticipant1 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
+            mParticipant1 = std::make_shared<NiceMock<MockParticipant>>(
+                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse());
             mExchange.addParticipant(mParticipant1);
 
-            mParticipant2 = std::make_shared<Participant>(std::make_unique<OrderFactory>(), std::nullopt);
+            mParticipant2 = std::make_shared<NiceMock<MockParticipant>>(
+                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse());
             mExchange.addParticipant(mParticipant2);
         }
 
@@ -61,8 +63,8 @@ namespace Sim::Testing
 
         std::unordered_map<uint32_t, uint32_t> mParticipantOrders;
 
-        std::shared_ptr<Participant> mParticipant1;
-        std::shared_ptr<Participant> mParticipant2;
+        std::shared_ptr<NiceMock<MockParticipant>> mParticipant1;
+        std::shared_ptr<NiceMock<MockParticipant>> mParticipant2;
     }; // namespace Sim::Testing
 
     TEST_F(IntegrationTestFixture, TestOrderFlow)

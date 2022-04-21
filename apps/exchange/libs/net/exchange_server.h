@@ -22,14 +22,16 @@ namespace Sim::Net
     {
        public:
         ExchangeServer(io::io_context& io_context, std::uint16_t port);
+        void addInstrument(Instrument instrument);
 
         void acceptSocket();
 
         void messageAll(int32_t messageType, std::string const& message);
+        void sendPriceFeed();
 
         const Exchange& getExchange() const;
 
-        void addInstrument(Instrument instrument);
+        void diagnose();
 
        private:
         Exchange mExchange;
