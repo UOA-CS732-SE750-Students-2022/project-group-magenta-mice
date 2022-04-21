@@ -7,7 +7,7 @@ interface CustomModalProps {
   hasConfim: boolean;
   hasCancel: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   title: string;
 }
 
