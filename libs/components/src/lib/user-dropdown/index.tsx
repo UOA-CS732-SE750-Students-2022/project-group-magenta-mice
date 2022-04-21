@@ -34,7 +34,7 @@ const UserDropdown: React.FC = () => {
       },
       {
         name: "Logout",
-        description: "Logout of the Simulate Exchange.",
+        description: "Exit Simulate Exchange.",
         action: async () => {
           await getAuth().signOut();
         },
