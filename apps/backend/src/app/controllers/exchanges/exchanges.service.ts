@@ -14,9 +14,8 @@ export class ExchangesService {
     return await this.exchangeStore.createOrGetInvite(createInviteInput.exchangeId, createInviteInput.userId);
   }
 
-  async checkInvite(id: string) {
-    const invite = await this.exchangeStore.checkInvite(id);
-    return !!invite
+  async checkInvite(inviteId: string, userId: string) {
+    return await this.exchangeStore.checkInvite(inviteId, userId);
   }
 
   async joinExchange(userId: string, inviteId: string) {

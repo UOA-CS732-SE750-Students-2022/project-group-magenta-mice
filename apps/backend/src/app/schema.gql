@@ -32,7 +32,7 @@ type Invite {
 type Query {
   currentUser: User!
   exchange(id: ID!): Exchange!
-  checkInvite(id: ID!): Boolean!
+  checkInvite(id: ID!): String!
 }
 
 type Mutation {

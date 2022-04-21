@@ -21,7 +21,7 @@ const AuthComponent = ({ loggedIn }: { loggedIn: boolean }) => {
       router.push(`/auth?invite=${hash}`)
     }
 
-    if (loggedIn && data && data.checkInvite) {
+    if (loggedIn && data && !data.checkInvite) {
       joinExchange({ variables: { id: hash as string }}).then(res => {
         router.push(`/exchange/${res.data.joinExchange.exchange.id}`)
       })
@@ -29,7 +29,7 @@ const AuthComponent = ({ loggedIn }: { loggedIn: boolean }) => {
   }, [router, hash, loggedIn, data, loading, joinExchange])
 
   if (!loggedIn) return <></>
-  if (data && !data.checkInvite) return <Layout.Page>Invite is invalid</Layout.Page>
+  if (data && data.checkInvite) return <Layout.Page>{data.checkInvite}</Layout.Page>
   return <Loading />
 }
 

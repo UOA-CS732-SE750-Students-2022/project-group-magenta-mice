@@ -28,9 +28,12 @@ export class ExchangesResolver {
     return await this.exchangesService.createInvite(createInviteInput);
   }
 
-  @Query(() => Boolean)
-  async checkInvite(@Args("id", { type: () => ID }) id: string) {
-    return await this.exchangesService.checkInvite(id);
+  @Query(() => String)
+  async checkInvite(
+    @Args("id", { type: () => ID }) inviteId: string,
+    @CurrentUser() name: DecodedIdToken
+  ) {
+    return await this.exchangesService.checkInvite(inviteId, name.uid);
   }
 
   @Mutation(() => UserPermission)

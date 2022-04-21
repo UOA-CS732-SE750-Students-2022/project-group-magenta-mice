@@ -11,10 +11,8 @@ export class ExchangeStoreService {
   }
 
   async findById(id: string) {
-    console.log(id)
-   const a = await this.prismaService.exchange.findFirst({ where: { id }, include: { userPermissions: { include: { user: true } } } });
-    console.log(a);
-    return a;
+    const exchange = await this.prismaService.exchange.findFirst({ where: { id }, include: { userPermissions: { include: { user: true } } } });
+    return exchange;
   }
 
   async createOrGetInvite(exchangeId: string, userId: string) {
@@ -25,15 +23,22 @@ export class ExchangeStoreService {
     return this.prismaService.invite.create({ data: { exchangeId, userId }});
   }
 
-  async checkInvite(id: string) {
-    const invite = await this.prismaService.invite.findFirst({ where: { id } });
-    return invite;
+  async checkInvite(inviteId: string, userId: string) {
+    const invite = await this.prismaService.invite.findFirst({ where: { id: inviteId } });
+    if (invite) {
+      const userPermission = await this.prismaService.userPermission.findFirst({ where: { userId, exchangeId: invite.exchangeId } });
+      if (userPermission) {
+        return "Already a member of the exchange"
+      }
+      return ""
+    }
+    return "Invite is invalid";
   }
 
   async joinExchange(userId: string, inviteId: string) {
     const invite = await this.prismaService.invite.findFirst({ where: { id: inviteId } });
     const exchange = await this.prismaService.exchange.findFirst({ where: { id: invite.exchangeId } });
-    return await this.prismaService.userPermission.create({ data: { userId, exchangeId: exchange.id, permission: "USER" }});
+    return await this.prismaService.userPermission.create({ data: { userId, exchangeId: exchange.id, permission: "USER" }, include: { exchange: true }});
   }
 
   async createTestExchange(userId: string) {

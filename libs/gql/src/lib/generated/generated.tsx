@@ -67,7 +67,7 @@ export type MutationJoinExchangeArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  checkInvite: Scalars['Boolean'];
+  checkInvite: Scalars['String'];
   currentUser: User;
   exchange: Exchange;
 };
@@ -85,7 +85,7 @@ export type QueryExchangeArgs = {
 export type User = {
   __typename?: 'User';
   /** the google ID */
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   name: Scalars['String'];
   profilePicUrl?: Maybe<Scalars['String']>;
   userPermissions?: Maybe<Array<UserPermission>>;
@@ -103,7 +103,7 @@ export type FindExchangeQueryVariables = Exact<{
 }>;
 
 
-export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, userPermissions: Array<{ __typename?: 'UserPermission', permission: string, user: { __typename?: 'User', name: string, id?: string | null } }> } };
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, userPermissions: Array<{ __typename?: 'UserPermission', permission: string, user: { __typename?: 'User', name: string, id: string } }> } };
 
 export type CreateInviteMutationVariables = Exact<{
   exchangeId: Scalars['String'];
@@ -118,7 +118,7 @@ export type CheckInviteQueryVariables = Exact<{
 }>;
 
 
-export type CheckInviteQuery = { __typename?: 'Query', checkInvite: boolean };
+export type CheckInviteQuery = { __typename?: 'Query', checkInvite: string };
 
 export type JoinExchangeMutationVariables = Exact<{
   id: Scalars['String'];
@@ -144,7 +144,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, id?: string | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, id: string } };
 
 
 export const FindExchangeDocument = gql`

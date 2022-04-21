@@ -46,7 +46,7 @@ export interface Invite {
 export interface IQuery {
     currentUser(): User | Promise<User>;
     exchange(id: string): Exchange | Promise<Exchange>;
-    checkInvite(id: string): boolean | Promise<boolean>;
+    checkInvite(id: string): string | Promise<string>;
 }
 
 export interface IMutation {
