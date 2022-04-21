@@ -15,7 +15,7 @@ model User {
   name            String
   profilePicUrl   String
   userPermissions UserPermission[]
-  invites Invite[]
+  invites         Invite[]
 }
 
 model Exchange {
@@ -23,15 +23,16 @@ model Exchange {
   public          Boolean          @default(false)
   instruments     Instrument[]
   userPermissions UserPermission[]
-  invites Invite[]
+  invites         Invite[]
 }
 
 model Invite {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   exchangeId String
-  exchange Exchange @relation(fields: [exchangeId], references: [id])
+  exchange   Exchange @relation(fields: [exchangeId], references: [id])
   userId     String
-  user       User   @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  @@unique([userId, exchangeId], name: "key")
 }
 
 model UserPermission {

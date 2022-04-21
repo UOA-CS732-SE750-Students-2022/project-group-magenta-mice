@@ -16,11 +16,11 @@ export class ExchangeStoreService {
   }
 
   async createOrGetInvite(exchangeId: string, userId: string) {
-    const invite = await this.prismaService.invite.findFirst({ where: { exchangeId, userId } });
-    if (invite) {
-      return invite;
-    }
-    return this.prismaService.invite.create({ data: { exchangeId, userId }});
+    return await this.prismaService.invite.upsert({
+      where: { key: { userId, exchangeId }},
+      create: { userId, exchangeId },
+      update: { }
+    });
   }
 
   async checkInvite(inviteId: string, userId: string) {
@@ -28,11 +28,10 @@ export class ExchangeStoreService {
     if (invite) {
       const userPermission = await this.prismaService.userPermission.findFirst({ where: { userId, exchangeId: invite.exchangeId } });
       if (userPermission) {
-        return "Already a member of the exchange"
+        return { error: "Already a member of the exchange" }
       }
-      return ""
     }
-    return "Invite is invalid";
+    return { error: "Invite not found" }
   }
 
   async joinExchange(userId: string, inviteId: string) {
