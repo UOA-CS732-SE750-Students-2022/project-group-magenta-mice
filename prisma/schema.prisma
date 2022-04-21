@@ -18,8 +18,10 @@ model User {
 
 model Exchange {
   id          String       @id
+  name        String
   public      Boolean      @default(false)
   instruments Instrument[]
+  colour      Int
 
 }
 

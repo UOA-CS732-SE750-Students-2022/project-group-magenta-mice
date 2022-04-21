@@ -41,7 +41,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0" />
+              <Dialog.Overlay className="fixed inset-0 transition-opacity bg-neutral-800 bg-opacity-70 backdrop-blur" />
             </Transition.Child>
 
             <span
