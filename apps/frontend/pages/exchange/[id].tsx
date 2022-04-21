@@ -14,7 +14,7 @@ export function Exchange() {
 function AuthComponent() {
   const router = useRouter()
   const { id } = router.query
-  const { data, loading } = useFindExchangeQuery({ variables: { id: id as string }, skip: !id })
+  const { error, data, loading } = useFindExchangeQuery({ variables: { id: id as string }, skip: !id })
   const [createInvite] = useCreateInviteMutation()
   const [invite, setInvite] = useState("")
 
@@ -22,12 +22,23 @@ function AuthComponent() {
   const permissions = data?.exchange.userPermissions
   const currentUserPermission = permissions?.find(p => p.user.id === uid)
 
+  useEffect(() => {
+    if (error) {
+      console.log(error)
+      router.push("/")
+      // change above to an alert when implemented
+    }
+  }, [error, router])
+
   useFullLoader(loading)
   useEffect(() => {
     if (router.isReady && !loading && data && currentUserPermission?.permission === "ADMIN") {
-      createInvite({ variables: { exchangeId: id as string, userId: "" }}).then(res => {
-        setInvite(`http://localhost:4200/invite/${res.data.createInvite.id}`)
-      })
+      createInvite({ variables: { exchangeId: id as string, userId: "" }})
+        .then(res => {
+          setInvite(`http://localhost:4200/invite/${res.data.createInvite.id}`)
+        })
+        .catch(() => router.push("/"))
+        // change above to an alert when implemented
     }
   }, [router, data, loading, createInvite, id, currentUserPermission])
 

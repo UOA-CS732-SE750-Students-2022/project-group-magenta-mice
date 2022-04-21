@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ExchangeStoreService } from "@simulate-exchange/database";
 import { CreateInviteInput } from "./dto/create-invite.input";
+import { Exchange } from "./entities/exchange.entity";
 
 @Injectable()
 export class ExchangesService {
@@ -19,7 +20,11 @@ export class ExchangesService {
   }
 
   async joinExchange(userId: string, inviteId: string) {
-    return await this.exchangeStore.joinExchange(userId, inviteId);
+    try {
+      return await this.exchangeStore.joinExchange(userId, inviteId);
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   async createTestExchange(userId: string) {

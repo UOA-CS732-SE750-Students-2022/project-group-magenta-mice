@@ -43,14 +43,10 @@ export interface Invite {
     userId?: Nullable<string>;
 }
 
-export interface InviteResponse {
-    error: string;
-}
-
 export interface IQuery {
     currentUser(): User | Promise<User>;
     exchange(id: string): Exchange | Promise<Exchange>;
-    checkInvite(id: string): InviteResponse | Promise<InviteResponse>;
+    checkInvite(id: string): boolean | Promise<boolean>;
 }
 
 export interface IMutation {

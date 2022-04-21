@@ -11,9 +11,3 @@ export class Invite {
   @Field({ nullable: true })
   userId: string
 }
-
-@ObjectType()
-export class InviteResponse {
-  @Field()
-  error: string
-}

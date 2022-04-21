@@ -22,9 +22,7 @@ mutation CreateInvite($exchangeId: String!, $userId: String!) {
 }
 
 query CheckInvite($id: ID!) {
-  checkInvite(id: $id) {
-    error
-  }
+  checkInvite(id: $id)
 }
 
 mutation JoinExchange($id: String!) {

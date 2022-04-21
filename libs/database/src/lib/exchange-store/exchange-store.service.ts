@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { ValidationError } from 'apollo-server-express'
 
 @Injectable()
 export class ExchangeStoreService {
@@ -12,6 +13,7 @@ export class ExchangeStoreService {
 
   async findById(id: string) {
     const exchange = await this.prismaService.exchange.findFirst({ where: { id }, include: { userPermissions: { include: { user: true } } } });
+    if (!exchange) throw new ValidationError("Exchange not found")
     return exchange;
   }
 
@@ -28,17 +30,34 @@ export class ExchangeStoreService {
     if (invite) {
       const userPermission = await this.prismaService.userPermission.findFirst({ where: { userId, exchangeId: invite.exchangeId } });
       if (userPermission) {
-        return { error: "Already a member of the exchange" }
+        throw new ValidationError("Already a member of this exchange")
       }
-      return { error: "" }
+      return true
     }
-    return { error: "Invite not found" }
+    throw new ValidationError("Invite not found")
   }
 
   async joinExchange(userId: string, inviteId: string) {
     const invite = await this.prismaService.invite.findFirst({ where: { id: inviteId } });
     const exchange = await this.prismaService.exchange.findFirst({ where: { id: invite.exchangeId } });
-    return await this.prismaService.userPermission.create({ data: { userId, exchangeId: exchange.id, permission: "USER" }, include: { exchange: true }});
+
+    if (exchange) {
+      const userPermission = await this.prismaService.userPermission.findFirst({ where: { userId, exchangeId: invite.exchangeId } });
+      if (userPermission) {
+        throw new ValidationError("Already a member of this exchange")
+      }
+
+      return await this.prismaService.userPermission.create({
+        data: {
+          userId,
+          exchangeId: invite.exchangeId,
+          permission: "USER"
+        },
+        include: { exchange: true }
+      });
+    }
+
+    throw new ValidationError("Already a member of this exchange")
   }
 
   async createTestExchange(userId: string) {
