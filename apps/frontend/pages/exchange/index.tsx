@@ -1,7 +1,7 @@
 import {
   ExchangeCard,
   Layout,
-  CardColours,
+  CardColors,
 } from "@simulate-exchange/components";
 import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
 import { useEffect, useState } from "react";
@@ -35,32 +35,32 @@ export function Index() {
         </p>
         <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
           <ExchangeCard
-            colour={CardColours[1]}
+            colour={CardColors[1]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
-            colour={CardColours[2]}
+            colour={CardColors[2]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
-            colour={CardColours[3]}
+            colour={CardColors[3]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
-            colour={CardColours[4]}
+            colour={CardColors[4]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
-            colour={CardColours[5]}
+            colour={CardColors[5]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />
           <ExchangeCard
-            colour={CardColours[6]}
+            colour={CardColors[6]}
             name={"New York Stock Exchange"}
             isAddCard={false}
           />

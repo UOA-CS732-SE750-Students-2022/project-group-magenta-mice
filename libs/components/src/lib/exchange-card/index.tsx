@@ -7,8 +7,8 @@ import cx from "classnames";
 import {
   CustomModal,
   useCustomModalController,
-  ColourSelect,
-  useColourSelectController,
+  ColorSelect,
+  useColorSelectController,
 } from "../..";
 import { useEmoji } from "@simulate-exchange/hooks";
 
@@ -126,13 +126,14 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
               type="text"
               autoComplete="none"
               name="name"
-              className="rounded-lg bg-gray-500  p-2 outline-none focus:ring-1 focus:ring-emerald-600 "
+              className="rounded-lg bg-neutral-700 py-2 px-3 outline-none focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewExchangeName(e.target.value)}
+              placeholder="My Stock Exchange"
             />
           </label>
           <div className="flex flex-col pb-2 text-left">
             <label className="float-left mt-8 mb-2 text-gray-50">Colour:</label>
-            <ColourSelect useController={useColourSelectController} />
+            <ColorSelect useController={useColorSelectController} />
           </div>
         </form>
       </div>
