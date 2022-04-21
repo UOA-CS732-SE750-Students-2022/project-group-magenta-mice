@@ -19,11 +19,16 @@ model User {
 }
 
 model Exchange {
-  id              String           @id @default(uuid())
+  id String @id @default(uuid())
+
   public          Boolean          @default(false)
-  instruments     Instrument[]
   userPermissions UserPermission[]
   invites         Invite[]
+
+  instruments Instrument[]
+
+  name   String
+  colour Int
 }
 
 model Invite {
@@ -32,6 +37,7 @@ model Invite {
   exchange   Exchange @relation(fields: [exchangeId], references: [id])
   userId     String
   user       User     @relation(fields: [userId], references: [id])
+
   @@unique([userId, exchangeId], name: "key")
 }
 
