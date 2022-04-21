@@ -11,18 +11,20 @@ import {
   useColourSelectController,
 } from "../..";
 
-interface ExchangeCardProps {
+export interface ExchangeCardProps {
   name?: string;
   colour?: string;
   isAddCard: boolean;
+  currentInsturments: { name: string; type: string }[];
+  profitLoss: number;
+  participants: number;
 }
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   name = "",
   colour = "bg-gray-600",
   isAddCard,
-}) => {
-  const currentInstruments = [
+  currentInsturments = [
     {
       name: "ABCD",
       type: "Bond",
@@ -35,8 +37,10 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       name: "AAPL",
       type: "Bond",
     },
-  ];
-
+  ],
+  profitLoss = 2000,
+  participants = 2,
+}) => {
   const allInstruments = [
     {
       name: "Bonds",
@@ -406,6 +410,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
         >
           {name}
         </div>
+        <div></div>
       </div>
     );
   }
