@@ -2,7 +2,7 @@ import { CreateInviteInput } from './dto/create-invite.input';
 import { Resolver, Query, Args, ID, Mutation } from "@nestjs/graphql";
 import { ExchangesService } from "./exchanges.service";
 import { Exchange } from "./entities/exchange.entity";
-import { Invite } from "./entities/invite.entity";
+import { Invite, InviteResponse } from "./entities/invite.entity";
 import { CurrentUser } from '../../util/current-user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { UseGuards } from '@nestjs/common';
@@ -28,7 +28,7 @@ export class ExchangesResolver {
     return await this.exchangesService.createInvite(createInviteInput);
   }
 
-  @Query(() => String)
+  @Query(() => InviteResponse)
   async checkInvite(
     @Args("id", { type: () => ID }) inviteId: string,
     @CurrentUser() name: DecodedIdToken

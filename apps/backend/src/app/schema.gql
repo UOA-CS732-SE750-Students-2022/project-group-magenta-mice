@@ -29,10 +29,14 @@ type Invite {
   userId: String
 }
 
+type InviteResponse {
+  error: String!
+}
+
 type Query {
   currentUser: User!
   exchange(id: ID!): Exchange!
-  checkInvite(id: ID!): String!
+  checkInvite(id: ID!): InviteResponse!
 }
 
 type Mutation {

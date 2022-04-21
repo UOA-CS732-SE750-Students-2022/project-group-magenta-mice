@@ -42,6 +42,11 @@ export type Invite = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type InviteResponse = {
+  __typename?: 'InviteResponse';
+  error: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createInvite: Invite;
@@ -67,7 +72,7 @@ export type MutationJoinExchangeArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  checkInvite: Scalars['String'];
+  checkInvite: InviteResponse;
   currentUser: User;
   exchange: Exchange;
 };
@@ -118,7 +123,7 @@ export type CheckInviteQueryVariables = Exact<{
 }>;
 
 
-export type CheckInviteQuery = { __typename?: 'Query', checkInvite: string };
+export type CheckInviteQuery = { __typename?: 'Query', checkInvite: { __typename?: 'InviteResponse', error: string } };
 
 export type JoinExchangeMutationVariables = Exact<{
   id: Scalars['String'];
@@ -227,7 +232,9 @@ export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutat
 export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
 export const CheckInviteDocument = gql`
     query CheckInvite($id: ID!) {
-  checkInvite(id: $id)
+  checkInvite(id: $id) {
+    error
+  }
 }
     `;
 

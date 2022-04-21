@@ -30,6 +30,7 @@ export class ExchangeStoreService {
       if (userPermission) {
         return { error: "Already a member of the exchange" }
       }
+      return { error: "" }
     }
     return { error: "Invite not found" }
   }
