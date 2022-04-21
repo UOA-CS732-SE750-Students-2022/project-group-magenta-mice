@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
 import { ReactComponent as CheckIcon } from "../../../../../libs/assets/src/lib/check-icon.svg";
 import { RadioGroup } from "@headlessui/react";
+
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import {
   CustomModal,
@@ -14,10 +15,25 @@ interface ExchangeCardProps {
 }
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
-  name,
+  name = "",
   isAddCard,
 }) => {
-  const instruments = [
+  const currentInstruments = [
+    {
+      name: "ABCD",
+      type: "Bond",
+    },
+    {
+      name: "FGGH",
+      type: "Bond",
+    },
+    {
+      name: "AAPL",
+      type: "Bond",
+    },
+  ];
+
+  const allInstruments = [
     {
       name: "Bonds",
     },
@@ -34,10 +50,11 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       name: "ADR + Stocks (Not Yet Implemented)",
     },
   ];
-  const [selected, setSelected] = useState(instruments[0].name);
+  const [selected, setSelected] = useState(allInstruments[0].name);
   const [isOpen, setOpen] = useState(false);
   const [openAddInstrument, setOpenAddInstrument] = useState(false);
   const [openBondInstrument, setOpenBondInstrument] = useState(false);
+  const [openEditInstruments, setOpenEditInstruments] = useState(false);
   const [newExchangeName, setNewExchangeName] = useState("");
 
   const handleOpenModal = () => {
@@ -60,8 +77,14 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const handleCloseBondInstrumentModal = () => {
     setOpenBondInstrument(false);
   };
-
-  const ModalAddExchange = (
+  const handleOpenEditInstrumentsModal = () => {
+    setOpen(false);
+    setOpenEditInstruments(true);
+  };
+  const handleCloseEditInstrumentsModal = () => {
+    setOpenEditInstruments(false);
+  };
+  const ModalCreateExchange = (
     <CustomModal
       open={isOpen}
       hasConfim={true}
@@ -77,8 +100,9 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             Name:
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2 outline-none focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewExchangeName(e.target.value)}
             />
           </label>
@@ -94,14 +118,14 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       hasCancel={false}
       onClose={handleCloseModal}
       onConfirm={handleCloseModal}
-      title="Edit Exchange"
+      title={name}
       useController={useCustomModalController}
     >
       <div className="mt-6">
         <button
           type="button"
           className="inline-flex justify-center mr-4 px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-md hover:bg-emerald-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-          onClick={handleCloseModal}
+          onClick={handleOpenEditInstrumentsModal}
         >
           Edit Instruments
         </button>
@@ -111,6 +135,15 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
           onClick={handleOpenAddInstrumentModal}
         >
           Add Instruments
+        </button>
+      </div>
+      <div className="mt-6">
+        <button
+          type="button"
+          className="inline-flex justify-center mr-4 px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md hover:bg-red-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+          onClick={handleCloseModal}
+        >
+          Delete Exchange
         </button>
       </div>
     </CustomModal>
@@ -131,7 +164,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
           <RadioGroup value={selected} onChange={setSelected}>
             <RadioGroup.Label className="sr-only ">Instrument</RadioGroup.Label>
             <div className="space-y-2">
-              {instruments.map((instrument) => (
+              {allInstruments.map((instrument) => (
                 <RadioGroup.Option
                   value={instrument.name}
                   className={({ active, checked }) =>
@@ -143,9 +176,9 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
                   ${
                     checked
                       ? "bg-emerald-600 bg-opacity-75 text-white"
-                      : "bg-gray-500"
+                      : "bg-gray-300"
                   }
-                    relative rounded-lg shadow-md px-5 py-4 cursor-pointer flex focus:outline-none`
+                    relative rounded-lg shadow-md px-5 py-4 cursor-pointer flex focus:outline-none transition-all`
                   }
                 >
                   {({ checked }) => (
@@ -194,16 +227,18 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             <label className=" ">Name (Ticker):</label>
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2  focus:ring-1  outline-none focus:ring-emerald-600 "
             />
           </div>
           <div className="my-3 ">
             <label className="ml-9 ">Tick Size:</label>
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2  focus:ring-1  outline-none focus:ring-emerald-600 "
             />
           </div>
 
@@ -211,24 +246,27 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             <label className=" ">Position Limit:</label>
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2  focus:ring-1  outline-none focus:ring-emerald-600 "
             />
           </div>
           <div className="my-3">
             <label className=" ml-5 ">Fixed Price:</label>
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2  focus:ring-1  outline-none focus:ring-emerald-600 "
             />
           </div>
           <div className="my-3">
             <label className="ml-8 ">Volatility:</label>
             <input
               type="text"
+              autoComplete="none"
               name="name"
-              className="bg-gray-500 rounded-lg mx-4 p-2"
+              className="bg-gray-500 rounded-lg mx-4 p-2 focus:ring-1 outline-none focus:ring-emerald-600  "
             />
           </div>
         </form>
@@ -236,10 +274,103 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
     </CustomModal>
   );
 
+  const ModalEditInstruments = (
+    <CustomModal
+      open={openEditInstruments}
+      hasConfim={false}
+      hasCancel={false}
+      onClose={handleCloseEditInstrumentsModal}
+      title="Select Instrument to Edit"
+      useController={useCustomModalController}
+    >
+      <div className="w-full px-4 py-16">
+        <div className="w-full max-w-md mx-auto">
+          <RadioGroup value={selected} onChange={setSelected}>
+            <RadioGroup.Label className="sr-only ">Instrument</RadioGroup.Label>
+            <div className="space-y-2">
+              {currentInstruments.map((instrument) => (
+                <RadioGroup.Option
+                  value={instrument.name}
+                  className={({ active, checked }) =>
+                    `${
+                      active
+                        ? "ring-2 ring-offset-2 ring-offset-emerald-300 ring-white ring-opacity-60"
+                        : ""
+                    }
+                  ${
+                    checked
+                      ? "bg-emerald-600 bg-opacity-75 text-white"
+                      : "bg-gray-300"
+                  }
+                    relative rounded-lg shadow-md px-5 py-4 cursor-pointer flex focus:outline-none transition-all`
+                  }
+                >
+                  {({ checked }) => (
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center">
+                        <div className="text-sm">
+                          <RadioGroup.Label
+                            as="p"
+                            className={`font-medium  ${
+                              checked ? "text-white" : "text-gray-900"
+                            }`}
+                          >
+                            {instrument.name}
+                          </RadioGroup.Label>
+                          <RadioGroup.Description
+                            as="span"
+                            className={`inline ${
+                              checked ? "text-sky-100" : "text-gray-600"
+                            }`}
+                          >
+                            <span>{instrument.type}</span>{" "}
+                          </RadioGroup.Description>
+                        </div>
+                      </div>
+                      {checked && (
+                        <div className="flex-shrink-0 text-white">
+                          <CheckIcon className="w-6 h-6" />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </RadioGroup.Option>
+              ))}
+            </div>
+          </RadioGroup>
+        </div>
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            className="inline-flex justify-center w-20 mr-4 px-4 py-2 text-sm font-medium text-white bg-emerald-400 border border-transparent rounded-md hover:bg-emerald-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            onClick={handleCloseEditInstrumentsModal}
+          >
+            Edit
+          </button>
+
+          <button
+            type="button"
+            className="inline-flex justify-center mr-4 px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-md hover:bg-emerald-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            onClick={handleCloseEditInstrumentsModal}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md hover:bg-red-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            onClick={handleCloseEditInstrumentsModal}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </CustomModal>
+  );
+
   if (isAddCard) {
     return (
       <div>
-        {ModalAddExchange}
+        {ModalCreateExchange}
         <div
           className="w-80 h-44 mt-5 ml-10 p-4 rounded-lg bg-emerald-800 text-gray-300 cursor-pointer hover:bg-emerald-700 transition-colors text-2xl"
           onClick={handleOpenModal}
@@ -254,6 +385,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
         {ModalEditExchange}
         {ModalAddInsturment}
         {ModalBondsInstrument}
+        {ModalEditInstruments}
         <div
           className="w-80 h-44 mt-5 ml-10 p-4 rounded-lg bg-emerald-800 text-gray-300 cursor-pointer hover:bg-emerald-700 transition-colors text-2xl"
           onClick={handleOpenModal}

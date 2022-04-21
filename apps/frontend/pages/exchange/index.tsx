@@ -23,7 +23,7 @@ export function Index() {
         </p>
         <p className="text-2xl pt-10 pl-10 text-gray-50">My exchanges</p>
         <div className="flex flex-row flex-wrap">
-          <ExchangeCard name={"An Exchange"} isAddCard={false} />
+          <ExchangeCard name={"New York Exchange"} isAddCard={false} />
           <ExchangeCard isAddCard={true} />
         </div>
       </div>
