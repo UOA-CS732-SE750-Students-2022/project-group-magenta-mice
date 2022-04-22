@@ -5,6 +5,7 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
 import { Loading } from "@simulate-exchange/components";
 import {
   LoaderCounterContext,
@@ -15,11 +16,11 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { CornerAlertManager } from "@simulate-exchange/hooks";
 import { createPortal } from "react-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../services/firebase";
 import "./styles.css";
-import { onError } from "@apollo/client/link/error";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:3333/graphql",
@@ -73,22 +74,19 @@ function CustomApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <CornerAlertManager>
-        <LoaderCounterContext.Provider
-          value={{ loadingCount, setLoadingCount }}
-        >
-          <LoggedInProvider>
-            {loadingCount > 0 && createPortal(<Loading />, document.body)}
+      <ToastContainer position="bottom-left" theme="dark" />
+      <LoaderCounterContext.Provider value={{ loadingCount, setLoadingCount }}>
+        <LoggedInProvider>
+          {loadingCount > 0 && createPortal(<Loading />, document.body)}
 
-            <Head>
-              <title>Welcome to frontend!</title>
-            </Head>
-            <main className="app">
-              <Component {...pageProps} />
-            </main>
-          </LoggedInProvider>
-        </LoaderCounterContext.Provider>
-      </CornerAlertManager>
+          <Head>
+            <title>Welcome to frontend!</title>
+          </Head>
+          <main className="app">
+            <Component {...pageProps} />
+          </main>
+        </LoggedInProvider>
+      </LoaderCounterContext.Provider>
     </ApolloProvider>
   );
 }
