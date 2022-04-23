@@ -3,6 +3,7 @@
   "projects": {
     "assets": "libs/assets",
     "backend": "apps/backend",
+    "common": "libs/common",
     "components": "libs/components",
     "components-e2e": "apps/components-e2e",
     "database": "libs/database",

@@ -8,7 +8,28 @@ query FindExchange($id: ID!) {
       }
       permission
     }
+    instruments {
+      name
+    }
   }
+}
+
+mutation AddInstrument(
+  $exchangeId: String!
+  $instrumentType: String!
+  $name: String!
+  $positionLimit: Int!
+  $tickSize: Int!
+) {
+  addInstrument(
+    exchangeId: $exchangeId
+    instrument: {
+      instrumentType: $instrumentType
+      name: $name
+      positionLimit: $positionLimit
+      tickSizeMin: $tickSize
+    }
+  )
 }
 
 mutation CreateInvite($exchangeId: String!, $userId: String!) {
@@ -35,6 +56,12 @@ mutation JoinExchange($id: String!) {
 
 mutation CreateTestExchange {
   createTestExchange {
+    id
+  }
+}
+
+mutation CreateExchange($name: String!, $color: Int!) {
+  createExchange(exchangeData: { exchangeColor: $color, exchangeName: $name }) {
     id
   }
 }

@@ -8,6 +8,7 @@ import { UsersModule } from "./controllers/users/users.module";
 import { FirebaseAuthStrategy } from "./middleware/firebase.auth";
 import { FirebaseGuard } from "./middleware/firebase.guard";
 import { ExchangesModule } from "./controllers/exchanges/exchanges.module";
+import { InstrumentsModule } from "./controllers/instruments/instruments.module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ExchangesModule } from "./controllers/exchanges/exchanges.module";
     }),
     UsersModule,
     ExchangesModule,
+    InstrumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, FirebaseGuard, FirebaseAuthStrategy],
