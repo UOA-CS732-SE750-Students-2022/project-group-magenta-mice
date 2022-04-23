@@ -18,9 +18,21 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import "../services/firebase";
 import "./styles.css";
+import { onError } from "@apollo/client/link/error";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:3333/graphql",
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      console.error(
+        `[GraphQL error]: Message: ${message}\nPath: ${path}\n`,
+        locations,
+      );
+    });
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 const authLink = setContext(async (_, { headers }) => {
@@ -36,7 +48,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(errorLink).concat(httpLink),
   cache: new InMemoryCache(),
 });
 

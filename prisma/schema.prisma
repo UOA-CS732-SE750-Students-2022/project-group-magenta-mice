@@ -11,32 +11,60 @@ datasource db {
 }
 
 model User {
-  id            String @id
-  name          String
-  profilePicUrl String
+  id              String           @id
+  name            String
+  profilePicUrl   String
+  userPermissions UserPermission[]
+  invites         Invite[]
 }
 
 model Exchange {
-  id          String       @id
-  name        String
-  public      Boolean      @default(false)
-  instruments Instrument[]
-  colour      Int
+  id String @id @default(uuid())
 
+  public          Boolean          @default(false)
+  userPermissions UserPermission[]
+  invites         Invite[]
+
+  instruments Instrument[]
+
+  name   String
+  colour Int
+}
+
+model Invite {
+  id         String   @id @default(uuid())
+  exchangeId String
+  exchange   Exchange @relation(fields: [exchangeId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, exchangeId], name: "key")
+}
+
+model UserPermission {
+  id         String         @id @default(uuid())
+  exchangeId String
+  exchange   Exchange       @relation(fields: [exchangeId], references: [id])
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  permission PermissionType
+}
+
+enum PermissionType {
+  ADMIN
+  USER
 }
 
 model Instrument {
-  id             String         @id
-  exchangeId     String         @unique
-  name           String
-  tickSizeMin    Int
-  positionLimit  Int
-  exchange       Exchange       @relation(fields: [exchangeId], references: [id])
-  instrumentType InstrumentType
-
-  bondFixedPrice Int?
-  bondVolatility Int?
-
+  id                String         @id @default(uuid())
+  exchangeId        String         @unique
+  name              String
+  tickSizeMin       Int
+  positionLimit     Int
+  exchange          Exchange       @relation(fields: [exchangeId], references: [id])
+  instrumentType    InstrumentType
+  bondFixedPrice    Int?
+  bondVolatility    Int?
   stockInitialPrice Int?
   stockVolatility   Int?
 }

@@ -1,3 +1,5 @@
+export * from "./lib/app-logo";
+export * from "./lib/colour-select";
 export * from "./lib/custom-modal";
 export * from "./lib/divided-text";
 export * from "./lib/exchange-card";
@@ -6,4 +8,4 @@ export * from "./lib/haze";
 export * from "./lib/layout";
 export * from "./lib/loading";
 export * from "./lib/login-panel";
-export * from "./lib/colour-select";
+export * from "./lib/user-dropdown";

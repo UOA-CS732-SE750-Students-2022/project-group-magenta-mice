@@ -2,20 +2,54 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Instrument {
+  id: ID!
+  name: String!
+  tickSizeMin: Int!
+  positionLimit: Int!
+}
+
+type Exchange {
+  id: String!
+  public: Boolean!
+  userPermissions: [UserPermission!]!
+  instruments: [Instrument!]!
+}
+
+type UserPermission {
+  exchange: Exchange!
+  user: User!
+  permission: String!
+}
+
 type User {
   name: String!
   profilePicUrl: String
 
   """the google ID"""
   id: ID!
+  userPermissions: [UserPermission!]
+}
+
+type Invite {
+  id: ID!
+  exchangeId: String!
+  userId: String
 }
 
 type Query {
   currentUser: User!
+  exchange(id: ID!): Exchange!
+  checkInvite(id: ID!): Boolean!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  createInvite(createInviteInput: CreateInviteInput!): Invite!
+  joinExchange(id: String!): UserPermission!
+  createTestExchange: Exchange!
+  createExchange(exchangeData: CreateExchangeInput!): Exchange!
+  addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Boolean!
 }
 
 input CreateUserInput {
@@ -25,4 +59,21 @@ input CreateUserInput {
 
   """Google ProfilePic of user"""
   profilePicUrl: String
+}
+
+input CreateInviteInput {
+  exchangeId: String!
+  userId: String
+}
+
+input CreateExchangeInput {
+  exchangeName: String!
+  exchangeColor: Int!
+}
+
+input AddInstrumentDto {
+  instrumentType: String!
+  name: String!
+  positionLimit: Int!
+  tickSizeMin: Int!
 }

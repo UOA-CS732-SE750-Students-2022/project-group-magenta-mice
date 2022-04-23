@@ -1,34 +1,35 @@
+import { getAuth, User } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
 
 type LoggedInData = {
   loggedIn: boolean;
+  loading: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  user: User | null;
 };
-const LoggedInContext = React.createContext<LoggedInData>({
+export const LoggedInContext = React.createContext<LoggedInData>({
   loggedIn: false,
-  isLoading: true,
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setLoggedIn: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setIsLoading: () => {},
+  loading: true,
+  setLoggedIn: () => null,
+  user: null,
 });
 
 export const LoggedInProvider: React.FC = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {
       if (user) {
         setLoggedIn(true);
+        setUser(user);
       } else {
         setLoggedIn(false);
+        setUser(null);
       }
-      setIsLoading(false);
+      setLoading(false);
     });
     return () => {
       clearListener();
@@ -36,7 +37,7 @@ export const LoggedInProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <LoggedInContext.Provider value={{ loggedIn, setLoggedIn, isLoading, setIsLoading }}>
+    <LoggedInContext.Provider value={{ loggedIn, setLoggedIn, loading, user }}>
       {children}
     </LoggedInContext.Provider>
   );

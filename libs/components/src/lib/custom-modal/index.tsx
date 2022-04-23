@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 interface CustomModalProps {
   useController: typeof useCustomModalController;
   open: boolean;
-  hasConfim: boolean;
+  hasConfirm: boolean;
   hasCancel: boolean;
   onClose: () => void;
   onConfirm?: () => void;
@@ -14,7 +14,7 @@ interface CustomModalProps {
 export const CustomModal: React.FC<CustomModalProps> = ({
   useController,
   open,
-  hasConfim,
+  hasConfirm: hasConfim,
   hasCancel,
   onClose,
   onConfirm,

@@ -1,32 +1,26 @@
 import {
+  CardColors,
   ExchangeCard,
   Layout,
-  CardColors,
 } from "@simulate-exchange/components";
-import { useFullLoader, useRandomImage } from "@simulate-exchange/hooks";
-import { useEffect, useState } from "react";
-import { useEmoji } from "@simulate-exchange/hooks";
+import { useEmoji, useLoggedInRedirect } from "@simulate-exchange/hooks";
+import { useMemo } from "react";
 
 export function Index() {
-  const { randomImage, isLoading } = useRandomImage();
-  const [urlLoading, setUrlLoading] = useState(true);
+  const { user } = useLoggedInRedirect();
+  const firstName = useMemo(
+    () => ", " + user?.displayName?.split(" ")?.[0] ?? "",
+    [user],
+  );
+
   const Celebrate = useEmoji("🎉", "3rem");
   const Bank = useEmoji("🏦", "2rem");
 
-  useEffect(() => {
-    const img = new Image();
-    const finishLoading = () => setUrlLoading(false);
-    img.addEventListener("load", finishLoading);
-    img.src = randomImage;
-    return () => img.removeEventListener("load", finishLoading);
-  }, [setUrlLoading, randomImage]);
-
-  useFullLoader(isLoading || urlLoading);
   return (
     <Layout.Page>
       <div className="flex flex-col">
         <p className="flex items-center gap-x-4 pt-10 text-4xl font-bold text-gray-50">
-          Welcome, Name
+          {`Welcome${firstName}`}
           <Celebrate />
         </p>
         <p className="bg- mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
