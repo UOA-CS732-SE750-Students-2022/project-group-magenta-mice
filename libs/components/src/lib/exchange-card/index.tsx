@@ -116,7 +116,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const ModalEditExchange = (
     <EditExchangeModal
       handleCloseModal={handleCloseModal}
-      handleOpenAddInstrumentModal={handleOpenEditInstrumentsModal}
+      handleOpenAddInstrumentModal={handleOpenAddInstrumentModal}
       handleOpenEditInstrumentsModal={handleOpenEditInstrumentsModal}
       isOpen={isOpen}
       name={name}
