@@ -5,17 +5,18 @@
 namespace Sim::Net
 {
     ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse response)
-        : mSocket(std::move(socket)),
-          mLoginResponse{ response },
-          mParser{ std::make_unique<MessageParser>(*this) },
-          mFSM{ ParticipantFSM::CONNECTED }
+        : mSocket(std::move(socket)), mLoginResponse{ response }, mFSM{ ParticipantFSM::CONNECTED }
     {}
 
     void ParticipantSession::injectParser(std::unique_ptr<IMessageParser> parser) { mParser = std::move(parser); }
 
     bool ParticipantSession::isLoggedIn() const { return mFSM == ParticipantFSM::LOGGED_IN; }
 
-    void ParticipantSession::login() { mFSM = ParticipantFSM::LOGGED_IN; }
+    void ParticipantSession::login(std::string userId)
+    {
+        mFSM = ParticipantFSM::LOGGED_IN;
+        mUserId = userId;
+    }
 
     void ParticipantSession::logout() { mFSM = ParticipantFSM::CONNECTED; }
 
@@ -27,8 +28,12 @@ namespace Sim::Net
         }
     }
 
-    void ParticipantSession::start(message_handler&& on_message, error_handler&& on_error)
+    void ParticipantSession::start(
+        message_handler&& on_message,
+        error_handler&& on_error,
+        std::unique_ptr<IMessageParser> parser)
     {
+        this->mParser = std::move(parser);
         this->mOnMessage = std::move(on_message);
         this->mOnError = std::move(on_error);
 

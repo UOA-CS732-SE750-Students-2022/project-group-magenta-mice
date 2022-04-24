@@ -32,7 +32,8 @@ namespace Sim::Testing
                     "tickSize": 10
                 }
             ],
-            "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange"
+            "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange",
+            "exchangeId": "123abc"
         }
         )";
 

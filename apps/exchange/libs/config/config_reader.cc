@@ -33,8 +33,9 @@ namespace Sim::Config
         }
 
         auto dbString = document["database"].GetString();
+        auto exchangeId = document["exchangeId"].GetString();
 
-        return ExchangeConfig(port, instrumentVector, dbString);
+        return ExchangeConfig(port, instrumentVector, dbString, exchangeId);
     }
 
     bool ConfigReader::validate(int argc, char* argv[]) const

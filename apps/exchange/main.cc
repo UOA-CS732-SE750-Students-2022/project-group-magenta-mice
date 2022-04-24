@@ -18,8 +18,9 @@ int main(int argc, char* argv[])
 
     auto config = reader.read(argv[1]);
     auto port = config.getPort();
-    auto instruments = config.getInstruments();
-    auto dbString = config.getDbString();
+    auto& instruments = config.getInstruments();
+    auto& dbString = config.getDbString();
+    auto& exchangeId = config.getExchangeId();
 
     Sim::Db::Connection dbService{ dbString };
 
@@ -33,7 +34,7 @@ int main(int argc, char* argv[])
     }
 
     io::io_context ioContext;
-    Sim::Net::ExchangeServer server(ioContext, port);
+    Sim::Net::ExchangeServer server(ioContext, port, exchangeId, dbService);
 
     for (const auto& instrument : instruments)
     {

@@ -8,18 +8,22 @@ namespace Sim::Testing
     class ConfigTestFixture : public Test
     {
        protected:
-        ConfigTestFixture() : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>(), std::string())) {}
+        ConfigTestFixture()
+            : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>(), std::string(), std::string()))
+        {}
 
         struct ConfigOptions
         {
             uint32_t mPort = 0;
             std::vector<Instrument> mInstruments;
             std::string mDbString;
+            std::string mExchangeId;
         };
 
         void createConfig(ConfigOptions options)
         {
-            mConfig = Config::ExchangeConfig(options.mPort, options.mInstruments, options.mDbString);
+            mConfig =
+                Config::ExchangeConfig(options.mPort, options.mInstruments, options.mDbString, options.mExchangeId);
         }
 
         Config::ExchangeConfig mConfig;

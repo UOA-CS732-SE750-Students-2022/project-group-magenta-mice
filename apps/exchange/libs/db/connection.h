@@ -9,6 +9,8 @@ namespace Sim::Db
     struct IConnection
     {
         virtual ~IConnection() = default;
+
+        virtual pqxx::result exec(const std::function<pqxx::result(pqxx::work&)>& query) = 0;
     };
 
     class Connection : public IConnection
