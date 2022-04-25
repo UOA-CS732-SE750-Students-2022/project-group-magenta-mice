@@ -51,11 +51,14 @@ export const Settings = () => {
       instruments: { currentInstruments },
     },
   ];
+
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
   const Check = useEmoji("✅", "2rem");
 
-  const [selectedSettings, setSelectedSettings] = useState("Overview");
+  type SettingsPage = "Overview" | "Instruments" | "Permissions";
+  const [selectedSettings, setSelectedSettings] =
+    useState<SettingsPage>("Overview");
 
   return (
     <Layout.Page
