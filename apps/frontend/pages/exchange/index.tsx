@@ -16,29 +16,8 @@ export function Index() {
   const Celebrate = useEmoji("🎉", "3rem");
   const Bank = useEmoji("🏦", "2rem");
 
-  const Globe = useEmoji("🌍", "2rem");
-  const Trumpet = useEmoji("🎺", "2rem");
-  const Check = useEmoji("✅", "2rem");
-
   return (
-    <Layout.Page
-      sidebar={
-        <div className="flex flex-col divide-y text-white">
-          <button className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700">
-            <Globe />
-            Overview
-          </button>
-          <button className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700">
-            <Trumpet />
-            Instruments
-          </button>
-          <button className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700">
-            <Check />
-            Permissions
-          </button>
-        </div>
-      }
-    >
+    <Layout.Page>
       <div className="flex flex-col">
         <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
           {`Welcome${firstName}`}
