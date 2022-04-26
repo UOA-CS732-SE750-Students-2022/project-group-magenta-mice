@@ -16,14 +16,28 @@ export const Settings = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const currentInstruments = [
+  const currentInstruments1 = [
     {
-      name: "ABCD",
+      name: "FGGH",
+      type: "ETF",
+    },
+    {
+      name: "AAPL",
       type: "Bond",
     },
     {
+      name: "QQQ",
+      type: "Stock",
+    },
+    {
+      name: "QQQ",
+      type: "Stock",
+    },
+  ];
+  const currentInstruments2 = [
+    {
       name: "FGGH",
-      type: "Bond",
+      type: "ETF",
     },
     {
       name: "AAPL",
@@ -34,23 +48,31 @@ export const Settings = () => {
       type: "Stock",
     },
   ];
+  const currentInstruments3 = [
+    {
+      name: "FGGH",
+      type: "ETF",
+    },
+  ];
   const exchangeList = [
     {
       name: "New York Stock Exchange",
       id: "1",
-      instruments: { currentInstruments },
+      instruments: currentInstruments1,
     },
     {
       name: "London Stock Exchange",
       id: "2",
-      instruments: { currentInstruments },
+      instruments: currentInstruments2,
     },
     {
       name: "Paris Stock Exchange",
       id: "3",
-      instruments: { currentInstruments },
+      instruments: currentInstruments3,
     },
   ];
+
+  const currentExchange = exchangeList.find((exchange) => exchange.id === id);
 
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
@@ -90,13 +112,17 @@ export const Settings = () => {
     >
       <div className="flex flex-col">
         <p className="flex items-center gap-x-4 text-gray-400">
-          exchangename {">"} settings
+          {currentExchange?.name} {">"} settings
         </p>
+
         {selectedSettings === "Overview" && (
           <OverviewSettings useController={useOverviewSettingsController} />
         )}
         {selectedSettings === "Instruments" && (
-          <InstrumentSettings useController={useInstrumentSettingsController} />
+          <InstrumentSettings
+            useController={useInstrumentSettingsController}
+            instruments={currentExchange.instruments}
+          />
         )}
         {selectedSettings === "Permissions" && (
           <PermissionSettings useController={usePermissionSettingsController} />
