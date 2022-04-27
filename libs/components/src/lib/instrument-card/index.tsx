@@ -7,6 +7,7 @@ export interface InstrumentCardProps {
   name?: string;
   type?: string;
   isAddCard?: boolean;
+  onClick: () => void;
 }
 
 export const InstrumentCard: React.FC<InstrumentCardProps> = ({
@@ -14,6 +15,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
   name,
   type,
   isAddCard,
+  onClick,
 }) => {
   const Arrow = useEmoji("▶", "1rem");
 
@@ -43,9 +45,8 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
     return (
       <div>
         <div
-          className={
-            "flex h-24 w-1/2 cursor-pointer items-center rounded-lg border-2 border-dashed bg-transparent transition-all hover:bg-zinc-800"
-          }
+          className="flex h-24 w-1/2 cursor-pointer items-center rounded-lg border-2 border-dashed bg-transparent transition-all hover:bg-zinc-800"
+          onClick={onClick}
         >
           <PlusSign className="m-auto h-10  w-10 text-gray-50" />
         </div>
