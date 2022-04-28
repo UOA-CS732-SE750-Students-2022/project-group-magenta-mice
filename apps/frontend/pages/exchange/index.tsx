@@ -44,6 +44,7 @@ export function Index() {
                   type: "",
                 }),
               )}
+              participants={permission.exchange.userPermissions.length}
               isAddCard={false}
             />
           ))}

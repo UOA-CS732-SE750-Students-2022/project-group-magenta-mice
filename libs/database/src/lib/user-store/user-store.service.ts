@@ -15,7 +15,9 @@ export class UserStoreService {
       where: { id },
       include: {
         userPermissions: {
-          include: { exchange: { include: { instruments: true } } },
+          include: {
+            exchange: { include: { instruments: true, userPermissions: true } },
+          },
         },
       },
     });

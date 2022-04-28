@@ -234,6 +234,7 @@ export type CurrentUserQuery = {
         id: string;
         name: string;
         colour: number;
+        userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
         instruments: Array<{ __typename?: "Instrument"; name: string }>;
       };
     }> | null;
@@ -665,6 +666,9 @@ export const CurrentUserDocument = gql`
           id
           name
           colour
+          userPermissions {
+            id
+          }
           instruments {
             name
           }
