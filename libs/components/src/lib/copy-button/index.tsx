@@ -1,5 +1,6 @@
 import { DuplicateIcon } from "@heroicons/react/outline";
 import React from "react";
+import { toast } from "react-toastify";
 
 interface CopyButtonProps {
   useController: typeof useCopyButtonController;
@@ -28,6 +29,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
 export const useCopyButtonController = (text: string) => {
   const onClick = () => {
     navigator.clipboard.writeText(text);
+    toast.success("Text copied to clipboard.");
   };
 
   return { onClick };
