@@ -10,6 +10,7 @@ export class UsersService {
   create(createUserInput: CreateUserInput) {
     return this.userStore.createUser(
       createUserInput.name,
+      createUserInput.email,
       createUserInput.profilePicUrl,
       createUserInput.id,
     );

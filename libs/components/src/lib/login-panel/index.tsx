@@ -124,6 +124,7 @@ export const useLoginPanelController = (invite?: string) => {
         createUser({
           variables: {
             id: user.uid,
+            email: user.email ?? "",
             name: user?.displayName ?? "Anonymous",
             profilePicUrl: user.photoURL,
           },
