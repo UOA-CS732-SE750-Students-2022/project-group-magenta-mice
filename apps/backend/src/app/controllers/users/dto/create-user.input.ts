@@ -8,6 +8,9 @@ export class CreateUserInput {
   @Field()
   name: string;
 
+  @Field()
+  email: string;
+
   @Field({ nullable: true, description: "Google ProfilePic of user" })
   profilePicUrl: string;
 }
