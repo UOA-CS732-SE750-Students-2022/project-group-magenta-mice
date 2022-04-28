@@ -4,6 +4,9 @@ import { User } from "./user.entity";
 
 @ObjectType()
 export class UserPermission {
+  @Field(() => ID)
+  id: string;
+
   @Field(() => Exchange)
   exchange: Exchange;
 

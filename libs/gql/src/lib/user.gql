@@ -3,9 +3,15 @@ query CurrentUser {
     name
     profilePicUrl
     userPermissions {
+      id
       permission
       exchange {
         id
+        name
+        colour
+        instruments {
+          name
+        }
       }
     }
   }

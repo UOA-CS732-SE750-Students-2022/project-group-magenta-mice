@@ -38,12 +38,15 @@ export interface Instrument {
 
 export interface Exchange {
   id: string;
+  name: string;
+  colour: number;
   public: boolean;
   userPermissions: UserPermission[];
   instruments: Instrument[];
 }
 
 export interface UserPermission {
+  id: string;
   exchange: Exchange;
   user: User;
   permission: string;

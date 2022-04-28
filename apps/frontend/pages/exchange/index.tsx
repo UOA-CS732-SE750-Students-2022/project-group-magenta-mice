@@ -5,9 +5,14 @@ import {
 } from "@simulate-exchange/components";
 import { useEmoji, useLoggedInRedirect } from "@simulate-exchange/hooks";
 import { useMemo } from "react";
+import {
+  useCreateTestExchangeMutation,
+  useCurrentUserQuery,
+} from "@simulate-exchange/gql";
 
 export function Index() {
   const { user } = useLoggedInRedirect();
+  const { data, loading } = useCurrentUserQuery();
   const firstName = useMemo(
     () => ", " + user?.displayName?.split(" ")?.[0] ?? "",
     [user],
@@ -28,36 +33,14 @@ export function Index() {
           <Bank />
         </p>
         <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
-          <ExchangeCard
-            colour={CardColors[1]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
-          <ExchangeCard
-            colour={CardColors[2]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
-          <ExchangeCard
-            colour={CardColors[3]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
-          <ExchangeCard
-            colour={CardColors[4]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
-          <ExchangeCard
-            colour={CardColors[5]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
-          <ExchangeCard
-            colour={CardColors[6]}
-            name={"New York Stock Exchange"}
-            isAddCard={false}
-          />
+          {data?.currentUser.userPermissions.map((permission) => (
+            <ExchangeCard
+              key={permission.exchange.id}
+              colour={CardColors[permission.exchange.colour]}
+              name={permission.exchange.name}
+              isAddCard={false}
+            />
+          ))}
           <ExchangeCard isAddCard={true} />
         </div>
       </div>

@@ -48,8 +48,10 @@ export type CreateUserInput = {
 
 export type Exchange = {
   __typename?: "Exchange";
+  colour: Scalars["Float"];
   id: Scalars["String"];
   instruments: Array<Instrument>;
+  name: Scalars["String"];
   public: Scalars["Boolean"];
   userPermissions: Array<UserPermission>;
 };
@@ -127,6 +129,7 @@ export type User = {
 export type UserPermission = {
   __typename?: "UserPermission";
   exchange: Exchange;
+  id: Scalars["ID"];
   permission: Scalars["String"];
   user: User;
 };
@@ -224,8 +227,15 @@ export type CurrentUserQuery = {
     profilePicUrl?: string | null;
     userPermissions?: Array<{
       __typename?: "UserPermission";
+      id: string;
       permission: string;
-      exchange: { __typename?: "Exchange"; id: string };
+      exchange: {
+        __typename?: "Exchange";
+        id: string;
+        name: string;
+        colour: number;
+        instruments: Array<{ __typename?: "Instrument"; name: string }>;
+      };
     }> | null;
   };
 };
@@ -649,9 +659,15 @@ export const CurrentUserDocument = gql`
       name
       profilePicUrl
       userPermissions {
+        id
         permission
         exchange {
           id
+          name
+          colour
+          instruments {
+            name
+          }
         }
       }
     }

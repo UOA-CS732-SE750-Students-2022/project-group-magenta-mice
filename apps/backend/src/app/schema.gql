@@ -11,12 +11,15 @@ type Instrument {
 
 type Exchange {
   id: String!
+  name: String!
+  colour: Float!
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!
 }
 
 type UserPermission {
+  id: ID!
   exchange: Exchange!
   user: User!
   permission: String!

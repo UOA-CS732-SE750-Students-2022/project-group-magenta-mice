@@ -8,6 +8,12 @@ export class Exchange {
   id: string;
 
   @Field()
+  name: string;
+
+  @Field()
+  colour: number;
+
+  @Field()
   public: boolean;
 
   @Field(() => [UserPermission])
