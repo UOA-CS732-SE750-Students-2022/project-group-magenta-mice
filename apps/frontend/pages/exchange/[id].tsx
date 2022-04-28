@@ -100,7 +100,7 @@ export function Exchange() {
 
         <div className="flex items-center gap-2">
           <span className="font-semibold">Your API Secret:</span>
-          <span>{apiSecret}</span>
+          <span className="font-mono">{apiSecret}</span>
 
           <HideShowButton
             onClick={handleToggleApiSecretDisplay}
@@ -117,7 +117,12 @@ export function Exchange() {
         {currentUserPermission?.permission === Permission.Admin && (
           <div className="flex items-center gap-2">
             <span className="font-semibold">Invite Link:</span>
-            <a rel="noreferrer" target="_blank" href={inviteLink}>
+            <a
+              className="font-mono"
+              rel="noreferrer"
+              target="_blank"
+              href={inviteLink}
+            >
               {inviteLink}
             </a>
 
