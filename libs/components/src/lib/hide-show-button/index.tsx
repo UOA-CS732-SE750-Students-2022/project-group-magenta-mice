@@ -14,10 +14,10 @@ export const HideShowButton: React.FC<HideShowButtonProps> = ({
 }) => {
   return (
     <button
-      className="rounded bg-blue-600 py-1 px-2 font-semibold transition-colors hover:bg-blue-500 focus:outline-none"
+      className="w-[5.25rem] rounded bg-blue-600 py-1 px-2 font-semibold transition-colors hover:bg-blue-500 focus:outline-none"
       onClick={onClick}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <span>{isShown ? "Hide" : "Show"}</span>
         {isShown ? <EyeOffIcon className="w-5" /> : <EyeIcon className="w-5" />}
       </div>
