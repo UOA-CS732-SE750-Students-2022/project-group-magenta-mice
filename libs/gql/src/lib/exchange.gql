@@ -1,10 +1,14 @@
 query FindExchange($id: ID!) {
   exchange(id: $id) {
     public
+    name
     userPermissions {
+      id
       user {
         name
         id
+        email
+        profilePicUrl
       }
       permission
     }

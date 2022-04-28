@@ -6,9 +6,15 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum Permission {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
 export interface CreateUserInput {
   id: string;
   name: string;
+  email: string;
   profilePicUrl?: Nullable<string>;
 }
 
@@ -49,11 +55,12 @@ export interface UserPermission {
   id: string;
   exchange: Exchange;
   user: User;
-  permission: string;
+  permission: Permission;
 }
 
 export interface User {
   name: string;
+  email: string;
   profilePicUrl?: Nullable<string>;
   id: string;
   userPermissions?: Nullable<UserPermission[]>;

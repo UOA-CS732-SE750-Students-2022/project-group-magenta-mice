@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from "@nestjs/graphql";
 import { Exchange } from "../../exchanges/entities/exchange.entity";
+import { Permission } from "./enums/permission";
 import { User } from "./user.entity";
 
 @ObjectType()
@@ -13,6 +14,6 @@ export class UserPermission {
   @Field(() => User)
   user: User;
 
-  @Field()
-  permission: string;
+  @Field(() => Permission)
+  permission: Permission;
 }

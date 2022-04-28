@@ -6,6 +6,9 @@ export class User {
   @Field()
   name: string;
 
+  @Field()
+  email: string;
+
   @Field({ nullable: true })
   profilePicUrl: string;
 

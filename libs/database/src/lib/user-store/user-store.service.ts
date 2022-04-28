@@ -23,7 +23,7 @@ export class UserStoreService {
     });
   }
 
-  async createUser(name: string, pppic: string, id: string) {
+  async createUser(name: string, email: string, pppic: string, id: string) {
     return await this.prismaService.user.upsert({
       where: {
         id,
@@ -31,10 +31,12 @@ export class UserStoreService {
       create: {
         id,
         name,
+        email,
         profilePicUrl: pppic,
       },
       update: {
         name,
+        email,
         profilePicUrl: pppic,
       },
     });

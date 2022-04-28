@@ -39,6 +39,7 @@ export type CreateInviteInput = {
 };
 
 export type CreateUserInput = {
+  email: Scalars["String"];
   /** Google Id */
   id: Scalars["ID"];
   name: Scalars["String"];
@@ -102,6 +103,11 @@ export type MutationJoinExchangeArgs = {
   id: Scalars["String"];
 };
 
+export enum Permission {
+  Admin = "ADMIN",
+  User = "USER",
+}
+
 export type Query = {
   __typename?: "Query";
   checkInvite: Scalars["Boolean"];
@@ -119,6 +125,7 @@ export type QueryExchangeArgs = {
 
 export type User = {
   __typename?: "User";
+  email: Scalars["String"];
   /** the google ID */
   id: Scalars["ID"];
   name: Scalars["String"];
@@ -130,7 +137,7 @@ export type UserPermission = {
   __typename?: "UserPermission";
   exchange: Exchange;
   id: Scalars["ID"];
-  permission: Scalars["String"];
+  permission: Permission;
   user: User;
 };
 
@@ -143,10 +150,18 @@ export type FindExchangeQuery = {
   exchange: {
     __typename?: "Exchange";
     public: boolean;
+    name: string;
     userPermissions: Array<{
       __typename?: "UserPermission";
-      permission: string;
-      user: { __typename?: "User"; name: string; id: string };
+      id: string;
+      permission: Permission;
+      user: {
+        __typename?: "User";
+        name: string;
+        id: string;
+        email: string;
+        profilePicUrl?: string | null;
+      };
     }>;
     instruments: Array<{ __typename?: "Instrument"; name: string }>;
   };
@@ -228,7 +243,7 @@ export type CurrentUserQuery = {
     userPermissions?: Array<{
       __typename?: "UserPermission";
       id: string;
-      permission: string;
+      permission: Permission;
       exchange: {
         __typename?: "Exchange";
         id: string;
@@ -243,6 +258,7 @@ export type CurrentUserQuery = {
 
 export type CreateUserMutationVariables = Exact<{
   name: Scalars["String"];
+  email: Scalars["String"];
   profilePicUrl?: InputMaybe<Scalars["String"]>;
   id: Scalars["ID"];
 }>;
@@ -252,6 +268,7 @@ export type CreateUserMutation = {
   createUser: {
     __typename?: "User";
     name: string;
+    email: string;
     profilePicUrl?: string | null;
     id: string;
   };
@@ -261,10 +278,14 @@ export const FindExchangeDocument = gql`
   query FindExchange($id: ID!) {
     exchange(id: $id) {
       public
+      name
       userPermissions {
+        id
         user {
           name
           id
+          email
+          profilePicUrl
         }
         permission
       }
@@ -726,11 +747,22 @@ export type CurrentUserQueryResult = Apollo.QueryResult<
   CurrentUserQueryVariables
 >;
 export const CreateUserDocument = gql`
-  mutation CreateUser($name: String!, $profilePicUrl: String, $id: ID!) {
+  mutation CreateUser(
+    $name: String!
+    $email: String!
+    $profilePicUrl: String
+    $id: ID!
+  ) {
     createUser(
-      createUserInput: { name: $name, profilePicUrl: $profilePicUrl, id: $id }
+      createUserInput: {
+        name: $name
+        email: $email
+        profilePicUrl: $profilePicUrl
+        id: $id
+      }
     ) {
       name
+      email
       profilePicUrl
       id
     }
@@ -755,6 +787,7 @@ export type CreateUserMutationFn = Apollo.MutationFunction<
  * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
  *      name: // value for 'name'
+ *      email: // value for 'email'
  *      profilePicUrl: // value for 'profilePicUrl'
  *      id: // value for 'id'
  *   },
