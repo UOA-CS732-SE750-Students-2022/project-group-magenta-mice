@@ -17,13 +17,20 @@ type Exchange {
 }
 
 type UserPermission {
+  id: ID!
   exchange: Exchange!
   user: User!
-  permission: String!
+  permission: Permission!
+}
+
+enum Permission {
+  ADMIN
+  USER
 }
 
 type User {
   name: String!
+  email: String!
   profilePicUrl: String
 
   """the google ID"""
@@ -56,6 +63,7 @@ input CreateUserInput {
   """Google Id"""
   id: ID!
   name: String!
+  email: String!
 
   """Google ProfilePic of user"""
   profilePicUrl: String

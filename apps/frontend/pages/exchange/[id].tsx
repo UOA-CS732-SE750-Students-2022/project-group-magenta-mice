@@ -1,5 +1,10 @@
-import { Layout } from "@simulate-exchange/components";
 import {
+  Layout,
+  ExchangeUserSummary,
+  useExchangeUserSummaryController,
+} from "@simulate-exchange/components";
+import {
+  Permission,
   useCreateInviteMutation,
   useFindExchangeQuery,
 } from "@simulate-exchange/gql";
@@ -42,7 +47,7 @@ function AuthComponent() {
       router.isReady &&
       !loading &&
       data &&
-      currentUserPermission?.permission === "ADMIN"
+      currentUserPermission?.permission === Permission.Admin
     ) {
       createInvite({ variables: { exchangeId: id as string, userId: "" } })
         .then((res) => {
@@ -58,12 +63,15 @@ function AuthComponent() {
       <div className="flex flex-col gap-1">
         <span>Users</span>
         {permissions?.map((permission) => (
-          <div key={permission.user.id}>
-            {permission.user.name} - {permission.permission}
-          </div>
+          <ExchangeUserSummary
+            key={permission.id}
+            user={permission.user}
+            permission={permission.permission}
+            useController={useExchangeUserSummaryController}
+          />
         ))}
       </div>
-      {currentUserPermission?.permission === "ADMIN" && (
+      {currentUserPermission?.permission === Permission.Admin && (
         <span>
           Invite Link:{" "}
           <a rel="noreferrer" target="_blank" href={invite}>
