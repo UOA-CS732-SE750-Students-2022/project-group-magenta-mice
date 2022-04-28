@@ -13,4 +13,3 @@ export class UserPermission {
   @Field()
   permission: string;
 }
-

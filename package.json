@@ -6,7 +6,7 @@
     "start": "run-p serve open",
     "serve": "nx run-many --parallel --target=serve --all --max-parallel=100",
     "storybook:generate": "nx g @nrwl/react:stories components",
-    "build": "nx run-many --parallel --target=build --all",
+    "build": "nx run-many --parallel --target=build --prod --all",
     "test": "nx run-many --parallel --target=test --all",
     "e2e": "nx run-many --parallel --target=e2e --all",
     "index:generate": "node tools/scripts/generate-index.js",
@@ -25,6 +25,7 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@nestjs/apollo": "^10.0.7",
     "@nestjs/common": "^8.0.0",
@@ -58,7 +59,8 @@
     "rxjs": "^7.0.0",
     "tailwindcss": "^3.0.23",
     "ts-morph": "^13.0.3",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "twemoji-parser": "^14.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
@@ -87,12 +89,14 @@
     "@storybook/manager-webpack5": "~6.4.12",
     "@storybook/react": "~6.4.12",
     "@svgr/webpack": "^5.5.0",
+    "@tailwindcss/forms": "^0.5.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
     "@types/react": "17.0.30",
     "@types/react-dom": "17.0.9",
+    "@types/twemoji-parser": "^13.1.1",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",
     "babel-jest": "27.2.3",
@@ -114,6 +118,7 @@
     "npm-run-all": "^4.1.5",
     "open-cli": "^7.0.1",
     "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.10",
     "prisma": "^3.10.0",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
@@ -122,7 +127,7 @@
     "wait-on": "^6.0.1"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.{js,tsx,ts}": "eslint --cache --fix",
+    "*.{js,css,md,ts,tsx}": "prettier --write"
   }
 }

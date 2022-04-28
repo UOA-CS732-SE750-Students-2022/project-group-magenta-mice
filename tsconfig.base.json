@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@simulate-exchange/assets": ["libs/assets/src/index.ts"],
+      "@simulate-exchange/common": ["libs/common/src/index.ts"],
       "@simulate-exchange/components": ["libs/components/src/index.ts"],
       "@simulate-exchange/database": ["libs/database/src/index.ts"],
       "@simulate-exchange/gql": ["libs/gql/src/index.ts"],
