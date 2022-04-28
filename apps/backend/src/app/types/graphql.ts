@@ -44,6 +44,7 @@ export interface Instrument {
 
 export interface Exchange {
   id: string;
+  name: string;
   public: boolean;
   userPermissions: UserPermission[];
   instruments: Instrument[];

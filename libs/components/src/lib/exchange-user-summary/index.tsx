@@ -1,9 +1,9 @@
-import { User } from "@simulate-exchange/gql";
+import { Permission, User } from "@simulate-exchange/gql";
 import React from "react";
 
 interface ExchangeUserSummaryProps {
   useController: typeof useExchangeUserSummaryController;
-  permission: string;
+  permission: Permission;
   user: User;
 }
 
@@ -12,7 +12,7 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
   user,
   permission,
 }) => {
-  //const {} = useController();
+  const { removeUser } = useController();
 
   return (
     <div className="flex items-center justify-between rounded bg-neutral-800 p-4 text-white">
@@ -27,18 +27,32 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
           <span>{user.email}</span>
         </div>
       </div>
-      <div>{permission}</div>
+      <div>
+        {permission !== Permission.Admin && (
+          <span onClick={removeUser} className="cursor-pointer text-red-500">
+            Remove
+          </span>
+        )}
+      </div>
     </div>
   );
 };
 
 export const useExchangeUserSummaryController = () => {
-  return {};
+  const removeUser = () => {
+    // todo
+  };
+
+  return { removeUser };
 };
 
 export const useMockExchangeUserSummaryController: typeof useExchangeUserSummaryController =
   () => {
-    return {};
+    const removeUser = () => {
+      // todo
+    };
+
+    return { removeUser };
   };
 
 export default ExchangeUserSummary;

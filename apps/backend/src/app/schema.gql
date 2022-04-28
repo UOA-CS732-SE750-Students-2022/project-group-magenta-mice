@@ -11,6 +11,7 @@ type Instrument {
 
 type Exchange {
   id: String!
+  name: String!
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!

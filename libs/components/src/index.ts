@@ -11,3 +11,5 @@ export * from "./lib/login-panel";
 export * from "./lib/user-dropdown";
 export * from "./lib/exchange-settings";
 export * from "./lib/exchange-user-summary";
+export * from "./lib/copy-button";
+export * from "./lib/hide-show-button";

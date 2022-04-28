@@ -51,6 +51,7 @@ export type Exchange = {
   __typename?: "Exchange";
   id: Scalars["String"];
   instruments: Array<Instrument>;
+  name: Scalars["String"];
   public: Scalars["Boolean"];
   userPermissions: Array<UserPermission>;
 };
@@ -148,6 +149,7 @@ export type FindExchangeQuery = {
   exchange: {
     __typename?: "Exchange";
     public: boolean;
+    name: string;
     userPermissions: Array<{
       __typename?: "UserPermission";
       id: string;
@@ -268,6 +270,7 @@ export const FindExchangeDocument = gql`
   query FindExchange($id: ID!) {
     exchange(id: $id) {
       public
+      name
       userPermissions {
         id
         user {
