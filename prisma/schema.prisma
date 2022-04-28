@@ -57,7 +57,7 @@ enum PermissionType {
 
 model Instrument {
   id                String         @id @default(uuid())
-  exchangeId        String         @unique
+  exchangeId        String
   name              String
   tickSizeMin       Int
   positionLimit     Int

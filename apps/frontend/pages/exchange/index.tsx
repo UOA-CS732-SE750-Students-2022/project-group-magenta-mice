@@ -34,12 +34,17 @@ export function Index() {
         </p>
         <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
           {data?.currentUser.userPermissions.map((permission) => (
-            <ExchangeCard
-              key={permission.exchange.id}
-              colour={CardColors[permission.exchange.colour]}
-              name={permission.exchange.name}
-              isAddCard={false}
-            />
+            <div key={permission.exchange.id}>
+              {permission.exchange.instruments.map(
+                (instrument) => instrument.name,
+              )}
+            </div>
+            // <ExchangeCard
+            //   key={permission.exchange.id}
+            //   colour={CardColors[permission.exchange.colour]}
+            //   name={permission.exchange.name}
+            //   isAddCard={false}
+            // />
           ))}
           <ExchangeCard isAddCard={true} />
         </div>
