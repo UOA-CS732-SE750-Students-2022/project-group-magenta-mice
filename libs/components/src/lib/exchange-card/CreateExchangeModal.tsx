@@ -1,6 +1,7 @@
 import { MockController } from "@simulate-exchange/common";
 import {
   CurrentUserDocument,
+  CurrentUserQuery,
   Permission,
   useCreateExchangeMutation,
 } from "@simulate-exchange/gql";
@@ -93,10 +94,9 @@ export const useCreateExchangeModalController = (
           },
         },
         update: (cache, { data: result }) => {
-          console.log({ newExchangeName, color });
-          const data = cache.readQuery({
+          const data = cache.readQuery<CurrentUserQuery>({
             query: CurrentUserDocument,
-          }) as any;
+          });
           if (data) {
             cache.writeQuery({
               query: CurrentUserDocument,

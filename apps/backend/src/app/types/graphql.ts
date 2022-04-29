@@ -63,7 +63,7 @@ export interface User {
   email: string;
   profilePicUrl?: Nullable<string>;
   id: string;
-  userPermissions?: Nullable<UserPermission[]>;
+  userPermissions: UserPermission[];
 }
 
 export interface Invite {

@@ -130,7 +130,7 @@ export type User = {
   id: Scalars["ID"];
   name: Scalars["String"];
   profilePicUrl?: Maybe<Scalars["String"]>;
-  userPermissions?: Maybe<Array<UserPermission>>;
+  userPermissions: Array<UserPermission>;
 };
 
 export type UserPermission = {
@@ -246,7 +246,7 @@ export type CurrentUserQuery = {
     __typename?: "User";
     name: string;
     profilePicUrl?: string | null;
-    userPermissions?: Array<{
+    userPermissions: Array<{
       __typename?: "UserPermission";
       id: string;
       permission: Permission;
@@ -258,7 +258,7 @@ export type CurrentUserQuery = {
         userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
         instruments: Array<{ __typename?: "Instrument"; name: string }>;
       };
-    }> | null;
+    }>;
   };
 };
 
