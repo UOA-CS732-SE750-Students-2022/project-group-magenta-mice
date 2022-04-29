@@ -2,3 +2,5 @@
 
 /dist
 /coverage
+
+apps/backend/src/app/types/graphql.ts
