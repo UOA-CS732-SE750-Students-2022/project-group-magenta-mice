@@ -1,4 +1,4 @@
-import { ObjectType, Field } from "@nestjs/graphql";
+import { ObjectType, Field, Int } from "@nestjs/graphql";
 import { UserPermission } from "../../users/entities/permissions.entity";
 import { Instrument } from "../../instruments/entities/instrument.entity";
 
@@ -10,7 +10,7 @@ export class Exchange {
   @Field()
   name: string;
 
-  @Field()
+  @Field(() => Int)
   colour: number;
 
   @Field()

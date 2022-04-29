@@ -12,7 +12,7 @@ type Instrument {
 type Exchange {
   id: String!
   name: String!
-  colour: Float!
+  colour: Int!
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!
