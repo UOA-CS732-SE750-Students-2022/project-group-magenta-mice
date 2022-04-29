@@ -1,13 +1,12 @@
+import { LockClosedIcon, MailIcon } from "@heroicons/react/solid";
 import { ReactComponent as GoogleIcon } from "@simulate-exchange/assets";
-import { Glass, DividedText } from "../..";
-import { MailIcon } from "@heroicons/react/solid";
-import { LockClosedIcon } from "@heroicons/react/solid";
-import cx from "classnames";
-import { useIsLoggedIn } from "@simulate-exchange/hooks";
-import { useEffect, useMemo } from "react";
 import { useCreateUserMutation } from "@simulate-exchange/gql";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useIsLoggedIn } from "@simulate-exchange/hooks";
+import cx from "classnames";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import { DividedText, Glass } from "../..";
 
 export interface LoginPanelProps {
   useController: typeof useLoginPanelController;
@@ -125,6 +124,7 @@ export const useLoginPanelController = (invite?: string) => {
         createUser({
           variables: {
             id: user.uid,
+            email: user.email ?? "",
             name: user?.displayName ?? "Anonymous",
             profilePicUrl: user.photoURL,
           },
