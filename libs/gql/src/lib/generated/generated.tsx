@@ -49,7 +49,7 @@ export type CreateUserInput = {
 
 export type Exchange = {
   __typename?: "Exchange";
-  colour: Scalars["Float"];
+  colour: Scalars["Int"];
   id: Scalars["String"];
   instruments: Array<Instrument>;
   name: Scalars["String"];
@@ -229,7 +229,13 @@ export type CreateExchangeMutationVariables = Exact<{
 
 export type CreateExchangeMutation = {
   __typename?: "Mutation";
-  createExchange: { __typename?: "Exchange"; id: string };
+  createExchange: {
+    __typename?: "Exchange";
+    id: string;
+    name: string;
+    colour: number;
+    userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
+  };
 };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -628,6 +634,11 @@ export const CreateExchangeDocument = gql`
       exchangeData: { exchangeColor: $color, exchangeName: $name }
     ) {
       id
+      name
+      colour
+      userPermissions {
+        id
+      }
     }
   }
 `;

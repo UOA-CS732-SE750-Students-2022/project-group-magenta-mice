@@ -90,10 +90,19 @@ export class ExchangeStoreService {
 
   async createExchange(uid: string, color: number, name: string) {
     const exchange = await this.prismaService.exchange.create({
-      data: { colour: color, name },
-    });
-    await this.prismaService.userPermission.create({
-      data: { userId: uid, exchangeId: exchange.id, permission: "ADMIN" },
+      data: {
+        colour: color,
+        name,
+        userPermissions: {
+          create: {
+            userId: uid,
+            permission: "ADMIN",
+          },
+        },
+      },
+      include: {
+        userPermissions: true,
+      },
     });
     return exchange;
   }

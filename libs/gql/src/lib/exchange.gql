@@ -67,5 +67,10 @@ mutation CreateTestExchange {
 mutation CreateExchange($name: String!, $color: Int!) {
   createExchange(exchangeData: { exchangeColor: $color, exchangeName: $name }) {
     id
+    name
+    colour
+    userPermissions {
+      id
+    }
   }
 }

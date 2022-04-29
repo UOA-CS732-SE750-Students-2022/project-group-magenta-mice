@@ -1,6 +1,12 @@
 import { MockController } from "@simulate-exchange/common";
-import { useCreateExchangeMutation } from "@simulate-exchange/gql";
+import {
+  CurrentUserDocument,
+  Permission,
+  useCreateExchangeMutation,
+} from "@simulate-exchange/gql";
+import { gql } from "apollo-server-core";
 import React, { useCallback } from "react";
+import { toast } from "react-toastify";
 import { ColorSelect, CustomModal, useCustomModalController } from "../..";
 
 interface CreateExchangeModalProps {
@@ -20,7 +26,7 @@ const CreateExchangeModal: React.FC<CreateExchangeModalProps> = ({
     newExchangeName,
     setColor,
     setNewExchangeName,
-  } = useController();
+  } = useController(handleCloseModal);
 
   return (
     <CustomModal
@@ -56,7 +62,9 @@ const CreateExchangeModal: React.FC<CreateExchangeModalProps> = ({
   );
 };
 
-export const useCreateExchangeModalController = () => {
+export const useCreateExchangeModalController = (
+  handleCloseModal: () => void,
+) => {
   const [newExchangeName, setNewExchangeName] = React.useState("");
   const [color, setColor] = React.useState(1);
 
@@ -64,16 +72,78 @@ export const useCreateExchangeModalController = () => {
 
   const handleCreateExchange = useCallback(async () => {
     try {
-      await createExchange({
+      const promise = createExchange({
         variables: {
           color,
           name: newExchangeName,
         },
+        optimisticResponse: {
+          __typename: "Mutation",
+          createExchange: {
+            __typename: "Exchange",
+            id: Math.random().toString(),
+            colour: color,
+            name: newExchangeName,
+            userPermissions: [
+              {
+                __typename: "UserPermission",
+                id: Math.random().toString(),
+              },
+            ],
+          },
+        },
+        update: (cache, { data: result }) => {
+          console.log({ newExchangeName, color });
+          const data = cache.readQuery({
+            query: CurrentUserDocument,
+          }) as any;
+          if (data) {
+            cache.writeQuery({
+              query: CurrentUserDocument,
+              data: {
+                ...data,
+                currentUser: {
+                  ...data.currentUser,
+                  userPermissions: [
+                    ...data.currentUser.userPermissions,
+                    {
+                      __typename: "UserPermission",
+                      id: result?.createExchange.userPermissions[0]?.id,
+                      permission: Permission.Admin,
+                      exchange: {
+                        __typename: "Exchange",
+                        id: result?.createExchange.id,
+                        name: result?.createExchange.name,
+                        colour: result?.createExchange.colour,
+                        userPermissions: [
+                          {
+                            id: result?.createExchange.userPermissions[0]?.id,
+                          },
+                        ],
+                        instruments: [],
+                      },
+                    },
+                  ],
+                },
+              },
+            });
+          }
+        },
       });
+
+      toast.promise(promise, {
+        pending: "Creating exchange...",
+        success: "Successfully Created Exchange!",
+        error: "Failed to create exchange.",
+      });
+
+      handleCloseModal();
+
+      await promise;
     } catch (err) {
       console.error(err);
     }
-  }, [color, createExchange, newExchangeName]);
+  }, [color, createExchange, newExchangeName, handleCloseModal]);
 
   return {
     newExchangeName,
