@@ -12,6 +12,7 @@ type Instrument {
 type Exchange {
   id: String!
   name: String!
+  colour: Int!
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!
@@ -36,7 +37,7 @@ type User {
 
   """the google ID"""
   id: ID!
-  userPermissions: [UserPermission!]
+  userPermissions: [UserPermission!]!
 }
 
 type Invite {

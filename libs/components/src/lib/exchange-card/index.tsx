@@ -405,7 +405,8 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
                   </span>
                 </div>
                 <div className="flex items-center gap-x-2 font-medium text-gray-200">
-                  <ShakeHands /> {participants} Participants
+                  <ShakeHands /> {participants}{" "}
+                  {participants < 2 ? "Participant" : "Participants"}
                 </div>
               </div>
             </div>

@@ -1,10 +1,10 @@
 import {
-  Layout,
-  ExchangeUserSummary,
-  useExchangeUserSummaryController,
   CopyButton,
-  useCopyButtonController,
+  ExchangeUserSummary,
   HideShowButton,
+  Layout,
+  useCopyButtonController,
+  useExchangeUserSummaryController,
   useHideShowButtonController,
 } from "@simulate-exchange/components";
 import {
@@ -17,7 +17,6 @@ import { getAuth } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { DuplicateIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 
 const uri = "http://localhost:4200";
 const hiddenApiSecret = "********-****-****-****-************";

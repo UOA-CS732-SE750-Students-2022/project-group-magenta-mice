@@ -13,7 +13,13 @@ export class UserStoreService {
   async findById(id: string) {
     return await this.prismaService.user.findFirst({
       where: { id },
-      include: { userPermissions: { include: { exchange: true } } },
+      include: {
+        userPermissions: {
+          include: {
+            exchange: { include: { instruments: true, userPermissions: true } },
+          },
+        },
+      },
     });
   }
 

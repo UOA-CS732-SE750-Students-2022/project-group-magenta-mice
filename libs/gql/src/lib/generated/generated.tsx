@@ -49,6 +49,7 @@ export type CreateUserInput = {
 
 export type Exchange = {
   __typename?: "Exchange";
+  colour: Scalars["Int"];
   id: Scalars["String"];
   instruments: Array<Instrument>;
   name: Scalars["String"];
@@ -129,7 +130,7 @@ export type User = {
   id: Scalars["ID"];
   name: Scalars["String"];
   profilePicUrl?: Maybe<Scalars["String"]>;
-  userPermissions?: Maybe<Array<UserPermission>>;
+  userPermissions: Array<UserPermission>;
 };
 
 export type UserPermission = {
@@ -228,7 +229,13 @@ export type CreateExchangeMutationVariables = Exact<{
 
 export type CreateExchangeMutation = {
   __typename?: "Mutation";
-  createExchange: { __typename?: "Exchange"; id: string };
+  createExchange: {
+    __typename?: "Exchange";
+    id: string;
+    name: string;
+    colour: number;
+    userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
+  };
 };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -239,12 +246,19 @@ export type CurrentUserQuery = {
     __typename?: "User";
     name: string;
     profilePicUrl?: string | null;
-    userPermissions?: Array<{
+    userPermissions: Array<{
       __typename?: "UserPermission";
       id: string;
       permission: Permission;
-      exchange: { __typename?: "Exchange"; id: string };
-    }> | null;
+      exchange: {
+        __typename?: "Exchange";
+        id: string;
+        name: string;
+        colour: number;
+        userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
+        instruments: Array<{ __typename?: "Instrument"; name: string }>;
+      };
+    }>;
   };
 };
 
@@ -620,6 +634,11 @@ export const CreateExchangeDocument = gql`
       exchangeData: { exchangeColor: $color, exchangeName: $name }
     ) {
       id
+      name
+      colour
+      userPermissions {
+        id
+      }
     }
   }
 `;
@@ -677,6 +696,14 @@ export const CurrentUserDocument = gql`
         permission
         exchange {
           id
+          name
+          colour
+          userPermissions {
+            id
+          }
+          instruments {
+            name
+          }
         }
       }
     }

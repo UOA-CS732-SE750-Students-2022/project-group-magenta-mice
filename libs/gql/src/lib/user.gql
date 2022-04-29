@@ -7,6 +7,14 @@ query CurrentUser {
       permission
       exchange {
         id
+        name
+        colour
+        userPermissions {
+          id
+        }
+        instruments {
+          name
+        }
       }
     }
   }
