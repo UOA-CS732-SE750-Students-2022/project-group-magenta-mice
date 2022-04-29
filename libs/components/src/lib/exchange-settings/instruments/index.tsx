@@ -19,6 +19,8 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
     useState(false);
   const [isBondInstrumentsModalOpen, setIsBondInstrumentsModalOpen] =
     useState(false);
+  const [isEditBondInstrumentsModalOpen, setIsEditBondInstrumentsModalOpen] =
+    useState(false);
 
   const handleOpenAddInstrumentModal = () => {
     setIsAddInstrumentModalOpen(true);
@@ -36,6 +38,13 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
   const handleCloseBondInstrumentModal = () => {
     setIsBondInstrumentsModalOpen(false);
   };
+  const handleOpenEditBondInstrumentModal = () => {
+    setIsEditBondInstrumentsModalOpen(true);
+  };
+
+  const handleCloseEditBondInstrumentModal = () => {
+    setIsEditBondInstrumentsModalOpen(false);
+  };
 
   const modalAddInstruments = (
     <AddInstrumentsModal
@@ -50,6 +59,16 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
     <BondInstrumentModal
       isOpen={isBondInstrumentsModalOpen}
       handleCloseModal={handleCloseBondInstrumentModal}
+      newBond={true}
+      useController={useBondInstrumentModalController}
+    />
+  );
+
+  const modalEditBondInstruments = (
+    <BondInstrumentModal
+      isOpen={isEditBondInstrumentsModalOpen}
+      handleCloseModal={handleCloseEditBondInstrumentModal}
+      newBond={false}
       useController={useBondInstrumentModalController}
     />
   );
@@ -57,6 +76,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
     <>
       {modalAddInstruments}
       {modalBondInstruments}
+      {modalEditBondInstruments}
       <p className="mb-4 flex items-center gap-x-4 text-4xl font-bold text-gray-50">
         Instruments
       </p>
@@ -74,7 +94,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
             useController={useInstrumentCardController}
             name={instrument.name}
             type={instrument.type}
-            onClick={handleOpenAddInstrumentModal}
+            onClick={handleOpenEditBondInstrumentModal}
           />
         ))}
       </div>

@@ -4,12 +4,14 @@ import { CustomModal, useCustomModalController } from "../../..";
 interface BondInstrumentModalProps {
   isOpen: boolean;
   handleCloseModal: () => void;
+  newBond: boolean;
   useController: typeof useBondInstrumentModalController;
 }
 
 const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
   isOpen,
   handleCloseModal,
+  newBond,
   useController,
 }) => {
   const {
@@ -28,7 +30,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
       hasCancel={true}
       onClose={handleCloseModal}
       onConfirm={handleAddBond}
-      title="Add a Bond"
+      title={newBond ? "Add Bond Instrument" : "Edit Bond Instrument"}
       useController={useCustomModalController}
     >
       <div className="mt-6">

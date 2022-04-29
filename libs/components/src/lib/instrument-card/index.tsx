@@ -23,9 +23,8 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
     return (
       <div>
         <div
-          className={
-            "mb-4 h-24 w-1/2 cursor-pointer rounded-lg bg-zinc-700 p-4 transition-all hover:brightness-110"
-          }
+          className="mb-4 h-24 w-1/2 cursor-pointer rounded-lg bg-zinc-700 p-4 transition-all hover:brightness-110"
+          onClick={onClick}
         >
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col">

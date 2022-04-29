@@ -116,7 +116,10 @@ export const Settings = () => {
         </p>
 
         {selectedSettings === "Overview" && (
-          <OverviewSettings useController={useOverviewSettingsController} />
+          <OverviewSettings
+            currentExchange={currentExchange}
+            useController={useOverviewSettingsController}
+          />
         )}
         {selectedSettings === "Instruments" && (
           <InstrumentSettings
