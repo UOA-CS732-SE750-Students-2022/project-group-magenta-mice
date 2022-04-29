@@ -156,7 +156,7 @@ export const useCreateExchangeModalController = (
 
 export const useMockCreateExchangeModalController: MockController<
   typeof useCreateExchangeModalController
-> = () => {
+> = (handleCloseModal?: () => void) => {
   const [newExchangeName, setNewExchangeName] = React.useState("");
   const [color, setColor] = React.useState(1);
 
