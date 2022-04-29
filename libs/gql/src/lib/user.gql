@@ -4,6 +4,7 @@ query CurrentUser {
     profilePicUrl
     userPermissions {
       id
+      apiKey
       permission
       exchange {
         id

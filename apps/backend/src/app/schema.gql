@@ -20,6 +20,7 @@ type Exchange {
 
 type UserPermission {
   id: ID!
+  apiKey: ID!
   exchange: Exchange!
   user: User!
   permission: Permission!
@@ -55,6 +56,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   createInvite(createInviteInput: CreateInviteInput!): Invite!
+  generateApiKey(exchangeId: String!, forceNew: Boolean!): UserPermission!
   joinExchange(id: String!): UserPermission!
   createTestExchange: Exchange!
   createExchange(exchangeData: CreateExchangeInput!): Exchange!

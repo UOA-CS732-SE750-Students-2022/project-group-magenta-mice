@@ -47,6 +47,7 @@ model Invite {
 
 model UserPermission {
   id         String         @id @default(uuid())
+  apiKey     String         @default("")
   exchangeId String
   exchange   Exchange       @relation(fields: [exchangeId], references: [id])
   userId     String
