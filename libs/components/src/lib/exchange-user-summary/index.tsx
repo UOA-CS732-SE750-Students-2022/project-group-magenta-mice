@@ -4,7 +4,7 @@ import React from "react";
 interface ExchangeUserSummaryProps {
   useController: typeof useExchangeUserSummaryController;
   permission: Permission;
-  user: User;
+  user: Partial<User>;
 }
 
 export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
@@ -23,8 +23,8 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
           alt="pfp"
         />
         <div className="flex flex-col justify-center ">
-          <span className="font-bold">{user.name}</span>
-          <span>{user.email}</span>
+          <span className="font-bold">{user?.name}</span>
+          <span>{user?.email}</span>
         </div>
       </div>
       <div>

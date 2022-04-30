@@ -17,6 +17,8 @@ model User {
   email String @default("")
   userPermissions UserPermission[]
   invites         Invite[]
+
+  Trade Trade[]
 }
 
 model Exchange {
@@ -30,6 +32,7 @@ model Exchange {
 
   name   String
   colour Int
+  Trade  Trade[]
 }
 
 model Invite {
@@ -58,7 +61,7 @@ enum PermissionType {
 
 model Instrument {
   id                String         @id @default(uuid())
-  exchangeId        String         @unique
+  exchangeId        String
   name              String
   tickSizeMin       Int
   positionLimit     Int
@@ -68,9 +71,33 @@ model Instrument {
   bondVolatility    Int?
   stockInitialPrice Int?
   stockVolatility   Int?
+
+  Trade Trade[]
 }
 
 enum InstrumentType {
   BOND
   STOCK
+}
+
+model Trade {
+  id String @id @default(uuid())
+
+  exchange   Exchange @relation(fields: [exchangeId], references: [id])
+  exchangeId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  instrument   Instrument @relation(fields: [instrumentId], references: [id])
+  instrumentId String
+
+  price  Int
+  volume Int
+  side   Side
+}
+
+enum Side {
+  BID
+  ASK
 }
