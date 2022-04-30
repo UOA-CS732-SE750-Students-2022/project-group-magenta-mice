@@ -1,16 +1,10 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -22,59 +16,59 @@ export type Scalars = {
 };
 
 export type AddInstrumentDto = {
-  instrumentType: Scalars["String"];
-  name: Scalars["String"];
-  positionLimit: Scalars["Int"];
-  tickSizeMin: Scalars["Int"];
+  instrumentType: Scalars['String'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSizeMin: Scalars['Int'];
 };
 
 export type CreateExchangeInput = {
-  exchangeColor: Scalars["Int"];
-  exchangeName: Scalars["String"];
+  exchangeColor: Scalars['Int'];
+  exchangeName: Scalars['String'];
 };
 
 export type CreateInviteInput = {
-  exchangeId: Scalars["String"];
-  userId?: InputMaybe<Scalars["String"]>;
+  exchangeId: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
-  email: Scalars["String"];
+  email: Scalars['String'];
   /** Google Id */
-  id: Scalars["ID"];
-  name: Scalars["String"];
+  id: Scalars['ID'];
+  name: Scalars['String'];
   /** Google ProfilePic of user */
-  profilePicUrl?: InputMaybe<Scalars["String"]>;
+  profilePicUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type Exchange = {
-  __typename?: "Exchange";
-  colour: Scalars["Int"];
-  id: Scalars["String"];
+  __typename?: 'Exchange';
+  colour: Scalars['Int'];
+  id: Scalars['String'];
   instruments: Array<Instrument>;
-  name: Scalars["String"];
-  public: Scalars["Boolean"];
+  name: Scalars['String'];
+  public: Scalars['Boolean'];
   userPermissions: Array<UserPermission>;
 };
 
 export type Instrument = {
-  __typename?: "Instrument";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  positionLimit: Scalars["Int"];
-  tickSizeMin: Scalars["Int"];
+  __typename?: 'Instrument';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSizeMin: Scalars['Int'];
 };
 
 export type Invite = {
-  __typename?: "Invite";
-  exchangeId: Scalars["String"];
-  id: Scalars["ID"];
-  userId?: Maybe<Scalars["String"]>;
+  __typename?: 'Invite';
+  exchangeId: Scalars['String'];
+  id: Scalars['ID'];
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
-  addInstrument: Scalars["Boolean"];
+  __typename?: 'Mutation';
+  addInstrument: Scalars['Boolean'];
   createExchange: Exchange;
   createInvite: Invite;
   createTestExchange: Exchange;
@@ -83,242 +77,177 @@ export type Mutation = {
   joinExchange: UserPermission;
 };
 
+
 export type MutationAddInstrumentArgs = {
-  exchangeId: Scalars["String"];
+  exchangeId: Scalars['String'];
   instrument: AddInstrumentDto;
 };
+
 
 export type MutationCreateExchangeArgs = {
   exchangeData: CreateExchangeInput;
 };
 
+
 export type MutationCreateInviteArgs = {
   createInviteInput: CreateInviteInput;
 };
+
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
 };
 
+
 export type MutationGenerateApiKeyArgs = {
-  exchangeId: Scalars["String"];
-  forceNew: Scalars["Boolean"];
+  exchangeId: Scalars['String'];
+  forceNew: Scalars['Boolean'];
 };
 
+
 export type MutationJoinExchangeArgs = {
-  id: Scalars["String"];
+  id: Scalars['String'];
 };
 
 export enum Permission {
-  Admin = "ADMIN",
-  User = "USER",
+  Admin = 'ADMIN',
+  User = 'USER'
 }
 
 export type Query = {
-  __typename?: "Query";
-  checkInvite: Scalars["Boolean"];
+  __typename?: 'Query';
+  checkInvite: Scalars['Boolean'];
   currentUser: User;
   exchange: Exchange;
 };
 
+
 export type QueryCheckInviteArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
+
 export type QueryExchangeArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 export type User = {
-  __typename?: "User";
-  email: Scalars["String"];
+  __typename?: 'User';
+  email: Scalars['String'];
   /** the google ID */
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  profilePicUrl?: Maybe<Scalars["String"]>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  profilePicUrl?: Maybe<Scalars['String']>;
   userPermissions: Array<UserPermission>;
 };
 
 export type UserPermission = {
-  __typename?: "UserPermission";
-  apiKey: Scalars["ID"];
+  __typename?: 'UserPermission';
+  apiKey: Scalars['ID'];
   exchange: Exchange;
-  id: Scalars["ID"];
+  id: Scalars['ID'];
   permission: Permission;
   user: User;
 };
 
 export type FindExchangeQueryVariables = Exact<{
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
-export type FindExchangeQuery = {
-  __typename?: "Query";
-  exchange: {
-    __typename?: "Exchange";
-    public: boolean;
-    name: string;
-    userPermissions: Array<{
-      __typename?: "UserPermission";
-      id: string;
-      permission: Permission;
-      user: {
-        __typename?: "User";
-        name: string;
-        id: string;
-        email: string;
-        profilePicUrl?: string | null;
-      };
-    }>;
-    instruments: Array<{ __typename?: "Instrument"; name: string }>;
-  };
-};
+
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null } }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } };
 
 export type AddInstrumentMutationVariables = Exact<{
-  exchangeId: Scalars["String"];
-  instrumentType: Scalars["String"];
-  name: Scalars["String"];
-  positionLimit: Scalars["Int"];
-  tickSize: Scalars["Int"];
+  exchangeId: Scalars['String'];
+  instrumentType: Scalars['String'];
+  name: Scalars['String'];
+  positionLimit: Scalars['Int'];
+  tickSize: Scalars['Int'];
 }>;
 
-export type AddInstrumentMutation = {
-  __typename?: "Mutation";
-  addInstrument: boolean;
-};
+
+export type AddInstrumentMutation = { __typename?: 'Mutation', addInstrument: boolean };
 
 export type CreateInviteMutationVariables = Exact<{
-  exchangeId: Scalars["String"];
-  userId: Scalars["String"];
+  exchangeId: Scalars['String'];
+  userId: Scalars['String'];
 }>;
 
-export type CreateInviteMutation = {
-  __typename?: "Mutation";
-  createInvite: {
-    __typename?: "Invite";
-    exchangeId: string;
-    userId?: string | null;
-    id: string;
-  };
-};
+
+export type CreateInviteMutation = { __typename?: 'Mutation', createInvite: { __typename?: 'Invite', exchangeId: string, userId?: string | null, id: string } };
 
 export type CheckInviteQueryVariables = Exact<{
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
-export type CheckInviteQuery = { __typename?: "Query"; checkInvite: boolean };
+
+export type CheckInviteQuery = { __typename?: 'Query', checkInvite: boolean };
 
 export type GenerateApiKeyMutationVariables = Exact<{
-  exchangeId: Scalars["String"];
-  forceNew: Scalars["Boolean"];
+  exchangeId: Scalars['String'];
+  forceNew: Scalars['Boolean'];
 }>;
 
-export type GenerateApiKeyMutation = {
-  __typename?: "Mutation";
-  generateApiKey: { __typename?: "UserPermission"; apiKey: string };
-};
+
+export type GenerateApiKeyMutation = { __typename?: 'Mutation', generateApiKey: { __typename?: 'UserPermission', apiKey: string } };
 
 export type JoinExchangeMutationVariables = Exact<{
-  id: Scalars["String"];
+  id: Scalars['String'];
 }>;
 
-export type JoinExchangeMutation = {
-  __typename?: "Mutation";
-  joinExchange: {
-    __typename?: "UserPermission";
-    exchange: { __typename?: "Exchange"; id: string };
-  };
-};
 
-export type CreateTestExchangeMutationVariables = Exact<{
-  [key: string]: never;
-}>;
+export type JoinExchangeMutation = { __typename?: 'Mutation', joinExchange: { __typename?: 'UserPermission', exchange: { __typename?: 'Exchange', id: string } } };
 
-export type CreateTestExchangeMutation = {
-  __typename?: "Mutation";
-  createTestExchange: { __typename?: "Exchange"; id: string };
-};
+export type CreateTestExchangeMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateTestExchangeMutation = { __typename?: 'Mutation', createTestExchange: { __typename?: 'Exchange', id: string } };
 
 export type CreateExchangeMutationVariables = Exact<{
-  name: Scalars["String"];
-  color: Scalars["Int"];
+  name: Scalars['String'];
+  color: Scalars['Int'];
 }>;
 
-export type CreateExchangeMutation = {
-  __typename?: "Mutation";
-  createExchange: {
-    __typename?: "Exchange";
-    id: string;
-    name: string;
-    colour: number;
-    userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
-  };
-};
 
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateExchangeMutation = { __typename?: 'Mutation', createExchange: { __typename?: 'Exchange', id: string, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string }> } };
 
-export type CurrentUserQuery = {
-  __typename?: "Query";
-  currentUser: {
-    __typename?: "User";
-    name: string;
-    profilePicUrl?: string | null;
-    userPermissions: Array<{
-      __typename?: "UserPermission";
-      id: string;
-      apiKey: string;
-      permission: Permission;
-      exchange: {
-        __typename?: "Exchange";
-        id: string;
-        name: string;
-        colour: number;
-        userPermissions: Array<{ __typename?: "UserPermission"; id: string }>;
-        instruments: Array<{ __typename?: "Instrument"; name: string }>;
-      };
-    }>;
-  };
-};
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: Array<{ __typename?: 'UserPermission', id: string, apiKey: string, permission: Permission, exchange: { __typename?: 'Exchange', id: string, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } }> } };
 
 export type CreateUserMutationVariables = Exact<{
-  name: Scalars["String"];
-  email: Scalars["String"];
-  profilePicUrl?: InputMaybe<Scalars["String"]>;
-  id: Scalars["ID"];
+  name: Scalars['String'];
+  email: Scalars['String'];
+  profilePicUrl?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
 }>;
 
-export type CreateUserMutation = {
-  __typename?: "Mutation";
-  createUser: {
-    __typename?: "User";
-    name: string;
-    email: string;
-    profilePicUrl?: string | null;
-    id: string;
-  };
-};
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', name: string, email: string, profilePicUrl?: string | null, id: string } };
+
 
 export const FindExchangeDocument = gql`
-  query FindExchange($id: ID!) {
-    exchange(id: $id) {
-      public
-      name
-      userPermissions {
-        id
-        user {
-          name
-          id
-          email
-          profilePicUrl
-        }
-        permission
-      }
-      instruments {
+    query FindExchange($id: ID!) {
+  exchange(id: $id) {
+    public
+    name
+    userPermissions {
+      id
+      user {
         name
+        id
+        email
+        profilePicUrl
       }
+      permission
+    }
+    instruments {
+      name
     }
   }
-`;
+}
+    `;
 
 /**
  * __useFindExchangeQuery__
@@ -336,63 +265,26 @@ export const FindExchangeDocument = gql`
  *   },
  * });
  */
-export function useFindExchangeQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindExchangeQuery,
-    FindExchangeQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindExchangeQuery, FindExchangeQueryVariables>(
-    FindExchangeDocument,
-    options,
-  );
-}
-export function useFindExchangeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindExchangeQuery,
-    FindExchangeQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindExchangeQuery, FindExchangeQueryVariables>(
-    FindExchangeDocument,
-    options,
-  );
-}
-export type FindExchangeQueryHookResult = ReturnType<
-  typeof useFindExchangeQuery
->;
-export type FindExchangeLazyQueryHookResult = ReturnType<
-  typeof useFindExchangeLazyQuery
->;
-export type FindExchangeQueryResult = Apollo.QueryResult<
-  FindExchangeQuery,
-  FindExchangeQueryVariables
->;
-export const AddInstrumentDocument = gql`
-  mutation AddInstrument(
-    $exchangeId: String!
-    $instrumentType: String!
-    $name: String!
-    $positionLimit: Int!
-    $tickSize: Int!
-  ) {
-    addInstrument(
-      exchangeId: $exchangeId
-      instrument: {
-        instrumentType: $instrumentType
-        name: $name
-        positionLimit: $positionLimit
-        tickSizeMin: $tickSize
+export function useFindExchangeQuery(baseOptions: Apollo.QueryHookOptions<FindExchangeQuery, FindExchangeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindExchangeQuery, FindExchangeQueryVariables>(FindExchangeDocument, options);
       }
-    )
-  }
-`;
-export type AddInstrumentMutationFn = Apollo.MutationFunction<
-  AddInstrumentMutation,
-  AddInstrumentMutationVariables
->;
+export function useFindExchangeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindExchangeQuery, FindExchangeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindExchangeQuery, FindExchangeQueryVariables>(FindExchangeDocument, options);
+        }
+export type FindExchangeQueryHookResult = ReturnType<typeof useFindExchangeQuery>;
+export type FindExchangeLazyQueryHookResult = ReturnType<typeof useFindExchangeLazyQuery>;
+export type FindExchangeQueryResult = Apollo.QueryResult<FindExchangeQuery, FindExchangeQueryVariables>;
+export const AddInstrumentDocument = gql`
+    mutation AddInstrument($exchangeId: String!, $instrumentType: String!, $name: String!, $positionLimit: Int!, $tickSize: Int!) {
+  addInstrument(
+    exchangeId: $exchangeId
+    instrument: {instrumentType: $instrumentType, name: $name, positionLimit: $positionLimit, tickSizeMin: $tickSize}
+  )
+}
+    `;
+export type AddInstrumentMutationFn = Apollo.MutationFunction<AddInstrumentMutation, AddInstrumentMutationVariables>;
 
 /**
  * __useAddInstrumentMutation__
@@ -415,42 +307,23 @@ export type AddInstrumentMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddInstrumentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddInstrumentMutation,
-    AddInstrumentMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    AddInstrumentMutation,
-    AddInstrumentMutationVariables
-  >(AddInstrumentDocument, options);
-}
-export type AddInstrumentMutationHookResult = ReturnType<
-  typeof useAddInstrumentMutation
->;
-export type AddInstrumentMutationResult =
-  Apollo.MutationResult<AddInstrumentMutation>;
-export type AddInstrumentMutationOptions = Apollo.BaseMutationOptions<
-  AddInstrumentMutation,
-  AddInstrumentMutationVariables
->;
+export function useAddInstrumentMutation(baseOptions?: Apollo.MutationHookOptions<AddInstrumentMutation, AddInstrumentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddInstrumentMutation, AddInstrumentMutationVariables>(AddInstrumentDocument, options);
+      }
+export type AddInstrumentMutationHookResult = ReturnType<typeof useAddInstrumentMutation>;
+export type AddInstrumentMutationResult = Apollo.MutationResult<AddInstrumentMutation>;
+export type AddInstrumentMutationOptions = Apollo.BaseMutationOptions<AddInstrumentMutation, AddInstrumentMutationVariables>;
 export const CreateInviteDocument = gql`
-  mutation CreateInvite($exchangeId: String!, $userId: String!) {
-    createInvite(
-      createInviteInput: { exchangeId: $exchangeId, userId: $userId }
-    ) {
-      exchangeId
-      userId
-      id
-    }
+    mutation CreateInvite($exchangeId: String!, $userId: String!) {
+  createInvite(createInviteInput: {exchangeId: $exchangeId, userId: $userId}) {
+    exchangeId
+    userId
+    id
   }
-`;
-export type CreateInviteMutationFn = Apollo.MutationFunction<
-  CreateInviteMutation,
-  CreateInviteMutationVariables
->;
+}
+    `;
+export type CreateInviteMutationFn = Apollo.MutationFunction<CreateInviteMutation, CreateInviteMutationVariables>;
 
 /**
  * __useCreateInviteMutation__
@@ -470,32 +343,18 @@ export type CreateInviteMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateInviteMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateInviteMutation,
-    CreateInviteMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateInviteMutation,
-    CreateInviteMutationVariables
-  >(CreateInviteDocument, options);
-}
-export type CreateInviteMutationHookResult = ReturnType<
-  typeof useCreateInviteMutation
->;
-export type CreateInviteMutationResult =
-  Apollo.MutationResult<CreateInviteMutation>;
-export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<
-  CreateInviteMutation,
-  CreateInviteMutationVariables
->;
+export function useCreateInviteMutation(baseOptions?: Apollo.MutationHookOptions<CreateInviteMutation, CreateInviteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateInviteMutation, CreateInviteMutationVariables>(CreateInviteDocument, options);
+      }
+export type CreateInviteMutationHookResult = ReturnType<typeof useCreateInviteMutation>;
+export type CreateInviteMutationResult = Apollo.MutationResult<CreateInviteMutation>;
+export type CreateInviteMutationOptions = Apollo.BaseMutationOptions<CreateInviteMutation, CreateInviteMutationVariables>;
 export const CheckInviteDocument = gql`
-  query CheckInvite($id: ID!) {
-    checkInvite(id: $id)
-  }
-`;
+    query CheckInvite($id: ID!) {
+  checkInvite(id: $id)
+}
+    `;
 
 /**
  * __useCheckInviteQuery__
@@ -513,49 +372,25 @@ export const CheckInviteDocument = gql`
  *   },
  * });
  */
-export function useCheckInviteQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CheckInviteQuery,
-    CheckInviteQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CheckInviteQuery, CheckInviteQueryVariables>(
-    CheckInviteDocument,
-    options,
-  );
-}
-export function useCheckInviteLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CheckInviteQuery,
-    CheckInviteQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CheckInviteQuery, CheckInviteQueryVariables>(
-    CheckInviteDocument,
-    options,
-  );
-}
+export function useCheckInviteQuery(baseOptions: Apollo.QueryHookOptions<CheckInviteQuery, CheckInviteQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckInviteQuery, CheckInviteQueryVariables>(CheckInviteDocument, options);
+      }
+export function useCheckInviteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckInviteQuery, CheckInviteQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckInviteQuery, CheckInviteQueryVariables>(CheckInviteDocument, options);
+        }
 export type CheckInviteQueryHookResult = ReturnType<typeof useCheckInviteQuery>;
-export type CheckInviteLazyQueryHookResult = ReturnType<
-  typeof useCheckInviteLazyQuery
->;
-export type CheckInviteQueryResult = Apollo.QueryResult<
-  CheckInviteQuery,
-  CheckInviteQueryVariables
->;
+export type CheckInviteLazyQueryHookResult = ReturnType<typeof useCheckInviteLazyQuery>;
+export type CheckInviteQueryResult = Apollo.QueryResult<CheckInviteQuery, CheckInviteQueryVariables>;
 export const GenerateApiKeyDocument = gql`
-  mutation GenerateApiKey($exchangeId: String!, $forceNew: Boolean!) {
-    generateApiKey(exchangeId: $exchangeId, forceNew: $forceNew) {
-      apiKey
-    }
+    mutation GenerateApiKey($exchangeId: String!, $forceNew: Boolean!) {
+  generateApiKey(exchangeId: $exchangeId, forceNew: $forceNew) {
+    apiKey
   }
-`;
-export type GenerateApiKeyMutationFn = Apollo.MutationFunction<
-  GenerateApiKeyMutation,
-  GenerateApiKeyMutationVariables
->;
+}
+    `;
+export type GenerateApiKeyMutationFn = Apollo.MutationFunction<GenerateApiKeyMutation, GenerateApiKeyMutationVariables>;
 
 /**
  * __useGenerateApiKeyMutation__
@@ -575,40 +410,23 @@ export type GenerateApiKeyMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useGenerateApiKeyMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    GenerateApiKeyMutation,
-    GenerateApiKeyMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    GenerateApiKeyMutation,
-    GenerateApiKeyMutationVariables
-  >(GenerateApiKeyDocument, options);
-}
-export type GenerateApiKeyMutationHookResult = ReturnType<
-  typeof useGenerateApiKeyMutation
->;
-export type GenerateApiKeyMutationResult =
-  Apollo.MutationResult<GenerateApiKeyMutation>;
-export type GenerateApiKeyMutationOptions = Apollo.BaseMutationOptions<
-  GenerateApiKeyMutation,
-  GenerateApiKeyMutationVariables
->;
-export const JoinExchangeDocument = gql`
-  mutation JoinExchange($id: String!) {
-    joinExchange(id: $id) {
-      exchange {
-        id
+export function useGenerateApiKeyMutation(baseOptions?: Apollo.MutationHookOptions<GenerateApiKeyMutation, GenerateApiKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateApiKeyMutation, GenerateApiKeyMutationVariables>(GenerateApiKeyDocument, options);
       }
+export type GenerateApiKeyMutationHookResult = ReturnType<typeof useGenerateApiKeyMutation>;
+export type GenerateApiKeyMutationResult = Apollo.MutationResult<GenerateApiKeyMutation>;
+export type GenerateApiKeyMutationOptions = Apollo.BaseMutationOptions<GenerateApiKeyMutation, GenerateApiKeyMutationVariables>;
+export const JoinExchangeDocument = gql`
+    mutation JoinExchange($id: String!) {
+  joinExchange(id: $id) {
+    exchange {
+      id
     }
   }
-`;
-export type JoinExchangeMutationFn = Apollo.MutationFunction<
-  JoinExchangeMutation,
-  JoinExchangeMutationVariables
->;
+}
+    `;
+export type JoinExchangeMutationFn = Apollo.MutationFunction<JoinExchangeMutation, JoinExchangeMutationVariables>;
 
 /**
  * __useJoinExchangeMutation__
@@ -627,38 +445,21 @@ export type JoinExchangeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useJoinExchangeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    JoinExchangeMutation,
-    JoinExchangeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    JoinExchangeMutation,
-    JoinExchangeMutationVariables
-  >(JoinExchangeDocument, options);
-}
-export type JoinExchangeMutationHookResult = ReturnType<
-  typeof useJoinExchangeMutation
->;
-export type JoinExchangeMutationResult =
-  Apollo.MutationResult<JoinExchangeMutation>;
-export type JoinExchangeMutationOptions = Apollo.BaseMutationOptions<
-  JoinExchangeMutation,
-  JoinExchangeMutationVariables
->;
+export function useJoinExchangeMutation(baseOptions?: Apollo.MutationHookOptions<JoinExchangeMutation, JoinExchangeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<JoinExchangeMutation, JoinExchangeMutationVariables>(JoinExchangeDocument, options);
+      }
+export type JoinExchangeMutationHookResult = ReturnType<typeof useJoinExchangeMutation>;
+export type JoinExchangeMutationResult = Apollo.MutationResult<JoinExchangeMutation>;
+export type JoinExchangeMutationOptions = Apollo.BaseMutationOptions<JoinExchangeMutation, JoinExchangeMutationVariables>;
 export const CreateTestExchangeDocument = gql`
-  mutation CreateTestExchange {
-    createTestExchange {
-      id
-    }
+    mutation CreateTestExchange {
+  createTestExchange {
+    id
   }
-`;
-export type CreateTestExchangeMutationFn = Apollo.MutationFunction<
-  CreateTestExchangeMutation,
-  CreateTestExchangeMutationVariables
->;
+}
+    `;
+export type CreateTestExchangeMutationFn = Apollo.MutationFunction<CreateTestExchangeMutation, CreateTestExchangeMutationVariables>;
 
 /**
  * __useCreateTestExchangeMutation__
@@ -676,45 +477,26 @@ export type CreateTestExchangeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateTestExchangeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateTestExchangeMutation,
-    CreateTestExchangeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateTestExchangeMutation,
-    CreateTestExchangeMutationVariables
-  >(CreateTestExchangeDocument, options);
-}
-export type CreateTestExchangeMutationHookResult = ReturnType<
-  typeof useCreateTestExchangeMutation
->;
-export type CreateTestExchangeMutationResult =
-  Apollo.MutationResult<CreateTestExchangeMutation>;
-export type CreateTestExchangeMutationOptions = Apollo.BaseMutationOptions<
-  CreateTestExchangeMutation,
-  CreateTestExchangeMutationVariables
->;
-export const CreateExchangeDocument = gql`
-  mutation CreateExchange($name: String!, $color: Int!) {
-    createExchange(
-      exchangeData: { exchangeColor: $color, exchangeName: $name }
-    ) {
-      id
-      name
-      colour
-      userPermissions {
-        id
+export function useCreateTestExchangeMutation(baseOptions?: Apollo.MutationHookOptions<CreateTestExchangeMutation, CreateTestExchangeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTestExchangeMutation, CreateTestExchangeMutationVariables>(CreateTestExchangeDocument, options);
       }
+export type CreateTestExchangeMutationHookResult = ReturnType<typeof useCreateTestExchangeMutation>;
+export type CreateTestExchangeMutationResult = Apollo.MutationResult<CreateTestExchangeMutation>;
+export type CreateTestExchangeMutationOptions = Apollo.BaseMutationOptions<CreateTestExchangeMutation, CreateTestExchangeMutationVariables>;
+export const CreateExchangeDocument = gql`
+    mutation CreateExchange($name: String!, $color: Int!) {
+  createExchange(exchangeData: {exchangeColor: $color, exchangeName: $name}) {
+    id
+    name
+    colour
+    userPermissions {
+      id
     }
   }
-`;
-export type CreateExchangeMutationFn = Apollo.MutationFunction<
-  CreateExchangeMutation,
-  CreateExchangeMutationVariables
->;
+}
+    `;
+export type CreateExchangeMutationFn = Apollo.MutationFunction<CreateExchangeMutation, CreateExchangeMutationVariables>;
 
 /**
  * __useCreateExchangeMutation__
@@ -734,51 +516,37 @@ export type CreateExchangeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateExchangeMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateExchangeMutation,
-    CreateExchangeMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateExchangeMutation,
-    CreateExchangeMutationVariables
-  >(CreateExchangeDocument, options);
-}
-export type CreateExchangeMutationHookResult = ReturnType<
-  typeof useCreateExchangeMutation
->;
-export type CreateExchangeMutationResult =
-  Apollo.MutationResult<CreateExchangeMutation>;
-export type CreateExchangeMutationOptions = Apollo.BaseMutationOptions<
-  CreateExchangeMutation,
-  CreateExchangeMutationVariables
->;
+export function useCreateExchangeMutation(baseOptions?: Apollo.MutationHookOptions<CreateExchangeMutation, CreateExchangeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateExchangeMutation, CreateExchangeMutationVariables>(CreateExchangeDocument, options);
+      }
+export type CreateExchangeMutationHookResult = ReturnType<typeof useCreateExchangeMutation>;
+export type CreateExchangeMutationResult = Apollo.MutationResult<CreateExchangeMutation>;
+export type CreateExchangeMutationOptions = Apollo.BaseMutationOptions<CreateExchangeMutation, CreateExchangeMutationVariables>;
 export const CurrentUserDocument = gql`
-  query CurrentUser {
-    currentUser {
-      name
-      profilePicUrl
-      userPermissions {
+    query CurrentUser {
+  currentUser {
+    name
+    profilePicUrl
+    userPermissions {
+      id
+      apiKey
+      permission
+      exchange {
         id
-        apiKey
-        permission
-        exchange {
+        name
+        colour
+        userPermissions {
           id
+        }
+        instruments {
           name
-          colour
-          userPermissions {
-            id
-          }
-          instruments {
-            name
-          }
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useCurrentUserQuery__
@@ -795,64 +563,30 @@ export const CurrentUserDocument = gql`
  *   },
  * });
  */
-export function useCurrentUserQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CurrentUserQuery,
-    CurrentUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(
-    CurrentUserDocument,
-    options,
-  );
-}
-export function useCurrentUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CurrentUserQuery,
-    CurrentUserQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(
-    CurrentUserDocument,
-    options,
-  );
-}
-export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
-export type CurrentUserLazyQueryHookResult = ReturnType<
-  typeof useCurrentUserLazyQuery
->;
-export type CurrentUserQueryResult = Apollo.QueryResult<
-  CurrentUserQuery,
-  CurrentUserQueryVariables
->;
-export const CreateUserDocument = gql`
-  mutation CreateUser(
-    $name: String!
-    $email: String!
-    $profilePicUrl: String
-    $id: ID!
-  ) {
-    createUser(
-      createUserInput: {
-        name: $name
-        email: $email
-        profilePicUrl: $profilePicUrl
-        id: $id
+export function useCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
       }
-    ) {
-      name
-      email
-      profilePicUrl
-      id
-    }
+export function useCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
+        }
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, CurrentUserQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($name: String!, $email: String!, $profilePicUrl: String, $id: ID!) {
+  createUser(
+    createUserInput: {name: $name, email: $email, profilePicUrl: $profilePicUrl, id: $id}
+  ) {
+    name
+    email
+    profilePicUrl
+    id
   }
-`;
-export type CreateUserMutationFn = Apollo.MutationFunction<
-  CreateUserMutation,
-  CreateUserMutationVariables
->;
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
  * __useCreateUserMutation__
@@ -874,24 +608,10 @@ export type CreateUserMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateUserMutation,
-    CreateUserMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(
-    CreateUserDocument,
-    options,
-  );
-}
-export type CreateUserMutationHookResult = ReturnType<
-  typeof useCreateUserMutation
->;
-export type CreateUserMutationResult =
-  Apollo.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
-  CreateUserMutation,
-  CreateUserMutationVariables
->;
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;

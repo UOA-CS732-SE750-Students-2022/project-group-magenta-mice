@@ -4,3 +4,4 @@
 /coverage
 
 apps/backend/src/app/types/graphql.ts
+libs/gql/src/lib/generated/*
