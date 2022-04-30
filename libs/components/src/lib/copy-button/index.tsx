@@ -15,7 +15,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
 
   return (
     <button
-      className="rounded bg-emerald-600 py-1 px-2 font-semibold transition-colors hover:bg-emerald-500 focus:outline-none"
+      className="m-1 rounded bg-emerald-600 py-1 px-2 font-semibold transition-colors hover:bg-emerald-500 focus:outline-none active:hover:bg-emerald-700"
       onClick={onClick}
     >
       <div className="flex items-center gap-1">

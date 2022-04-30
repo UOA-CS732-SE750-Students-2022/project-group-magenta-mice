@@ -1,6 +1,7 @@
 import { RadioGroup } from "@headlessui/react";
 import { useEmoji } from "@simulate-exchange/hooks";
 import cx from "classnames";
+import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import { CustomModal, useCustomModalController } from "../..";
 import { ReactComponent as CheckIcon } from "../../../../../libs/assets/src/lib/check-icon.svg";
@@ -17,6 +18,7 @@ export interface ExchangeCardProps {
   currentInstruments?: { name: string; type: string }[];
   profitLoss?: number;
   participants?: number;
+  id?: string;
 }
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
@@ -43,6 +45,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   ],
   profitLoss = 2000,
   participants = 2,
+  id,
 }) => {
   const allInstruments = [
     {
@@ -77,6 +80,8 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       minimumFractionDigits: 0,
     }).format(money);
   }, []);
+
+  const router = useRouter();
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -370,7 +375,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             color,
             "h-48 w-full cursor-pointer rounded-lg p-4 transition-all hover:brightness-110",
           )}
-          onClick={handleOpenModal}
+          onClick={() => router.push("/exchange/" + id + "/settings")}
         >
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col justify-between">
