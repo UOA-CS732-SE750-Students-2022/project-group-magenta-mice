@@ -31,7 +31,7 @@ while True:
 
 
     login = protocol.LoginRequest();
-    login.key = "444"
+    login.key = "0280d8d6-7d40-41c2-bff2-ec727dd293ae"
     ser = login.SerializeToString()
     data = struct.pack('<i', 0) + struct.pack('<i', len(ser) ) + ser
     s.send(data)
