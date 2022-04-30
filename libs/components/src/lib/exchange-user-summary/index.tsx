@@ -21,6 +21,7 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
           src={user.profilePicUrl ?? ""}
           className="h-12 w-12 rounded-full"
           alt="pfp"
+          referrerPolicy="no-referrer"
         />
         <div className="flex flex-col justify-center ">
           <span className="font-bold">{user?.name}</span>
