@@ -116,15 +116,12 @@ export class ExchangeStoreService {
       tickSizeMin: number;
     },
   ) {
-    await this.prismaService.exchange.update({
-      where: { id: exchangeId },
+    const instrument = await this.prismaService.instrument.create({
       data: {
-        instruments: {
-          create: {
-            ...data,
-          },
-        },
+        exchangeId,
+        ...data,
       },
     });
+    return instrument;
   }
 }

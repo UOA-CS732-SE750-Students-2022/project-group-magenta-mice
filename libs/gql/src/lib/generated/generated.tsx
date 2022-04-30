@@ -74,7 +74,7 @@ export type Invite = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  addInstrument: Scalars["Boolean"];
+  addInstrument: Instrument;
   createExchange: Exchange;
   createInvite: Invite;
   createTestExchange: Exchange;
@@ -177,7 +177,13 @@ export type AddInstrumentMutationVariables = Exact<{
 
 export type AddInstrumentMutation = {
   __typename?: "Mutation";
-  addInstrument: boolean;
+  addInstrument: {
+    __typename: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+  };
 };
 
 export type CreateInviteMutationVariables = Exact<{
@@ -368,7 +374,13 @@ export const AddInstrumentDocument = gql`
         positionLimit: $positionLimit
         tickSizeMin: $tickSize
       }
-    )
+    ) {
+      id
+      name
+      tickSizeMin
+      positionLimit
+      __typename
+    }
   }
 `;
 export type AddInstrumentMutationFn = Apollo.MutationFunction<

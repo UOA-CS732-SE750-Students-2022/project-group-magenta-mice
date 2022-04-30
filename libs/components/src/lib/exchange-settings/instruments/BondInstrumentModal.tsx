@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { CustomModal, useCustomModalController } from "../../..";
+import { useAddInstrumentMutation } from "@simulate-exchange/gql";
+import { toast } from "react-toastify";
 
 interface BondInstrumentModalProps {
   isOpen: boolean;
   handleCloseModal: () => void;
   newBond: boolean;
+  exchangeId: string;
   useController: typeof useBondInstrumentModalController;
 }
 
@@ -12,6 +15,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
   isOpen,
   handleCloseModal,
   newBond,
+  exchangeId,
   useController,
 }) => {
   const {
@@ -21,7 +25,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
     setNewFixedPrice,
     setNewVolatility,
     handleAddBond,
-  } = useController();
+  } = useController(exchangeId, handleCloseModal);
 
   return (
     <CustomModal
@@ -48,7 +52,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className="my-3 ">
             <label className="ml-9 ">Tick Size:</label>
             <input
-              type="text"
+              type="number"
               autoComplete="none"
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
@@ -59,7 +63,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className="my-3">
             <label className=" ">Position Limit:</label>
             <input
-              type="text"
+              type="number"
               autoComplete="none"
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
@@ -92,23 +96,57 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
   );
 };
 
-export const useBondInstrumentModalController = () => {
+export const useBondInstrumentModalController = (
+  exchangeId: string,
+  handleCloseModal: () => void,
+) => {
   const [newName, setNewName] = useState("");
   const [newTickSize, setNewTickSize] = useState("");
   const [newPositionLimit, setNewPositionLimit] = useState("");
   const [newFixedPrice, setNewFixedPrice] = useState("");
   const [newVolatility, setNewVolatility] = useState("");
 
-  const handleAddBond = () => {
-    console.log(
-      "add bond: ",
-      newName,
-      newTickSize,
-      newPositionLimit,
-      newFixedPrice,
-      newVolatility,
-    );
-  };
+  const [addInstrument] = useAddInstrumentMutation();
+
+  const handleAddBond = useCallback(async () => {
+    try {
+      const promise = addInstrument({
+        variables: {
+          exchangeId: exchangeId,
+          instrumentType: "BOND",
+          name: newName,
+          positionLimit: parseInt(newPositionLimit),
+          tickSize: parseInt(newTickSize),
+        },
+        optimisticResponse: {
+          __typename: "Mutation",
+          addInstrument: {
+            __typename: "Instrument",
+            id: Math.random.toString(),
+            name: newName,
+            positionLimit: parseInt(newPositionLimit),
+            tickSizeMin: parseInt(newTickSize),
+          },
+        },
+      });
+
+      toast.promise(promise, {
+        pending: "Adding Instrument...",
+        success: "Successfully Added Instrument!",
+        error: "Failed to create Instrument.",
+      });
+      handleCloseModal();
+    } catch (err) {
+      console.error(err);
+    }
+  }, [
+    addInstrument,
+    exchangeId,
+    newName,
+    newPositionLimit,
+    newTickSize,
+    handleCloseModal,
+  ]);
   return {
     setNewName,
     setNewTickSize,

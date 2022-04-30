@@ -10,6 +10,7 @@ import { FirebaseGuard } from "../../middleware/firebase.guard";
 import { UserPermission } from "../users/entities/permissions.entity";
 import { CreateExchangeInput } from "./dto/create-exchange.input";
 import { AddInstrumentDto } from "./dto/add-instrument.input";
+import { Instrument } from "../instruments/entities/instrument.entity";
 
 @UseGuards(FirebaseGuard)
 @Resolver(() => Exchange)
@@ -59,13 +60,16 @@ export class ExchangesResolver {
     return await this.exchangesService.createExchange(user.uid, name);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Instrument)
   async addInstrument(
     @CurrentUser() user: DecodedIdToken,
     @Args("exchangeId") exchangeId: string,
     @Args("instrument") instrument: AddInstrumentDto,
   ) {
-    await this.exchangesService.addInstrument(user.uid, exchangeId, instrument);
-    return true;
+    return await this.exchangesService.addInstrument(
+      user.uid,
+      exchangeId,
+      instrument,
+    );
   }
 }

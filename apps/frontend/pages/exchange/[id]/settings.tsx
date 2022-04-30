@@ -6,73 +6,40 @@ import {
   useOverviewSettingsController,
   PermissionSettings,
   usePermissionSettingsController,
+  Loading,
 } from "@simulate-exchange/components";
-import { useEmoji } from "@simulate-exchange/hooks";
+import {
+  useEmoji,
+  useFullLoader,
+  useLoggedInRedirect,
+} from "@simulate-exchange/hooks";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useCurrentUserQuery } from "@simulate-exchange/gql";
 
-export const Settings = () => {
+export default function Settings() {
+  const { loggedIn, loading, user } = useLoggedInRedirect();
+  useFullLoader(loading);
+
+  return <>{loggedIn ? <SettingsComponent user={user} /> : <></>}</>;
+}
+
+const SettingsComponent = ({ user }) => {
+  const { data, loading } = useCurrentUserQuery();
   const router = useRouter();
   const { id } = router.query;
 
-  const currentInstruments1 = [
-    {
-      name: "FGGH",
-      type: "ETF",
-    },
-    {
-      name: "AAPL",
-      type: "Bond",
-    },
-    {
-      name: "QQQ",
-      type: "Stock",
-    },
-    {
-      name: "QQQ",
-      type: "Stock",
-    },
-  ];
-  const currentInstruments2 = [
-    {
-      name: "FGGH",
-      type: "ETF",
-    },
-    {
-      name: "AAPL",
-      type: "Bond",
-    },
-    {
-      name: "QQQ",
-      type: "Stock",
-    },
-  ];
-  const currentInstruments3 = [
-    {
-      name: "FGGH",
-      type: "ETF",
-    },
-  ];
-  const exchangeList = [
-    {
-      name: "New York Stock Exchange",
-      id: "1",
-      instruments: currentInstruments1,
-    },
-    {
-      name: "London Stock Exchange",
-      id: "2",
-      instruments: currentInstruments2,
-    },
-    {
-      name: "Paris Stock Exchange",
-      id: "3",
-      instruments: currentInstruments3,
-    },
-  ];
+  // console log to find ids for testing.
+  console.log(data?.currentUser.userPermissions);
 
-  const currentExchange = exchangeList.find((exchange) => exchange.id === id);
+  const currentPermission = data?.currentUser.userPermissions.find(
+    (permission) => permission.exchange.id === id,
+  );
+
+  const currentExchange = currentPermission?.exchange;
+  console.log("current exchange name :", currentExchange?.name);
+  console.log("current exchange instruments :", currentExchange?.instruments);
 
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
@@ -82,6 +49,9 @@ export const Settings = () => {
   const [selectedSettings, setSelectedSettings] =
     useState<SettingsPage>("Overview");
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <Layout.Page
       sidebar={
@@ -124,6 +94,7 @@ export const Settings = () => {
         {selectedSettings === "Instruments" && (
           <InstrumentSettings
             useController={useInstrumentSettingsController}
+            exchangeId={id.toString()}
             instruments={currentExchange.instruments}
           />
         )}
@@ -134,5 +105,3 @@ export const Settings = () => {
     </Layout.Page>
   );
 };
-
-export default Settings;

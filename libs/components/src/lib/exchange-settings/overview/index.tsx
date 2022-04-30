@@ -3,9 +3,18 @@ import React from "react";
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
   currentExchange: {
-    name: string;
+    __typename?: "Exchange";
     id: string;
-    instruments: { name: string; type: string }[];
+    name: string;
+    colour: number;
+    userPermissions: {
+      __typename?: "UserPermission";
+      id: string;
+    }[];
+    instruments: {
+      __typename?: "Instrument";
+      name: string;
+    }[];
   };
 }
 
@@ -30,7 +39,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       </div>
       <p className="mt-4 text-gray-200">Potentially data graphics here</p>
       <button className="mt-4 w-1/3 rounded-md bg-rose-700 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600">
-        Delete Instrument
+        Delete Exchange
       </button>
     </div>
   );

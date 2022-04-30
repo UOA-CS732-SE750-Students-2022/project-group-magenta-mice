@@ -85,7 +85,7 @@ export interface IMutation {
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
     createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
-    addInstrument(exchangeId: string, instrument: AddInstrumentDto): boolean | Promise<boolean>;
+    addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
 }
 
 type Nullable<T> = T | null;

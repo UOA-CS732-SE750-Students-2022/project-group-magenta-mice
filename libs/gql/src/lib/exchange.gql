@@ -33,7 +33,12 @@ mutation AddInstrument(
       positionLimit: $positionLimit
       tickSizeMin: $tickSize
     }
-  )
+  ) {
+    id
+    name
+    tickSizeMin
+    positionLimit
+  }
 }
 
 mutation CreateInvite($exchangeId: String!, $userId: String!) {

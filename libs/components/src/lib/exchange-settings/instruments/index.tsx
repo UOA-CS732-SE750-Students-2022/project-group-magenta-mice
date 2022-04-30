@@ -9,11 +9,13 @@ import BondInstrumentModal, {
 
 interface InstrumentSettingsProps {
   useController: typeof useInstrumentSettingsController;
-  instruments: { name: string; type: string }[];
+  exchangeId: string;
+  instruments: { __typename?: "Instrument"; name: string }[];
 }
 export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
   useController,
   instruments,
+  exchangeId,
 }) => {
   const [isAddInstrumentModalOpen, setIsAddInstrumentModalOpen] =
     useState(false);
@@ -60,6 +62,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
       isOpen={isBondInstrumentsModalOpen}
       handleCloseModal={handleCloseBondInstrumentModal}
       newBond={true}
+      exchangeId={exchangeId}
       useController={useBondInstrumentModalController}
     />
   );
@@ -69,6 +72,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
       isOpen={isEditBondInstrumentsModalOpen}
       handleCloseModal={handleCloseEditBondInstrumentModal}
       newBond={false}
+      exchangeId={exchangeId}
       useController={useBondInstrumentModalController}
     />
   );
@@ -93,7 +97,6 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
           <InstrumentCard
             useController={useInstrumentCardController}
             name={instrument.name}
-            type={instrument.type}
             onClick={handleOpenEditBondInstrumentModal}
           />
         ))}

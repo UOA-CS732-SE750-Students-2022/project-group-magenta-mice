@@ -58,7 +58,7 @@ type Mutation {
   joinExchange(id: String!): UserPermission!
   createTestExchange: Exchange!
   createExchange(exchangeData: CreateExchangeInput!): Exchange!
-  addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Boolean!
+  addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Instrument!
 }
 
 input CreateUserInput {
