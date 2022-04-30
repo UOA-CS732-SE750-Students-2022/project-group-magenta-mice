@@ -1,6 +1,6 @@
 # Simulate.Exchange
 
-[Build Status](https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg)
+![Build Status](https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg)
 
 This project was generated using [Nx](https://nx.dev).
 
