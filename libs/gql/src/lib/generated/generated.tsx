@@ -79,6 +79,7 @@ export type Mutation = {
   createInvite: Invite;
   createTestExchange: Exchange;
   createUser: User;
+  generateApiKey: UserPermission;
   joinExchange: UserPermission;
 };
 
@@ -97,6 +98,11 @@ export type MutationCreateInviteArgs = {
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
+};
+
+export type MutationGenerateApiKeyArgs = {
+  exchangeId: Scalars["String"];
+  forceNew: Scalars["Boolean"];
 };
 
 export type MutationJoinExchangeArgs = {
@@ -135,6 +141,7 @@ export type User = {
 
 export type UserPermission = {
   __typename?: "UserPermission";
+  apiKey: Scalars["ID"];
   exchange: Exchange;
   id: Scalars["ID"];
   permission: Permission;
@@ -201,6 +208,16 @@ export type CheckInviteQueryVariables = Exact<{
 
 export type CheckInviteQuery = { __typename?: "Query"; checkInvite: boolean };
 
+export type GenerateApiKeyMutationVariables = Exact<{
+  exchangeId: Scalars["String"];
+  forceNew: Scalars["Boolean"];
+}>;
+
+export type GenerateApiKeyMutation = {
+  __typename?: "Mutation";
+  generateApiKey: { __typename?: "UserPermission"; apiKey: string };
+};
+
 export type JoinExchangeMutationVariables = Exact<{
   id: Scalars["String"];
 }>;
@@ -249,6 +266,7 @@ export type CurrentUserQuery = {
     userPermissions: Array<{
       __typename?: "UserPermission";
       id: string;
+      apiKey: string;
       permission: Permission;
       exchange: {
         __typename?: "Exchange";
@@ -527,6 +545,57 @@ export type CheckInviteQueryResult = Apollo.QueryResult<
   CheckInviteQuery,
   CheckInviteQueryVariables
 >;
+export const GenerateApiKeyDocument = gql`
+  mutation GenerateApiKey($exchangeId: String!, $forceNew: Boolean!) {
+    generateApiKey(exchangeId: $exchangeId, forceNew: $forceNew) {
+      apiKey
+    }
+  }
+`;
+export type GenerateApiKeyMutationFn = Apollo.MutationFunction<
+  GenerateApiKeyMutation,
+  GenerateApiKeyMutationVariables
+>;
+
+/**
+ * __useGenerateApiKeyMutation__
+ *
+ * To run a mutation, you first call `useGenerateApiKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateApiKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateApiKeyMutation, { data, loading, error }] = useGenerateApiKeyMutation({
+ *   variables: {
+ *      exchangeId: // value for 'exchangeId'
+ *      forceNew: // value for 'forceNew'
+ *   },
+ * });
+ */
+export function useGenerateApiKeyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    GenerateApiKeyMutation,
+    GenerateApiKeyMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    GenerateApiKeyMutation,
+    GenerateApiKeyMutationVariables
+  >(GenerateApiKeyDocument, options);
+}
+export type GenerateApiKeyMutationHookResult = ReturnType<
+  typeof useGenerateApiKeyMutation
+>;
+export type GenerateApiKeyMutationResult =
+  Apollo.MutationResult<GenerateApiKeyMutation>;
+export type GenerateApiKeyMutationOptions = Apollo.BaseMutationOptions<
+  GenerateApiKeyMutation,
+  GenerateApiKeyMutationVariables
+>;
 export const JoinExchangeDocument = gql`
   mutation JoinExchange($id: String!) {
     joinExchange(id: $id) {
@@ -693,6 +762,7 @@ export const CurrentUserDocument = gql`
       profilePicUrl
       userPermissions {
         id
+        apiKey
         permission
         exchange {
           id

@@ -11,6 +11,7 @@ import {
   Permission,
   useCreateInviteMutation,
   useFindExchangeQuery,
+  useGenerateApiKeyMutation,
 } from "@simulate-exchange/gql";
 import { useFullLoader, useLoggedInRedirect } from "@simulate-exchange/hooks";
 import { getAuth } from "firebase/auth";
@@ -36,7 +37,9 @@ export function Exchange() {
 
   useFullLoader(loggedInLoading || dataLoading);
 
+  const [generateApiKey] = useGenerateApiKeyMutation();
   const [createInvite] = useCreateInviteMutation();
+  const [apiKey, setApiKey] = useState("");
   const [invite, setInvite] = useState("");
   const [inviteSecret, setInviteSecret] = useState(hiddenApiSecret);
   const [viewInviteSecret, setViewApiSecret] = useState(false);
@@ -55,20 +58,23 @@ export function Exchange() {
   }, [error, router]);
 
   useEffect(() => {
-    if (
-      router.isReady &&
-      !dataLoading &&
-      data &&
-      currentUserPermission?.permission === Permission.Admin
-    ) {
-      createInvite({ variables: { exchangeId: id as string, userId: "" } })
-        .then((res) => {
-          setInvite(res.data.createInvite.id);
-        })
-        .catch(() => {
-          toast.error(error.message);
-          router.push("/");
-        });
+    if (router.isReady && !dataLoading && data) {
+      if (currentUserPermission?.permission === Permission.Admin) {
+        createInvite({ variables: { exchangeId: id as string, userId: "" } })
+          .then((res) => {
+            setInvite(res.data.createInvite.id);
+          })
+          .catch(() => {
+            toast.error(error.message);
+            router.push("/");
+          });
+      }
+
+      generateApiKey({
+        variables: { exchangeId: id as string, forceNew: false },
+      }).then((res) => {
+        setApiKey(res.data.generateApiKey.apiKey);
+      });
     }
   }, [
     router,
@@ -78,11 +84,12 @@ export function Exchange() {
     id,
     currentUserPermission,
     error,
+    generateApiKey,
   ]);
 
   const handleToggleApiSecretDisplay = () => {
     setViewSecret(!viewApiSecret);
-    setApiSecret(viewApiSecret ? hiddenApiSecret : currentUserPermission?.id);
+    setApiSecret(viewApiSecret ? hiddenApiSecret : apiKey);
   };
 
   const handleToggleInviteSecretDisplay = () => {

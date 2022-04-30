@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ValidationError } from "apollo-server-express";
 import { InstrumentType } from ".prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class ExchangeStoreService {
@@ -49,6 +50,26 @@ export class ExchangeStoreService {
     throw new ValidationError("Invite not found");
   }
 
+  async generateApiKey(userId: string, exchangeId: string, forceNew: boolean) {
+    const userPermission = await this.prismaService.userPermission.findFirst({
+      where: { userId, exchangeId },
+    });
+    if (!userPermission) {
+      throw new ValidationError("User not a member of this exchange");
+    }
+
+    if (forceNew || !userPermission.apiKey) {
+      return await this.prismaService.userPermission.update({
+        where: { id: userPermission.id },
+        data: {
+          apiKey: uuidv4(),
+        },
+      });
+    } else {
+      return userPermission;
+    }
+  }
+
   async joinExchange(userId: string, inviteId: string) {
     const invite = await this.prismaService.invite.findFirst({
       where: { id: inviteId },
@@ -67,6 +88,7 @@ export class ExchangeStoreService {
 
       return await this.prismaService.userPermission.create({
         data: {
+          apiKey: uuidv4(),
           userId,
           exchangeId: invite.exchangeId,
           permission: "USER",

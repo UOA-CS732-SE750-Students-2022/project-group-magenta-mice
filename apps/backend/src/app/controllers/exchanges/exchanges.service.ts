@@ -24,6 +24,14 @@ export class ExchangesService {
     return await this.exchangeStore.checkInvite(inviteId, userId);
   }
 
+  async generateApiKey(userId: string, exchangeId: string, forceNew: boolean) {
+    return await this.exchangeStore.generateApiKey(
+      userId,
+      exchangeId,
+      forceNew,
+    );
+  }
+
   async joinExchange(userId: string, inviteId: string) {
     try {
       return await this.exchangeStore.joinExchange(userId, inviteId);

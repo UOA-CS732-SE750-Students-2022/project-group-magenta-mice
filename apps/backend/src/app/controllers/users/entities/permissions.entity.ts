@@ -8,6 +8,9 @@ export class UserPermission {
   @Field(() => ID)
   id: string;
 
+  @Field(() => ID)
+  apiKey: string;
+
   @Field(() => Exchange)
   exchange: Exchange;
 
