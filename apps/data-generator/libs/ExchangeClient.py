@@ -3,7 +3,7 @@ import socket, errno, sys, select, struct
 import exchange_pb2 as proto
 from time import sleep
 from typing import Callable
-import threading
+from threading import Thread
 
 HEADER_LENGTH = 8
 
@@ -26,7 +26,8 @@ class ExchangeClient:
         # hash event_num: int (proto.MessageType) => list[handler: Callable]
         self.handlers = {event_num: [] for event_num in EVENTS}
         
-        self.client_thread = threading.Thread(target=self.run_client,daemon=True)
+        self.client_thread = Thread(target=self.run_client,daemon=True)
+        self.client_thread.start()
     
     def run_client(self) -> None:
         while True:
@@ -44,20 +45,23 @@ class ExchangeClient:
                             
                         message_type = int.from_bytes(s.recv(4), byteorder='little')
                         data_length = int.from_bytes(s.recv(4), byteorder='little')
-                        
+                    
                         data = s.recv(data_length)
-                        
                         event_proto_obj = EVENTS[message_type]()
                         event_proto_obj.ParseFromString(data)
                         
+                        print(event_proto_obj)
                         self.emit(message_type, event_proto_obj)
                         
             except IOError as e:
                 sleep(1)
-                if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
-                    sys.exit(1)
-                continue
+                if e.errno == errno.EAGAIN or e.errno != errno.EWOULDBLOCK:
+                    continue
+                
+                self.client_thread.join()
+                sys.exit(1)
             except Exception:
+                self.client_thread.join()
                 sys.exit(1)
     
     
@@ -91,5 +95,6 @@ class ExchangeClient:
  
 if __name__ == '__main__':
     client = ExchangeClient()
-    print('run')
-    client.send_insert_request(InsertOrder(1,1, LifeSpan.FAK, Side.BUY,1,1))
+    client.add_handler(proto.ORDER_UPDATE, print)
+    while True:
+        pass
