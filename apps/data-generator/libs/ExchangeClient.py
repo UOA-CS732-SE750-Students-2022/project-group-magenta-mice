@@ -1,3 +1,4 @@
+from enum import Enum
 from InsertOrder import InsertOrder, Side, LifeSpan
 import socket, errno, sys, select, struct
 import exchange_pb2 as proto
@@ -6,13 +7,6 @@ from typing import Callable
 from threading import Thread
 
 HEADER_LENGTH = 8
-
-# dict: event proto enum -> proto class signature
-EVENTS = {
-    proto.EXCHANGE_FEED: proto.ExchangeFeed,
-    proto.ORDER_FILL: proto.OrderFillMessage,
-    proto.ORDER_UPDATE: proto.OrderUpdateMessage
-}
 
 class ExchangeClient:
     '''
@@ -23,8 +17,8 @@ class ExchangeClient:
         self.socket.connect((hostname, port))
         self.socket.setblocking(False)
         
-        # hash event_num: int (proto.MessageType) => list[handler: Callable]
-        self.handlers = {event_num: [] for event_num in EVENTS}
+        # hash event_enum: Event => list[handler: Callable]
+        self.handlers = {event_enum: [] for event_enum in event_to_class}
         
         self.client_thread = Thread(target=self.run_client)
         self.client_thread.start()
@@ -43,15 +37,16 @@ class ExchangeClient:
                         if not len(server_header):
                             sys.exit()
                             
-                        message_type = int.from_bytes(s.recv(4), byteorder='little')
+                        event_type = int.from_bytes(s.recv(4), byteorder='little')
                         data_length = int.from_bytes(s.recv(4), byteorder='little')
                     
                         data = s.recv(data_length)
-                        event_proto_obj = EVENTS[message_type]()
+                        
+                        event_enum = Event(event_type)
+                        event_proto_obj = event_to_class[event_enum]()
                         event_proto_obj.ParseFromString(data)
                         
-                        print(event_proto_obj)
-                        self.emit(message_type, event_proto_obj)
+                        self.emit(event_enum, event_proto_obj)
                         
             except IOError as e:
                 sleep(1)
@@ -73,18 +68,18 @@ class ExchangeClient:
             struct.pack('<i', proto.INSERT_ORDER) + struct.pack('<i', len(ser_insert_order)) + ser_insert_order
             )
     
-    def add_handler(self, event_num: int, handler: Callable):
-        if event_num not in EVENTS:
-            raise Exception(f'Event number {event_num} does not exist')
+    def add_handler(self, event_enum: 'Event', handler: Callable):
+        if event_enum not in event_to_class:
+            raise Exception(f'Event number {event_enum} does not exist')
         
-        self.handlers[event_num].append(handler)
+        self.handlers[event_enum].append(handler)
     
-    def emit(self, event_num: int, data) -> None:
+    def emit(self, event_enum: 'Event', data) -> None:
         
-        if event_num not in EVENTS:
-            raise Exception(f'Event number {event_num} does not exist')
+        if event_enum not in event_to_class:
+            raise Exception(f'Event number {event_enum} does not exist')
         
-        for handler in self.handlers[event_num]:
+        for handler in self.handlers[event_enum]:
             try:
                 handler(data)
             except Exception as e:
@@ -93,6 +88,18 @@ class ExchangeClient:
         
         return True
  
+class Event(Enum):
+    Feed = FEED = proto.EXCHANGE_FEED
+    Fill = FILL = proto.ORDER_FILL
+    Update = UPDATE = proto.ORDER_UPDATE
+
+# dict: event proto enum -> proto class signature
+event_to_class = {
+    Event.FEED: proto.ExchangeFeed,
+    Event.FILL: proto.OrderFillMessage,
+    Event.UPDATE: proto.OrderUpdateMessage
+}
+
 if __name__ == '__main__':
     client = ExchangeClient()
-    client.add_handler(proto.ORDER_UPDATE, print)
+    client.add_handler(Event.UPDATE, print)
