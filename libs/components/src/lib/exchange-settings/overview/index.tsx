@@ -1,6 +1,8 @@
 import { Permission } from "@simulate-exchange/gql";
 import { useDeleteExchangeMutation } from "@simulate-exchange/gql";
 import React, { useCallback } from "react";
+import { toast } from "react-toastify";
+import Router from "next/router";
 
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
@@ -39,11 +41,21 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   const [deleteExchange, { loading }] = useDeleteExchangeMutation();
 
   const handleDeleteExchange = useCallback(async () => {
-    await deleteExchange({
-      variables: {
-        id: exchangeID,
-      },
-    });
+    try {
+      const promise = deleteExchange({
+        variables: {
+          id: exchangeID,
+        },
+      });
+      toast.promise(promise, {
+        pending: "Deleting Exchange...",
+        success: "Successfully Deleted Exchange!",
+        error: "Failed to Delete Exchange.",
+      });
+      Router.push("/exchange");
+    } catch (error) {
+      console.log(error);
+    }
   }, [deleteExchange, exchangeID]);
 
   return (
@@ -62,6 +74,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         </button>
       </div>
       <p className="mt-4 text-gray-200">Potentially data graphics here</p>
+
       <button
         className="mt-4 w-1/3 rounded-md bg-rose-700 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
         onClick={handleDeleteExchange}
