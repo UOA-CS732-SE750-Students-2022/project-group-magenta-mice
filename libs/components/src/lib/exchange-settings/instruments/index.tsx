@@ -10,7 +10,15 @@ import BondInstrumentModal, {
 interface InstrumentSettingsProps {
   useController: typeof useInstrumentSettingsController;
   exchangeId: string;
-  instruments: { __typename?: "Instrument"; name: string }[];
+  instruments: {
+    __typename?: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
+  }[];
 }
 export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
   useController,
@@ -20,8 +28,6 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
   const [isAddInstrumentModalOpen, setIsAddInstrumentModalOpen] =
     useState(false);
   const [isBondInstrumentsModalOpen, setIsBondInstrumentsModalOpen] =
-    useState(false);
-  const [isEditBondInstrumentsModalOpen, setIsEditBondInstrumentsModalOpen] =
     useState(false);
 
   const handleOpenAddInstrumentModal = () => {
@@ -39,13 +45,6 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
 
   const handleCloseBondInstrumentModal = () => {
     setIsBondInstrumentsModalOpen(false);
-  };
-  const handleOpenEditBondInstrumentModal = () => {
-    setIsEditBondInstrumentsModalOpen(true);
-  };
-
-  const handleCloseEditBondInstrumentModal = () => {
-    setIsEditBondInstrumentsModalOpen(false);
   };
 
   const modalAddInstruments = (
@@ -67,20 +66,10 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
     />
   );
 
-  const modalEditBondInstruments = (
-    <BondInstrumentModal
-      isOpen={isEditBondInstrumentsModalOpen}
-      handleCloseModal={handleCloseEditBondInstrumentModal}
-      newBond={false}
-      exchangeId={exchangeId}
-      useController={useBondInstrumentModalController}
-    />
-  );
   return (
     <>
       {modalAddInstruments}
       {modalBondInstruments}
-      {modalEditBondInstruments}
       <p className="mb-4 flex items-center gap-x-4 text-4xl font-bold text-gray-50">
         Instruments
       </p>
@@ -96,8 +85,8 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
         {instruments.map((instrument) => (
           <InstrumentCard
             useController={useInstrumentCardController}
-            name={instrument.name}
-            onClick={handleOpenEditBondInstrumentModal}
+            instrument={instrument}
+            exchangeId={exchangeId}
           />
         ))}
       </div>
@@ -105,6 +94,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
         <div>
           <InstrumentCard
             useController={useInstrumentCardController}
+            exchangeId={exchangeId}
             isAddCard={true}
             onClick={handleOpenAddInstrumentModal}
           />

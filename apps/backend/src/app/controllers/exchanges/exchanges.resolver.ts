@@ -60,6 +60,11 @@ export class ExchangesResolver {
     return await this.exchangesService.createExchange(user.uid, name);
   }
 
+  @Mutation(() => Exchange)
+  async deleteExchange(@Args("exchangeId") exchangeId: string) {
+    return await this.exchangesService.deleteExchange(exchangeId);
+  }
+
   @Mutation(() => Instrument)
   async addInstrument(
     @CurrentUser() user: DecodedIdToken,
@@ -69,6 +74,21 @@ export class ExchangesResolver {
     return await this.exchangesService.addInstrument(
       user.uid,
       exchangeId,
+      instrument,
+    );
+  }
+
+  @Mutation(() => Instrument)
+  async editInstrument(
+    @CurrentUser() user: DecodedIdToken,
+    @Args("exchangeId") exchangeId: string,
+    @Args("instrumentId") instrumentId: string,
+    @Args("instrument") instrument: AddInstrumentDto,
+  ) {
+    return await this.exchangesService.editInstrument(
+      user.uid,
+      exchangeId,
+      instrumentId,
       instrument,
     );
   }

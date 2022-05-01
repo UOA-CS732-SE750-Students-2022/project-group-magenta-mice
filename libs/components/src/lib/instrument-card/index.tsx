@@ -1,35 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEmoji } from "@simulate-exchange/hooks";
 import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
+import BondInstrumentModal, {
+  useBondInstrumentModalController,
+} from "../exchange-settings/instruments/BondInstrumentModal";
 
 export interface InstrumentCardProps {
   useController: typeof useInstrumentCardController;
-  name?: string;
+  exchangeId: string;
+  instrument?: {
+    __typename?: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
+  };
   type?: string;
   isAddCard?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const InstrumentCard: React.FC<InstrumentCardProps> = ({
   useController,
-  name,
+  exchangeId,
+  instrument,
   type,
   isAddCard,
   onClick,
 }) => {
   const Arrow = useEmoji("▶", "1rem");
 
+  const [isEditBondInstrumentsModalOpen, setIsEditBondInstrumentsModalOpen] =
+    useState(false);
+
+  const handleOpenEditBondInstrumentModal = () => {
+    setIsEditBondInstrumentsModalOpen(true);
+  };
+
+  const handleCloseEditBondInstrumentModal = () => {
+    setIsEditBondInstrumentsModalOpen(false);
+  };
+
+  const modalEditBondInstruments = (
+    <BondInstrumentModal
+      isOpen={isEditBondInstrumentsModalOpen}
+      handleCloseModal={handleCloseEditBondInstrumentModal}
+      newBond={false}
+      exchangeId={exchangeId}
+      instrument={instrument}
+      useController={useBondInstrumentModalController}
+    />
+  );
+
   if (!isAddCard) {
     return (
       <div>
+        {modalEditBondInstruments}
         <div
           className="mb-4 h-24 w-1/2 cursor-pointer rounded-lg bg-zinc-700 p-4 transition-all hover:brightness-110"
-          onClick={onClick}
+          onClick={handleOpenEditBondInstrumentModal}
         >
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col">
               <div className="text-lg font-bold text-gray-200 lg:text-2xl">
-                {name}
+                {instrument?.name}
               </div>
               <div className="text-sm text-gray-400">{type}</div>
             </div>

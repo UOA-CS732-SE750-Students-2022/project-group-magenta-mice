@@ -1,6 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { CustomModal, useCustomModalController } from "../../..";
-import { useAddInstrumentMutation } from "@simulate-exchange/gql";
+import {
+  useAddInstrumentMutation,
+  useEditInstrumentMutation,
+} from "@simulate-exchange/gql";
 import { toast } from "react-toastify";
 
 interface BondInstrumentModalProps {
@@ -8,6 +11,15 @@ interface BondInstrumentModalProps {
   handleCloseModal: () => void;
   newBond: boolean;
   exchangeId: string;
+  instrument?: {
+    __typename?: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
+  };
   useController: typeof useBondInstrumentModalController;
 }
 
@@ -15,6 +27,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
   isOpen,
   handleCloseModal,
   newBond,
+  instrument,
   exchangeId,
   useController,
 }) => {
@@ -25,7 +38,13 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
     setNewFixedPrice,
     setNewVolatility,
     handleAddBond,
-  } = useController(exchangeId, handleCloseModal);
+    handleEditBond,
+  } = useController(
+    exchangeId,
+    handleCloseModal,
+    instrument ? instrument.id : Math.random.toString(),
+    instrument,
+  );
 
   return (
     <CustomModal
@@ -33,7 +52,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
       hasConfirm={true}
       hasCancel={true}
       onClose={handleCloseModal}
-      onConfirm={handleAddBond}
+      onConfirm={newBond ? handleAddBond : handleEditBond}
       title={newBond ? "Add Bond Instrument" : "Edit Bond Instrument"}
       useController={useCustomModalController}
     >
@@ -47,6 +66,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewName(e.target.value)}
+              defaultValue={instrument?.name}
             />
           </div>
           <div className="my-3 ">
@@ -57,6 +77,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewTickSize(e.target.value)}
+              defaultValue={instrument?.tickSizeMin}
             />
           </div>
 
@@ -68,26 +89,29 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewPositionLimit(e.target.value)}
+              defaultValue={instrument?.positionLimit}
             />
           </div>
           <div className="my-3">
             <label className=" ml-5 ">Fixed Price:</label>
             <input
-              type="text"
+              type="number"
               autoComplete="none"
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewFixedPrice(e.target.value)}
+              defaultValue={instrument?.bondFixedPrice}
             />
           </div>
           <div className="my-3">
             <label className="ml-8 ">Volatility:</label>
             <input
-              type="text"
+              type="number"
               autoComplete="none"
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2 outline-none focus:ring-1 focus:ring-emerald-600  "
               onChange={(e) => setNewVolatility(e.target.value)}
+              defaultValue={instrument?.bondVolatility}
             />
           </div>
         </form>
@@ -99,14 +123,33 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
 export const useBondInstrumentModalController = (
   exchangeId: string,
   handleCloseModal: () => void,
+  instrumentId: string,
+  instrument?: {
+    __typename?: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
+  },
 ) => {
-  const [newName, setNewName] = useState("");
-  const [newTickSize, setNewTickSize] = useState("");
-  const [newPositionLimit, setNewPositionLimit] = useState("");
-  const [newFixedPrice, setNewFixedPrice] = useState("");
-  const [newVolatility, setNewVolatility] = useState("");
+  const [newName, setNewName] = useState(instrument?.name || "");
+  const [newTickSize, setNewTickSize] = useState(
+    instrument?.tickSizeMin.toString() || "",
+  );
+  const [newPositionLimit, setNewPositionLimit] = useState(
+    instrument?.positionLimit.toString() || "",
+  );
+  const [newFixedPrice, setNewFixedPrice] = useState(
+    instrument?.bondFixedPrice.toString() || "",
+  );
+  const [newVolatility, setNewVolatility] = useState(
+    instrument?.bondVolatility.toString() || "",
+  );
 
   const [addInstrument] = useAddInstrumentMutation();
+  const [editInstrument] = useEditInstrumentMutation();
 
   const handleAddBond = useCallback(async () => {
     try {
@@ -117,15 +160,19 @@ export const useBondInstrumentModalController = (
           name: newName,
           positionLimit: parseInt(newPositionLimit),
           tickSize: parseInt(newTickSize),
+          bondFixedPrice: parseInt(newFixedPrice),
+          bondVolatility: parseInt(newVolatility),
         },
         optimisticResponse: {
           __typename: "Mutation",
           addInstrument: {
             __typename: "Instrument",
-            id: Math.random.toString(),
+            id: instrumentId,
             name: newName,
             positionLimit: parseInt(newPositionLimit),
             tickSizeMin: parseInt(newTickSize),
+            bondFixedPrice: parseInt(newFixedPrice),
+            bondVolatility: parseInt(newVolatility),
           },
         },
       });
@@ -145,8 +192,60 @@ export const useBondInstrumentModalController = (
     newName,
     newPositionLimit,
     newTickSize,
+    newFixedPrice,
+    newVolatility,
+    instrumentId,
     handleCloseModal,
   ]);
+
+  const handleEditBond = useCallback(async () => {
+    try {
+      const promise = editInstrument({
+        variables: {
+          exchangeId: exchangeId,
+          instrumentId: instrumentId,
+          instrumentType: "BOND",
+          name: newName,
+          positionLimit: parseInt(newPositionLimit),
+          tickSize: parseInt(newTickSize),
+          bondFixedPrice: parseInt(newFixedPrice),
+          bondVolatility: parseInt(newVolatility),
+        },
+        optimisticResponse: {
+          __typename: "Mutation",
+          editInstrument: {
+            __typename: "Instrument",
+            id: instrumentId,
+            name: newName,
+            positionLimit: parseInt(newPositionLimit),
+            tickSizeMin: parseInt(newTickSize),
+            bondFixedPrice: parseInt(newFixedPrice),
+            bondVolatility: parseInt(newVolatility),
+          },
+        },
+      });
+
+      toast.promise(promise, {
+        pending: "Editing Instrument...",
+        success: "Successfully Edited Instrument!",
+        error: "Failed to Edit Instrument.",
+      });
+      handleCloseModal();
+    } catch (err) {
+      console.error(err);
+    }
+  }, [
+    editInstrument,
+    exchangeId,
+    instrumentId,
+    newName,
+    newPositionLimit,
+    newTickSize,
+    newFixedPrice,
+    newVolatility,
+    handleCloseModal,
+  ]);
+
   return {
     setNewName,
     setNewTickSize,
@@ -154,6 +253,7 @@ export const useBondInstrumentModalController = (
     setNewFixedPrice,
     setNewVolatility,
     handleAddBond,
+    handleEditBond,
   };
 };
 

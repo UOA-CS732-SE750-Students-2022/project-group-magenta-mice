@@ -44,6 +44,10 @@ export class ExchangesService {
     );
   }
 
+  async deleteExchange(exchangeId: string) {
+    return await this.exchangeStore.deleteExchange(exchangeId);
+  }
+
   async addInstrument(
     userId: string,
     exchangeId: string,
@@ -59,6 +63,24 @@ export class ExchangesService {
     }
 
     return await this.exchangeStore.addInstrument(exchangeId, {
+      ...instrument,
+      instrumentType: typeEnum,
+    });
+  }
+
+  async editInstrument(
+    userId: string,
+    exchangeId: string,
+    instrumentId: string,
+    instrument: AddInstrumentDto,
+  ) {
+    let typeEnum;
+    if (instrument.instrumentType === "stock") {
+      typeEnum = InstrumentType.STOCK;
+    } else {
+      typeEnum = InstrumentType.BOND;
+    }
+    return await this.exchangeStore.editInstrument(exchangeId, instrumentId, {
       ...instrument,
       instrumentType: typeEnum,
     });

@@ -16,7 +16,7 @@ import {
 
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useCurrentUserQuery } from "@simulate-exchange/gql";
+import { useFindExchangeQuery } from "@simulate-exchange/gql";
 
 export default function Settings() {
   const { loggedIn, loading, user } = useLoggedInRedirect();
@@ -26,21 +26,15 @@ export default function Settings() {
 }
 
 const SettingsComponent = ({ user }) => {
-  const { data, loading } = useCurrentUserQuery();
   const router = useRouter();
   const { id } = router.query;
+  const { data, loading } = useFindExchangeQuery({
+    variables: {
+      id: id.toString(),
+    },
+  });
 
-  // console log to find ids for testing.
-  console.log(data?.currentUser.userPermissions);
-
-  const currentPermission = data?.currentUser.userPermissions.find(
-    (permission) => permission.exchange.id === id,
-  );
-
-  const currentExchange = currentPermission?.exchange;
-  console.log("current exchange name :", currentExchange?.name);
-  console.log("current exchange instruments :", currentExchange?.instruments);
-
+  const currentExchange = data?.exchange;
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
   const Check = useEmoji("✅", "2rem");
@@ -88,6 +82,7 @@ const SettingsComponent = ({ user }) => {
         {selectedSettings === "Overview" && (
           <OverviewSettings
             currentExchange={currentExchange}
+            exchangeID={id.toString()}
             useController={useOverviewSettingsController}
           />
         )}
@@ -95,7 +90,7 @@ const SettingsComponent = ({ user }) => {
           <InstrumentSettings
             useController={useInstrumentSettingsController}
             exchangeId={id.toString()}
-            instruments={currentExchange.instruments}
+            instruments={currentExchange?.instruments}
           />
         )}
         {selectedSettings === "Permissions" && (

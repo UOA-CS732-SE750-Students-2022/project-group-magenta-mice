@@ -14,7 +14,7 @@ model User {
   id              String           @id
   name            String
   profilePicUrl   String
-  email String @default("")
+  email           String           @default("")
   userPermissions UserPermission[]
   invites         Invite[]
 
@@ -38,7 +38,7 @@ model Exchange {
 model Invite {
   id         String   @id @default(uuid())
   exchangeId String
-  exchange   Exchange @relation(fields: [exchangeId], references: [id])
+  exchange   Exchange @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
   userId     String
   user       User     @relation(fields: [userId], references: [id])
 
@@ -48,7 +48,7 @@ model Invite {
 model UserPermission {
   id         String         @id @default(uuid())
   exchangeId String
-  exchange   Exchange       @relation(fields: [exchangeId], references: [id])
+  exchange   Exchange       @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
   userId     String
   user       User           @relation(fields: [userId], references: [id])
   permission PermissionType
@@ -65,7 +65,7 @@ model Instrument {
   name              String
   tickSizeMin       Int
   positionLimit     Int
-  exchange          Exchange       @relation(fields: [exchangeId], references: [id])
+  exchange          Exchange       @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
   instrumentType    InstrumentType
   bondFixedPrice    Int?
   bondVolatility    Int?
@@ -83,7 +83,7 @@ enum InstrumentType {
 model Trade {
   id String @id @default(uuid())
 
-  exchange   Exchange @relation(fields: [exchangeId], references: [id])
+  exchange   Exchange @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
   exchangeId String
 
   user   User   @relation(fields: [userId], references: [id])

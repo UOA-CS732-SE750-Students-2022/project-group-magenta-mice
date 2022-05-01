@@ -1,27 +1,51 @@
-import React from "react";
+import { Permission } from "@simulate-exchange/gql";
+import { useDeleteExchangeMutation } from "@simulate-exchange/gql";
+import React, { useCallback } from "react";
 
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
   currentExchange: {
     __typename?: "Exchange";
-    id: string;
+    public: boolean;
     name: string;
-    colour: number;
     userPermissions: {
       __typename?: "UserPermission";
       id: string;
+      permission: Permission;
+      user: {
+        __typename?: "User";
+        name: string;
+        id: string;
+        email: string;
+        profilePicUrl?: string;
+      };
     }[];
     instruments: {
       __typename?: "Instrument";
+      id: string;
       name: string;
+      tickSizeMin: number;
+      positionLimit: number;
     }[];
   };
+  exchangeID: string;
 }
 
 export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   useController,
   currentExchange,
+  exchangeID,
 }) => {
+  const [deleteExchange, { loading }] = useDeleteExchangeMutation();
+
+  const handleDeleteExchange = useCallback(async () => {
+    await deleteExchange({
+      variables: {
+        id: exchangeID,
+      },
+    });
+  }, [deleteExchange, exchangeID]);
+
   return (
     <div className="flex flex-col">
       <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
@@ -38,7 +62,11 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         </button>
       </div>
       <p className="mt-4 text-gray-200">Potentially data graphics here</p>
-      <button className="mt-4 w-1/3 rounded-md bg-rose-700 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600">
+      <button
+        className="mt-4 w-1/3 rounded-md bg-rose-700 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
+        onClick={handleDeleteExchange}
+        disabled={loading}
+      >
         Delete Exchange
       </button>
     </div>

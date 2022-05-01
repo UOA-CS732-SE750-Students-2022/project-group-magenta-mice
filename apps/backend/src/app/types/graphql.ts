@@ -34,6 +34,8 @@ export interface AddInstrumentDto {
     name: string;
     positionLimit: number;
     tickSizeMin: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
 }
 
 export interface Instrument {
@@ -41,6 +43,8 @@ export interface Instrument {
     name: string;
     tickSizeMin: number;
     positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
 }
 
 export interface Exchange {
@@ -85,7 +89,9 @@ export interface IMutation {
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
     createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
+    deleteExchange(exchangeId: string): Exchange | Promise<Exchange>;
     addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
+    editInstrument(exchangeId: string, instrumentId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
 }
 
 type Nullable<T> = T | null;

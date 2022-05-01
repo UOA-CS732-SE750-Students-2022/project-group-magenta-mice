@@ -13,4 +13,10 @@ export class Instrument {
 
   @Field(() => Int)
   positionLimit: number;
+
+  @Field(() => Int)
+  bondFixedPrice?: number;
+
+  @Field(() => Int)
+  bondVolatility?: number;
 }

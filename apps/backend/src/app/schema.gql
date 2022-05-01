@@ -7,6 +7,8 @@ type Instrument {
   name: String!
   tickSizeMin: Int!
   positionLimit: Int!
+  bondFixedPrice: Int!
+  bondVolatility: Int!
 }
 
 type Exchange {
@@ -58,7 +60,9 @@ type Mutation {
   joinExchange(id: String!): UserPermission!
   createTestExchange: Exchange!
   createExchange(exchangeData: CreateExchangeInput!): Exchange!
+  deleteExchange(exchangeId: String!): Exchange!
   addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Instrument!
+  editInstrument(exchangeId: String!, instrumentId: String!, instrument: AddInstrumentDto!): Instrument!
 }
 
 input CreateUserInput {
@@ -86,4 +90,6 @@ input AddInstrumentDto {
   name: String!
   positionLimit: Int!
   tickSizeMin: Int!
+  bondFixedPrice: Int!
+  bondVolatility: Int!
 }

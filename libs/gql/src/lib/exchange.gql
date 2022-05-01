@@ -13,7 +13,12 @@ query FindExchange($id: ID!) {
       permission
     }
     instruments {
+      id
       name
+      tickSizeMin
+      positionLimit
+      bondFixedPrice
+      bondVolatility
     }
   }
 }
@@ -24,6 +29,8 @@ mutation AddInstrument(
   $name: String!
   $positionLimit: Int!
   $tickSize: Int!
+  $bondFixedPrice: Int!
+  $bondVolatility: Int!
 ) {
   addInstrument(
     exchangeId: $exchangeId
@@ -32,12 +39,46 @@ mutation AddInstrument(
       name: $name
       positionLimit: $positionLimit
       tickSizeMin: $tickSize
+      bondFixedPrice: $bondFixedPrice
+      bondVolatility: $bondVolatility
     }
   ) {
     id
     name
     tickSizeMin
     positionLimit
+    bondFixedPrice
+    bondVolatility
+  }
+}
+mutation EditInstrument(
+  $exchangeId: String!
+  $instrumentId: String!
+  $instrumentType: String!
+  $name: String!
+  $positionLimit: Int!
+  $tickSize: Int!
+  $bondFixedPrice: Int!
+  $bondVolatility: Int!
+) {
+  editInstrument(
+    exchangeId: $exchangeId
+    instrumentId: $instrumentId
+    instrument: {
+      instrumentType: $instrumentType
+      name: $name
+      positionLimit: $positionLimit
+      tickSizeMin: $tickSize
+      bondFixedPrice: $bondFixedPrice
+      bondVolatility: $bondVolatility
+    }
+  ) {
+    id
+    name
+    tickSizeMin
+    positionLimit
+    bondFixedPrice
+    bondVolatility
   }
 }
 
@@ -77,5 +118,11 @@ mutation CreateExchange($name: String!, $color: Int!) {
     userPermissions {
       id
     }
+  }
+}
+
+mutation DeleteExchange($id: String!) {
+  deleteExchange(exchangeId: $id) {
+    id
   }
 }

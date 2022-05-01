@@ -22,6 +22,8 @@ export type Scalars = {
 };
 
 export type AddInstrumentDto = {
+  bondFixedPrice: Scalars["Int"];
+  bondVolatility: Scalars["Int"];
   instrumentType: Scalars["String"];
   name: Scalars["String"];
   positionLimit: Scalars["Int"];
@@ -59,6 +61,8 @@ export type Exchange = {
 
 export type Instrument = {
   __typename?: "Instrument";
+  bondFixedPrice: Scalars["Int"];
+  bondVolatility: Scalars["Int"];
   id: Scalars["ID"];
   name: Scalars["String"];
   positionLimit: Scalars["Int"];
@@ -79,6 +83,8 @@ export type Mutation = {
   createInvite: Invite;
   createTestExchange: Exchange;
   createUser: User;
+  deleteExchange: Exchange;
+  editInstrument: Instrument;
   joinExchange: UserPermission;
 };
 
@@ -97,6 +103,16 @@ export type MutationCreateInviteArgs = {
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
+};
+
+export type MutationDeleteExchangeArgs = {
+  exchangeId: Scalars["String"];
+};
+
+export type MutationEditInstrumentArgs = {
+  exchangeId: Scalars["String"];
+  instrument: AddInstrumentDto;
+  instrumentId: Scalars["String"];
 };
 
 export type MutationJoinExchangeArgs = {
@@ -163,7 +179,15 @@ export type FindExchangeQuery = {
         profilePicUrl?: string | null;
       };
     }>;
-    instruments: Array<{ __typename?: "Instrument"; name: string }>;
+    instruments: Array<{
+      __typename?: "Instrument";
+      id: string;
+      name: string;
+      tickSizeMin: number;
+      positionLimit: number;
+      bondFixedPrice: number;
+      bondVolatility: number;
+    }>;
   };
 };
 
@@ -173,16 +197,44 @@ export type AddInstrumentMutationVariables = Exact<{
   name: Scalars["String"];
   positionLimit: Scalars["Int"];
   tickSize: Scalars["Int"];
+  bondFixedPrice: Scalars["Int"];
+  bondVolatility: Scalars["Int"];
 }>;
 
 export type AddInstrumentMutation = {
   __typename?: "Mutation";
   addInstrument: {
-    __typename: "Instrument";
+    __typename?: "Instrument";
     id: string;
     name: string;
     tickSizeMin: number;
     positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
+  };
+};
+
+export type EditInstrumentMutationVariables = Exact<{
+  exchangeId: Scalars["String"];
+  instrumentId: Scalars["String"];
+  instrumentType: Scalars["String"];
+  name: Scalars["String"];
+  positionLimit: Scalars["Int"];
+  tickSize: Scalars["Int"];
+  bondFixedPrice: Scalars["Int"];
+  bondVolatility: Scalars["Int"];
+}>;
+
+export type EditInstrumentMutation = {
+  __typename?: "Mutation";
+  editInstrument: {
+    __typename?: "Instrument";
+    id: string;
+    name: string;
+    tickSizeMin: number;
+    positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
   };
 };
 
@@ -244,6 +296,15 @@ export type CreateExchangeMutation = {
   };
 };
 
+export type DeleteExchangeMutationVariables = Exact<{
+  id: Scalars["String"];
+}>;
+
+export type DeleteExchangeMutation = {
+  __typename?: "Mutation";
+  deleteExchange: { __typename?: "Exchange"; id: string };
+};
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CurrentUserQuery = {
@@ -302,7 +363,12 @@ export const FindExchangeDocument = gql`
         permission
       }
       instruments {
+        id
         name
+        tickSizeMin
+        positionLimit
+        bondFixedPrice
+        bondVolatility
       }
     }
   }
@@ -365,6 +431,8 @@ export const AddInstrumentDocument = gql`
     $name: String!
     $positionLimit: Int!
     $tickSize: Int!
+    $bondFixedPrice: Int!
+    $bondVolatility: Int!
   ) {
     addInstrument(
       exchangeId: $exchangeId
@@ -373,13 +441,16 @@ export const AddInstrumentDocument = gql`
         name: $name
         positionLimit: $positionLimit
         tickSizeMin: $tickSize
+        bondFixedPrice: $bondFixedPrice
+        bondVolatility: $bondVolatility
       }
     ) {
       id
       name
       tickSizeMin
       positionLimit
-      __typename
+      bondFixedPrice
+      bondVolatility
     }
   }
 `;
@@ -406,6 +477,8 @@ export type AddInstrumentMutationFn = Apollo.MutationFunction<
  *      name: // value for 'name'
  *      positionLimit: // value for 'positionLimit'
  *      tickSize: // value for 'tickSize'
+ *      bondFixedPrice: // value for 'bondFixedPrice'
+ *      bondVolatility: // value for 'bondVolatility'
  *   },
  * });
  */
@@ -429,6 +502,88 @@ export type AddInstrumentMutationResult =
 export type AddInstrumentMutationOptions = Apollo.BaseMutationOptions<
   AddInstrumentMutation,
   AddInstrumentMutationVariables
+>;
+export const EditInstrumentDocument = gql`
+  mutation EditInstrument(
+    $exchangeId: String!
+    $instrumentId: String!
+    $instrumentType: String!
+    $name: String!
+    $positionLimit: Int!
+    $tickSize: Int!
+    $bondFixedPrice: Int!
+    $bondVolatility: Int!
+  ) {
+    editInstrument(
+      exchangeId: $exchangeId
+      instrumentId: $instrumentId
+      instrument: {
+        instrumentType: $instrumentType
+        name: $name
+        positionLimit: $positionLimit
+        tickSizeMin: $tickSize
+        bondFixedPrice: $bondFixedPrice
+        bondVolatility: $bondVolatility
+      }
+    ) {
+      id
+      name
+      tickSizeMin
+      positionLimit
+      bondFixedPrice
+      bondVolatility
+    }
+  }
+`;
+export type EditInstrumentMutationFn = Apollo.MutationFunction<
+  EditInstrumentMutation,
+  EditInstrumentMutationVariables
+>;
+
+/**
+ * __useEditInstrumentMutation__
+ *
+ * To run a mutation, you first call `useEditInstrumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditInstrumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editInstrumentMutation, { data, loading, error }] = useEditInstrumentMutation({
+ *   variables: {
+ *      exchangeId: // value for 'exchangeId'
+ *      instrumentId: // value for 'instrumentId'
+ *      instrumentType: // value for 'instrumentType'
+ *      name: // value for 'name'
+ *      positionLimit: // value for 'positionLimit'
+ *      tickSize: // value for 'tickSize'
+ *      bondFixedPrice: // value for 'bondFixedPrice'
+ *      bondVolatility: // value for 'bondVolatility'
+ *   },
+ * });
+ */
+export function useEditInstrumentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditInstrumentMutation,
+    EditInstrumentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EditInstrumentMutation,
+    EditInstrumentMutationVariables
+  >(EditInstrumentDocument, options);
+}
+export type EditInstrumentMutationHookResult = ReturnType<
+  typeof useEditInstrumentMutation
+>;
+export type EditInstrumentMutationResult =
+  Apollo.MutationResult<EditInstrumentMutation>;
+export type EditInstrumentMutationOptions = Apollo.BaseMutationOptions<
+  EditInstrumentMutation,
+  EditInstrumentMutationVariables
 >;
 export const CreateInviteDocument = gql`
   mutation CreateInvite($exchangeId: String!, $userId: String!) {
@@ -697,6 +852,56 @@ export type CreateExchangeMutationResult =
 export type CreateExchangeMutationOptions = Apollo.BaseMutationOptions<
   CreateExchangeMutation,
   CreateExchangeMutationVariables
+>;
+export const DeleteExchangeDocument = gql`
+  mutation DeleteExchange($id: String!) {
+    deleteExchange(exchangeId: $id) {
+      id
+    }
+  }
+`;
+export type DeleteExchangeMutationFn = Apollo.MutationFunction<
+  DeleteExchangeMutation,
+  DeleteExchangeMutationVariables
+>;
+
+/**
+ * __useDeleteExchangeMutation__
+ *
+ * To run a mutation, you first call `useDeleteExchangeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteExchangeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteExchangeMutation, { data, loading, error }] = useDeleteExchangeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteExchangeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteExchangeMutation,
+    DeleteExchangeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteExchangeMutation,
+    DeleteExchangeMutationVariables
+  >(DeleteExchangeDocument, options);
+}
+export type DeleteExchangeMutationHookResult = ReturnType<
+  typeof useDeleteExchangeMutation
+>;
+export type DeleteExchangeMutationResult =
+  Apollo.MutationResult<DeleteExchangeMutation>;
+export type DeleteExchangeMutationOptions = Apollo.BaseMutationOptions<
+  DeleteExchangeMutation,
+  DeleteExchangeMutationVariables
 >;
 export const CurrentUserDocument = gql`
   query CurrentUser {
