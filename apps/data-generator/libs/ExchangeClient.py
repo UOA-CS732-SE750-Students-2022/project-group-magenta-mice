@@ -1,7 +1,9 @@
-from InsertOrder import InsertOrder
+from InsertOrder import InsertOrder, Side, LifeSpan
 import socket, errno, sys, select, struct
 import exchange_pb2 as proto
-from typing import Callable, Union
+from time import sleep
+from typing import Callable
+import threading
 
 HEADER_LENGTH = 8
 
@@ -16,14 +18,17 @@ class ExchangeClient:
     '''
     A client class responsible for sending InsertOrder object through socket.
     '''
-    def __init__(self, ip: str = '127.0.0.1', port: int = 15001):
+    def __init__(self, hostname: str = '127.0.0.1', port: int = 15001):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((ip, port))
+        self.socket.connect((hostname, port))
         self.socket.setblocking(False)
         
         # hash event_num: int (proto.MessageType) => list[handler: Callable]
         self.handlers = {event_num: [] for event_num in EVENTS}
         
+        self.client_thread = threading.Thread(target=self.run_client,daemon=True)
+    
+    def run_client(self) -> None:
         while True:
             try:
                 (readable, _, _) = select.select(
@@ -48,6 +53,7 @@ class ExchangeClient:
                         self.emit(message_type, event_proto_obj)
                         
             except IOError as e:
+                sleep(1)
                 if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
                     sys.exit(1)
                 continue
@@ -55,8 +61,8 @@ class ExchangeClient:
                 sys.exit(1)
     
     
-    def send_insert_request(self, insert_order: InsertOrder):
-        ser_insert_order = insert_order.SerializeToString()
+    def send_insert_request(self, insert_order: InsertOrder) -> None:
+        ser_insert_order = insert_order.serialize_to_string()
         
         # message type + content length + content
         self.socket.send(
@@ -69,8 +75,7 @@ class ExchangeClient:
         
         self.handlers[event_num].append(handler)
     
-    def emit(self, event_num: int, data): 
-        #IDE complains but this typing should work data: Union[tuple(EVENTS.values())]
+    def emit(self, event_num: int, data) -> None:
         
         if event_num not in EVENTS:
             raise Exception(f'Event number {event_num} does not exist')
@@ -84,3 +89,7 @@ class ExchangeClient:
         
         return True
  
+if __name__ == '__main__':
+    client = ExchangeClient()
+    print('run')
+    client.send_insert_request(InsertOrder(1,1, LifeSpan.FAK, Side.BUY,1,1))
