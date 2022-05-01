@@ -26,7 +26,7 @@ class ExchangeClient:
         # hash event_num: int (proto.MessageType) => list[handler: Callable]
         self.handlers = {event_num: [] for event_num in EVENTS}
         
-        self.client_thread = Thread(target=self.run_client,daemon=True)
+        self.client_thread = Thread(target=self.run_client)
         self.client_thread.start()
     
     def run_client(self) -> None:
@@ -96,5 +96,3 @@ class ExchangeClient:
 if __name__ == '__main__':
     client = ExchangeClient()
     client.add_handler(proto.ORDER_UPDATE, print)
-    while True:
-        pass
