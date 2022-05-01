@@ -81,6 +81,11 @@ mutation EditInstrument(
     bondVolatility
   }
 }
+mutation DeleteInstrument($id: String!) {
+  deleteInstrument(instrumentId: $id) {
+    id
+  }
+}
 
 mutation CreateInvite($exchangeId: String!, $userId: String!) {
   createInvite(

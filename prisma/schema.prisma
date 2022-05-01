@@ -89,7 +89,7 @@ model Trade {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  instrument   Instrument @relation(fields: [instrumentId], references: [id])
+  instrument   Instrument @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
   instrumentId String
 
   price  Int

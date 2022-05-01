@@ -63,6 +63,7 @@ type Mutation {
   deleteExchange(exchangeId: String!): Exchange!
   addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Instrument!
   editInstrument(exchangeId: String!, instrumentId: String!, instrument: AddInstrumentDto!): Instrument!
+  deleteInstrument(instrumentId: String!): Instrument!
 }
 
 input CreateUserInput {

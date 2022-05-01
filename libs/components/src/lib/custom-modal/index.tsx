@@ -6,6 +6,8 @@ interface CustomModalProps {
   open: boolean;
   hasConfirm: boolean;
   hasCancel: boolean;
+  hasDelete?: boolean;
+  onDelete?: () => void;
   onClose: () => void;
   onConfirm?: () => void;
   title: string;
@@ -16,6 +18,8 @@ export const CustomModal: React.FC<CustomModalProps> = ({
   open,
   hasConfirm: hasConfim,
   hasCancel,
+  hasDelete,
+  onDelete,
   onClose,
   onConfirm,
   title,
@@ -74,6 +78,15 @@ export const CustomModal: React.FC<CustomModalProps> = ({
                         onClick={onConfirm}
                       >
                         Confirm
+                      </button>
+                    )}
+                    {hasDelete && (
+                      <button
+                        type="button"
+                        className="mr-4 inline-flex justify-center rounded-md border border-transparent bg-rose-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-rose-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={onDelete}
+                      >
+                        Delete
                       </button>
                     )}
                     {hasCancel && (

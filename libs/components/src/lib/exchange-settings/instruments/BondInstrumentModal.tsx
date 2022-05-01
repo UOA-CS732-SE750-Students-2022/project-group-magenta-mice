@@ -3,6 +3,7 @@ import { CustomModal, useCustomModalController } from "../../..";
 import {
   useAddInstrumentMutation,
   useEditInstrumentMutation,
+  useDeleteInstrumentMutation,
 } from "@simulate-exchange/gql";
 import { toast } from "react-toastify";
 
@@ -46,11 +47,33 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
     instrument,
   );
 
+  const [deleteInstrument] = useDeleteInstrumentMutation();
+
+  const handleDeleteInstrument = useCallback(async () => {
+    try {
+      const promise = deleteInstrument({
+        variables: {
+          id: instrument ? instrument.id : Math.random.toString(),
+        },
+      });
+      toast.promise(promise, {
+        pending: "Deleting Instrument...",
+        success: "Successfully Deleted Instrument!",
+        error: "Failed to Delete Instrument.",
+      });
+      handleCloseModal();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteInstrument, handleCloseModal, instrument]);
+
   return (
     <CustomModal
       open={isOpen}
       hasConfirm={true}
       hasCancel={true}
+      hasDelete={newBond ? false : true}
+      onDelete={handleDeleteInstrument}
       onClose={handleCloseModal}
       onConfirm={newBond ? handleAddBond : handleEditBond}
       title={newBond ? "Add Bond Instrument" : "Edit Bond Instrument"}

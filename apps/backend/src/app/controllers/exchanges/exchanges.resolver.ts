@@ -92,4 +92,9 @@ export class ExchangesResolver {
       instrument,
     );
   }
+
+  @Mutation(() => Instrument)
+  async deleteInstrument(@Args("instrumentId") instrumentId: string) {
+    return await this.exchangesService.deleteInstrument(instrumentId);
+  }
 }

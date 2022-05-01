@@ -84,6 +84,7 @@ export type Mutation = {
   createTestExchange: Exchange;
   createUser: User;
   deleteExchange: Exchange;
+  deleteInstrument: Instrument;
   editInstrument: Instrument;
   joinExchange: UserPermission;
 };
@@ -107,6 +108,10 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteExchangeArgs = {
   exchangeId: Scalars["String"];
+};
+
+export type MutationDeleteInstrumentArgs = {
+  instrumentId: Scalars["String"];
 };
 
 export type MutationEditInstrumentArgs = {
@@ -236,6 +241,15 @@ export type EditInstrumentMutation = {
     bondFixedPrice: number;
     bondVolatility: number;
   };
+};
+
+export type DeleteInstrumentMutationVariables = Exact<{
+  id: Scalars["String"];
+}>;
+
+export type DeleteInstrumentMutation = {
+  __typename?: "Mutation";
+  deleteInstrument: { __typename?: "Instrument"; id: string };
 };
 
 export type CreateInviteMutationVariables = Exact<{
@@ -584,6 +598,56 @@ export type EditInstrumentMutationResult =
 export type EditInstrumentMutationOptions = Apollo.BaseMutationOptions<
   EditInstrumentMutation,
   EditInstrumentMutationVariables
+>;
+export const DeleteInstrumentDocument = gql`
+  mutation DeleteInstrument($id: String!) {
+    deleteInstrument(instrumentId: $id) {
+      id
+    }
+  }
+`;
+export type DeleteInstrumentMutationFn = Apollo.MutationFunction<
+  DeleteInstrumentMutation,
+  DeleteInstrumentMutationVariables
+>;
+
+/**
+ * __useDeleteInstrumentMutation__
+ *
+ * To run a mutation, you first call `useDeleteInstrumentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteInstrumentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteInstrumentMutation, { data, loading, error }] = useDeleteInstrumentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteInstrumentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteInstrumentMutation,
+    DeleteInstrumentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteInstrumentMutation,
+    DeleteInstrumentMutationVariables
+  >(DeleteInstrumentDocument, options);
+}
+export type DeleteInstrumentMutationHookResult = ReturnType<
+  typeof useDeleteInstrumentMutation
+>;
+export type DeleteInstrumentMutationResult =
+  Apollo.MutationResult<DeleteInstrumentMutation>;
+export type DeleteInstrumentMutationOptions = Apollo.BaseMutationOptions<
+  DeleteInstrumentMutation,
+  DeleteInstrumentMutationVariables
 >;
 export const CreateInviteDocument = gql`
   mutation CreateInvite($exchangeId: String!, $userId: String!) {

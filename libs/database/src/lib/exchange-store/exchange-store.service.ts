@@ -150,4 +150,11 @@ export class ExchangeStoreService {
     });
     return instrument;
   }
+
+  async deleteInstrument(instrumentId: string) {
+    const instrument = await this.prismaService.instrument.delete({
+      where: { id: instrumentId },
+    });
+    return instrument;
+  }
 }

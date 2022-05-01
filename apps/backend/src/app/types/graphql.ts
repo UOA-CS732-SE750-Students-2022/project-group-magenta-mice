@@ -92,6 +92,7 @@ export interface IMutation {
     deleteExchange(exchangeId: string): Exchange | Promise<Exchange>;
     addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
     editInstrument(exchangeId: string, instrumentId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
+    deleteInstrument(instrumentId: string): Instrument | Promise<Instrument>;
 }
 
 type Nullable<T> = T | null;

@@ -85,4 +85,8 @@ export class ExchangesService {
       instrumentType: typeEnum,
     });
   }
+
+  async deleteInstrument(instrumentId: string) {
+    return await this.exchangeStore.deleteInstrument(instrumentId);
+  }
 }
