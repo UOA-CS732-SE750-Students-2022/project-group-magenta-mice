@@ -1,6 +1,8 @@
 import {
   CurrentUserDocument,
+  CurrentUserQuery,
   FindExchangeDocument,
+  FindExchangeQuery,
   Permission,
   useDeleteExchangeMutation,
   useEditExchangeMutation,
@@ -131,8 +133,10 @@ export const useOverviewSettingsController = (
           name: newExchangeName,
           color: newColor,
         },
+
         refetchQueries: [FindExchangeDocument],
       });
+
       toast.promise(promise, {
         pending: "Editing Exchange...",
         success: "Successfully Edited Exchange!",

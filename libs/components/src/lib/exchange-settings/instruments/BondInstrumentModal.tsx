@@ -6,6 +6,8 @@ import {
   useDeleteInstrumentMutation,
   EditInstrumentDocument,
   FindExchangeDocument,
+  FindExchangeQuery,
+  InstrumentType,
 } from "@simulate-exchange/gql";
 import { toast } from "react-toastify";
 
@@ -57,7 +59,39 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
         variables: {
           id: instrument ? instrument.id : Math.random.toString(),
         },
-        refetchQueries: [FindExchangeDocument],
+        optimisticResponse: {
+          __typename: "Mutation",
+          deleteInstrument: {
+            __typename: "Instrument",
+            id: instrument ? instrument.id : Math.random.toString(),
+          },
+        },
+        update: (cache, { data: result }) => {
+          const data = cache.readQuery<FindExchangeQuery>({
+            query: FindExchangeDocument,
+            variables: {
+              id: exchangeId,
+            },
+          });
+          if (data) {
+            cache.writeQuery<FindExchangeQuery>({
+              query: FindExchangeDocument,
+              variables: {
+                id: exchangeId,
+              },
+              data: {
+                ...data,
+                exchange: {
+                  ...data.exchange,
+                  instruments: data.exchange.instruments.filter(
+                    (instrument) =>
+                      instrument.id !== result?.deleteInstrument.id,
+                  ),
+                },
+              },
+            });
+          }
+        },
       });
       toast.promise(promise, {
         pending: "Deleting Instrument...",
@@ -68,7 +102,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
     } catch (error) {
       console.log(error);
     }
-  }, [deleteInstrument, handleCloseModal, instrument]);
+  }, [deleteInstrument, exchangeId, handleCloseModal, instrument]);
 
   return (
     <CustomModal
@@ -189,8 +223,52 @@ export const useBondInstrumentModalController = (
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
         },
-        refetchQueries: [FindExchangeDocument],
+        optimisticResponse: {
+          __typename: "Mutation",
+          addInstrument: {
+            __typename: "Instrument",
+            id: Math.random.toString(),
+            name: newName,
+            tickSizeMin: parseInt(newTickSize),
+            positionLimit: parseInt(newPositionLimit),
+            bondFixedPrice: parseInt(newFixedPrice),
+            bondVolatility: parseInt(newVolatility),
+          },
+        },
+
+        update: (cache, { data: result }) => {
+          const data = cache.readQuery<FindExchangeQuery>({
+            query: FindExchangeDocument,
+            variables: { id: exchangeId },
+          });
+          if (data && result) {
+            cache.writeQuery<FindExchangeQuery>({
+              query: FindExchangeDocument,
+              variables: { id: exchangeId },
+              data: {
+                ...data,
+                exchange: {
+                  ...data.exchange,
+                  instruments: [
+                    ...data.exchange.instruments,
+                    {
+                      id: result?.addInstrument.id,
+                      instrumentType: InstrumentType.Bond,
+                      name: result?.addInstrument.name,
+                      tickSizeMin: result?.addInstrument.tickSizeMin,
+                      positionLimit: result?.addInstrument.positionLimit,
+                      bondFixedPrice: result?.addInstrument.bondFixedPrice,
+                      bondVolatility: result?.addInstrument.bondVolatility,
+                    },
+                  ],
+                },
+              },
+            });
+          }
+        },
       });
+
+      // refetchQueries: [FindExchangeDocument],
 
       toast.promise(promise, {
         pending: "Adding Instrument...",
@@ -225,7 +303,49 @@ export const useBondInstrumentModalController = (
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
         },
-        refetchQueries: [FindExchangeDocument],
+        optimisticResponse: {
+          __typename: "Mutation",
+          editInstrument: {
+            __typename: "Instrument",
+            id: instrumentId,
+            name: newName,
+            tickSizeMin: parseInt(newTickSize),
+            positionLimit: parseInt(newPositionLimit),
+            bondFixedPrice: parseInt(newFixedPrice),
+            bondVolatility: parseInt(newVolatility),
+          },
+        },
+        update: (cache, { data: result }) => {
+          const data = cache.readQuery<FindExchangeQuery>({
+            query: FindExchangeDocument,
+            variables: { id: exchangeId },
+          });
+          if (data && result) {
+            cache.writeQuery<FindExchangeQuery>({
+              query: FindExchangeDocument,
+              variables: { id: exchangeId },
+              data: {
+                ...data,
+                exchange: {
+                  ...data.exchange,
+                  instruments: data.exchange.instruments.map((instrument) => {
+                    if (instrument.id === result?.editInstrument.id) {
+                      return {
+                        ...instrument,
+                        name: result?.editInstrument.name,
+                        tickSizeMin: result?.editInstrument.tickSizeMin,
+                        positionLimit: result?.editInstrument.positionLimit,
+                        bondFixedPrice: result?.editInstrument.bondFixedPrice,
+                        bondVolatility: result?.editInstrument.bondVolatility,
+                      };
+                    }
+                    return instrument;
+                  }),
+                },
+              },
+            });
+          }
+        },
       });
 
       toast.promise(promise, {
