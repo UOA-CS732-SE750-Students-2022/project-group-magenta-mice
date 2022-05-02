@@ -1,7 +1,9 @@
 from enum import Enum
-from InsertOrder import InsertOrder, Side, LifeSpan
-import socket, errno, sys, select, struct
+from InsertOrder import InsertOrder
+from LoginResponse import LoginResponse
+import socket, errno, sys, select
 import exchange_pb2 as proto
+import State
 from time import sleep
 from typing import Callable
 from threading import Thread
@@ -15,15 +17,18 @@ class ExchangeClient:
     def __init__(self, hostname: str = '127.0.0.1', port: int = 15001):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((hostname, port))
-        self.socket.setblocking(False)
+        self.socket.setblocking(True)
         
         # hash event_enum: Event => list[handler: Callable]
         self.handlers = {event_enum: [] for event_enum in event_to_class}
+        self.client_thread = Thread(target=self._run_client)
         
-        self.client_thread = Thread(target=self.run_client)
-        self.client_thread.start()
-    
-    def run_client(self) -> None:
+        self.state = State.NotLoggedInState(self)
+        
+    def run(self):
+        self.state.run()
+        
+    def _run_client(self) -> None:
         while True:
             try:
                 (readable, _, _) = select.select(
@@ -61,12 +66,7 @@ class ExchangeClient:
     
     
     def send_insert_request(self, insert_order: InsertOrder) -> None:
-        ser_insert_order = insert_order.serialize_to_string()
-        
-        # message type + content length + content
-        self.socket.send(
-            struct.pack('<i', proto.INSERT_ORDER) + struct.pack('<i', len(ser_insert_order)) + ser_insert_order
-            )
+        self.state.send_insert_request(insert_order)
     
     def add_handler(self, event_enum: 'Event', handler: Callable):
         if event_enum not in event_to_class:
@@ -87,11 +87,18 @@ class ExchangeClient:
                 return False
         
         return True
- 
+    
+    def send_login_request(self, key: str) -> LoginResponse:
+        return self.state.send_login_request(key)
+    
+    def change_state(self, state: State) -> None:
+        self.state = state
+        
 class Event(Enum):
     Feed = FEED = proto.EXCHANGE_FEED
     Fill = FILL = proto.ORDER_FILL
     Update = UPDATE = proto.ORDER_UPDATE
+    LoginResponse = LOGINRESPONSE = proto.LOGIN_RESPONSE
 
 # dict: event proto enum -> proto class signature
 event_to_class = {
@@ -103,3 +110,6 @@ event_to_class = {
 if __name__ == '__main__':
     client = ExchangeClient()
     client.add_handler(Event.UPDATE, print)
+    res = client.send_login_request('sample')
+    print(res)
+    client.run()
