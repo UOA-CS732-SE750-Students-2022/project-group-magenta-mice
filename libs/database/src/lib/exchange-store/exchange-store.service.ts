@@ -107,6 +107,17 @@ export class ExchangeStoreService {
     return exchange;
   }
 
+  async editExchange(exchangeId: string, color: number, newName: string) {
+    const exchange = await this.prismaService.exchange.update({
+      where: { id: exchangeId },
+      data: {
+        colour: color,
+        name: newName,
+      },
+    });
+    return exchange;
+  }
+
   async deleteExchange(exchangeId: string) {
     const exchange = await this.prismaService.exchange.delete({
       where: { id: exchangeId },

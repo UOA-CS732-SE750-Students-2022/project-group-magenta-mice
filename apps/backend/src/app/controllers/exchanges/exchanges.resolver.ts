@@ -61,6 +61,14 @@ export class ExchangesResolver {
   }
 
   @Mutation(() => Exchange)
+  async editExchange(
+    @Args("exchangeId") exchangeId: string,
+    @Args("exchangeData") exchangeData: CreateExchangeInput,
+  ) {
+    return await this.exchangesService.editExchange(exchangeId, exchangeData);
+  }
+
+  @Mutation(() => Exchange)
   async deleteExchange(@Args("exchangeId") exchangeId: string) {
     return await this.exchangesService.deleteExchange(exchangeId);
   }

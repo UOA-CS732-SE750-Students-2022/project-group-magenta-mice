@@ -1,8 +1,12 @@
-import { Permission } from "@simulate-exchange/gql";
-import { useDeleteExchangeMutation } from "@simulate-exchange/gql";
-import React, { useCallback } from "react";
+import {
+  Permission,
+  useDeleteExchangeMutation,
+  useEditExchangeMutation,
+} from "@simulate-exchange/gql";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import Router from "next/router";
+import { ColorSelect } from "../../..";
 
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
@@ -10,6 +14,7 @@ interface OverviewSettingsProps {
     __typename?: "Exchange";
     public: boolean;
     name: string;
+    colour: number;
     userPermissions: {
       __typename?: "UserPermission";
       id: string;
@@ -38,6 +43,9 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   currentExchange,
   exchangeID,
 }) => {
+  const { setNewExchangeName, newColor, setnewColor, handleEditExchange } =
+    useController(currentExchange.name, currentExchange.colour, exchangeID);
+
   const [deleteExchange, { loading }] = useDeleteExchangeMutation();
 
   const handleDeleteExchange = useCallback(async () => {
@@ -63,16 +71,32 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
         Overview
       </p>
-      <p className="pt-2 text-gray-200">Exchange Name</p>
-      <div>
-        <input
-          className="mt-2 w-1/3 rounded-md bg-neutral-800 p-2 text-lg text-gray-200"
-          defaultValue={currentExchange?.name}
-        ></input>
-        <button className="ml-4 rounded-md bg-emerald-600 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-emerald-500">
-          Change
+      <div className="mt-4 w-1/3 rounded-md bg-neutral-800 p-5">
+        <p className="text-gray-200">Exchange Name</p>
+        <div>
+          <input
+            className="mt-2 w-full rounded-md bg-neutral-700 p-2 text-lg text-gray-200  "
+            defaultValue={currentExchange?.name}
+            onChange={(e) => setNewExchangeName(e.target.value)}
+          ></input>
+        </div>
+        <div className="mt-4">
+          <p className="mb-2 text-gray-200">Color</p>
+          <div className="float-left">
+            <ColorSelect
+              selectedColor={newColor}
+              setSelectedColor={setnewColor}
+            />
+          </div>
+        </div>
+        <button
+          className="mt-4 w-full rounded-md bg-emerald-600 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-emerald-500"
+          onClick={handleEditExchange}
+        >
+          Update Exchange
         </button>
       </div>
+
       <p className="mt-4 text-gray-200">Potentially data graphics here</p>
 
       <button
@@ -86,13 +110,36 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   );
 };
 
-export const useOverviewSettingsController = () => {
-  return {};
-};
+export const useOverviewSettingsController = (
+  currentExchangeName: string,
+  currentExchangeColor: number,
+  exchangeID: string,
+) => {
+  const [newExchangeName, setNewExchangeName] = useState(currentExchangeName);
+  const [newColor, setnewColor] = useState(currentExchangeColor);
 
-export const useMockOverviewSettingsController: typeof useOverviewSettingsController =
-  () => {
-    return {};
-  };
+  const [editExchange] = useEditExchangeMutation();
+
+  const handleEditExchange = useCallback(async () => {
+    try {
+      const promise = editExchange({
+        variables: {
+          id: exchangeID,
+          name: newExchangeName,
+          color: newColor,
+        },
+      });
+      toast.promise(promise, {
+        pending: "Editing Exchange...",
+        success: "Successfully Edited Exchange!",
+        error: "Failed to Edit Exchange.",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [editExchange, exchangeID, newExchangeName, newColor]);
+
+  return { setNewExchangeName, newColor, setnewColor, handleEditExchange };
+};
 
 export default OverviewSettings;

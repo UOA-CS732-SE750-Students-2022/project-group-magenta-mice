@@ -44,6 +44,14 @@ export class ExchangesService {
     );
   }
 
+  async editExchange(exchangeId: string, exchange: CreateExchangeInput) {
+    return await this.exchangeStore.editExchange(
+      exchangeId,
+      exchange.exchangeColor,
+      exchange.exchangeName,
+    );
+  }
+
   async deleteExchange(exchangeId: string) {
     return await this.exchangeStore.deleteExchange(exchangeId);
   }

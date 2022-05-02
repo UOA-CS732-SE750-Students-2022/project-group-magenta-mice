@@ -85,6 +85,7 @@ export type Mutation = {
   createUser: User;
   deleteExchange: Exchange;
   deleteInstrument: Instrument;
+  editExchange: Exchange;
   editInstrument: Instrument;
   joinExchange: UserPermission;
 };
@@ -112,6 +113,11 @@ export type MutationDeleteExchangeArgs = {
 
 export type MutationDeleteInstrumentArgs = {
   instrumentId: Scalars["String"];
+};
+
+export type MutationEditExchangeArgs = {
+  exchangeData: CreateExchangeInput;
+  exchangeId: Scalars["String"];
 };
 
 export type MutationEditInstrumentArgs = {
@@ -172,6 +178,7 @@ export type FindExchangeQuery = {
     __typename?: "Exchange";
     public: boolean;
     name: string;
+    colour: number;
     userPermissions: Array<{
       __typename?: "UserPermission";
       id: string;
@@ -319,6 +326,22 @@ export type DeleteExchangeMutation = {
   deleteExchange: { __typename?: "Exchange"; id: string };
 };
 
+export type EditExchangeMutationVariables = Exact<{
+  id: Scalars["String"];
+  name: Scalars["String"];
+  color: Scalars["Int"];
+}>;
+
+export type EditExchangeMutation = {
+  __typename?: "Mutation";
+  editExchange: {
+    __typename?: "Exchange";
+    id: string;
+    name: string;
+    colour: number;
+  };
+};
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CurrentUserQuery = {
@@ -366,6 +389,7 @@ export const FindExchangeDocument = gql`
     exchange(id: $id) {
       public
       name
+      colour
       userPermissions {
         id
         user {
@@ -966,6 +990,63 @@ export type DeleteExchangeMutationResult =
 export type DeleteExchangeMutationOptions = Apollo.BaseMutationOptions<
   DeleteExchangeMutation,
   DeleteExchangeMutationVariables
+>;
+export const EditExchangeDocument = gql`
+  mutation EditExchange($id: String!, $name: String!, $color: Int!) {
+    editExchange(
+      exchangeId: $id
+      exchangeData: { exchangeColor: $color, exchangeName: $name }
+    ) {
+      id
+      name
+      colour
+    }
+  }
+`;
+export type EditExchangeMutationFn = Apollo.MutationFunction<
+  EditExchangeMutation,
+  EditExchangeMutationVariables
+>;
+
+/**
+ * __useEditExchangeMutation__
+ *
+ * To run a mutation, you first call `useEditExchangeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditExchangeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editExchangeMutation, { data, loading, error }] = useEditExchangeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      color: // value for 'color'
+ *   },
+ * });
+ */
+export function useEditExchangeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EditExchangeMutation,
+    EditExchangeMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EditExchangeMutation,
+    EditExchangeMutationVariables
+  >(EditExchangeDocument, options);
+}
+export type EditExchangeMutationHookResult = ReturnType<
+  typeof useEditExchangeMutation
+>;
+export type EditExchangeMutationResult =
+  Apollo.MutationResult<EditExchangeMutation>;
+export type EditExchangeMutationOptions = Apollo.BaseMutationOptions<
+  EditExchangeMutation,
+  EditExchangeMutationVariables
 >;
 export const CurrentUserDocument = gql`
   query CurrentUser {

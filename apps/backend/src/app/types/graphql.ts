@@ -89,6 +89,7 @@ export interface IMutation {
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
     createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
+    editExchange(exchangeId: string, exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
     deleteExchange(exchangeId: string): Exchange | Promise<Exchange>;
     addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
     editInstrument(exchangeId: string, instrumentId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;

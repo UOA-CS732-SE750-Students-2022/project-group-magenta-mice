@@ -2,6 +2,7 @@ query FindExchange($id: ID!) {
   exchange(id: $id) {
     public
     name
+    colour
     userPermissions {
       id
       user {
@@ -129,5 +130,16 @@ mutation CreateExchange($name: String!, $color: Int!) {
 mutation DeleteExchange($id: String!) {
   deleteExchange(exchangeId: $id) {
     id
+  }
+}
+
+mutation EditExchange($id: String!, $name: String!, $color: Int!) {
+  editExchange(
+    exchangeId: $id
+    exchangeData: { exchangeColor: $color, exchangeName: $name }
+  ) {
+    id
+    name
+    colour
   }
 }

@@ -60,6 +60,7 @@ type Mutation {
   joinExchange(id: String!): UserPermission!
   createTestExchange: Exchange!
   createExchange(exchangeData: CreateExchangeInput!): Exchange!
+  editExchange(exchangeId: String!, exchangeData: CreateExchangeInput!): Exchange!
   deleteExchange(exchangeId: String!): Exchange!
   addInstrument(exchangeId: String!, instrument: AddInstrumentDto!): Instrument!
   editInstrument(exchangeId: String!, instrumentId: String!, instrument: AddInstrumentDto!): Instrument!
