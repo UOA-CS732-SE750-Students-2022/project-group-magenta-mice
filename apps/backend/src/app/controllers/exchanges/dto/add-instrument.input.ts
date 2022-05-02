@@ -13,4 +13,10 @@ export class AddInstrumentDto {
 
   @Field(() => Int)
   tickSizeMin: number;
+
+  @Field(() => Int)
+  bondFixedPrice: number;
+
+  @Field(() => Int)
+  bondVolatility: number;
 }

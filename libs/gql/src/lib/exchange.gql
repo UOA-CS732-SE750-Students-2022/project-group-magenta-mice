@@ -2,6 +2,7 @@ query FindExchange($id: ID!) {
   exchange(id: $id) {
     public
     name
+    colour
     userPermissions {
       id
       user {
@@ -13,7 +14,13 @@ query FindExchange($id: ID!) {
       permission
     }
     instruments {
+      id
+      instrumentType
       name
+      tickSizeMin
+      positionLimit
+      bondFixedPrice
+      bondVolatility
     }
   }
 }
@@ -24,6 +31,8 @@ mutation AddInstrument(
   $name: String!
   $positionLimit: Int!
   $tickSize: Int!
+  $bondFixedPrice: Int!
+  $bondVolatility: Int!
 ) {
   addInstrument(
     exchangeId: $exchangeId
@@ -32,8 +41,52 @@ mutation AddInstrument(
       name: $name
       positionLimit: $positionLimit
       tickSizeMin: $tickSize
+      bondFixedPrice: $bondFixedPrice
+      bondVolatility: $bondVolatility
     }
-  )
+  ) {
+    id
+    name
+    tickSizeMin
+    positionLimit
+    bondFixedPrice
+    bondVolatility
+  }
+}
+mutation EditInstrument(
+  $exchangeId: String!
+  $instrumentId: String!
+  $instrumentType: String!
+  $name: String!
+  $positionLimit: Int!
+  $tickSize: Int!
+  $bondFixedPrice: Int!
+  $bondVolatility: Int!
+) {
+  editInstrument(
+    exchangeId: $exchangeId
+    instrumentId: $instrumentId
+    instrument: {
+      instrumentType: $instrumentType
+      name: $name
+      positionLimit: $positionLimit
+      tickSizeMin: $tickSize
+      bondFixedPrice: $bondFixedPrice
+      bondVolatility: $bondVolatility
+    }
+  ) {
+    id
+    name
+    tickSizeMin
+    positionLimit
+    bondFixedPrice
+    bondVolatility
+  }
+}
+mutation DeleteInstrument($id: String!) {
+  deleteInstrument(instrumentId: $id) {
+    id
+  }
 }
 
 mutation CreateInvite($exchangeId: String!, $userId: String!) {
@@ -78,5 +131,22 @@ mutation CreateExchange($name: String!, $color: Int!) {
     userPermissions {
       id
     }
+  }
+}
+
+mutation DeleteExchange($id: String!) {
+  deleteExchange(exchangeId: $id) {
+    id
+  }
+}
+
+mutation EditExchange($id: String!, $name: String!, $color: Int!) {
+  editExchange(
+    exchangeId: $id
+    exchangeData: { exchangeColor: $color, exchangeName: $name }
+  ) {
+    id
+    name
+    colour
   }
 }

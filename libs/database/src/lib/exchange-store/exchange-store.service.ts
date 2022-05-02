@@ -129,6 +129,24 @@ export class ExchangeStoreService {
     return exchange;
   }
 
+  async editExchange(exchangeId: string, color: number, newName: string) {
+    const exchange = await this.prismaService.exchange.update({
+      where: { id: exchangeId },
+      data: {
+        colour: color,
+        name: newName,
+      },
+    });
+    return exchange;
+  }
+
+  async deleteExchange(exchangeId: string) {
+    const exchange = await this.prismaService.exchange.delete({
+      where: { id: exchangeId },
+    });
+    return exchange;
+  }
+
   async addInstrument(
     exchangeId: string,
     data: {
@@ -138,15 +156,38 @@ export class ExchangeStoreService {
       tickSizeMin: number;
     },
   ) {
-    await this.prismaService.exchange.update({
-      where: { id: exchangeId },
+    const instrument = await this.prismaService.instrument.create({
       data: {
-        instruments: {
-          create: {
-            ...data,
-          },
-        },
+        exchangeId,
+        ...data,
       },
     });
+    return instrument;
+  }
+  async editInstrument(
+    exchangeId: string,
+    instrumentId: string,
+    data: {
+      instrumentType: InstrumentType;
+      name: string;
+      positionLimit: number;
+      tickSizeMin: number;
+    },
+  ) {
+    const instrument = await this.prismaService.instrument.update({
+      where: { id: instrumentId },
+      data: {
+        exchangeId,
+        ...data,
+      },
+    });
+    return instrument;
+  }
+
+  async deleteInstrument(instrumentId: string) {
+    const instrument = await this.prismaService.instrument.delete({
+      where: { id: instrumentId },
+    });
+    return instrument;
   }
 }

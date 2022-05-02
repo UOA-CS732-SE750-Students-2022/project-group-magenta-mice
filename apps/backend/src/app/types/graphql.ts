@@ -7,6 +7,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum InstrumentType {
+    BOND = "BOND",
+    STOCK = "STOCK"
+}
+
 export enum Permission {
     ADMIN = "ADMIN",
     USER = "USER"
@@ -34,13 +39,18 @@ export interface AddInstrumentDto {
     name: string;
     positionLimit: number;
     tickSizeMin: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
 }
 
 export interface Instrument {
     id: string;
+    instrumentType: InstrumentType;
     name: string;
     tickSizeMin: number;
     positionLimit: number;
+    bondFixedPrice: number;
+    bondVolatility: number;
 }
 
 export interface Exchange {
@@ -87,7 +97,11 @@ export interface IMutation {
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
     createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
-    addInstrument(exchangeId: string, instrument: AddInstrumentDto): boolean | Promise<boolean>;
+    editExchange(exchangeId: string, exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
+    deleteExchange(exchangeId: string): Exchange | Promise<Exchange>;
+    addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
+    editInstrument(exchangeId: string, instrumentId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
+    deleteInstrument(instrumentId: string): Instrument | Promise<Instrument>;
 }
 
 type Nullable<T> = T | null;

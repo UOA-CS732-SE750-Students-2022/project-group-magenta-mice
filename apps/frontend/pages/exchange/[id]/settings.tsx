@@ -6,53 +6,36 @@ import {
   useOverviewSettingsController,
   PermissionSettings,
   usePermissionSettingsController,
+  Loading,
   useMockPermissionSettingsController,
 } from "@simulate-exchange/components";
-import { useEmoji } from "@simulate-exchange/hooks";
+import {
+  useEmoji,
+  useFullLoader,
+  useLoggedInRedirect,
+} from "@simulate-exchange/hooks";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useFindExchangeQuery } from "@simulate-exchange/gql";
 
-export const Settings = () => {
+export default function Settings() {
+  const { loggedIn, loading, user } = useLoggedInRedirect();
+  useFullLoader(loading);
+
+  return <>{loggedIn ? <SettingsComponent user={user} /> : <></>}</>;
+}
+
+const SettingsComponent = ({ user }) => {
   const router = useRouter();
   const { id } = router.query;
+  const { data, loading } = useFindExchangeQuery({
+    variables: {
+      id: id.toString(),
+    },
+  });
 
-  const currentInstruments = [
-    {
-      name: "ABCD",
-      type: "Bond",
-    },
-    {
-      name: "FGGH",
-      type: "Bond",
-    },
-    {
-      name: "AAPL",
-      type: "Bond",
-    },
-    {
-      name: "QQQ",
-      type: "Stock",
-    },
-  ];
-  const exchangeList = [
-    {
-      name: "New York Stock Exchange",
-      id: "1",
-      instruments: { currentInstruments },
-    },
-    {
-      name: "London Stock Exchange",
-      id: "2",
-      instruments: { currentInstruments },
-    },
-    {
-      name: "Paris Stock Exchange",
-      id: "3",
-      instruments: { currentInstruments },
-    },
-  ];
-
+  const currentExchange = data?.exchange;
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
   const Check = useEmoji("✅", "2rem");
@@ -61,6 +44,9 @@ export const Settings = () => {
   const [selectedSettings, setSelectedSettings] =
     useState<SettingsPage>("Overview");
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <Layout.Page
       sidebar={
@@ -91,13 +77,22 @@ export const Settings = () => {
     >
       <div className="flex flex-col">
         <p className="flex items-center gap-x-4 text-gray-400">
-          exchangename {">"} settings
+          {currentExchange?.name} {">"} settings
         </p>
+
         {selectedSettings === "Overview" && (
-          <OverviewSettings useController={useOverviewSettingsController} />
+          <OverviewSettings
+            currentExchange={currentExchange}
+            exchangeID={id.toString()}
+            useController={useOverviewSettingsController}
+          />
         )}
         {selectedSettings === "Instruments" && (
-          <InstrumentSettings useController={useInstrumentSettingsController} />
+          <InstrumentSettings
+            useController={useInstrumentSettingsController}
+            exchangeId={id.toString()}
+            instruments={currentExchange?.instruments}
+          />
         )}
         {selectedSettings === "Permissions" && (
           <PermissionSettings useController={usePermissionSettingsController} />
@@ -106,5 +101,3 @@ export const Settings = () => {
     </Layout.Page>
   );
 };
-
-export default Settings;
