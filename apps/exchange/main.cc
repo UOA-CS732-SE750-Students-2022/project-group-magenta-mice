@@ -24,15 +24,6 @@ int main(int argc, char* argv[])
 
     Sim::Db::Connection dbService{ dbString };
 
-    auto result = dbService.exec([](pqxx::work& W) {
-        return W.exec_params("SELECT * FROM public.\"User\" WHERE id=$1", "u5aJQIpSWWRsLktczu0XVWMjWZH3");
-    });
-
-    for (const auto& r : result)
-    {
-        std::cout << r[1].as<std::string>() << '\n';
-    }
-
     io::io_context ioContext;
     Sim::Net::ExchangeServer server(ioContext, port, exchangeId, dbService);
 
@@ -50,7 +41,6 @@ int main(int argc, char* argv[])
         server.sendPriceFeed();
         server.getExchange().printBooks();
     });
-    // .getExchange().printBooks();
 
     server.acceptSocket();
     ioContext.run();

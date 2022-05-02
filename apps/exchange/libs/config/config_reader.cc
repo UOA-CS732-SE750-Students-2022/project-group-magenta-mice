@@ -27,9 +27,10 @@ namespace Sim::Config
             auto name = instrument["name"].GetString();
             auto positionLimit = instrument["positionLimit"].GetUint();
             auto tickSizeCents = instrument["tickSize"].GetUint();
+            auto identifier = instrument["id"].GetString();
 
-            instrumentVector.emplace_back(
-                Instrument{ .mName = name, .mPositionLimit = positionLimit, .mTickSizeCents = tickSizeCents });
+            instrumentVector.emplace_back(Instrument{
+                .mName = name, .mPositionLimit = positionLimit, .mTickSizeCents = tickSizeCents, .mId = identifier });
         }
 
         auto dbString = document["database"].GetString();

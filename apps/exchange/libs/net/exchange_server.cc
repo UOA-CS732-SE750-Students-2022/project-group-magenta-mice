@@ -43,8 +43,8 @@ namespace Sim::Net
                 std::make_unique<MessageParser>(*client, [this](const std::string& key) -> std::optional<std::string> {
                     auto result = this->mDb.exec([this, key](pqxx::work& work) {
                         return work.exec_params(
-                            "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".id=$1 AND "
-                            "public.\"UserPermission\".\"exchangeId\"=$2",
+                            "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
+                            "AND public.\"UserPermission\".\"exchangeId\"=$2",
                             key,
                             this->mExchangeId);
                     });
@@ -54,7 +54,9 @@ namespace Sim::Net
                     }
                     else
                     {
-                        return result[0]["userid"].as<std::string>();
+                        const auto& userId = result[0]["\"userId\""].as<std::string>();
+                        std::cout << "User " << userId << " logged in" << std::endl;
+                        return userId;
                     }
                 }));
 
