@@ -14,6 +14,7 @@ if __name__ == '__main__':
         instrument_id=0,
         init_price=100, 
         volatility=10, 
+        key='example_key',
         max_position_limit=10,
     )
     

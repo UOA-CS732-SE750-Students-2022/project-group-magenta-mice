@@ -81,7 +81,6 @@ class RunningState(State):
         raise Exception('Client already running')
 
     def send_insert_request(self, insert_order: InsertOrder) -> None:
-        insert_order.instrument_id = self.instrument_id
         ser_insert_order = insert_order.serialize_to_string()
         
         # message type + content length + content

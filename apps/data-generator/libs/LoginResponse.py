@@ -12,7 +12,6 @@ class LoginResponse:
             self.ticker = instrument.ticker
             self.position_limit = instrument.positionLimit
             self.tick_size_in_cents = instrument.tickSizeInCents
-            print(self.id)
         
         def get_id(self) -> int:
             return self.id

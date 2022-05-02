@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import  time, random
-
 from .generators.DataGenerator import DataGenerator
 from .generators.BondPriceGeneratorStrategy import BondPriceGeneratorStrategy
 
@@ -14,10 +13,12 @@ class DataServer:
     """
 
     def __init__(
-        self, instrument_id: int,
+        self,
         init_price: int, 
         volatility: int, 
         max_position_limit: int,
+        key: str,
+        instrument_id: int,
         hostname: str = '127.0.0.1',
         port: int = 15001
         ):
@@ -25,8 +26,9 @@ class DataServer:
         Instantiate socket to be used.
         """
         
-        self.exch_client = ExchangeClient(hostname=hostname, port=port)
-
+        self.exchange_client = ExchangeClient(hostname=hostname, port=port)
+        login_response = self.exchange_client.send_login_request(key)
+        
         self.instrument_id = instrument_id
         self.max_position_limit = max_position_limit
 
@@ -41,12 +43,12 @@ class DataServer:
         )
 
     def run(self):
-  
+        self.exchange_client.run()
         while True:
             try:
                 buy_price, sell_price = self.data_generator.generate_data()
                 
-                self.exch_client.send_insert_request(
+                self.exchange_client.send_insert_request(
                     InsertOrder(
                         volume=self.max_position_limit * 10,
                         price=buy_price,
@@ -57,7 +59,7 @@ class DataServer:
                     )
                 )
                 
-                self.exch_client.send_insert_request(
+                self.exchange_client.send_insert_request(
                     InsertOrder(
                         volume=self.max_position_limit * 10,
                         price=sell_price,
