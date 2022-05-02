@@ -7,6 +7,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum InstrumentType {
+    BOND = "BOND",
+    STOCK = "STOCK"
+}
+
 export enum Permission {
     ADMIN = "ADMIN",
     USER = "USER"
@@ -40,6 +45,7 @@ export interface AddInstrumentDto {
 
 export interface Instrument {
     id: string;
+    instrumentType: InstrumentType;
     name: string;
     tickSizeMin: number;
     positionLimit: number;

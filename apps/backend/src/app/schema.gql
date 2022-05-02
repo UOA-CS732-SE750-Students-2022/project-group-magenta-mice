@@ -4,11 +4,17 @@
 
 type Instrument {
   id: ID!
+  instrumentType: InstrumentType!
   name: String!
   tickSizeMin: Int!
   positionLimit: Int!
   bondFixedPrice: Int!
   bondVolatility: Int!
+}
+
+enum InstrumentType {
+  BOND
+  STOCK
 }
 
 type Exchange {

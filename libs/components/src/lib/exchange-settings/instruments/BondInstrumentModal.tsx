@@ -186,18 +186,6 @@ export const useBondInstrumentModalController = (
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
         },
-        optimisticResponse: {
-          __typename: "Mutation",
-          addInstrument: {
-            __typename: "Instrument",
-            id: instrumentId,
-            name: newName,
-            positionLimit: parseInt(newPositionLimit),
-            tickSizeMin: parseInt(newTickSize),
-            bondFixedPrice: parseInt(newFixedPrice),
-            bondVolatility: parseInt(newVolatility),
-          },
-        },
       });
 
       toast.promise(promise, {
@@ -217,7 +205,6 @@ export const useBondInstrumentModalController = (
     newTickSize,
     newFixedPrice,
     newVolatility,
-    instrumentId,
     handleCloseModal,
   ]);
 
@@ -233,18 +220,6 @@ export const useBondInstrumentModalController = (
           tickSize: parseInt(newTickSize),
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
-        },
-        optimisticResponse: {
-          __typename: "Mutation",
-          editInstrument: {
-            __typename: "Instrument",
-            id: instrumentId,
-            name: newName,
-            positionLimit: parseInt(newPositionLimit),
-            tickSizeMin: parseInt(newTickSize),
-            bondFixedPrice: parseInt(newFixedPrice),
-            bondVolatility: parseInt(newVolatility),
-          },
         },
       });
 

@@ -1,3 +1,4 @@
+import { InstrumentType } from "@prisma/client";
 import React, { useState } from "react";
 import { InstrumentCard, useInstrumentCardController } from "../../../index";
 import AddInstrumentsModal, {
@@ -13,6 +14,7 @@ interface InstrumentSettingsProps {
   instruments: {
     __typename?: "Instrument";
     id: string;
+    instrumentType: InstrumentType;
     name: string;
     tickSizeMin: number;
     positionLimit: number;

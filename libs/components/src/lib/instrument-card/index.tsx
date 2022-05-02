@@ -4,6 +4,7 @@ import { ReactComponent as ChevronRight } from "../../../../../libs/assets/src/l
 import BondInstrumentModal, {
   useBondInstrumentModalController,
 } from "../exchange-settings/instruments/BondInstrumentModal";
+import { InstrumentType } from "@prisma/client";
 
 export interface InstrumentCardProps {
   useController: typeof useInstrumentCardController;
@@ -11,13 +12,13 @@ export interface InstrumentCardProps {
   instrument?: {
     __typename?: "Instrument";
     id: string;
+    instrumentType: InstrumentType;
     name: string;
     tickSizeMin: number;
     positionLimit: number;
     bondFixedPrice: number;
     bondVolatility: number;
   };
-  type?: string;
   isAddCard?: boolean;
   onClick?: () => void;
 }
@@ -26,7 +27,6 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
   useController,
   exchangeId,
   instrument,
-  type,
   isAddCard,
   onClick,
 }) => {
@@ -65,7 +65,9 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
               <div className="text-lg font-bold text-gray-200 lg:text-2xl">
                 ${instrument?.name.toUpperCase()}
               </div>
-              <div className="text-sm text-gray-400">{type}</div>
+              <div className="text-sm text-gray-400">
+                {instrument?.instrumentType}
+              </div>
             </div>
             <div className="flex h-full w-full items-center justify-end gap-x-2 text-lg text-gray-400">
               Manage <ChevronRight />

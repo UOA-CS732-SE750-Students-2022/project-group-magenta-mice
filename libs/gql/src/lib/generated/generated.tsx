@@ -58,10 +58,16 @@ export type Instrument = {
   bondFixedPrice: Scalars['Int'];
   bondVolatility: Scalars['Int'];
   id: Scalars['ID'];
+  instrumentType: InstrumentType;
   name: Scalars['String'];
   positionLimit: Scalars['Int'];
   tickSizeMin: Scalars['Int'];
 };
+
+export enum InstrumentType {
+  Bond = 'BOND',
+  Stock = 'STOCK'
+}
 
 export type Invite = {
   __typename?: 'Invite';
@@ -186,7 +192,7 @@ export type FindExchangeQueryVariables = Exact<{
 }>;
 
 
-export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null } }>, instruments: Array<{ __typename?: 'Instrument', id: string, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number }> } };
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null } }>, instruments: Array<{ __typename?: 'Instrument', id: string, instrumentType: InstrumentType, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number }> } };
 
 export type AddInstrumentMutationVariables = Exact<{
   exchangeId: Scalars['String'];
@@ -315,6 +321,7 @@ export const FindExchangeDocument = gql`
     }
     instruments {
       id
+      instrumentType
       name
       tickSizeMin
       positionLimit
