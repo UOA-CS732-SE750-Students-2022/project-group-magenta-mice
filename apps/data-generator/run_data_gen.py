@@ -1,4 +1,5 @@
 from src.DataServer import DataServer
+
 import argparse
 
 if __name__ == '__main__':
@@ -9,18 +10,14 @@ if __name__ == '__main__':
                         )
     args = parser.parse_args()
 
-    instrument_id = 0
-    init_price=100
-    volatility=1 
-    max_position_limit = 10
-
     ds = DataServer(
-        instrument_id, 
-        init_price, 
-        volatility, 
-        max_position_limit
+        instrument_id=0,
+        init_price=100, 
+        volatility=10, 
+        key='example_key',
+        max_position_limit=10,
     )
-
+    
     if args.log:
         ds.log_orders()
     else:

@@ -24,6 +24,14 @@ class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
         self._random = random
     
     def generate_prices(self, trend: TrendManager) -> List[int]:
+        """_summary_
+
+        Args:
+            trend (TrendManager): Ignored.
+
+        Returns:
+            List[int]: _description_
+        """
         theo = int(norm.rvs(self._init_price, self._sigma))
 
         # buy and sell prices will fluctuate a little bit 
