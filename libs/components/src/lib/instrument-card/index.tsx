@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useEmoji } from "@simulate-exchange/hooks";
 import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
+import { ReactComponent as ChevronRight } from "../../../../../libs/assets/src/lib/chevron-right.svg";
 import BondInstrumentModal, {
   useBondInstrumentModalController,
 } from "../exchange-settings/instruments/BondInstrumentModal";
@@ -30,8 +30,6 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
   isAddCard,
   onClick,
 }) => {
-  const Arrow = useEmoji("▶", "1rem");
-
   const [isEditBondInstrumentsModalOpen, setIsEditBondInstrumentsModalOpen] =
     useState(false);
 
@@ -65,12 +63,12 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col">
               <div className="text-lg font-bold text-gray-200 lg:text-2xl">
-                {instrument?.name}
+                ${instrument?.name.toUpperCase()}
               </div>
               <div className="text-sm text-gray-400">{type}</div>
             </div>
             <div className="flex h-full w-full items-center justify-end gap-x-2 text-lg text-gray-400">
-              Manage <Arrow />
+              Manage <ChevronRight />
             </div>
           </div>
         </div>
