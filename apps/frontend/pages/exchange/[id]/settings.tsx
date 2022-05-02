@@ -7,6 +7,7 @@ import {
   PermissionSettings,
   usePermissionSettingsController,
   Loading,
+  useMockPermissionSettingsController,
 } from "@simulate-exchange/components";
 import {
   useEmoji,

@@ -4,6 +4,7 @@ query CurrentUser {
     profilePicUrl
     userPermissions {
       id
+      apiKey
       permission
       exchange {
         id
@@ -20,9 +21,19 @@ query CurrentUser {
   }
 }
 
-mutation CreateUser($name: String!, $email: String!, $profilePicUrl: String, $id: ID!) {
+mutation CreateUser(
+  $name: String!
+  $email: String!
+  $profilePicUrl: String
+  $id: ID!
+) {
   createUser(
-    createUserInput: { name: $name, email: $email, profilePicUrl: $profilePicUrl, id: $id }
+    createUserInput: {
+      name: $name
+      email: $email
+      profilePicUrl: $profilePicUrl
+      id: $id
+    }
   ) {
     name
     email

@@ -2,13 +2,28 @@
 
 ## Docker Development
 
-Note: Due to an apparent bug in NX + Nest, the docker container will not work.
-You can use it for a postgres instance, but unfortunately not for serving the
-applications.
+You can use the Visual Studio Code Remote Docker Extension to develop this
+application in a docker container. This will allow you to get started with all
+the needed dependencies already running.
 
-~~You can use the Visual Studio Code Remote Docker Extension to develop this~~
-~~application in a docker container. This will allow you to get started with all~~
-~~the needed dependencies already running.~~
+1. You will need the Containers extension.
+2. Reopen the folder in the container
+3. Create `.env.local` with the Postgresql connection string. The default
+   connection string for the docker Postgres container is
+   `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"`
+4. Ensure any dependencies are installed `npm i`, you may need `npm i --force`
+   for peer dependency warnings.
+5. Run `sudo npm prisma:migrate-dev` to prepare your database schema.
+6. Run the application. You may need sudo privileges i.e. `sudo npm start`.
+
+### Notes
+
+- The dev container should also allow you to build the C++ exchange without any
+  configuration. The `debug.sh` script should allow you to build the
+  application, which creates the `./build/exchange` artifact.
+
+- `sudo` seems to be required for the above actions. You are welcome to try
+  without it but it would not work otherwise for me.
 
 ## Prerequisites if Not Using Docker
 
@@ -42,3 +57,14 @@ The table below shows the content that is served when running `npm start`.
 | Storybook | <http://localhost:4400> |
 | Backend   | <http://localhost:3333> |
 | DB Studio | <http://localhost:5555> |
+
+## Development Processes
+
+- Updating the database schema will require a migration. After editing the
+  schema file, run `npm run prisma:migrate-dev`.
+- After modifying the frontend GraphQL query definitions in the `lib/gql`
+  directory, you will need to manually run the generator to update the typings
+  and generated code, `npm run gql:generate`.
+- After producing components inside either the `hooks` or `components`
+  libraries, you can run `index:generate` to automatically export these modules
+  to the `index.ts` file and hence available to other libraries or applications.

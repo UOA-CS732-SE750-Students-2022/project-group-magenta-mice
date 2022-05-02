@@ -56,6 +56,7 @@ const AuthComponent = ({ user }) => {
             )}
             participants={permission.exchange.userPermissions.length}
             isAddCard={false}
+            id={permission.exchange.id}
           />
         ))}
         <ExchangeCard isAddCard={true} />

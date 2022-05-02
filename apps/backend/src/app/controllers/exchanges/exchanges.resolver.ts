@@ -40,6 +40,19 @@ export class ExchangesResolver {
   }
 
   @Mutation(() => UserPermission)
+  async generateApiKey(
+    @CurrentUser() name: DecodedIdToken,
+    @Args("exchangeId") exchangeId: string,
+    @Args("forceNew") forceNew?: boolean,
+  ) {
+    return await this.exchangesService.generateApiKey(
+      name.uid,
+      exchangeId,
+      forceNew,
+    );
+  }
+
+  @Mutation(() => UserPermission)
   async joinExchange(
     @CurrentUser() name: DecodedIdToken,
     @Args("id") inviteId: string,

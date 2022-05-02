@@ -110,6 +110,7 @@ export const useCreateExchangeModalController = (
                       __typename: "UserPermission",
                       id: result?.createExchange.userPermissions[0]?.id,
                       permission: Permission.Admin,
+                      apiKey: "unused",
                       exchange: {
                         __typename: "Exchange",
                         id: result?.createExchange.id,

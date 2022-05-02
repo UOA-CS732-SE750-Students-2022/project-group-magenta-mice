@@ -102,6 +102,12 @@ query CheckInvite($id: ID!) {
   checkInvite(id: $id)
 }
 
+mutation GenerateApiKey($exchangeId: String!, $forceNew: Boolean!) {
+  generateApiKey(exchangeId: $exchangeId, forceNew: $forceNew) {
+    apiKey
+  }
+}
+
 mutation JoinExchange($id: String!) {
   joinExchange(id: $id) {
     exchange {

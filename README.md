@@ -1,5 +1,15 @@
 # Simulate.Exchange
 
+<p align="center">
+  <img src="./media/logo/logo.svg?raw=true" width="350" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg">
+    <img alt="Build Status" src="https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg">
+  </a>
+</p>
+
 This project was generated using [Nx](https://nx.dev).
 
 ## Structure

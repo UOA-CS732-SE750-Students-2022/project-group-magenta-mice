@@ -1,5 +1,6 @@
 import { useEmoji } from "@simulate-exchange/hooks";
 import cx from "classnames";
+import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import { ReactComponent as PlusSign } from "../../../../../libs/assets/src/lib/plus-sign.svg";
 import CreateExchangeModal, {
@@ -13,6 +14,7 @@ export interface ExchangeCardProps {
   currentInstruments?: { name: string; type: string }[];
   profitLoss?: number;
   participants?: number;
+  id?: string;
 }
 
 export const ExchangeCard: React.FC<ExchangeCardProps> = ({
@@ -39,6 +41,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
   ],
   profitLoss = 2000,
   participants = 2,
+  id,
 }) => {
   const [isOpen, setOpen] = useState(false);
 
@@ -52,6 +55,8 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       minimumFractionDigits: 0,
     }).format(money);
   }, []);
+
+  const router = useRouter();
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -90,7 +95,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             color,
             "h-48 w-full cursor-pointer rounded-lg p-4 transition-all hover:brightness-110",
           )}
-          //onclick route to exchange settings with id via: exchange/id/settings
+          onClick={() => router.push("/exchange/" + id + "/settings")}
         >
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col justify-between">

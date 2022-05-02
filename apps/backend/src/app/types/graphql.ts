@@ -58,6 +58,7 @@ export interface Exchange {
 
 export interface UserPermission {
     id: string;
+    apiKey: string;
     exchange: Exchange;
     user: User;
     permission: Permission;
@@ -86,6 +87,7 @@ export interface IQuery {
 export interface IMutation {
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     createInvite(createInviteInput: CreateInviteInput): Invite | Promise<Invite>;
+    generateApiKey(exchangeId: string, forceNew: boolean): UserPermission | Promise<UserPermission>;
     joinExchange(id: string): UserPermission | Promise<UserPermission>;
     createTestExchange(): Exchange | Promise<Exchange>;
     createExchange(exchangeData: CreateExchangeInput): Exchange | Promise<Exchange>;
