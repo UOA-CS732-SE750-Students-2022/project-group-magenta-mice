@@ -1,4 +1,6 @@
 import {
+  CurrentUserDocument,
+  FindExchangeDocument,
   Permission,
   useDeleteExchangeMutation,
   useEditExchangeMutation,
@@ -54,6 +56,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         variables: {
           id: exchangeID,
         },
+        refetchQueries: [CurrentUserDocument],
       });
       toast.promise(promise, {
         pending: "Deleting Exchange...",
@@ -128,6 +131,7 @@ export const useOverviewSettingsController = (
           name: newExchangeName,
           color: newColor,
         },
+        refetchQueries: [FindExchangeDocument],
       });
       toast.promise(promise, {
         pending: "Editing Exchange...",

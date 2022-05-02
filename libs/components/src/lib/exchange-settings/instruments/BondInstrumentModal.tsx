@@ -4,6 +4,8 @@ import {
   useAddInstrumentMutation,
   useEditInstrumentMutation,
   useDeleteInstrumentMutation,
+  EditInstrumentDocument,
+  FindExchangeDocument,
 } from "@simulate-exchange/gql";
 import { toast } from "react-toastify";
 
@@ -55,6 +57,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
         variables: {
           id: instrument ? instrument.id : Math.random.toString(),
         },
+        refetchQueries: [FindExchangeDocument],
       });
       toast.promise(promise, {
         pending: "Deleting Instrument...",
@@ -186,6 +189,7 @@ export const useBondInstrumentModalController = (
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
         },
+        refetchQueries: [FindExchangeDocument],
       });
 
       toast.promise(promise, {
@@ -221,6 +225,7 @@ export const useBondInstrumentModalController = (
           bondFixedPrice: parseInt(newFixedPrice),
           bondVolatility: parseInt(newVolatility),
         },
+        refetchQueries: [FindExchangeDocument],
       });
 
       toast.promise(promise, {

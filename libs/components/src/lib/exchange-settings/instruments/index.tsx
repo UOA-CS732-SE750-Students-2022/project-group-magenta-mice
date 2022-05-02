@@ -86,6 +86,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
       <div>
         {instruments.map((instrument) => (
           <InstrumentCard
+            key={instrument.id}
             useController={useInstrumentCardController}
             instrument={instrument}
             exchangeId={exchangeId}
