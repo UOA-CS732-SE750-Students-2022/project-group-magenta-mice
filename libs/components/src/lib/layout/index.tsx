@@ -39,29 +39,21 @@ interface PageProps {
   sidebarClassName?: string;
 }
 
-const Page: React.FC<PageProps> = ({ children, sidebar, sidebarClassName }) => {
+const Page: React.FC<PageProps> = ({ children, sidebar }) => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="flex h-full flex-grow">
-        {sidebar && (
-          <div
-            className={cx(
-              "hidden max-w-lg bg-neutral-800 xl:block",
-              sidebarClassName,
-            )}
-          >
-            {sidebar}
-          </div>
-        )}
-        <div className="flex w-full flex-col bg-neutral-900">
-          <div className="w-full max-w-6xl flex-grow self-center px-10 pt-8">
+
+      <div className="flex flex-grow">
+        <div className="mx-8 flex w-full grid-cols-[20%_60%_20%] flex-col lg:grid 2xl:mx-8">
+          {sidebar ? <div>{sidebar}</div> : <div></div>}
+          <div className="flex w-full flex-col bg-neutral-900 pt-8 lg:mx-8">
             {children}
           </div>
-
-          <Footer />
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
