@@ -56,8 +56,8 @@ const UserDropdown: React.FC = () => {
             ref={setReferenceElement}
           >
             <div className="flex flex-row gap-x-4">
-              <div className="flex flex-col text-right">
-                <span className="-mb-1 mt-0.5 font-bold text-gray-200">
+              <div className="flex flex-col justify-center text-right sm:justify-start">
+                <span className="font-bold text-gray-200 sm:-mb-1 sm:mt-0.5">
                   {user?.displayName ?? "Anonymous User"}
                 </span>
                 <span className="hidden text-gray-400 sm:block">
