@@ -24,15 +24,18 @@ namespace Sim::Testing
                 {
                     "name": "AAPL",
                     "positionLimit": 10,
-                    "tickSize": 5
+                    "tickSize": 5,
+                    "id": "abc"
                 },
                 {
                     "name": "AMZN",
                     "positionLimit": 5,
-                    "tickSize": 10
+                    "tickSize": 10,
+                    "id": "def"
                 }
             ],
-            "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange"
+            "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange",
+            "exchangeId": "123abc"
         }
         )";
 

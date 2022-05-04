@@ -12,6 +12,7 @@ namespace Sim
         std::string mName;
         uint32_t mPositionLimit;
         uint32_t mTickSizeCents;
+        std::string mId;
 
         bool operator==(const Instrument& rhs) const;
     };

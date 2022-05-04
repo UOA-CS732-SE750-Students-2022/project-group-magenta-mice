@@ -4,7 +4,13 @@
 
 namespace Sim::Net
 {
-    MessageParser::MessageParser(ISession& participant) : mParticipant{ participant } {}
+    MessageParser::MessageParser(
+        ISession& participant,
+        std::function<std::optional<std::string>(const std::string&)> loginCheck)
+        : mParticipant{ participant }, mLoginCheck{ loginCheck }
+    {}
+
+    std::optional<std::string> MessageParser::checkLogin(const std::string& key) const { return mLoginCheck(key); }
 
     void MessageParser::parseMessage(int32_t messageType, std::string const& message)
     {
@@ -21,9 +27,18 @@ namespace Sim::Net
                     return;
                 }
 
+                const auto& key = loginRequest.key();
+                const auto& loginKey = mLoginCheck(key);
+
+                if (!loginKey.has_value())
+                {
+                    mParticipant.raiseError("Invalid login key.");
+                    return;
+                }
+
                 mParticipant.sendMessage(Protocol::LOGIN_RESPONSE, mParticipant.getLoginResponse().SerializeAsString());
 
-                mParticipant.login();
+                mParticipant.login(*loginKey);
 
                 return;
             }

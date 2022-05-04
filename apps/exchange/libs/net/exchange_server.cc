@@ -2,10 +2,16 @@
 
 namespace Sim::Net
 {
-    ExchangeServer::ExchangeServer(io::io_context& io_context, std::uint16_t port)
+    ExchangeServer::ExchangeServer(
+        io::io_context& io_context,
+        std::uint16_t port,
+        const std::string& exchangeId,
+        Db::Connection& db)
         : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
+          mDb(db),
           mIoContext(io_context),
-          mAcceptor(io_context, tcp::endpoint(tcp::v4(), port))
+          mAcceptor(io_context, tcp::endpoint(tcp::v4(), port)),
+          mExchangeId(exchangeId)
     {}
 
     void ExchangeServer::acceptSocket()
@@ -33,7 +39,26 @@ namespace Sim::Net
                     {
                         std::cout << "Error locking and removing client" << std::endl;
                     }
-                });
+                },
+                std::make_unique<MessageParser>(*client, [this](const std::string& key) -> std::optional<std::string> {
+                    auto result = this->mDb.exec([this, key](pqxx::work& work) {
+                        return work.exec_params(
+                            "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
+                            "AND public.\"UserPermission\".\"exchangeId\"=$2",
+                            key,
+                            this->mExchangeId);
+                    });
+                    if (result.size() == 0)
+                    {
+                        return {};
+                    }
+                    else
+                    {
+                        const auto& userId = result[0]["\"userId\""].as<std::string>();
+                        std::cout << "User " << userId << " logged in" << std::endl;
+                        return userId;
+                    }
+                }));
 
             acceptSocket();
         });

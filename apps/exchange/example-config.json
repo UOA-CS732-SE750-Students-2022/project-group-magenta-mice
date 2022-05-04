@@ -4,13 +4,16 @@
     {
       "name": "AAPL",
       "positionLimit": 100,
-      "tickSize": 1
+      "tickSize": 1,
+      "id": "189b8fbd-3f86-45b1-8ab6-e5e0d462ef44"
     },
     {
       "name": "AMZN",
       "positionLimit": 20,
-      "tickSize": 5
+      "tickSize": 5,
+      "id": "b1fc0bca-dd20-4ccb-8be1-44fca1c24422"
     }
   ],
-  "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate-exchange"
+  "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate-exchange",
+  "exchangeId": "d4072440-06ff-470a-a56e-e16f2162b338"
 }

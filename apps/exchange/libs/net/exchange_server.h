@@ -1,6 +1,9 @@
+#pragma once
+
 #include <boost/asio.hpp>
 #include <common/timer.h>
 #include <common/types.h>
+#include <db/connection.h>
 #include <engine/exchange.h>
 #include <engine/participant.h>
 #include <net/participant_socket.h>
@@ -21,7 +24,12 @@ namespace Sim::Net
     class ExchangeServer
     {
        public:
-        ExchangeServer(io::io_context& io_context, std::uint16_t port);
+        ExchangeServer(
+            io::io_context& io_context,
+            std::uint16_t port,
+            const std::string& exchangeId,
+            Db::Connection& db);
+
         void addInstrument(Instrument instrument);
 
         void acceptSocket();
@@ -35,9 +43,11 @@ namespace Sim::Net
 
        private:
         Exchange mExchange;
+        Db::IConnection& mDb;
 
         io::io_context& mIoContext;
         tcp::acceptor mAcceptor;
         std::optional<tcp::socket> mSocket;
+        const std::string& mExchangeId;
     };
 } // namespace Sim::Net

@@ -11,7 +11,9 @@ namespace Sim::Testing
     class MessageParsingTestFixture : public Test
     {
        protected:
-        MessageParsingTestFixture() : mSession{ MockSession() }, mParser{ mSession } {}
+        MessageParsingTestFixture()
+            : mSession{ MockSession() }, mParser{ mSession, [](const std::string&) { return "someId"; } }
+        {}
 
         MockSession mSession;
         MessageParser mParser;
@@ -35,7 +37,7 @@ namespace Sim::Testing
     {
         EXPECT_CALL(mSession, isLoggedIn()).Times(1).WillOnce(Return(false));
         EXPECT_CALL(mSession, sendMessage(_, _)).Times(1);
-        EXPECT_CALL(mSession, login()).Times(1);
+        EXPECT_CALL(mSession, login(_)).Times(1);
 
         Protocol::LoginResponse res;
         EXPECT_CALL(mSession, getLoginResponse()).Times(1).WillOnce(ReturnRef(res));

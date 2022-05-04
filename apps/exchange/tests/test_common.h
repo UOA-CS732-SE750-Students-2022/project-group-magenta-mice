@@ -38,7 +38,7 @@ namespace Sim::Testing
         MOCK_METHOD(bool, requestOrderCancel, (Protocol::CancelOrderRequest & order));
         MOCK_METHOD(void, raiseError, (std::string errorMessage), (const));
         MOCK_METHOD(bool, isLoggedIn, (), (const));
-        MOCK_METHOD(void, login, ());
+        MOCK_METHOD(void, login, (std::string userId));
         MOCK_METHOD(void, logout, ());
     };
 

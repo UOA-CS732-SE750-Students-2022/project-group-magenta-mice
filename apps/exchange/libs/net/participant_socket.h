@@ -3,6 +3,7 @@
 #include "message_parsing.h"
 
 #include <boost/asio.hpp>
+#include <db/connection.h>
 #include <functional>
 #include <optional>
 #include <protocol/exchange.pb.h>
@@ -50,7 +51,7 @@ namespace Sim::Net
         virtual void raiseError(std::string errorMessage) const = 0;
 
         virtual bool isLoggedIn() const = 0;
-        virtual void login() = 0;
+        virtual void login(std::string userId) = 0;
         virtual void logout() = 0;
     };
 
@@ -63,7 +64,7 @@ namespace Sim::Net
         void injectParser(std::unique_ptr<IMessageParser> parser);
         const Protocol::LoginResponse& getLoginResponse() const { return mLoginResponse; }
 
-        void start(message_handler&& on_message, error_handler&& on_error);
+        void start(message_handler&& on_message, error_handler&& on_error, std::unique_ptr<IMessageParser> parser);
         void sendMessage(int messageType, std::string const& message);
 
         virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order) = 0;
@@ -72,8 +73,11 @@ namespace Sim::Net
         virtual void raiseError(std::string errorMessage) const;
 
         bool isLoggedIn() const;
-        void login();
+        void login(std::string userId);
         void logout();
+
+       protected:
+        std::string mUserId;
 
        private:
         void asyncRead();
@@ -90,9 +94,8 @@ namespace Sim::Net
         error_handler mOnError;
 
         Protocol::LoginResponse mLoginResponse;
-
-        std::unique_ptr<IMessageParser> mParser;
-
         ParticipantFSM mFSM;
+
+        std::unique_ptr<IMessageParser> mParser = nullptr;
     };
 } // namespace Sim::Net

@@ -117,7 +117,6 @@ namespace Sim
 
     void Participant::handleOrderFill(const Order& order, uint32_t volumeFilled, uint32_t price)
     {
-        // todo socket message
         if (order.mSide == Side::BID)
         {
             mPositions[order.mInstrument] += volumeFilled;
