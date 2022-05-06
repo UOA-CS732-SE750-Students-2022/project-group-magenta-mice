@@ -29,12 +29,6 @@ namespace Sim::Net
         int32_t mMessageSize;
     };
 
-    struct Message
-    {
-        Header mHeader;
-        std::string mMessage;
-    };
-
     enum class ParticipantFSM
     {
         CONNECTED,

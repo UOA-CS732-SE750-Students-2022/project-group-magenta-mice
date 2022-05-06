@@ -70,11 +70,6 @@ namespace Sim::Net
             .mMessageSize = static_cast<int32_t>(message.size()),
         };
 
-        // auto message = new Message{
-        //     .mHeader = Header{ .mMessageType = messageType, .mMessageSize = static_cast<int32_t>(message.size()) },
-        //     .mMessage = message,
-        // };
-
         mOutgoing.emplace(SmartBuffer(
             new io::mutable_buffer(static_cast<void*>(header), sizeof(header)), [header](io::mutable_buffer* buffer) {
                 delete header;
