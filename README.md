@@ -7,7 +7,9 @@
 <p align="center">
   <a href="https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg">
     <img alt="Build Status" src="https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg">
-    <img alt="Build Status" src="https://img.shields.io/npm/v/@simulate-exchange/core">
+  </a>
+  <a href="https://www.npmjs.com/package/@simulate-exchange/core">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@simulate-exchange/core">
   </a>
 </p>
 
