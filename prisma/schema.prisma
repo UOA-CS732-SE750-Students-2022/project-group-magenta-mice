@@ -82,7 +82,7 @@ enum InstrumentType {
 }
 
 model Trade {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
 
   exchange   Exchange @relation(fields: [exchangeId], references: [id], onDelete: Cascade)
   exchangeId String
