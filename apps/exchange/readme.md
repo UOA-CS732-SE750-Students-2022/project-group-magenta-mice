@@ -2,6 +2,12 @@
 
 This application represents the exchange. It is a C++ application.
 
+To develop this repository, please recursively clone:
+
+```bash
+git clone --recursive
+```
+
 ## Building
 
 ### Github Actions

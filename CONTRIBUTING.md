@@ -1,5 +1,14 @@
 # Contributing Guide
 
+## Absolute Prerequisites
+
+Firebase is used in this project for authentication. You will need to create a
+Firebase project and obtain a Firebase API key from a [service
+account](https://firebase.google.com/support/guides/service-accounts).
+
+Once you have this key (in the form of a JSON file), you can add it to the
+`/key` directory. Name the file `firebase.json`.
+
 ## Docker Development
 
 You can use the Visual Studio Code Remote Docker Extension to develop this
