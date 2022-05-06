@@ -1,35 +1,35 @@
-import { Client, ClientOptions, MessageNames, Messages } from './client'
+import { Client, ClientOptions, MessageNames, Messages } from "./client";
 import {
-    Lifespan,
-    Side,
-    EventMap,
-    ExchangeFeed,
-    LoginResponse,
-    MessageTypes,
-    Order,
-    OrderFill,
-    OrderUpdate,
-    ProtocolType,
-} from './types'
-import { deepLog } from './util'
+  Lifespan,
+  Side,
+  EventMap,
+  ExchangeFeed,
+  LoginResponse,
+  MessageTypes,
+  Order,
+  OrderFill,
+  OrderUpdate,
+  ProtocolType,
+} from "./types";
+import { deepLog } from "./util";
 
 export {
-    Client,
-    ClientOptions,
-    MessageNames,
-    Messages,
-    Lifespan,
-    Side,
-    EventMap,
-    ExchangeFeed,
-    LoginResponse,
-    MessageTypes,
-    Order,
-    OrderFill,
-    OrderUpdate,
-    ProtocolType,
-    deepLog,
-}
+  Client,
+  ClientOptions,
+  MessageNames,
+  Messages,
+  Lifespan,
+  Side,
+  EventMap,
+  ExchangeFeed,
+  LoginResponse,
+  MessageTypes,
+  Order,
+  OrderFill,
+  OrderUpdate,
+  ProtocolType,
+  deepLog,
+};
 
 // const client = new Client({ host: 'localhost', port: 15001, verbose: true })
 // client.login({ key: '6f0cb665-c2ea-4460-8442-ebfbe01fbedf' })
