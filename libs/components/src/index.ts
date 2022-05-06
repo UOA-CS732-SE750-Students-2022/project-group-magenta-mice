@@ -14,3 +14,4 @@ export * from "./lib/instrument-card";
 export * from "./lib/exchange-user-summary";
 export * from "./lib/copy-button";
 export * from "./lib/hide-show-button";
+export * from "./lib/sidebar";

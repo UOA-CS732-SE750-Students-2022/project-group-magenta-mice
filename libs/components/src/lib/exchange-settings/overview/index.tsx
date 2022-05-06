@@ -76,7 +76,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
         Overview
       </p>
-      <div className="mt-4 w-1/3 rounded-md bg-neutral-800 p-5">
+      <div className="mt-4 flex flex-col rounded-md bg-neutral-800 p-5">
         <p className="text-gray-200">Exchange Name</p>
         <div>
           <input
@@ -95,7 +95,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
           </div>
         </div>
         <button
-          className="mt-4 w-full rounded-md bg-emerald-600 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-emerald-500"
+          className="mt-8 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-gray-200 transition-all hover:bg-emerald-500"
           onClick={handleEditExchange}
         >
           Update Exchange
@@ -105,7 +105,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       <p className="mt-4 text-gray-200">Potentially data graphics here</p>
 
       <button
-        className="mt-4 w-1/3 rounded-md bg-rose-700 p-2 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
+        className="mt-4 self-start rounded-md bg-rose-700 p-2 px-4 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
         onClick={handleDeleteExchange}
         disabled={loading}
       >
