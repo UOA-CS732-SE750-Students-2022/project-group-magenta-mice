@@ -1,0 +1,22 @@
+{
+  "name": "ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "prettier --write ./*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.6",
+    "@types/node": "^17.0.31",
+    "@types/python-struct": "^1.0.0",
+    "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "google-protobuf": "^3.20.1",
+    "python-struct": "^1.1.3"
+  }
+}
