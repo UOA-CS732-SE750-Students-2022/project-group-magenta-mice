@@ -18,7 +18,7 @@ namespace Sim::Config
         virtual const std::string& getExchangeId() const = 0;
     };
 
-    class ExchangeConfig : IConfig
+    class ExchangeConfig : public IConfig
     {
        public:
         ExchangeConfig(

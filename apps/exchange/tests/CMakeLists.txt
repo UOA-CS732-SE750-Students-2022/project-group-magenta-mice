@@ -20,6 +20,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+find_library(PQXX_LIB pqxx REQUIRED)
+find_library(PQ_LIB pq REQUIRED)
+
 enable_testing()
 
 add_executable(
@@ -40,6 +43,8 @@ target_link_libraries(
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Protobuf_LIBRARIES}
+  ${PQXX_LIB}
+  ${PQ_LIB}
 )
 
 set_target_properties(${test_name}

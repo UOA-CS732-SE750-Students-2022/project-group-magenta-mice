@@ -133,8 +133,22 @@ namespace Sim
         message.set_instrumentid(order.mInstrument);
         message.set_volumefilled(volumeFilled);
         message.set_price(price);
-
         sendMessage(Protocol::ORDER_FILL, message.SerializeAsString());
+
+        auto side = order.mSide;
+        auto inst = order.mInstrument;
+
+        mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
+            return w.exec_params(
+                "INSERT INTO public.\"Trade\" (\"exchangeId\", \"userId\", \"instrumentId\", price, volume, side) "
+                "VALUES ($1, $2, $3, $4, $5, $6)",
+                mConfig.getExchangeId(),
+                this->mUserId,
+                this->mConfig.getInstruments().at(inst).mId,
+                price,
+                volumeFilled,
+                side == Side::BID ? "BID" : "ASK");
+        });
     }
 
     int64_t Participant::getCash() const { return mCash; }

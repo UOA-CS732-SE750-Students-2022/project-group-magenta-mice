@@ -9,17 +9,21 @@ namespace Sim::Testing
     class ParticipantTestFixture : public Test
     {
        protected:
-        ParticipantTestFixture() {}
+        ParticipantTestFixture()
+            : mConnection{ std::make_unique<MockConnection>() }, mConfig{ std::make_unique<MockConfig>() }
+        {}
 
         void setupParticipant(std::function<void(MockOrderFactory&)> applicator)
         {
             auto orderFactory = std::make_unique<MockOrderFactory>();
             applicator(*orderFactory);
 
-            mParticipant =
-                std::make_unique<MockParticipant>(std::move(orderFactory), std::nullopt, Protocol::LoginResponse());
+            mParticipant = std::make_unique<MockParticipant>(
+                std::move(orderFactory), std::nullopt, Protocol::LoginResponse(), *mConnection, *mConfig);
         }
 
+        std::unique_ptr<Db::IConnection> mConnection;
+        std::unique_ptr<MockConfig> mConfig;
         std::unique_ptr<MockParticipant> mParticipant;
     };
 

@@ -4,6 +4,7 @@
 
 #include <boost/asio.hpp>
 #include <common/types.h>
+#include <config/config.h>
 #include <memory>
 #include <net/participant_socket.h>
 #include <optional>
@@ -22,8 +23,12 @@ namespace Sim
         Participant(
             std::unique_ptr<OrderFactory> orderFactory,
             std::optional<tcp::socket>&& socket,
-            Protocol::LoginResponse loginResponse)
-            : Net::ParticipantSession(std::move(socket), loginResponse), mOrderFactory{ std::move(orderFactory) } {};
+            Protocol::LoginResponse loginResponse,
+            Db::IConnection& dbConnection,
+            const Config::IConfig& config)
+            : Net::ParticipantSession(std::move(socket), loginResponse, dbConnection),
+              mOrderFactory{ std::move(orderFactory) },
+              mConfig{ config } {};
 
         virtual ~Participant() = default;
 
@@ -52,9 +57,7 @@ namespace Sim
         uint32_t mIdentifier;
 
         std::unique_ptr<OrderFactory> mOrderFactory;
-
         uint64_t expectedOrderId = 0;
-
         std::unordered_map<uint32_t, Order*> mOrders;
 
         std::optional<std::function<bool(OrderOwningPtr)>> mRequestOrderInsert;
@@ -62,6 +65,8 @@ namespace Sim
 
         std::unordered_map<uint32_t, int32_t> mPositions;
         int64_t mCash = 0;
+
+        const Config::IConfig& mConfig;
     };
 
 } // namespace Sim

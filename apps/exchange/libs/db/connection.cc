@@ -22,7 +22,7 @@ namespace Sim::Db
         return result;
     }
 
-    void Connection::futureExec(DbQuery& query)
+    void Connection::futureExec(DbQuery&& query)
     {
         std::lock_guard<std::mutex> lock{ mLock };
         mFutureWork.emplace_back(query);
@@ -39,14 +39,21 @@ namespace Sim::Db
             {
                 continue;
             }
-            std::lock_guard<std::mutex> lock{ mLock };
 
-            auto query = mFutureWork.front();
-            mFutureWork.erase(mFutureWork.begin());
+            std::unique_lock<std::mutex> lock{ mLock };
+            auto copy = mFutureWork;
+            mFutureWork.clear();
+            lock.unlock();
 
-            pqxx::work W{ mConnection };
-            auto result = query(W);
-            W.commit();
+            while (!copy.empty())
+            {
+                auto query = copy.front();
+                copy.pop_front();
+
+                pqxx::work W{ mConnection };
+                auto result = query(W);
+                W.commit();
+            }
         }
     }
 

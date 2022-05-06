@@ -1,6 +1,8 @@
 #pragma once
 
 #include <common/reader.h>
+#include <config/config.h>
+#include <db/connection.h>
 #include <engine/exchange.h>
 #include <engine/order_factory.h>
 #include <gmock/gmock.h>
@@ -52,6 +54,22 @@ namespace Sim::Testing
         using Participant::Participant;
 
         MOCK_METHOD(void, sendMessage, (int messageType, std::string const& message));
+    };
+
+    struct MockConnection : public Db::IConnection
+    {
+        using DbQuery = std::function<pqxx::result(pqxx::work&)>;
+
+        MOCK_METHOD(pqxx::result, exec, (const DbQuery& query));
+        MOCK_METHOD(void, futureExec, (DbQuery && query));
+    };
+
+    struct MockConfig : public Config::IConfig
+    {
+        MOCK_METHOD(uint32_t, getPort, (), (const));
+        MOCK_METHOD(const std::vector<Instrument>&, getInstruments, (), (const));
+        MOCK_METHOD(const std::string&, getDbString, (), (const));
+        MOCK_METHOD(const std::string&, getExchangeId, (), (const));
     };
 
 } // namespace Sim::Testing

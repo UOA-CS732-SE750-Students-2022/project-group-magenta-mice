@@ -8,7 +8,9 @@ namespace Sim::Testing
     {
        protected:
         IntegrationTestFixture()
-            : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>())
+            : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
+              mDatabase(std::make_unique<MockConnection>()),
+              mConfig(std::make_unique<MockConfig>())
         {
             mExchange.addInstrument(Instrument{
                 .mName = "AAPL",
@@ -17,11 +19,11 @@ namespace Sim::Testing
             });
 
             mParticipant1 = std::make_shared<NiceMock<MockParticipant>>(
-                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse());
+                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse(), *mDatabase, *mConfig);
             mExchange.addParticipant(mParticipant1);
 
             mParticipant2 = std::make_shared<NiceMock<MockParticipant>>(
-                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse());
+                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse(), *mDatabase, *mConfig);
             mExchange.addParticipant(mParticipant2);
         }
 
@@ -60,6 +62,8 @@ namespace Sim::Testing
         }
 
         Exchange mExchange;
+        std::unique_ptr<Db::IConnection> mDatabase;
+        std::unique_ptr<MockConfig> mConfig;
 
         std::unordered_map<uint32_t, uint32_t> mParticipantOrders;
 

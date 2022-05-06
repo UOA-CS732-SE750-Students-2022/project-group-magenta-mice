@@ -20,12 +20,11 @@ int main(int argc, char* argv[])
     auto port = config.getPort();
     auto& instruments = config.getInstruments();
     auto& dbString = config.getDbString();
-    auto& exchangeId = config.getExchangeId();
 
     Sim::Db::Connection dbService{ dbString };
 
     io::io_context ioContext;
-    Sim::Net::ExchangeServer server(ioContext, port, exchangeId, dbService);
+    Sim::Net::ExchangeServer server(ioContext, config, dbService);
 
     for (const auto& instrument : instruments)
     {

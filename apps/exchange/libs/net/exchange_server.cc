@@ -2,16 +2,13 @@
 
 namespace Sim::Net
 {
-    ExchangeServer::ExchangeServer(
-        io::io_context& io_context,
-        std::uint16_t port,
-        const std::string& exchangeId,
-        Db::Connection& db)
+    ExchangeServer::ExchangeServer(io::io_context& io_context, Config::ExchangeConfig& config, Db::Connection& db)
         : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
           mDb(db),
           mIoContext(io_context),
-          mAcceptor(io_context, tcp::endpoint(tcp::v4(), port)),
-          mExchangeId(exchangeId)
+          mAcceptor(io_context, tcp::endpoint(tcp::v4(), config.getPort())),
+          mExchangeId(config.getExchangeId()),
+          mConfig(config)
     {}
 
     void ExchangeServer::acceptSocket()
@@ -21,7 +18,7 @@ namespace Sim::Net
 
         mAcceptor.async_accept(*mSocket, [&, loginResponseInstruments](error_code error) {
             auto client = std::make_shared<Participant>(
-                std::make_unique<OrderFactory>(), std::move(*mSocket), loginResponseInstruments);
+                std::make_unique<OrderFactory>(), std::move(*mSocket), loginResponseInstruments, mDb, mConfig);
 
             mExchange.addParticipant(client);
 
@@ -39,6 +36,7 @@ namespace Sim::Net
                     {
                         std::cout << "Error locking and removing client" << std::endl;
                     }
+                    std::cout << weak.lock().use_count() << std::endl;
                 },
                 std::make_unique<MessageParser>(*client, [this](const std::string& key) -> std::optional<std::string> {
                     auto result = this->mDb.exec([this, key](pqxx::work& work) {
@@ -73,7 +71,14 @@ namespace Sim::Net
     void ExchangeServer::sendPriceFeed()
     {
         const auto& feed = mExchange.getFeed();
-        messageAll(Protocol::EXCHANGE_FEED, feed.SerializeAsString());
+        mExchange.applyToAllParticipants([&feed](Participant& participant) {
+            {
+                if (participant.isLoggedIn())
+                {
+                    participant.sendMessage(Protocol::EXCHANGE_FEED, feed.SerializeAsString());
+                }
+            }
+        });
     }
 
     const Exchange& ExchangeServer::getExchange() const { return mExchange; }

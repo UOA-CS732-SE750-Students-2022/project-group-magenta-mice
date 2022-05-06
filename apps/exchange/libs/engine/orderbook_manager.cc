@@ -37,7 +37,7 @@ namespace Sim
                 const auto& newAsks = newFeed->add_asks();
 
                 newAsks->set_price(price);
-                newAsks->set_price(volume);
+                newAsks->set_volume(volume);
             }
 
             for (auto& [price, volume] : orderbook.getTopBidLevels(5))
@@ -45,7 +45,7 @@ namespace Sim
                 const auto& newBids = newFeed->add_bids();
 
                 newBids->set_price(price);
-                newBids->set_price(volume);
+                newBids->set_volume(volume);
             }
         }
 

@@ -29,6 +29,12 @@ namespace Sim::Net
         int32_t mMessageSize;
     };
 
+    struct Message
+    {
+        Header mHeader;
+        std::string mMessage;
+    };
+
     enum class ParticipantFSM
     {
         CONNECTED,
@@ -58,7 +64,10 @@ namespace Sim::Net
     class ParticipantSession : public std::enable_shared_from_this<ParticipantSession>, public ISession
     {
        public:
-        ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse loginResponse);
+        ParticipantSession(
+            std::optional<tcp::socket>&& socket,
+            Protocol::LoginResponse loginResponse,
+            Db::IConnection& db);
         virtual ~ParticipantSession() = default;
 
         void injectParser(std::unique_ptr<IMessageParser> parser);
@@ -97,5 +106,8 @@ namespace Sim::Net
         ParticipantFSM mFSM;
 
         std::unique_ptr<IMessageParser> mParser = nullptr;
+
+       protected:
+        Db::IConnection& mDb;
     };
 } // namespace Sim::Net

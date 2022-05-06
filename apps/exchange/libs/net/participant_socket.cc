@@ -4,8 +4,11 @@
 
 namespace Sim::Net
 {
-    ParticipantSession::ParticipantSession(std::optional<tcp::socket>&& socket, Protocol::LoginResponse response)
-        : mSocket(std::move(socket)), mLoginResponse{ response }, mFSM{ ParticipantFSM::CONNECTED }
+    ParticipantSession::ParticipantSession(
+        std::optional<tcp::socket>&& socket,
+        Protocol::LoginResponse response,
+        Db::IConnection& connection)
+        : mSocket(std::move(socket)), mLoginResponse{ response }, mFSM{ ParticipantFSM::CONNECTED }, mDb{ connection }
     {}
 
     void ParticipantSession::injectParser(std::unique_ptr<IMessageParser> parser) { mParser = std::move(parser); }
@@ -60,10 +63,17 @@ namespace Sim::Net
         void* msg = malloc(message.size());
         strcpy(static_cast<char*>(msg), message.c_str());
 
+        std::cout << "{ Size: " << message.size() << ", Type: " << messageType << " }" << std::endl;
+
         auto header = new Header{
             .mMessageType = messageType,
             .mMessageSize = static_cast<int32_t>(message.size()),
         };
+
+        // auto message = new Message{
+        //     .mHeader = Header{ .mMessageType = messageType, .mMessageSize = static_cast<int32_t>(message.size()) },
+        //     .mMessage = message,
+        // };
 
         mOutgoing.emplace(SmartBuffer(
             new io::mutable_buffer(static_cast<void*>(header), sizeof(header)), [header](io::mutable_buffer* buffer) {
@@ -129,6 +139,21 @@ namespace Sim::Net
     void ParticipantSession::asyncWrite()
     {
         const auto buffer = *mOutgoing.front();
+        if (mOutgoing.size() == 2)
+        {
+            std::cout << "Writing header with " << buffer.size() << " bytes" << std::endl;
+            std::cout << "Header data size: " << ((Header*)buffer.data())->mMessageSize
+                      << ", type: " << ((Header*)buffer.data())->mMessageType << std::endl;
+        }
+        else
+        {
+            std::cout << "Writing payload with " << buffer.size() << " bytes" << std::endl;
+            auto chars = ((char*)buffer.data());
+            Protocol::ExchangeFeed feed;
+            feed.ParseFromString(chars);
+
+            std::cout << "Payload data is " << feed.DebugString() << std::endl;
+        }
 
         io::async_write(*mSocket, buffer, [self = shared_from_this()](error_code error, std::size_t bytes) {
             self->onWrite(error, bytes);
