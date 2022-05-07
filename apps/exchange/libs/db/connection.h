@@ -3,6 +3,7 @@
 #include <deque>
 #include <functional>
 #include <mutex>
+#include <optional>
 #include <pqxx/pqxx>
 #include <string>
 #include <thread>
@@ -16,8 +17,9 @@ namespace Sim::Db
         virtual ~IConnection() = default;
 
         virtual pqxx::result exec(const DbQuery& query) = 0;
-
         virtual void futureExec(DbQuery&& query) = 0;
+
+        virtual std::optional<std::string> checkKey(const std::string& key, const std::string& exchangeId) = 0;
     };
 
     class Connection : public IConnection
@@ -29,6 +31,8 @@ namespace Sim::Db
 
         pqxx::result exec(const DbQuery& query);
         void futureExec(DbQuery&& query);
+
+        std::optional<std::string> checkKey(const std::string& key, const std::string& exchangeId);
 
        private:
         pqxx::connection mConnection;

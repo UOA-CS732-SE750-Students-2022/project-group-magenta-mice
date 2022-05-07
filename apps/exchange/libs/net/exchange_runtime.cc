@@ -154,23 +154,7 @@ namespace Sim::Net
 
     std::optional<std::string> ExchangeRuntime::checkKey(const std::string& key)
     {
-        auto result = this->mDb.exec([this, key](pqxx::work& work) {
-            return work.exec_params(
-                "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
-                "AND public.\"UserPermission\".\"exchangeId\"=$2",
-                key,
-                this->mConfig.getExchangeId());
-        });
-        if (result.size() == 0)
-        {
-            return {};
-        }
-        else
-        {
-            const auto& userId = result[0]["\"userId\""].as<std::string>();
-            std::cout << "User " << userId << " logged in" << std::endl;
-            return userId;
-        }
+        return mDb.checkKey(key, this->mConfig.getExchangeId());
     }
 
     void ExchangeRuntime::messageAll(int32_t messageType, const std::string& message)

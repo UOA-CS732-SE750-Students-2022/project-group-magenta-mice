@@ -57,4 +57,24 @@ namespace Sim::Db
         }
     }
 
+    std::optional<std::string> Connection::checkKey(const std::string& key, const std::string& exchangeId)
+    {
+        auto result = exec([exchangeId, key](pqxx::work& work) {
+            return work.exec_params(
+                "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
+                "AND public.\"UserPermission\".\"exchangeId\"=$2",
+                key,
+                exchangeId);
+        });
+        if (result.size() == 0)
+        {
+            return {};
+        }
+        else
+        {
+            const auto& userId = result[0]["\"userId\""].as<std::string>();
+            return userId;
+        }
+    }
+
 } // namespace Sim::Db

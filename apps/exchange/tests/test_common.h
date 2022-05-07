@@ -49,6 +49,8 @@ namespace Sim::Testing
 
         MOCK_METHOD(pqxx::result, exec, (const DbQuery& query));
         MOCK_METHOD(void, futureExec, (DbQuery && query));
+
+        MOCK_METHOD(std::optional<std::string>, checkKey, (const std::string& key, const std::string& exchangeId));
     };
 
     struct MockConfig : public Config::IConfig
@@ -57,6 +59,18 @@ namespace Sim::Testing
         MOCK_METHOD(const std::vector<Instrument>&, getInstruments, (), (const));
         MOCK_METHOD(const std::string&, getDbString, (), (const));
         MOCK_METHOD(const std::string&, getExchangeId, (), (const));
+    };
+
+    struct MockExchange : public IExchange
+    {
+        MOCK_METHOD(void, addInstrument, (Instrument instrument));
+        MOCK_METHOD(void, addParticipant, (std::shared_ptr<Participant> participant));
+        MOCK_METHOD(bool, removeParticipant, (std::shared_ptr<Participant>));
+        MOCK_METHOD(void, printBooks, (), (const));
+        MOCK_METHOD(Protocol::LoginResponse, getExchangeInstruments, ());
+        MOCK_METHOD(Protocol::ExchangeFeed, getFeed, (), (const));
+        MOCK_METHOD(const Orderbook&, getOrderbook, (uint32_t instrument), (const));
+        MOCK_METHOD(void, applyToAllParticipants, (std::function<void(Participant&)> && func));
     };
 
 } // namespace Sim::Testing

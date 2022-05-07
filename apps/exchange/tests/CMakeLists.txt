@@ -11,6 +11,7 @@ set(test_sources
   message_parsing_test.cc
   config_test.cc
   config_reader_test.cc
+  exchange_runtime_test.cc
 )
 
 include(FetchContent)
@@ -24,7 +25,7 @@ find_library(PQXX_LIB pqxx REQUIRED)
 find_library(PQ_LIB pq REQUIRED)
 
 find_package(OpenSSL REQUIRED)
-include_directories(${OpenSSL_INCLUDE_DIRS})
+include_directories(${OPENSSL_INCLUDE_DIRS})
 
 enable_testing()
 
@@ -48,7 +49,7 @@ target_link_libraries(
   ${Protobuf_LIBRARIES}
   ${PQXX_LIB}
   ${PQ_LIB}
-  ${OpenSSL_LIBRARIES}
+  ${OPENSSL_LIBRARIES}
 )
 
 set_target_properties(${test_name}

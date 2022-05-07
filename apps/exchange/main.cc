@@ -2,6 +2,8 @@
 #include <common/timer.h>
 #include <config/config_reader.h>
 #include <db/connection.h>
+#include <engine/orderbook_manager.h>
+#include <engine/participant_manager.h>
 #include <iostream>
 #include <net/exchange_runtime.h>
 #include <pqxx/pqxx>
@@ -27,8 +29,9 @@ int main(int argc, char* argv[])
     auto& dbString = config.getDbString();
 
     Sim::Db::Connection dbService{ dbString };
+    Sim::Exchange exchange{ std::make_unique<Sim::ParticipantManager>(), std::make_unique<Sim::OrderbookManager>() };
 
-    Sim::Net::ExchangeRuntime exchangeRuntime{ config, dbService };
+    Sim::Net::ExchangeRuntime exchangeRuntime{ config, dbService, exchange };
 
     Sim::Common::Timer timer(*ioContext, boost::posix_time::millisec(2000));
     timer.start([&]() {

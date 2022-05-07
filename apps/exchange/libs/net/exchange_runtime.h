@@ -24,10 +24,8 @@ namespace Sim::Net
         using WsMessage = std::shared_ptr<WsServer::InMessage>;
 
        public:
-        ExchangeRuntime(const Config::ExchangeConfig& config, Db::Connection& db)
-            : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
-              mDb(db),
-              mConfig(config)
+        ExchangeRuntime(const Config::IConfig& config, Db::IConnection& db, IExchange& exchange)
+            : mExchange(exchange), mDb(db), mConfig(config)
         {
             mServer.config.port = config.getPort();
             auto& endpoint = mServer.endpoint["^/"];
@@ -72,7 +70,7 @@ namespace Sim::Net
         void sendMessage(WsServer::Connection& connection, int32_t type, const std::string& payload);
         void messageAll(int32_t messageType, const std::string& message);
 
-        const Exchange& getExchange() const { return mExchange; }
+        const IExchange& getExchange() const { return mExchange; }
         decltype(auto) getIoContext() { return mServer.io_service; }
 
         void sendPriceFeed();
@@ -82,11 +80,11 @@ namespace Sim::Net
 
        private:
         WsServer mServer;
-        Exchange mExchange;
+        IExchange& mExchange;
 
         std::unordered_map<WsConnection, std::shared_ptr<Participant>> mParticipantSockets;
 
         Db::IConnection& mDb;
-        const Config::ExchangeConfig& mConfig;
+        const Config::IConfig& mConfig;
     };
 } // namespace Sim::Net
