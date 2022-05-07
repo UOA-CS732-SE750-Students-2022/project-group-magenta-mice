@@ -49,7 +49,7 @@ namespace Sim
 
         void diagnose() const;
 
-        void sendMessage(int messageType, const std::string& message);
+        virtual void sendMessage(int messageType, const std::string& message);
         void raiseError(const std::string& message);
 
        private:

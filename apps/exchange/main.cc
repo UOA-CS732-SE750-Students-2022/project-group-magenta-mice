@@ -4,7 +4,6 @@
 #include <db/connection.h>
 #include <iostream>
 #include <net/exchange_runtime.h>
-#include <net/exchange_server.h>
 #include <pqxx/pqxx>
 #include <wss/server_ws.hpp>
 
@@ -23,7 +22,7 @@ int main(int argc, char* argv[])
     }
 
     auto config = reader.read(argv[1]);
-    auto port = config.getPort();
+
     auto& instruments = config.getInstruments();
     auto& dbString = config.getDbString();
 

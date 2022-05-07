@@ -7,7 +7,6 @@
 #include <engine/order_factory.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <net/participant_socket.h>
 
 namespace Sim::Testing
 {
@@ -32,18 +31,6 @@ namespace Sim::Testing
             (const override));
     };
 
-    struct MockSession : public Net::ISession
-    {
-        MOCK_METHOD(const Protocol::LoginResponse&, getLoginResponse, (), (const));
-        MOCK_METHOD(void, sendMessage, (int messageType, std::string const& message));
-        MOCK_METHOD(bool, requestOrderInsert, (Protocol::InsertOrderRequest & order));
-        MOCK_METHOD(bool, requestOrderCancel, (Protocol::CancelOrderRequest & order));
-        MOCK_METHOD(void, raiseError, (std::string errorMessage), (const));
-        MOCK_METHOD(bool, isLoggedIn, (), (const));
-        MOCK_METHOD(void, login, (std::string userId));
-        MOCK_METHOD(void, logout, ());
-    };
-
     struct MockFileStringReader : public Common::IFileStringReader
     {
         MOCK_METHOD(std::string, getContents, (const std::filesystem::path& filePath), (const));
@@ -53,7 +40,7 @@ namespace Sim::Testing
     {
         using Participant::Participant;
 
-        MOCK_METHOD(void, sendMessage, (int messageType, std::string const& message));
+        MOCK_METHOD(void, sendMessage, (int messageType, const std::string& message));
     };
 
     struct MockConnection : public Db::IConnection
