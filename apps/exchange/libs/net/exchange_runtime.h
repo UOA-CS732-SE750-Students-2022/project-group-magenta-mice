@@ -1,7 +1,5 @@
 #pragma once
 
-#include "participant_socket.h"
-
 #include <common/colors.h>
 #include <db/connection.h>
 #include <engine/exchange.h>

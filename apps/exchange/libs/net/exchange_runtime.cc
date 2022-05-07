@@ -38,7 +38,7 @@ namespace Sim::Net
                 std::cout << "Error locking client" << std::endl;
             }
         };
-        const auto errorHandler = [this, weak = std::weak_ptr(connection)](const std::string& message) -> void {
+        const auto errorHandler = [weak = std::weak_ptr(connection)](const std::string& message) -> void {
             if (auto shared = weak.lock(); shared)
             {
                 shared->send_close(1000, message);
