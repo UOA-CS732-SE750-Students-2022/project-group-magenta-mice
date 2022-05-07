@@ -1,4 +1,4 @@
-export interface MessageTypes {
+export interface MessageIds {
   LOGIN: 0;
   LOGOUT: 1;
   LOGIN_RESPONSE: 2;

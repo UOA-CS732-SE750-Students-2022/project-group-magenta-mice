@@ -19,11 +19,11 @@ namespace Sim::Testing
             });
 
             mParticipant1 = std::make_shared<NiceMock<MockParticipant>>(
-                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse(), *mDatabase, *mConfig);
+                std::make_unique<OrderFactory>(), Protocol::LoginResponse(), *mDatabase, *mConfig);
             mExchange.addParticipant(mParticipant1);
 
             mParticipant2 = std::make_shared<NiceMock<MockParticipant>>(
-                std::make_unique<OrderFactory>(), std::nullopt, Protocol::LoginResponse(), *mDatabase, *mConfig);
+                std::make_unique<OrderFactory>(), Protocol::LoginResponse(), *mDatabase, *mConfig);
             mExchange.addParticipant(mParticipant2);
         }
 

@@ -29,6 +29,23 @@ namespace Sim
         mRequestCancelOrder.emplace(std::move(handler));
     }
 
+    void Participant::setMessageSender(std::function<void(int, const std::string&)>&& handler)
+    {
+        mMessageHandler.emplace(std::move(handler));
+    }
+
+    void Participant::setErrorHandler(std::function<void(const std::string&)>&& handler)
+    {
+        mErrorHandler.emplace(std::move(handler));
+    }
+
+    bool Participant::isLoggedIn() const { return mLoggedIn; }
+    void Participant::login(std::string userId)
+    {
+        mLoggedIn = true;
+        mUserId = userId;
+    }
+
     bool Participant::requestOrderInsert(Protocol::InsertOrderRequest& order)
     {
         if (!checkAndIncrementOrderId(order.clientid()))
@@ -93,10 +110,17 @@ namespace Sim
     {
         if (this->mRequestCancelOrder.has_value())
         {
-            for (auto& order : mOrders)
+            std::vector<uint> toCancel;
+            for (auto& [id, order] : mOrders)
             {
-                (*this->mRequestCancelOrder)(order.second);
+                toCancel.emplace_back(id);
             }
+
+            for (auto& id : toCancel)
+            {
+                (*this->mRequestCancelOrder)(mOrders.at(id));
+            }
+
             return true;
         }
         else
@@ -168,6 +192,22 @@ namespace Sim
         for (auto const& [instrument, position] : mPositions)
         {
             std::cout << "Position for " << instrument << ": " << position << std::endl;
+        }
+    }
+
+    void Participant::sendMessage(int messageType, const std::string& message)
+    {
+        if (mMessageHandler.has_value())
+        {
+            (*mMessageHandler)(messageType, message);
+        }
+    }
+
+    void Participant::raiseError(const std::string& message)
+    {
+        if (mErrorHandler.has_value())
+        {
+            (*mErrorHandler)(message);
         }
     }
 

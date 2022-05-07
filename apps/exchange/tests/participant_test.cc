@@ -19,7 +19,7 @@ namespace Sim::Testing
             applicator(*orderFactory);
 
             mParticipant = std::make_unique<MockParticipant>(
-                std::move(orderFactory), std::nullopt, Protocol::LoginResponse(), *mConnection, *mConfig);
+                std::move(orderFactory), Protocol::LoginResponse(), *mConnection, *mConfig);
         }
 
         std::unique_ptr<Db::IConnection> mConnection;

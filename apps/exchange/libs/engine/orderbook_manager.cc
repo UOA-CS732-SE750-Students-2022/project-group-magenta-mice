@@ -66,7 +66,8 @@ namespace Sim
 
     bool OrderbookManager::cancelOrder(const Order* order)
     {
-        auto orderbook = mOrderbooks.find(order->mInstrument);
+        auto instId = order->mInstrument;
+        auto orderbook = mOrderbooks.find(instId);
 
         if (orderbook == mOrderbooks.end())
         {
@@ -94,7 +95,8 @@ namespace Sim
     {
         for (auto& [instrument, book] : mOrderbooks)
         {
-            std::cout << "--- " << instrument << " ---" << std::endl;
+            std::cout << "--- " << mInstruments.at(instrument).mName << " (" << instrument << ")"
+                      << " ---" << std::endl;
             std::cout << book << std::endl;
             std::cout << std::endl;
         }

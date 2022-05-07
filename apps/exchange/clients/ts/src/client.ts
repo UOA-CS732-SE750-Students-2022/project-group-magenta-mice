@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
 import { Socket } from "net";
 import { pack } from "python-struct";
-import { EventMap, MessageTypes, Order, ProtocolType } from "./types";
+import { EventMap, MessageIds, Order, ProtocolType } from "./types";
 
-const messages: Messages = require("./exchange_pb");
+export const messages: Messages = require("./exchange_pb");
 
 export type MessageNames =
   | "LoginRequest"
@@ -18,7 +18,7 @@ export type MessageNames =
   | "ExchangeFeed";
 
 export type Messages = { [key in MessageNames]: ProtocolType } & {
-  MessageType: MessageTypes;
+  MessageType: MessageIds;
 };
 
 export interface ClientOptions {

@@ -23,6 +23,9 @@ FetchContent_MakeAvailable(googletest)
 find_library(PQXX_LIB pqxx REQUIRED)
 find_library(PQ_LIB pq REQUIRED)
 
+find_package(OpenSSL REQUIRED)
+include_directories(${OpenSSL_INCLUDE_DIRS})
+
 enable_testing()
 
 add_executable(
@@ -45,6 +48,7 @@ target_link_libraries(
   ${Protobuf_LIBRARIES}
   ${PQXX_LIB}
   ${PQ_LIB}
+  ${OpenSSL_LIBRARIES}
 )
 
 set_target_properties(${test_name}

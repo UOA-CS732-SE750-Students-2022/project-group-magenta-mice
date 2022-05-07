@@ -17,46 +17,47 @@ namespace Sim::Net
         auto loginResponseInstruments = mExchange.getExchangeInstruments();
 
         mAcceptor.async_accept(*mSocket, [&, loginResponseInstruments](error_code error) {
-            auto client = std::make_shared<Participant>(
-                std::make_unique<OrderFactory>(), std::move(*mSocket), loginResponseInstruments, mDb, mConfig);
+            auto client =
+                std::make_shared<Participant>(std::make_unique<OrderFactory>(), loginResponseInstruments, mDb, mConfig);
 
             mExchange.addParticipant(client);
 
-            client->start(
-                [this](int32_t messageType, std::string const& message) {
-                    // on_message(messageType, message);
-                    (void)this;
-                },
-                [this, weak = std::weak_ptr(client)](std::string message) {
-                    if (auto shared = weak.lock(); shared && mExchange.removeParticipant(shared))
-                    {
-                        std::cout << "Client error: " << message << std::endl;
-                    }
-                    else
-                    {
-                        std::cout << "Error locking and removing client" << std::endl;
-                    }
-                    std::cout << weak.lock().use_count() << std::endl;
-                },
-                std::make_unique<MessageParser>(*client, [this](const std::string& key) -> std::optional<std::string> {
-                    auto result = this->mDb.exec([this, key](pqxx::work& work) {
-                        return work.exec_params(
-                            "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
-                            "AND public.\"UserPermission\".\"exchangeId\"=$2",
-                            key,
-                            this->mExchangeId);
-                    });
-                    if (result.size() == 0)
-                    {
-                        return {};
-                    }
-                    else
-                    {
-                        const auto& userId = result[0]["\"userId\""].as<std::string>();
-                        std::cout << "User " << userId << " logged in" << std::endl;
-                        return userId;
-                    }
-                }));
+            // client->start(
+            //     [this](int32_t messageType, std::string const& message) {
+            //         // on_message(messageType, message);
+            //         (void)this;
+            //     },
+            //     [this, weak = std::weak_ptr(client)](std::string message) {
+            //         if (auto shared = weak.lock(); shared && mExchange.removeParticipant(shared))
+            //         {
+            //             std::cout << "Client error: " << message << std::endl;
+            //         }
+            //         else
+            //         {
+            //             std::cout << "Error locking and removing client" << std::endl;
+            //         }
+            //         std::cout << weak.lock().use_count() << std::endl;
+            //     },
+            //     std::make_unique<MessageParser>(*client, [this](const std::string& key) -> std::optional<std::string>
+            //     {
+            //         auto result = this->mDb.exec([this, key](pqxx::work& work) {
+            //             return work.exec_params(
+            //                 "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
+            //                 "AND public.\"UserPermission\".\"exchangeId\"=$2",
+            //                 key,
+            //                 this->mExchangeId);
+            //         });
+            //         if (result.size() == 0)
+            //         {
+            //             return {};
+            //         }
+            //         else
+            //         {
+            //             const auto& userId = result[0]["\"userId\""].as<std::string>();
+            //             std::cout << "User " << userId << " logged in" << std::endl;
+            //             return userId;
+            //         }
+            //     }));
 
             acceptSocket();
         });
@@ -64,8 +65,8 @@ namespace Sim::Net
 
     void ExchangeServer::messageAll(int32_t messageType, std::string const& message)
     {
-        mExchange.applyToAllParticipants(
-            [&messageType, &message](Participant& participant) { participant.sendMessage(messageType, message); });
+        // mExchange.applyToAllParticipants(
+        //     [&messageType, &message](Participant& participant) { participant.sendMessage(messageType, message); });
     }
 
     void ExchangeServer::sendPriceFeed()
@@ -73,10 +74,10 @@ namespace Sim::Net
         const auto& feed = mExchange.getFeed();
         mExchange.applyToAllParticipants([&feed](Participant& participant) {
             {
-                if (participant.isLoggedIn())
-                {
-                    participant.sendMessage(Protocol::EXCHANGE_FEED, feed.SerializeAsString());
-                }
+                // if (participant.isLoggedIn())
+                // {
+                //     participant.sendMessage(Protocol::EXCHANGE_FEED, feed.SerializeAsString());
+                // }
             }
         });
     }

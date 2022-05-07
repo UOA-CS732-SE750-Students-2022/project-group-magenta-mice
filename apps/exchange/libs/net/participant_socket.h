@@ -60,34 +60,39 @@ namespace Sim::Net
        public:
         ParticipantSession(
             std::optional<tcp::socket>&& socket,
-            Protocol::LoginResponse loginResponse,
-            Db::IConnection& db);
+            Protocol::LoginResponse response,
+            Db::IConnection& connection)
+            : mSocket(std::move(socket)),
+              mLoginResponse{ response },
+              mFSM{ ParticipantFSM::CONNECTED },
+              mDb{ connection }
+        {}
         virtual ~ParticipantSession() = default;
 
-        void injectParser(std::unique_ptr<IMessageParser> parser);
+        void injectParser(std::unique_ptr<IMessageParser> parser){};
         const Protocol::LoginResponse& getLoginResponse() const { return mLoginResponse; }
 
-        void start(message_handler&& on_message, error_handler&& on_error, std::unique_ptr<IMessageParser> parser);
-        void sendMessage(int messageType, std::string const& message);
+        void start(message_handler&& on_message, error_handler&& on_error, std::unique_ptr<IMessageParser> parser){};
+        void sendMessage(int messageType, std::string const& message){};
 
-        virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order) = 0;
-        virtual bool requestOrderCancel(Protocol::CancelOrderRequest& order) = 0;
+        virtual bool requestOrderInsert(Protocol::InsertOrderRequest& order){};
+        virtual bool requestOrderCancel(Protocol::CancelOrderRequest& order){};
 
-        virtual void raiseError(std::string errorMessage) const;
+        virtual void raiseError(std::string errorMessage) const {};
 
-        bool isLoggedIn() const;
-        void login(std::string userId);
-        void logout();
+        bool isLoggedIn() const {};
+        void login(std::string userId){};
+        void logout(){};
 
        protected:
         std::string mUserId;
 
        private:
-        void asyncRead();
-        void onRead(error_code error, std::size_t bytes_transferred);
+        void asyncRead(){};
+        void onRead(error_code error, std::size_t bytes_transferred){};
 
-        void asyncWrite();
-        void onWrite(error_code error, std::size_t bytes_transferred);
+        void asyncWrite(){};
+        void onWrite(error_code error, std::size_t bytes_transferred){};
 
         std::optional<tcp::socket> mSocket;
         io::streambuf mStreamBuf;
