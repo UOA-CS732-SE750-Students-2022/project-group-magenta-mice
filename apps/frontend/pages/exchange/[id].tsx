@@ -1,8 +1,12 @@
-import { Layout } from "@simulate-exchange/components";
+import {
+  Layout,
+  InstrumentCard,
+  useInstrumentCardController,
+} from "@simulate-exchange/components";
 import { useFindExchangeQuery } from "@simulate-exchange/gql";
 import { useFullLoader, useLoggedInRedirect } from "@simulate-exchange/hooks";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export function Exchange() {
@@ -27,11 +31,15 @@ export function Exchange() {
 
   useFullLoader(loggedInLoading || dataLoading);
 
+  const instruments = data?.exchange.instruments;
+
   return (
     <Layout.Page>
-      <div className="flex flex-col gap-4 text-white">
+      <div className="flex flex-col text-white">
         <div>
-          <span className="text-3xl font-bold">{data?.exchange.name}</span>
+          <span className="items-center gap-x-4 text-4xl font-bold text-gray-50">
+            {data?.exchange.name}
+          </span>
           <span className="float-right">
             <button
               type="button"
@@ -43,8 +51,18 @@ export function Exchange() {
           </span>
         </div>
 
-        <div className="flex items-center">
-          <p className="text-2xl font-semibold">My Instruments</p>
+        <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
+          My Instruments
+        </p>
+
+        <div className="flex grid-cols-2 flex-col justify-center gap-3 md:grid">
+          {instruments?.map((instrument) => (
+            <InstrumentCard
+              key={instrument.id}
+              useController={useInstrumentCardController}
+              instrument={instrument}
+            />
+          ))}
         </div>
       </div>
     </Layout.Page>
