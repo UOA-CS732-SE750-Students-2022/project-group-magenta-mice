@@ -42,7 +42,9 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
             </p>
           </span>
         </div>
-        <CustomAreaChart color={generatedColor} />
+        <div className="flex h-1/2 w-full">
+          <CustomAreaChart color={generatedColor} />
+        </div>
       </div>
     </div>
   );

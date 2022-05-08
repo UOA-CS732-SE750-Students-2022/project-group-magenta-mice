@@ -1,46 +1,48 @@
 import React from "react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
+const mockData = [
+  {
+    datapoint: 4,
+  },
+  {
+    datapoint: 3,
+  },
+  {
+    datapoint: 4,
+  },
+  {
+    datapoint: 4,
+  },
+  {
+    datapoint: 5,
+  },
+  {
+    datapoint: 5,
+  },
+  {
+    datapoint: 6,
+  },
+  {
+    datapoint: 7,
+  },
+  {
+    datapoint: 8,
+  },
+];
+
 interface CustomAreaChartProps {
   data?: { datapoint: number }[];
   color: string;
 }
 
 export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
-  data = [
-    {
-      datapoint: 4,
-    },
-    {
-      datapoint: 3,
-    },
-    {
-      datapoint: 4,
-    },
-    {
-      datapoint: 4,
-    },
-    {
-      datapoint: 5,
-    },
-    {
-      datapoint: 5,
-    },
-    {
-      datapoint: 6,
-    },
-    {
-      datapoint: 7,
-    },
-    {
-      datapoint: 8,
-    },
-  ],
+  data = mockData,
   color,
 }) => {
   const fillUrl = "url(#" + color + ")";
   return (
-    <ResponsiveContainer width="99%" height="60%">
+    <ResponsiveContainer width="99%" height="100%">
       <AreaChart
         data={data}
         margin={{
