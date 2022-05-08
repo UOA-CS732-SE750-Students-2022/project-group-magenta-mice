@@ -40,7 +40,7 @@ export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
 }) => {
   const fillUrl = "url(#" + color + ")";
   return (
-    <ResponsiveContainer width="100%" height="60%">
+    <ResponsiveContainer width="99%" height="60%">
       <AreaChart
         data={data}
         margin={{
@@ -53,7 +53,7 @@ export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
         <defs>
           <linearGradient id={color} x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={color} stopOpacity={0.8} />
-            <stop offset="95%" stopColor="rgb(30 41 59)" stopOpacity={0.2} />
+            <stop offset="95%" stopColor="rgb(38 38 38)" stopOpacity={0.2} />
           </linearGradient>
         </defs>
 
