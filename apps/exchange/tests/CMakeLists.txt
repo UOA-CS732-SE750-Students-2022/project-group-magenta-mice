@@ -11,6 +11,7 @@ set(test_sources
   message_parsing_test.cc
   config_test.cc
   config_reader_test.cc
+  exchange_runtime_test.cc
 )
 
 include(FetchContent)
@@ -19,6 +20,12 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
 )
 FetchContent_MakeAvailable(googletest)
+
+find_library(PQXX_LIB pqxx REQUIRED)
+find_library(PQ_LIB pq REQUIRED)
+
+find_package(OpenSSL REQUIRED)
+include_directories(${OPENSSL_INCLUDE_DIRS})
 
 enable_testing()
 
@@ -40,6 +47,9 @@ target_link_libraries(
   ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Protobuf_LIBRARIES}
+  ${PQXX_LIB}
+  ${PQ_LIB}
+  ${OPENSSL_LIBRARIES}
 )
 
 set_target_properties(${test_name}

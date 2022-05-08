@@ -1,11 +1,12 @@
 #pragma once
 
+#include <deque>
 #include <functional>
 #include <mutex>
+#include <optional>
 #include <pqxx/pqxx>
 #include <string>
 #include <thread>
-#include <vector>
 
 namespace Sim::Db
 {
@@ -16,8 +17,9 @@ namespace Sim::Db
         virtual ~IConnection() = default;
 
         virtual pqxx::result exec(const DbQuery& query) = 0;
+        virtual void futureExec(DbQuery&& query) = 0;
 
-        virtual void futureExec(DbQuery& query) = 0;
+        virtual std::optional<std::string> checkKey(const std::string& key, const std::string& exchangeId) = 0;
     };
 
     class Connection : public IConnection
@@ -28,14 +30,16 @@ namespace Sim::Db
         ~Connection() = default;
 
         pqxx::result exec(const DbQuery& query);
-        void futureExec(DbQuery& query);
+        void futureExec(DbQuery&& query);
+
+        std::optional<std::string> checkKey(const std::string& key, const std::string& exchangeId);
 
        private:
         pqxx::connection mConnection;
 
         std::thread mFutureWorkThread;
         std::mutex mLock;
-        std::vector<DbQuery> mFutureWork;
+        std::deque<DbQuery> mFutureWork;
 
         void executeFutureWork();
     };

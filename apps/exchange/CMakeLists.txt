@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.1)
 project(simulate_exchange)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_GENERATOR "Ninja")
 
-add_compile_options(-Wall)
+set(OPENSSL_USE_STATIC_LIBS TRUE)
 
+add_compile_options(-Wall)
 
 find_package(Boost 1.71 COMPONENTS date_time log system thread
         OPTIONAL_COMPONENTS container graph math_c99 math_c99f math_tr1
@@ -29,11 +30,13 @@ find_library(PQXX_LIB pqxx REQUIRED)
 find_library(PQ_LIB pq REQUIRED)
 include_directories(${PQXX_INCLUDE_DIRS})
 
+find_package(OpenSSL REQUIRED)
+include_directories(${OPENSSL_INCLUDE_DIRS})
+
 add_subdirectory(libs)
 include_directories(${PROJECT_SOURCE_DIR}/libs)
 
 include_directories(SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
 
 #################
 # EXCHANGE
@@ -53,6 +56,7 @@ target_link_libraries(exchange
   ${Protobuf_LIBRARIES}
   ${PQXX_LIB}
   ${PQ_LIB}
+  ${OPENSSL_LIBRARIES}
 )
 
 add_subdirectory(tests)

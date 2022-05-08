@@ -1,3 +1,6 @@
-[submodule "apps/exchange/include"]
-	path = apps/exchange/include/rapidjson
-	url = git@github.com:Tencent/rapidjson.git
+[submodule "apps/exchange/include/rapidjson"]
+path = apps/exchange/include/rapidjson
+url = git@github.com:Tencent/rapidjson.git
+[submodule "apps/exchange/include/Simple-WebSocket-Server"]
+	path = apps/exchange/include/wss
+url = https://gitlab.com/eidheim/Simple-WebSocket-Server.git
