@@ -1,6 +1,6 @@
 {
   "name": "@simulate-exchange/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/google-protobuf": "^3.15.6",
     "@types/node": "^17.0.31",
