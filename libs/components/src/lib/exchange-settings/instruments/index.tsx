@@ -1,6 +1,9 @@
 import { InstrumentType } from "@prisma/client";
 import React, { useState } from "react";
-import { InstrumentCard, useInstrumentCardController } from "../../../index";
+import {
+  InstrumentSettingsCard,
+  useInstrumentSettingsCardController,
+} from "../../../index";
 import AddInstrumentsModal, {
   useAddInstrumentsModalController,
 } from "./AddInstrumentsModal";
@@ -85,9 +88,9 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
 
       <div>
         {instruments.map((instrument) => (
-          <InstrumentCard
+          <InstrumentSettingsCard
             key={instrument.id}
-            useController={useInstrumentCardController}
+            useController={useInstrumentSettingsCardController}
             instrument={instrument}
             exchangeId={exchangeId}
           />
@@ -95,8 +98,8 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
       </div>
       {instruments.length < 5 && (
         <div>
-          <InstrumentCard
-            useController={useInstrumentCardController}
+          <InstrumentSettingsCard
+            useController={useInstrumentSettingsCardController}
             exchangeId={exchangeId}
             isAddCard={true}
             onClick={handleOpenAddInstrumentModal}

@@ -8,6 +8,7 @@ import { useFullLoader, useLoggedInRedirect } from "@simulate-exchange/hooks";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import stc from "string-to-color";
 
 export function Exchange() {
   const router = useRouter();
@@ -59,6 +60,7 @@ export function Exchange() {
           {instruments?.map((instrument) => (
             <InstrumentCard
               key={instrument.id}
+              color={stc(instrument.name)}
               useController={useInstrumentCardController}
               instrument={instrument}
             />
