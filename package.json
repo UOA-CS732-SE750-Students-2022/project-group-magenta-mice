@@ -9,6 +9,7 @@
     "build": "nx run-many --parallel --target=build --prod --all",
     "test": "nx run-many --parallel --target=test --all",
     "e2e": "nx run-many --parallel --target=e2e --all",
+    "frontend-e2e": "nx e2e frontend-e2e",
     "prepare": "husky install",
     "watchers": "chokidar \"libs/gql/**/*.gql\" -c \"npm run generate:gql\"",
     "generate:index": "node tools/scripts/generate-index.js",
