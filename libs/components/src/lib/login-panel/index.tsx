@@ -110,7 +110,7 @@ export const useLoginPanelController = (invite?: string) => {
       if (invite) {
         router.push(`/invite/${invite}`);
       } else {
-        router.push("/");
+        router.push("/exchange");
       }
     }
   }, [loggedIn, router, invite]);

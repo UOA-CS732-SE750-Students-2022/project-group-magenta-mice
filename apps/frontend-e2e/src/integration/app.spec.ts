@@ -5,4 +5,11 @@ describe("frontend", () => {
     cy.visit("/");
     cy.url().should("include", "/landing");
   });
+
+  it("authenticated user is not redirected", () => {
+    cy.login();
+    cy.visit("/");
+    cy.url().should("include", "/");
+    cy.logout();
+  });
 });
