@@ -62,7 +62,12 @@ export interface OrderUpdate {
   volumeremaining: number;
 }
 
-export interface OrderFill {}
+export interface OrderFill {
+  clientid: number;
+  instrumentid: number;
+  price: number;
+  volumeFilled: number;
+}
 
 export type LoginResponse = {
   id: number;

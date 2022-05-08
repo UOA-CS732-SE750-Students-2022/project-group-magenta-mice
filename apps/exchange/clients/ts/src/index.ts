@@ -55,12 +55,12 @@ ws.on("feed", (f) => {
   });
 });
 
-ws.on("fill", () => {
-  console.log("fill");
+ws.on("fill", (order) => {
+  console.log(order);
 });
 
-ws.on("update", () => {
-  console.log("update");
+ws.on("update", (order) => {
+  console.log(order);
 });
 
 ws.login("6f0cb665-c2ea-4460-8442-ebfbe01fbedf");

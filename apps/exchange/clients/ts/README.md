@@ -37,12 +37,12 @@ ws.on("feed", (f) => {
   console.log(f);
 });
 
-ws.on("fill", () => {
-  console.log("fill");
+ws.on("fill", (order) => {
+  console.log(order);
 });
 
-ws.on("update", () => {
-  console.log("update");
+ws.on("update", (order) => {
+  console.log(order);
 });
 
 // Login to the exchange with your API key.
