@@ -16,4 +16,4 @@ export * from "./lib/copy-button";
 export * from "./lib/hide-show-button";
 export * from "./lib/sidebar";
 export * from "./lib/instrument-card";
-export * from "./lib/custom-spark-line";
+export * from "./lib/custom-area-chart";

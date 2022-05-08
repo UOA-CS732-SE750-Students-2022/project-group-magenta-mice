@@ -1,12 +1,12 @@
 import React from "react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
-interface CustomLineGraphProps {
+interface CustomAreaChartProps {
   data?: { datapoint: number }[];
   color: string;
 }
 
-export const CustomLineGraph: React.FC<CustomLineGraphProps> = ({
+export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
   data = [
     {
       datapoint: 4,
@@ -63,4 +63,4 @@ export const CustomLineGraph: React.FC<CustomLineGraphProps> = ({
   );
 };
 
-export default CustomLineGraph;
+export default CustomAreaChart;

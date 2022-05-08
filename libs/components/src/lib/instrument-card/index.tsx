@@ -1,6 +1,6 @@
 import { InstrumentType } from "@prisma/client";
 import React from "react";
-import { CustomLineGraph } from "../../index";
+import { CustomAreaChart } from "../../index";
 interface InstrumentCardProps {
   useController: typeof useInstrumentCardController;
   instrument: {
@@ -35,7 +35,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
             </p>
           </span>
         </div>
-        <CustomLineGraph color={color} />
+        <CustomAreaChart color={color} />
       </div>
     </div>
   );
