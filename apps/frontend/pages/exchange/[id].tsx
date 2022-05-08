@@ -36,7 +36,7 @@ export function Exchange() {
 
   return (
     <Layout.Page>
-      <div className="flex flex-col text-white">
+      <div className="flex flex-col">
         <div>
           <span className="items-center gap-x-4 text-4xl font-bold text-gray-50">
             {data?.exchange.name}
@@ -55,19 +55,23 @@ export function Exchange() {
         <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
           My Instruments
         </p>
-        {instruments?.length < 1 ? (
-          <div className="text-gray-400">
-            <span className="mr-2">Your Instruments are currently Empty!</span>
-            <SadFace />
-            <p>To add, go to Settings {">"} Instruments</p>
-          </div>
-        ) : (
-          <div className="flex grid-cols-2 flex-col justify-center gap-3 md:grid">
-            {instruments?.map((instrument) => (
-              <InstrumentCard key={instrument.id} instrument={instrument} />
-            ))}
-          </div>
-        )}
+        <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
+          {instruments?.length < 1 ? (
+            <div className="text-gray-400">
+              <span className="mr-2">
+                Your Instruments are currently Empty!
+              </span>
+              <SadFace />
+              <p>To add, go to Settings {">"} Instruments</p>
+            </div>
+          ) : (
+            <>
+              {instruments?.map((instrument) => (
+                <InstrumentCard key={instrument.id} instrument={instrument} />
+              ))}
+            </>
+          )}
+        </div>
       </div>
     </Layout.Page>
   );

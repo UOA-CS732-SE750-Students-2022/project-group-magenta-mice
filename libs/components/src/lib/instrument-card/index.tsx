@@ -23,7 +23,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
 
   return (
     <div>
-      <div className="h-48 w-full rounded-lg bg-slate-800 p-4 transition-all hover:brightness-110">
+      <div className="h-48 w-full rounded-lg bg-neutral-800 p-4 transition-all hover:brightness-110">
         <div className="flex h-1/2 w-full">
           <span className="mr-3 ml-1 mt-2">
             <Identicon
