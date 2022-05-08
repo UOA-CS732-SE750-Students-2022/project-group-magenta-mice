@@ -1,14 +1,13 @@
-import {
-  Layout,
-  InstrumentCard,
-  useInstrumentCardController,
-} from "@simulate-exchange/components";
+import { Layout, InstrumentCard } from "@simulate-exchange/components";
 import { useFindExchangeQuery } from "@simulate-exchange/gql";
-import { useFullLoader, useLoggedInRedirect } from "@simulate-exchange/hooks";
+import {
+  useFullLoader,
+  useLoggedInRedirect,
+  useEmoji,
+} from "@simulate-exchange/hooks";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import stc from "string-to-color";
 
 export function Exchange() {
   const router = useRouter();
@@ -32,6 +31,7 @@ export function Exchange() {
 
   useFullLoader(loggedInLoading || dataLoading);
 
+  const SadFace = useEmoji("☹", "2rem");
   const instruments = data?.exchange.instruments;
 
   return (
@@ -55,17 +55,19 @@ export function Exchange() {
         <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
           My Instruments
         </p>
-
-        <div className="flex grid-cols-2 flex-col justify-center gap-3 md:grid">
-          {instruments?.map((instrument) => (
-            <InstrumentCard
-              key={instrument.id}
-              color={stc(instrument.name)}
-              useController={useInstrumentCardController}
-              instrument={instrument}
-            />
-          ))}
-        </div>
+        {instruments?.length < 1 ? (
+          <div className="text-gray-400">
+            <span className="mr-2">Your Instruments are currently Empty!</span>
+            <SadFace />
+            <p>To add, go to Settings {">"} Instruments</p>
+          </div>
+        ) : (
+          <div className="flex grid-cols-2 flex-col justify-center gap-3 md:grid">
+            {instruments?.map((instrument) => (
+              <InstrumentCard key={instrument.id} instrument={instrument} />
+            ))}
+          </div>
+        )}
       </div>
     </Layout.Page>
   );

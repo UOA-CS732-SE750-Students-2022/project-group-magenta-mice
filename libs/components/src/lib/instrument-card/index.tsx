@@ -1,8 +1,9 @@
 import { InstrumentType } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import { CustomAreaChart } from "../../index";
+import Identicon from "react-identicons";
+
 interface InstrumentCardProps {
-  useController: typeof useInstrumentCardController;
   instrument: {
     __typename?: "Instrument";
     id: string;
@@ -13,19 +14,25 @@ interface InstrumentCardProps {
     bondFixedPrice: number;
     bondVolatility: number;
   };
-  color: string;
 }
 
 export const InstrumentCard: React.FC<InstrumentCardProps> = ({
-  useController,
   instrument,
-  color,
 }) => {
+  const [generatedColor, setGeneratedColor] = useState("#ffffff");
+
   return (
     <div>
       <div className="h-48 w-full rounded-lg bg-slate-800 p-4 transition-all hover:brightness-110">
         <div className="flex h-1/2 w-full">
-          <span className="mr-3">ICON</span>
+          <span className="mr-3 ml-1 mt-2">
+            <Identicon
+              string={instrument.id}
+              size={40}
+              className="rounded-sm"
+              getColor={(color: string) => setGeneratedColor(`#${color}`)}
+            />
+          </span>
           <span>
             <p className="text-lg font-bold text-gray-200 lg:text-2xl">
               ${instrument?.name.toUpperCase()}
@@ -35,19 +42,10 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
             </p>
           </span>
         </div>
-        <CustomAreaChart color={color} />
+        <CustomAreaChart color={generatedColor} />
       </div>
     </div>
   );
 };
-
-export const useInstrumentCardController = () => {
-  return {};
-};
-
-export const useMockInstrumentCardController: typeof useInstrumentCardController =
-  () => {
-    return {};
-  };
 
 export default InstrumentCard;
