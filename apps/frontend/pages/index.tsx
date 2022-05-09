@@ -16,6 +16,9 @@ export default function Index() {
     if (!loading && !loggedIn) {
       router.push("/landing");
     }
+    if (!loading && loggedIn) {
+      router.push("/exchange");
+    }
   }, [loggedIn, loading, router]);
 
   return <Layout.Page>{loggedIn ? <AuthComponent /> : <></>}</Layout.Page>;
