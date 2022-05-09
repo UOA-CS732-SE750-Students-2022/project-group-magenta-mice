@@ -35,8 +35,9 @@ namespace Sim::Config
 
         auto dbString = document["database"].GetString();
         auto exchangeId = document["exchangeId"].GetString();
+        auto marketMakerKey = document["marketMakerKey"].GetString();
 
-        return ExchangeConfig(port, instrumentVector, dbString, exchangeId);
+        return ExchangeConfig(port, instrumentVector, dbString, exchangeId, marketMakerKey);
     }
 
     bool ConfigReader::validate(int argc, char* argv[]) const

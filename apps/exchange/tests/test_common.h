@@ -59,6 +59,7 @@ namespace Sim::Testing
         MOCK_METHOD(const std::vector<Instrument>&, getInstruments, (), (const));
         MOCK_METHOD(const std::string&, getDbString, (), (const));
         MOCK_METHOD(const std::string&, getExchangeId, (), (const));
+        MOCK_METHOD(const std::string&, getMarketMakerKey, (), (const));
     };
 
     struct MockExchange : public IExchange

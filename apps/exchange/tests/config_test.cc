@@ -9,7 +9,7 @@ namespace Sim::Testing
     {
        protected:
         ConfigTestFixture()
-            : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>(), std::string(), std::string()))
+            : mConfig(Config::ExchangeConfig(0, std::vector<Instrument>(), std::string(), std::string(), std::string()))
         {}
 
         struct ConfigOptions
@@ -18,12 +18,13 @@ namespace Sim::Testing
             std::vector<Instrument> mInstruments;
             std::string mDbString;
             std::string mExchangeId;
+            std::string mMarketMakerKey;
         };
 
         void createConfig(ConfigOptions options)
         {
-            mConfig =
-                Config::ExchangeConfig(options.mPort, options.mInstruments, options.mDbString, options.mExchangeId);
+            mConfig = Config::ExchangeConfig(
+                options.mPort, options.mInstruments, options.mDbString, options.mExchangeId, options.mMarketMakerKey);
         }
 
         Config::ExchangeConfig mConfig;
