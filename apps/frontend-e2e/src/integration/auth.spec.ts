@@ -13,6 +13,12 @@ describe("Auth Page", () => {
     cy.get("p").contains("welcome", { matchCase: false }).should("be.visible");
   });
 
+  it("unauthenticated user should stay in /auth", () => {
+    cy.login();
+    cy.visit("/auth");
+    cy.url().should("include", "/auth");
+  });
+
   afterEach(() => {
     cy.logout();
   });
