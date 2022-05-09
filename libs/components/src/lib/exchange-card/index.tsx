@@ -95,7 +95,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
             color,
             "h-48 w-full cursor-pointer rounded-lg p-4 transition-all hover:brightness-110",
           )}
-          onClick={() => router.push("/exchange/" + id + "/settings")}
+          onClick={() => router.push("/exchange/" + id)}
         >
           <div className="flex h-full w-full justify-between px-2">
             <div className="flex h-full w-full flex-col justify-between">

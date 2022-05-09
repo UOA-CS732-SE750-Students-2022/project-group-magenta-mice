@@ -247,11 +247,11 @@ namespace Sim
     const std::deque<OrderOwningPtr>::const_iterator Orderbook::getTopBid() const
     {
         return mBidOrders.begin()->second.begin();
-    };
+    }
     const std::deque<OrderOwningPtr>::const_iterator Orderbook::getTopAsk() const
     {
         return mAskOrders.begin()->second.begin();
-    };
+    }
 
     std::optional<uint32_t> Orderbook::topBidPrice() const
     {

@@ -28,13 +28,6 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
           <span>{user?.email}</span>
         </div>
       </div>
-      <div>
-        {permission !== Permission.Admin && (
-          <span onClick={removeUser} className="cursor-pointer text-red-500">
-            Remove
-          </span>
-        )}
-      </div>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const AuthComponent = ({ user }) => {
         {`Welcome${firstName}`}
         <Celebrate />
       </p>
-      <p className="bg- mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
+      <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
         My Exchanges
         <Bank />
       </p>

@@ -53,7 +53,7 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
             Use this when logging into the exchange from your bot.
           </span>
           <div
-            className={`mt-2 flex rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600`}
+            className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
           >
             <input
               value={apiKeyText}
@@ -68,6 +68,9 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
             />
             <CopyButton text={apiKey} useController={useCopyButtonController} />
           </div>
+          <div className="mt-2 flex md:hidden">
+            <CopyButton text={apiKey} useController={useCopyButtonController} />
+          </div>
         </div>
       </div>
 
@@ -79,7 +82,7 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
               Share this link to invite others to your exchange.
             </span>
             <div
-              className={`mt-2 flex rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600`}
+              className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
             >
               <input
                 value={inviteLink}
@@ -92,6 +95,12 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
                 isShown={inviteVisible}
                 useController={useHideShowButtonController}
               />
+              <CopyButton
+                text={trueInviteLink}
+                useController={useCopyButtonController}
+              />
+            </div>
+            <div className="mt-2 flex md:hidden">
               <CopyButton
                 text={trueInviteLink}
                 useController={useCopyButtonController}

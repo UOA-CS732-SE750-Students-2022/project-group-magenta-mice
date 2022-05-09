@@ -22,7 +22,7 @@ namespace Sim::Db
         return result;
     }
 
-    void Connection::futureExec(DbQuery& query)
+    void Connection::futureExec(DbQuery&& query)
     {
         std::lock_guard<std::mutex> lock{ mLock };
         mFutureWork.emplace_back(query);
@@ -39,14 +39,41 @@ namespace Sim::Db
             {
                 continue;
             }
-            std::lock_guard<std::mutex> lock{ mLock };
 
-            auto query = mFutureWork.front();
-            mFutureWork.erase(mFutureWork.begin());
+            std::unique_lock<std::mutex> lock{ mLock };
+            auto copy = mFutureWork;
+            mFutureWork.clear();
+            lock.unlock();
 
-            pqxx::work W{ mConnection };
-            auto result = query(W);
-            W.commit();
+            while (!copy.empty())
+            {
+                auto query = copy.front();
+                copy.pop_front();
+
+                pqxx::work W{ mConnection };
+                auto result = query(W);
+                W.commit();
+            }
+        }
+    }
+
+    std::optional<std::string> Connection::checkKey(const std::string& key, const std::string& exchangeId)
+    {
+        auto result = exec([exchangeId, key](pqxx::work& work) {
+            return work.exec_params(
+                "SELECT * FROM public.\"UserPermission\" WHERE public.\"UserPermission\".\"apiKey\"=$1 "
+                "AND public.\"UserPermission\".\"exchangeId\"=$2",
+                key,
+                exchangeId);
+        });
+        if (result.size() == 0)
+        {
+            return {};
+        }
+        else
+        {
+            const auto& userId = result[0]["\"userId\""].as<std::string>();
+            return userId;
         }
     }
 

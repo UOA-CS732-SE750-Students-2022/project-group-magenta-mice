@@ -29,6 +29,23 @@ namespace Sim
         mRequestCancelOrder.emplace(std::move(handler));
     }
 
+    void Participant::setMessageSender(std::function<void(int, const std::string&)>&& handler)
+    {
+        mMessageHandler.emplace(std::move(handler));
+    }
+
+    void Participant::setErrorHandler(std::function<void(const std::string&)>&& handler)
+    {
+        mErrorHandler.emplace(std::move(handler));
+    }
+
+    bool Participant::isLoggedIn() const { return mLoggedIn; }
+    void Participant::login(std::string userId)
+    {
+        mLoggedIn = true;
+        mUserId = userId;
+    }
+
     bool Participant::requestOrderInsert(Protocol::InsertOrderRequest& order)
     {
         if (!checkAndIncrementOrderId(order.clientid()))
@@ -93,10 +110,17 @@ namespace Sim
     {
         if (this->mRequestCancelOrder.has_value())
         {
-            for (auto& order : mOrders)
+            std::vector<uint> toCancel;
+            for (auto& [id, order] : mOrders)
             {
-                (*this->mRequestCancelOrder)(order.second);
+                toCancel.emplace_back(id);
             }
+
+            for (auto& id : toCancel)
+            {
+                (*this->mRequestCancelOrder)(mOrders.at(id));
+            }
+
             return true;
         }
         else
@@ -133,8 +157,22 @@ namespace Sim
         message.set_instrumentid(order.mInstrument);
         message.set_volumefilled(volumeFilled);
         message.set_price(price);
-
         sendMessage(Protocol::ORDER_FILL, message.SerializeAsString());
+
+        auto side = order.mSide;
+        auto inst = order.mInstrument;
+
+        mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
+            return w.exec_params(
+                "INSERT INTO public.\"Trade\" (\"exchangeId\", \"userId\", \"instrumentId\", price, volume, side) "
+                "VALUES ($1, $2, $3, $4, $5, $6)",
+                mConfig.getExchangeId(),
+                this->mUserId,
+                this->mConfig.getInstruments().at(inst).mId,
+                price,
+                volumeFilled,
+                side == Side::BID ? "BID" : "ASK");
+        });
     }
 
     int64_t Participant::getCash() const { return mCash; }
@@ -154,6 +192,22 @@ namespace Sim
         for (auto const& [instrument, position] : mPositions)
         {
             std::cout << "Position for " << instrument << ": " << position << std::endl;
+        }
+    }
+
+    void Participant::sendMessage(int messageType, const std::string& message)
+    {
+        if (mMessageHandler.has_value())
+        {
+            (*mMessageHandler)(messageType, message);
+        }
+    }
+
+    void Participant::raiseError(const std::string& message)
+    {
+        if (mErrorHandler.has_value())
+        {
+            (*mErrorHandler)(message);
         }
     }
 

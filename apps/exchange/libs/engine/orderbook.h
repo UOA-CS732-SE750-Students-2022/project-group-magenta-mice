@@ -38,9 +38,6 @@ namespace Sim
         bool insertBuyOrder(OrderOwningPtr order);
         bool insertSellOrder(OrderOwningPtr order);
 
-        // todo populate this field
-        Instrument mInstrument;
-
         // Price -> Orders
         BidQueue mBidOrders;
         AskQueue mAskOrders;

@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useFindExchangeQuery } from "@simulate-exchange/gql";
+import { Sidebar, useSidebarController } from "@simulate-exchange/components";
 
 export default function Settings() {
   const { loggedIn, loading, user } = useLoggedInRedirect();
@@ -44,35 +45,26 @@ const SettingsComponent = ({ user }) => {
   const [selectedSettings, setSelectedSettings] =
     useState<SettingsPage>("Overview");
 
+  const handlePageChange = (page: SettingsPage) => {
+    setSelectedSettings(page);
+  };
+
   if (loading) {
     return <Loading />;
   }
   return (
     <Layout.Page
       sidebar={
-        <div className="flex flex-col divide-y text-white">
-          <button
-            className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-            onClick={() => setSelectedSettings("Overview")}
-          >
-            <Globe />
-            Overview
-          </button>
-          <button
-            className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-            onClick={() => setSelectedSettings("Instruments")}
-          >
-            <Trumpet />
-            Instruments
-          </button>
-          <button
-            className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-            onClick={() => setSelectedSettings("Permissions")}
-          >
-            <Check />
-            Permissions
-          </button>
-        </div>
+        <Sidebar
+          options={[
+            { page: "Overview", emoji: Globe },
+            { page: "Instruments", emoji: Trumpet },
+            { page: "Permissions", emoji: Check },
+          ]}
+          setPage={handlePageChange}
+          currentPage={selectedSettings}
+          useController={useSidebarController}
+        />
       }
     >
       <div className="flex flex-col">
