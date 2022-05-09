@@ -16,3 +16,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 attachCustomCommands({ Cypress, cy, firebase });
+
+// Cypress.Commands.add('dataCy', (value) => {
+//   return cy.get(`[data-cy=${value}]`);
+// });

@@ -1,3 +1,9 @@
+import {
+  aliasQuery,
+  aliasMutation,
+  hasOperationName,
+} from "../utils/graphql-test-utils";
+
 describe("Exchange Page unauthenticated", () => {
   beforeEach(() => {
     cy.logout();
@@ -12,9 +18,16 @@ describe("Exchange Page authenticated", () => {
   beforeEach(() => {
     cy.login();
     cy.visit("/exchange");
+    cy.intercept("POST", "http://localhost:3333/graphql", (req) => {
+      aliasQuery(req, "CurrentUser");
+    });
+    cy.wait("@gqlCurrentUserQuery").then((interception) => {
+      console.log("response:");
+      console.log(interception.response);
+    });
   });
   afterEach(() => {
-    // cy.logout();
+    cy.logout();
   });
   it("authenticated user should stay in /exchange", () => {
     cy.url().should("include", "/exchange");
@@ -22,8 +35,10 @@ describe("Exchange Page authenticated", () => {
   });
 
   describe("Create Exchange Modal", () => {
-    it("clicking add exchange card opens create exchange modal", () => {
+    beforeEach(() => {
       cy.get("#addCard").click();
+    });
+    it("clicking add exchange card opens create exchange modal", () => {
       cy.get("h3")
         .contains("create an exchange", { matchCase: false })
         .should("be.visible");
@@ -31,7 +46,6 @@ describe("Exchange Page authenticated", () => {
     });
 
     it("clicking cancel button on create exchange modal should close it", () => {
-      cy.get("#addCard").click();
       cy.get("button").contains("cancel", { matchCase: false }).click();
       cy.get("h3")
         .contains("create an exchange", { matchCase: false })
