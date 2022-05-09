@@ -28,6 +28,8 @@ namespace Sim
         void setId(uint32_t id);
         uint32_t getId() const;
 
+        void upgrade();
+
         bool requestOrderInsert(Protocol::InsertOrderRequest& order);
         bool requestOrderCancel(Protocol::CancelOrderRequest& order);
 
@@ -58,6 +60,7 @@ namespace Sim
         uint32_t mIdentifier;
         std::string mUserId;
         bool mLoggedIn{ false };
+        bool mMarketMaker{ false };
 
         std::unique_ptr<OrderFactory> mOrderFactory;
         uint64_t expectedOrderId = 0;
