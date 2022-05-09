@@ -74,7 +74,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
 
   if (isAddCard) {
     return (
-      <div>
+      <div id={id}>
         {ModalCreateExchange}
         <div
           className={cx(
