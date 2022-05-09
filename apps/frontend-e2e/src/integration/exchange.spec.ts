@@ -51,6 +51,17 @@ describe("Exchange Page authenticated", () => {
         .contains("create an exchange", { matchCase: false })
         .should("not.exist");
     });
+
+    it("type in a name and attempt to create exchange by clicking confirm, closes modal", () => {
+      cy.get("input").type("Text Eschange");
+      cy.get("button").contains("confirm", { matchCase: false }).click();
+      cy.get("h3")
+        .contains("create an exchange", { matchCase: false })
+        .should("not.exist");
+      cy.get(".Toastify__toast-body")
+        .contains("creating exchange", { matchCase: false })
+        .should("be.exist");
+    });
   });
 
   describe("User Dropdown", () => {
