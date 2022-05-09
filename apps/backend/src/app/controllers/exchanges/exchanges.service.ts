@@ -105,4 +105,8 @@ export class ExchangesService {
   async deleteInstrument(instrumentId: string) {
     return await this.exchangeStore.deleteInstrument(instrumentId);
   }
+
+  async startExchange(userId: string, exchangeId: string) {
+    return await this.exchangeStore.startExchange(userId, exchangeId);
+  }
 }

@@ -118,4 +118,12 @@ export class ExchangesResolver {
   async deleteInstrument(@Args("instrumentId") instrumentId: string) {
     return await this.exchangesService.deleteInstrument(instrumentId);
   }
+
+  @Mutation(() => String)
+  async startExchange(
+    @CurrentUser() user: DecodedIdToken,
+    @Args("exchangeId") id: string,
+  ) {
+    return await this.exchangesService.startExchange(user.uid, id);
+  }
 }

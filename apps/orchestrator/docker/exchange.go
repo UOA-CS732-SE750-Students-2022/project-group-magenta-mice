@@ -2,13 +2,17 @@ package docker
 
 import (
 	"context"
+	"encoding/json"
+	"io/ioutil"
 	"os"
 	"strconv"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/go-connections/nat"
 	"github.com/joho/godotenv"
+	"simulate.exchange-orchestrator/exchange"
 	"simulate.exchange-orchestrator/util"
 )
 
@@ -18,6 +22,7 @@ var internalExchangePort string
 var exchangeImage string
 var exchangeRestartPolicy string
 var exchangeProtocol string
+var database string
 var internalIp = "0.0.0.0"
 
 func init() {
@@ -27,6 +32,7 @@ func init() {
 	exchangeImage = os.Getenv("EXCHANGE_IMAGE")
 	exchangeProtocol = os.Getenv("PROTOCOL")
 	exchangeRestartPolicy = os.Getenv("EXCHANGE_RESTART_POLICY")
+	database = os.Getenv("DATABASE")
 	min := os.Getenv("EXCHANGE_PORT_MIN")
 	max := os.Getenv("EXCHANGE_PORT_MAX")
 
@@ -55,7 +61,7 @@ func init() {
 	pullImage(exchangeImage)
 }
 
-func CreateExchangeBundle() (string, error) {
+func CreateExchangeBundle(settings exchange.ExchangeSettingsRequest) (string, error) {
 	port, err := util.FindOpenPortInRange(portRange)
 	if err != nil {
 		return "", err
@@ -66,7 +72,7 @@ func CreateExchangeBundle() (string, error) {
 		return "", err
 	}
 
-	exchangeBody, err := createExchangeContainer(port)
+	exchangeBody, err := createExchangeContainer(port, settings)
 	if err != nil {
 		return "", err
 	}
@@ -94,7 +100,12 @@ func createDataGeneratorContainer() (container.ContainerCreateCreatedBody, error
 	return cli.ContainerCreate(context.Background(), containerConfig, nil, nil, nil, "")
 }
 
-func createExchangeContainer(port string) (container.ContainerCreateCreatedBody, error) {
+func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequest) (container.ContainerCreateCreatedBody, error) {
+	err := os.MkdirAll("/configs/"+settings.ExchangeId, os.ModePerm)
+	if err != nil {
+		return container.ContainerCreateCreatedBody{}, err
+	}
+
 	newPort, _ := nat.NewPort(exchangeProtocol, internalExchangePort)
 	hostConfig := &container.HostConfig{
 		PortBindings: nat.PortMap{
@@ -108,9 +119,33 @@ func createExchangeContainer(port string) (container.ContainerCreateCreatedBody,
 		RestartPolicy: container.RestartPolicy{
 			Name: exchangeRestartPolicy,
 		},
+		Mounts: []mount.Mount{
+			{
+				Source:   "/configs/" + settings.ExchangeId,
+				Target:   "/config",
+				Type:     mount.TypeBind,
+				ReadOnly: true,
+			},
+		},
 	}
 
+	portNum, err := strconv.Atoi(internalExchangePort)
+	if err != nil {
+		return container.ContainerCreateCreatedBody{}, err
+	}
+
+	newSettings := exchange.ExchangeSettingsResponse{
+		Port:        portNum,
+		Instruments: settings.Instruments,
+		ExchangeId:  settings.ExchangeId,
+		Database:    database,
+	}
+
+	newSettingsJson, _ := json.Marshal(newSettings)
+	ioutil.WriteFile("/configs/"+settings.ExchangeId+"/config.json", newSettingsJson, 0644)
+
 	containerConfig := &container.Config{
+		Cmd:          []string{"/config/config.json"},
 		Image:        exchangeImage,
 		ExposedPorts: nat.PortSet{newPort: struct{}{}},
 	}

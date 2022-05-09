@@ -8,10 +8,10 @@ import (
 )
 
 func CreateExchangeHandler(w http.ResponseWriter, r *http.Request) {
-	var settings exchange.ExchangeSettings
+	var settings exchange.ExchangeSettingsRequest
 	settings, _ = genericJSONDecode(settings, r.Body)
 
-	port, err := docker.CreateExchangeBundle()
+	port, err := docker.CreateExchangeBundle(settings)
 	if err != nil {
 		textErrorResponse(w, err.Error())
 		return

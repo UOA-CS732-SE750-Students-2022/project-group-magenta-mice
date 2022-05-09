@@ -43,6 +43,7 @@
     "apollo-boost": "^0.4.9",
     "apollo-server-express": "^3.6.4",
     "autoprefixer": "^10.4.2",
+    "axios": "^0.27.2",
     "chokidar-cli": "^3.0.0",
     "classnames": "^2.3.1",
     "core-js": "^3.6.5",
