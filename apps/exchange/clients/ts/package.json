@@ -1,15 +1,16 @@
 {
   "name": "@simulate-exchange/core",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "lint": "prettier --write ./*",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/google-protobuf": "^3.15.6",
     "@types/node": "^17.0.31",
