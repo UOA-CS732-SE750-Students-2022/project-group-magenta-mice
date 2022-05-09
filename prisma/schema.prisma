@@ -33,6 +33,8 @@ model Exchange {
   name   String
   colour Int
   Trade  Trade[]
+
+  marketMakerKey String?
 }
 
 model Invite {
