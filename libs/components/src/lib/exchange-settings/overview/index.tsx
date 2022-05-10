@@ -28,8 +28,6 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
 }) => {
   const {
     handleStartExchange,
-    startExchangeLoading,
-    startExchangeData,
     currentUserPermission,
     handleEditExchange,
     setNewExchangeName,
@@ -144,7 +142,7 @@ export const useOverviewSettingsController = (
   const startExchangeDisabled =
     !!currentExchange.port ||
     startExchangeLoading ||
-    !startExchangeData?.startExchange;
+    !!startExchangeData?.startExchange;
 
   const handleStartExchange = useCallback(async () => {
     try {
@@ -152,7 +150,7 @@ export const useOverviewSettingsController = (
         variables: {
           id: currentExchange.id,
         },
-        refetchQueries: [CurrentUserDocument],
+        refetchQueries: [FindExchangeDocument],
       });
       toast.promise(promise, {
         pending: "Starting Exchange...",
@@ -188,13 +186,11 @@ export const useOverviewSettingsController = (
 
   return {
     setNewExchangeName,
-    startExchangeData,
     currentUserPermission,
     newColor,
     setNewColor,
     handleEditExchange,
     handleStartExchange,
-    startExchangeLoading,
     startExchangeDisabled,
   };
 };
