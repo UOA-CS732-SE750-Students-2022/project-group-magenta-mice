@@ -9,23 +9,22 @@ from threading import Thread
 
 from websocket import WebSocketApp
 
-HEADER_LENGTH = 8
-
 class ExchangeClient:
     '''
     A client class responsible for sending InsertOrder object through socket.
     '''
     def __init__(self, hostname: str = '127.0.0.1', port: int = 15001):
         
-        self.uri = f'wss://{hostname}:{port}'
+        self.uri = f'ws://{hostname}:{port}'
         self.ws = WebSocketApp(self.uri, on_message=self.on_message, on_error=self.on_error)
         
         # hash event_enum: Event => list[handler: Callable]
         self.handlers = {event_enum: [] for event_enum in event_to_class}
-        #self.client_thread = Thread(target=self._run_client)
-        #self.client_thread = Thread(target=self.ws.run_forever)
+ 
         Thread(target=self.ws.run_forever).start()
+        # Waiting for websocket to connect.
         sleep(1)
+        
         self.state = State.NotLoggedInState(self)
 
     def run(self):
