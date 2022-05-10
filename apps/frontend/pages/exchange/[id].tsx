@@ -109,7 +109,7 @@ export function Exchange() {
         </div>
 
         <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
-          My Instruments
+          Instruments
         </p>
         <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
           {instruments?.length < 1 ? (
