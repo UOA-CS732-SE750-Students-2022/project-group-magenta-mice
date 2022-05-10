@@ -18,7 +18,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
 
   const profitLoss = useCurrency(instrumentPL);
   const recentTrades = useMemo(
-    () => instrument.recentTrades.map((t) => t.price),
+    () => instrument.recentTrades.map((t) => t.price).reverse(),
     [instrument],
   );
 
@@ -49,7 +49,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
               {instrumentPL >= 0 ? (
                 <span className="text-green-500">+{profitLoss}</span>
               ) : (
-                <span className="text-red-500">-{profitLoss}</span>
+                <span className="text-red-500">{profitLoss}</span>
               )}
             </p>
           </div>

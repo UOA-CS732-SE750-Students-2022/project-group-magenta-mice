@@ -21,8 +21,9 @@ query FindExchange($id: ID!) {
       positionLimit
       bondFixedPrice
       bondVolatility
-      recentTrades(limit: 10) {
+      recentTrades(limit: 20) {
         price
+        instrumentId
       }
     }
     profitLoss {
