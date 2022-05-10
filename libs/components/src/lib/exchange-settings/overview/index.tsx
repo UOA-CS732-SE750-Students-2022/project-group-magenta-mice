@@ -35,6 +35,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
     setNewExchangeName,
     newColor,
     setNewColor,
+    startExchangeDisabled,
   } = useController(currentExchange);
 
   const [deleteExchange, { loading }] = useDeleteExchangeMutation();
@@ -94,13 +95,16 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       <div className="flex items-center gap-4">
         {currentUserPermission?.permission === "ADMIN" && (
           <button
-            className="mt-4 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-gray-200 transition-colors hover:bg-emerald-500"
+            className={`
+              ${
+                startExchangeDisabled
+                  ? "bg-emerald-500"
+                  : "hover:bg-emerald-500"
+              }
+              mt-4 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-gray-200 transition-colors
+            `}
             onClick={handleStartExchange}
-            disabled={
-              !!currentExchange.port ||
-              startExchangeLoading ||
-              !startExchangeData?.startExchange
-            }
+            disabled={startExchangeDisabled}
           >
             Start Exchange
           </button>
@@ -136,6 +140,11 @@ export const useOverviewSettingsController = (
     () => permissions?.find((p) => p.user.id === uid),
     [permissions, uid],
   );
+
+  const startExchangeDisabled =
+    !!currentExchange.port ||
+    startExchangeLoading ||
+    !startExchangeData?.startExchange;
 
   const handleStartExchange = useCallback(async () => {
     try {
@@ -186,6 +195,7 @@ export const useOverviewSettingsController = (
     handleEditExchange,
     handleStartExchange,
     startExchangeLoading,
+    startExchangeDisabled,
   };
 };
 
