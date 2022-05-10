@@ -194,7 +194,13 @@ export type User = {
   id: Scalars['ID'];
   name: Scalars['String'];
   profilePicUrl?: Maybe<Scalars['String']>;
+  profitLoss: Scalars['Int'];
   userPermissions: Array<UserPermission>;
+};
+
+
+export type UserProfitLossArgs = {
+  exchange: Scalars['ID'];
 };
 
 export type UserPermission = {
@@ -211,7 +217,7 @@ export type FindExchangeQueryVariables = Exact<{
 }>;
 
 
-export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null } }>, instruments: Array<{ __typename?: 'Instrument', id: string, instrumentType: InstrumentType, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number, recentTrades: Array<{ __typename?: 'RecentTrade', price: number, instrumentId: string }> }>, profitLoss: Array<{ __typename?: 'ProfitLoss', instrument: string, profitLoss: number }> } };
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null, profitLoss: number } }>, instruments: Array<{ __typename?: 'Instrument', id: string, instrumentType: InstrumentType, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number, recentTrades: Array<{ __typename?: 'RecentTrade', price: number, instrumentId: string }> }>, profitLoss: Array<{ __typename?: 'ProfitLoss', instrument: string, profitLoss: number }> } };
 
 export type AddInstrumentMutationVariables = Exact<{
   exchangeId: Scalars['String'];
@@ -342,6 +348,7 @@ export const FindExchangeDocument = gql`
         id
         email
         profilePicUrl
+        profitLoss(exchange: $id)
       }
       permission
     }

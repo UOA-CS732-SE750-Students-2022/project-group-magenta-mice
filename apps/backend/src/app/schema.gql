@@ -49,6 +49,7 @@ type User {
   """the google ID"""
   id: ID!
   userPermissions: [UserPermission!]!
+  profitLoss(exchange: ID!): Int!
 }
 
 type Invite {

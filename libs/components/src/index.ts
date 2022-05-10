@@ -5,6 +5,7 @@ export * from "./lib/custom-area-chart";
 export * from "./lib/custom-modal";
 export * from "./lib/divided-text";
 export * from "./lib/exchange-card";
+export * from "./lib/exchange-leaderboard";
 export * from "./lib/exchange-settings";
 export * from "./lib/exchange-user-summary";
 export * from "./lib/glass";

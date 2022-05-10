@@ -10,6 +10,7 @@ query FindExchange($id: ID!) {
         id
         email
         profilePicUrl
+        profitLoss(exchange: $id)
       }
       permission
     }

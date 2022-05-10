@@ -1,11 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { UserStoreService } from "@simulate-exchange/database";
+import {
+  ExchangeStoreService,
+  UserStoreService,
+} from "@simulate-exchange/database";
 import { CreateUserInput } from "./dto/create-user.input";
-import { UpdateUserInput } from "./dto/update-user.input";
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userStore: UserStoreService) {}
+  constructor(
+    private readonly userStore: UserStoreService,
+    private readonly exchangeStore: ExchangeStoreService,
+  ) {}
 
   create(createUserInput: CreateUserInput) {
     return this.userStore.createUser(
@@ -19,5 +24,17 @@ export class UsersService {
   async findById(id: string) {
     const user = await this.userStore.findById(id);
     return user;
+  }
+
+  async profitLoss(userId: string, exchange: string) {
+    const profitLossPerInstrument = await this.exchangeStore.getProfitLoss(
+      exchange,
+      userId,
+    );
+
+    return Object.entries(profitLossPerInstrument).reduce<number>(
+      (acc, [, profitLoss]) => acc + profitLoss,
+      0,
+    );
   }
 }

@@ -78,6 +78,7 @@ export interface User {
     profilePicUrl?: Nullable<string>;
     id: string;
     userPermissions: UserPermission[];
+    profitLoss: number;
 }
 
 export interface Invite {

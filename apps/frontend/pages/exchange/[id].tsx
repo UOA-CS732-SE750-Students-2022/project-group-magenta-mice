@@ -1,17 +1,18 @@
-import { Layout, InstrumentCard } from "@simulate-exchange/components";
 import {
-  useFindExchangeQuery,
-  useGetProfitLossQuery,
-} from "@simulate-exchange/gql";
+  InstrumentCard,
+  Layout,
+  ExchangeLeaderboard,
+} from "@simulate-exchange/components";
+import { useFindExchangeQuery } from "@simulate-exchange/gql";
 import {
+  useCurrency,
+  useEmoji,
   useFullLoader,
   useLoggedInRedirect,
-  useEmoji,
-  useCurrency,
 } from "@simulate-exchange/hooks";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 
 export function Exchange() {
@@ -49,6 +50,16 @@ export function Exchange() {
         ? "from-red-500 via-purple-400 to-blue-500"
         : "from-red-500 via-orange-500 to-pink-500",
     [totalPL],
+  );
+
+  const leaderboard = useMemo(
+    () =>
+      data?.exchange.userPermissions.map((u) => ({
+        name: u.user.name,
+        imageUrl: u.user.profilePicUrl,
+        profitLoss: u.user.profitLoss,
+      })),
+    [data],
   );
 
   useEffect(() => {
@@ -120,6 +131,12 @@ export function Exchange() {
               ))}
             </>
           )}
+        </div>
+        <p className="mb-8 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
+          Leaderboard
+        </p>
+        <div className="flex w-full justify-center">
+          <ExchangeLeaderboard topUsers={leaderboard} />
         </div>
       </div>
     </Layout.Page>
