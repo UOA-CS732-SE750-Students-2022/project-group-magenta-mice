@@ -1,4 +1,3 @@
-from scipy import rand
 from .PriceGeneratorStrategy import PriceGeneratorStrategy
 from scipy.stats import norm
 from typing import List, Optional
@@ -22,7 +21,7 @@ class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
         self._random = random
     
     def generate_prices(self, trend: Optional[int] = 0) -> List[int]:
-        """_summary_
+        """
 
         Args:
             trend: Ignored.
