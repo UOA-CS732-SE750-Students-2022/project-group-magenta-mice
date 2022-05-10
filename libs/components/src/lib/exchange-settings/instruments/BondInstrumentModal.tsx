@@ -170,6 +170,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               type="number"
               autoComplete="none"
               name="name"
+              step="0.01"
               className="mx-4 rounded-lg bg-gray-500 p-2 outline-none focus:ring-1 focus:ring-emerald-600  "
               onChange={(e) => setNewVolatility(e.target.value)}
               defaultValue={values.newVolatility}
