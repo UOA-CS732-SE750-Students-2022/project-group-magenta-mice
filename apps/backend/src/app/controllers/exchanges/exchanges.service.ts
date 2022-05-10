@@ -105,4 +105,18 @@ export class ExchangesService {
   async deleteInstrument(instrumentId: string) {
     return await this.exchangeStore.deleteInstrument(instrumentId);
   }
+
+  async profitLoss(exchangeId: string, userId: string) {
+    const profitLossPerInstrument = await this.exchangeStore.getProfitLoss(
+      exchangeId,
+      userId,
+    );
+
+    return Object.entries(profitLossPerInstrument).map(
+      ([instrument, profitLoss]) => ({
+        instrument,
+        profitLoss,
+      }),
+    );
+  }
 }

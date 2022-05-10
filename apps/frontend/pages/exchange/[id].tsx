@@ -1,12 +1,17 @@
 import { Layout, InstrumentCard } from "@simulate-exchange/components";
-import { useFindExchangeQuery } from "@simulate-exchange/gql";
+import {
+  useFindExchangeQuery,
+  useGetProfitLossQuery,
+} from "@simulate-exchange/gql";
 import {
   useFullLoader,
   useLoggedInRedirect,
   useEmoji,
+  useCurrency,
 } from "@simulate-exchange/hooks";
+import classNames from "classnames";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 
 export function Exchange() {
@@ -21,6 +26,30 @@ export function Exchange() {
     variables: { id: id as string },
     skip: !id || loggedInLoading,
   });
+
+  const instrumentPL = useMemo(
+    () =>
+      data?.exchange.profitLoss.reduce(
+        (acc, curr) => ({ ...acc, [curr.instrument]: curr.profitLoss }),
+        {} as { [key: string]: number },
+      ),
+    [data],
+  );
+
+  const totalPL = useMemo(
+    () =>
+      Object.values(instrumentPL ?? {}).reduce((acc, curr) => acc + curr, 0),
+    [instrumentPL],
+  );
+
+  const totalPLDisplay = useCurrency(totalPL);
+  const plColors = useMemo(
+    () =>
+      totalPL >= 0
+        ? "from-red-500 via-purple-400 to-blue-500"
+        : "from-red-500 via-orange-500 to-pink-500",
+    [totalPL],
+  );
 
   useEffect(() => {
     if (error) {
@@ -37,7 +66,7 @@ export function Exchange() {
   return (
     <Layout.Page>
       <div className="flex flex-col">
-        <div>
+        <div className="mb-4">
           <span className="items-center gap-x-4 text-4xl font-bold text-gray-50">
             {data?.exchange.name}
           </span>
@@ -50,6 +79,22 @@ export function Exchange() {
               Settings
             </button>
           </span>
+        </div>
+
+        <div className="flex flex-col gap-y-1.5 rounded-lg bg-neutral-800 py-4">
+          <h3
+            className={classNames("text-center text-xl font-medium text-white")}
+          >
+            {"Your total P/L is"}
+          </h3>
+          <h2
+            className={classNames(
+              "bg-gradient-to-r bg-clip-text text-center text-5xl font-bold text-transparent",
+              plColors,
+            )}
+          >
+            {totalPLDisplay}
+          </h2>
         </div>
 
         <p className="mb-5 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
@@ -67,7 +112,11 @@ export function Exchange() {
           ) : (
             <>
               {instruments?.map((instrument) => (
-                <InstrumentCard key={instrument.id} instrument={instrument} />
+                <InstrumentCard
+                  key={instrument.id}
+                  instrument={instrument}
+                  instrumentPL={instrumentPL[instrument.id]}
+                />
               ))}
             </>
           )}

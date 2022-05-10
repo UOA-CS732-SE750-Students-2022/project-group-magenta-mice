@@ -1,5 +1,13 @@
 import { CreateInviteInput } from "./dto/create-invite.input";
-import { Resolver, Query, Args, ID, Mutation } from "@nestjs/graphql";
+import {
+  Resolver,
+  Query,
+  Args,
+  ID,
+  Mutation,
+  ResolveField,
+  Parent,
+} from "@nestjs/graphql";
 import { ExchangesService } from "./exchanges.service";
 import { Exchange } from "./entities/exchange.entity";
 import { Invite } from "./entities/invite.entity";
@@ -11,6 +19,8 @@ import { UserPermission } from "../users/entities/permissions.entity";
 import { CreateExchangeInput } from "./dto/create-exchange.input";
 import { AddInstrumentDto } from "./dto/add-instrument.input";
 import { Instrument } from "../instruments/entities/instrument.entity";
+import { ProfitLoss } from "./entities/profit-loss.entity";
+import { RecentTrade } from "../instruments/entities/recent-trade.entity";
 
 @UseGuards(FirebaseGuard)
 @Resolver(() => Exchange)
@@ -117,5 +127,13 @@ export class ExchangesResolver {
   @Mutation(() => Instrument)
   async deleteInstrument(@Args("instrumentId") instrumentId: string) {
     return await this.exchangesService.deleteInstrument(instrumentId);
+  }
+
+  @ResolveField(() => [ProfitLoss])
+  async profitLoss(
+    @Parent() exchange: Exchange,
+    @CurrentUser() user: DecodedIdToken,
+  ) {
+    return await this.exchangesService.profitLoss(exchange.id, user.uid);
   }
 }
