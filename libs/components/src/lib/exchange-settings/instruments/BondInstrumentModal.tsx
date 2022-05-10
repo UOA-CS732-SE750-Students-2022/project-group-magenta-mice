@@ -126,7 +126,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewName(e.target.value)}
-              defaultValue={instrument?.name}
+              defaultValue={instrument?.name ?? "BOND"}
             />
           </div>
           <div className="my-3 ">
@@ -137,7 +137,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewTickSize(e.target.value)}
-              defaultValue={instrument?.tickSizeMin}
+              defaultValue={instrument?.tickSizeMin ?? "1"}
             />
           </div>
 
@@ -149,7 +149,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewPositionLimit(e.target.value)}
-              defaultValue={instrument?.positionLimit}
+              defaultValue={instrument?.positionLimit ?? "100"}
             />
           </div>
           <div className="my-3">
@@ -160,7 +160,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewFixedPrice(e.target.value)}
-              defaultValue={instrument?.bondFixedPrice}
+              defaultValue={instrument?.bondFixedPrice ?? "500"}
             />
           </div>
           <div className="my-3">
@@ -171,7 +171,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2 outline-none focus:ring-1 focus:ring-emerald-600  "
               onChange={(e) => setNewVolatility(e.target.value)}
-              defaultValue={instrument?.bondVolatility}
+              defaultValue={instrument?.bondVolatility ?? "0.05"}
             />
           </div>
         </form>
