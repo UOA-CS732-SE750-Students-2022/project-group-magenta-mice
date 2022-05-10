@@ -44,6 +44,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
     setNewVolatility,
     handleAddBond,
     handleEditBond,
+    values,
   } = useController(
     exchangeId,
     handleCloseModal,
@@ -126,7 +127,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewName(e.target.value)}
-              defaultValue={instrument?.name ?? "BOND"}
+              defaultValue={values.newName}
             />
           </div>
           <div className="my-3 ">
@@ -137,7 +138,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewTickSize(e.target.value)}
-              defaultValue={instrument?.tickSizeMin ?? "1"}
+              defaultValue={values.newTickSize}
             />
           </div>
 
@@ -149,7 +150,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewPositionLimit(e.target.value)}
-              defaultValue={instrument?.positionLimit ?? "100"}
+              defaultValue={values.newPositionLimit}
             />
           </div>
           <div className="my-3">
@@ -160,7 +161,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2  outline-none  focus:ring-1 focus:ring-emerald-600 "
               onChange={(e) => setNewFixedPrice(e.target.value)}
-              defaultValue={instrument?.bondFixedPrice ?? "500"}
+              defaultValue={values.newFixedPrice}
             />
           </div>
           <div className="my-3">
@@ -171,7 +172,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
               name="name"
               className="mx-4 rounded-lg bg-gray-500 p-2 outline-none focus:ring-1 focus:ring-emerald-600  "
               onChange={(e) => setNewVolatility(e.target.value)}
-              defaultValue={instrument?.bondVolatility ?? "0.05"}
+              defaultValue={values.newVolatility}
             />
           </div>
         </form>
@@ -194,18 +195,18 @@ export const useBondInstrumentModalController = (
     bondVolatility: number;
   },
 ) => {
-  const [newName, setNewName] = useState(instrument?.name || "");
+  const [newName, setNewName] = useState(instrument?.name ?? "BOND");
   const [newTickSize, setNewTickSize] = useState(
-    instrument?.tickSizeMin.toString() || "",
+    instrument?.tickSizeMin.toString() ?? "1",
   );
   const [newPositionLimit, setNewPositionLimit] = useState(
-    instrument?.positionLimit.toString() || "",
+    instrument?.positionLimit.toString() ?? "100",
   );
   const [newFixedPrice, setNewFixedPrice] = useState(
-    instrument?.bondFixedPrice.toString() || "",
+    instrument?.bondFixedPrice.toString() ?? "500",
   );
   const [newVolatility, setNewVolatility] = useState(
-    instrument?.bondVolatility.toString() || "",
+    instrument?.bondVolatility.toString() ?? "0.05",
   );
 
   const [addInstrument] = useAddInstrumentMutation();
@@ -370,6 +371,13 @@ export const useBondInstrumentModalController = (
   ]);
 
   return {
+    values: {
+      newName,
+      newTickSize,
+      newPositionLimit,
+      newFixedPrice,
+      newVolatility,
+    },
     setNewName,
     setNewTickSize,
     setNewPositionLimit,
