@@ -13,8 +13,12 @@ export default function Index() {
   useFullLoader(loading);
 
   useEffect(() => {
-    if (!loading && !loggedIn) {
-      router.push("/landing");
+    if (!loading) {
+      if (loggedIn) {
+        router.push("/exchange");
+      } else {
+        router.push("/landing");
+      }
     }
   }, [loggedIn, loading, router]);
 
