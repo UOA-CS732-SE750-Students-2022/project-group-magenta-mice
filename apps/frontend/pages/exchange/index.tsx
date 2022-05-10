@@ -54,6 +54,10 @@ const AuthComponent = ({ user }) => {
             participants={permission.exchange.userPermissions.length}
             isAddCard={false}
             id={permission.exchange.id}
+            profitLoss={permission.exchange.profitLoss.reduce(
+              (acc, curr) => acc + curr.profitLoss,
+              0,
+            )}
           />
         ))}
         <ExchangeCard isAddCard={true} id="addCard" />

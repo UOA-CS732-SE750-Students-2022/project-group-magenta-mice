@@ -1,21 +1,19 @@
-import { InstrumentType } from "@prisma/client";
-import React, { useMemo, useState } from "react";
-import { CustomAreaChart } from "../../index";
-import Identicon from "react-identicons";
-import { useCurrency } from "@simulate-exchange/hooks";
 import { Instrument } from "@simulate-exchange/gql";
+import { useCurrency } from "@simulate-exchange/hooks";
+import React, { useMemo, useState } from "react";
+import Identicon from "react-identicons";
+import { CustomAreaChart } from "../../index";
 
 interface InstrumentCardProps {
   instrument: Instrument;
-  instrumentPL: number;
+  instrumentPL?: number;
 }
 
 export const InstrumentCard: React.FC<InstrumentCardProps> = ({
   instrument,
-  instrumentPL,
+  instrumentPL = 0,
 }) => {
   const [generatedColor, setGeneratedColor] = useState("#ffffff");
-
   const profitLoss = useCurrency(instrumentPL);
   const recentTrades = useMemo(
     () => instrument.recentTrades.map((t) => t.price).reverse(),
@@ -29,7 +27,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
           <div className="flex h-1/2 w-full">
             <span className="mr-3 ml-1 mt-2">
               <Identicon
-                string={instrument.id}
+                string={instrument.name}
                 size={40}
                 className="rounded-sm"
                 getColor={(color: string) => setGeneratedColor(`#${color}`)}

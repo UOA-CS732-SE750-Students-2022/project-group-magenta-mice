@@ -316,7 +316,7 @@ export type GetProfitLossQuery = { __typename?: 'Query', exchange: { __typename?
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: Array<{ __typename?: 'UserPermission', id: string, apiKey: string, permission: Permission, exchange: { __typename?: 'Exchange', id: string, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: Array<{ __typename?: 'UserPermission', id: string, apiKey: string, permission: Permission, exchange: { __typename?: 'Exchange', id: string, name: string, colour: number, profitLoss: Array<{ __typename?: 'ProfitLoss', profitLoss: number }>, userPermissions: Array<{ __typename?: 'UserPermission', id: string }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } }> } };
 
 export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
@@ -855,6 +855,9 @@ export const CurrentUserDocument = gql`
         id
         name
         colour
+        profitLoss {
+          profitLoss
+        }
         userPermissions {
           id
         }
