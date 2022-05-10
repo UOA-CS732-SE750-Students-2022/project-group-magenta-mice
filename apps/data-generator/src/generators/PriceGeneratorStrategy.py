@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
-from .TrendManager import TrendManager
-from typing import List
-
+from typing import List, Optional
+from enum import Enum
 class PriceGeneratorStrategy(ABC):
     """
     A Strategy interface for generating a price at a time.
     """
     @abstractmethod
-    def generate_prices(self, trend: TrendManager) -> List[int]:
+    def generate_prices(self, trend: Optional[int]) -> List[int]:
         pass

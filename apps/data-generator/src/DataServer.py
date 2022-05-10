@@ -1,8 +1,5 @@
-#!/usr/bin/python
-
 import  time, random
 from .generators.DataGenerator import DataGenerator
-from .generators.BondPriceGeneratorStrategy import BondPriceGeneratorStrategy
 
 from libs.ExchangeClient import ExchangeClient
 from libs.InsertOrder import InsertOrder, LifeSpan, Side
@@ -14,8 +11,7 @@ class DataServer:
 
     def __init__(
         self,
-        init_price: int, 
-        volatility: int, 
+        data_generator: DataGenerator,
         max_position_limit: int,
         key: str,
         instrument_id: int,
@@ -37,10 +33,7 @@ class DataServer:
         self.client_id = 0 
         ##### end #####
         
-        self.data_generator = DataGenerator(
-            BondPriceGeneratorStrategy(init_price, volatility),
-            orders_per_second = self.order_per_second
-        )
+        self.data_generator = data_generator
 
     def run(self):
         self.exchange_client.run()

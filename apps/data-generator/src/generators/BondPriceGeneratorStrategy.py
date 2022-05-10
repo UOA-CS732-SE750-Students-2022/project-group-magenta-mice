@@ -1,17 +1,14 @@
-from multiprocessing.sharedctypes import Value
-from scipy import rand
 from .PriceGeneratorStrategy import PriceGeneratorStrategy
-from .TrendManager import TrendManager
 from scipy.stats import norm
-from typing import List
+from typing import List, Optional
 
 class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
     """
     This strategy produces a bond price at a time given its fixed price
-    to diviate around and its volatility (in unit $)
+    to diviate around and its volatility (% relative to the fixed price)
     """
     
-    def __init__(self, fixed_price: float, volatility: float, random = True) -> None:
+    def __init__(self, fixed_price: float, volatility: float, order_per_second: int = 10, random = True) -> None:
         if fixed_price < 0:
             raise ValueError('A price cannot be negative')
         
@@ -23,16 +20,16 @@ class BondPriceGeneratorStrategy(PriceGeneratorStrategy):
         self._sigma = volatility
         self._random = random
     
-    def generate_prices(self, trend: TrendManager) -> List[int]:
-        """_summary_
+    def generate_prices(self, trend: Optional[int] = 0) -> List[int]:
+        """
 
         Args:
-            trend (TrendManager): Ignored.
+            trend: Ignored.
 
         Returns:
-            List[int]: _description_
+            List[int]: list of buy and sell prices
         """
-        theo = int(norm.rvs(self._init_price, self._sigma))
+        theo = int(norm.rvs(self._init_price, self._sigma/100 * self._init_price))
 
         # buy and sell prices will fluctuate a little bit 
         # from theo price.
