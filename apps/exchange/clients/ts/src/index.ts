@@ -39,7 +39,7 @@ export {
   messages,
 };
 
-const ws = new Client("localhost", 15001);
+const ws = new Client("ws://192.168.1.120:10000");
 
 ws.on("feed", (f) => {
   console.log(f);
@@ -63,4 +63,4 @@ ws.on("update", (order) => {
   console.log(order);
 });
 
-ws.login("6f0cb665-c2ea-4460-8442-ebfbe01fbedf");
+ws.login("0be07153-f4e8-474e-aecb-cb84f40a0c37");

@@ -45,10 +45,10 @@ export class Client extends EventEmitter {
   private readonly verbose: boolean;
   private orderIdIncrement: number = 0;
 
-  constructor(host: string, port: number, options: ClientOptions = {}) {
+  constructor(connectionString: string, options: ClientOptions = {}) {
     super();
 
-    this.socket = new WebSocket("ws://localhost:15001");
+    this.socket = new WebSocket(connectionString);
     this.verbose = options.verbose ?? false;
   }
 
