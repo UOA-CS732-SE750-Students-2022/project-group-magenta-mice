@@ -1,8 +1,10 @@
 query FindExchange($id: ID!) {
   exchange(id: $id) {
+    id
     public
     name
     colour
+    port
     userPermissions {
       id
       user {
@@ -149,4 +151,8 @@ mutation EditExchange($id: String!, $name: String!, $color: Int!) {
     name
     colour
   }
+}
+
+mutation StartExchange($id: String!) {
+  startExchange(exchangeId: $id)
 }

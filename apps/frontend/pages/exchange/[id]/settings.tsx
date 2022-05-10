@@ -17,7 +17,10 @@ import {
 
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useFindExchangeQuery } from "@simulate-exchange/gql";
+import {
+  FindExchangeQuery,
+  useFindExchangeQuery,
+} from "@simulate-exchange/gql";
 import { Sidebar, useSidebarController } from "@simulate-exchange/components";
 
 export default function Settings() {
@@ -36,12 +39,12 @@ const SettingsComponent = ({ user }) => {
     },
   });
 
-  const currentExchange = data?.exchange;
+  const currentExchange: FindExchangeQuery["exchange"] = data?.exchange;
   const Globe = useEmoji("🌍", "2rem");
   const Trumpet = useEmoji("🎺", "2rem");
   const Check = useEmoji("✅", "2rem");
 
-  type SettingsPage = "Overview" | "Instruments" | "Permissions";
+  type SettingsPage = "Overview" | "Instruments" | "Access";
   const [selectedSettings, setSelectedSettings] =
     useState<SettingsPage>("Overview");
 
@@ -59,7 +62,7 @@ const SettingsComponent = ({ user }) => {
           options={[
             { page: "Overview", emoji: Globe },
             { page: "Instruments", emoji: Trumpet },
-            { page: "Permissions", emoji: Check },
+            { page: "Access", emoji: Check },
           ]}
           setPage={handlePageChange}
           currentPage={selectedSettings}
@@ -86,8 +89,11 @@ const SettingsComponent = ({ user }) => {
             instruments={currentExchange?.instruments}
           />
         )}
-        {selectedSettings === "Permissions" && (
-          <PermissionSettings useController={usePermissionSettingsController} />
+        {selectedSettings === "Access" && (
+          <PermissionSettings
+            currentExchange={currentExchange}
+            useController={usePermissionSettingsController}
+          />
         )}
       </div>
     </Layout.Page>

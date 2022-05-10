@@ -1,5 +1,6 @@
 import { MockController } from "@simulate-exchange/common";
 import {
+  FindExchangeQuery,
   Permission,
   useCreateInviteMutation,
   useFindExchangeQuery,
@@ -21,12 +22,14 @@ import {
 
 interface PermissionSettingsProps {
   useController: typeof usePermissionSettingsController;
+  currentExchange: FindExchangeQuery["exchange"];
 }
 
 const hiddenSecretText = "********-****-****-****-************";
 
 export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
   useController,
+  currentExchange,
 }) => {
   const {
     apiKey,
@@ -41,11 +44,47 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
     currentUserPermission,
   } = useController();
 
+  const connectionString = currentExchange.port
+    ? `ws://${window.location.hostname}:${currentExchange.port}`
+    : "Exchange has not been started yet.";
+
   return (
     <div className="flex flex-col gap-4 text-white">
       <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
-        Permissions
+        Access
       </p>
+
+      <div className="flex items-center gap-2">
+        <div className="flex w-full flex-col">
+          <span className="font-semibold uppercase">Connection String</span>
+          <span className="text-sm font-semibold text-gray-400">
+            Use this to connect to the exchange server.
+          </span>
+          <div
+            className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
+          >
+            <input
+              value={connectionString}
+              readOnly
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+              className="min-w-0 flex-grow rounded border-0 border-none bg-transparent p-2 py-3 font-mono outline-none ring-0 transition-all focus:outline-none"
+            />
+            {currentExchange.port && (
+              <CopyButton
+                text={connectionString}
+                useController={useCopyButtonController}
+              />
+            )}
+          </div>
+          <div className="mt-2 flex md:hidden">
+            <CopyButton
+              text={connectionString}
+              useController={useCopyButtonController}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="flex items-center gap-2">
         <div className="flex w-full flex-col">
           <span className="font-semibold uppercase">Access Key</span>

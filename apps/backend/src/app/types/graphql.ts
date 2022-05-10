@@ -60,6 +60,7 @@ export interface Exchange {
     public: boolean;
     userPermissions: UserPermission[];
     instruments: Instrument[];
+    port?: Nullable<string>;
 }
 
 export interface UserPermission {
@@ -102,6 +103,7 @@ export interface IMutation {
     addInstrument(exchangeId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
     editInstrument(exchangeId: string, instrumentId: string, instrument: AddInstrumentDto): Instrument | Promise<Instrument>;
     deleteInstrument(instrumentId: string): Instrument | Promise<Instrument>;
+    startExchange(exchangeId: string): string | Promise<string>;
 }
 
 type Nullable<T> = T | null;
