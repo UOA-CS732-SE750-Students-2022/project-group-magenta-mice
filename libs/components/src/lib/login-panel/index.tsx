@@ -36,7 +36,7 @@ export const LoginPanel: React.FC<LoginPanelProps> = ({
           onClick={onClick}
         >
           <GoogleIcon className="h-6 w-6 fill-white text-white" />
-          Continute with Google
+          Continue with Google
         </button>
       </div>
 
@@ -110,7 +110,7 @@ export const useLoginPanelController = (invite?: string) => {
       if (invite) {
         router.push(`/invite/${invite}`);
       } else {
-        router.push("/");
+        router.push("/exchange");
       }
     }
   }, [loggedIn, router, invite]);

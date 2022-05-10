@@ -7,10 +7,7 @@ import {
 import { useEmoji, useLoggedInRedirect } from "@simulate-exchange/hooks";
 import { useMemo } from "react";
 import { useFullLoader } from "@simulate-exchange/hooks";
-import {
-  useCreateTestExchangeMutation,
-  useCurrentUserQuery,
-} from "@simulate-exchange/gql";
+import { useCurrentUserQuery } from "@simulate-exchange/gql";
 
 export default function Index() {
   const { loggedIn, loading, user } = useLoggedInRedirect();
@@ -59,7 +56,7 @@ const AuthComponent = ({ user }) => {
             id={permission.exchange.id}
           />
         ))}
-        <ExchangeCard isAddCard={true} />
+        <ExchangeCard isAddCard={true} id="addCard" />
       </div>
     </div>
   );

@@ -1,33 +1,22 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/database";
+import "firebase/compat/firestore";
+import { attachCustomCommands } from "cypress-firebase";
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string): void;
-  }
-}
-//
-// -- This is a parent command --
-Cypress.Commands.add("login", (email, password) => {
-  console.log("Custom command example: Login", email, password);
-});
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+const firebaseConfig = {
+  apiKey: "AIzaSyCjGvSvxNYTnYUCRTRCE2sSD6He8hgBmUQ",
+  authDomain: "simulate-exchange.firebaseapp.com",
+  projectId: "simulate-exchange",
+  storageBucket: "simulate-exchange.appspot.com",
+  messagingSenderId: "137043782079",
+  appId: "1:137043782079:web:6c83eea2f59ea7eb8d590a",
+  measurementId: "G-FPV5HRNJCX",
+};
+
+firebase.initializeApp(firebaseConfig);
+attachCustomCommands({ Cypress, cy, firebase });
+
+// Cypress.Commands.add('dataCy', (value) => {
+//   return cy.get(`[data-cy=${value}]`);
+// });

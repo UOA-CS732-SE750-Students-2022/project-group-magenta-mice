@@ -32,6 +32,7 @@ export const useFullLoader = (isLoading: boolean | (() => boolean)) => {
       loadingCount.setLoadingCount((o) => o + 1);
       return () => loadingCount.setLoadingCount((o) => o - 1);
     }
+    return;
   }, [isLoading, loadingCount]);
 };
 
