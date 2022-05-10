@@ -84,17 +84,26 @@ namespace Sim::Net
                 }
 
                 const auto& key = loginRequest.key();
-                const auto& loginKey = checkKey(key);
 
-                if (!loginKey.has_value())
+                if (key == mConfig.getMarketMakerKey())
                 {
-                    sender->raiseError("Invalid login key.");
-                    return;
+                    sender->upgrade();
+                }
+                else
+                {
+                    const auto& loginUserId = checkKey(key);
+                    if (!loginUserId.has_value())
+                    {
+                        sender->raiseError("Invalid login key.");
+                        return;
+                    }
+
+                    // the userId is not used by market maker participants
+                    sender->login(*loginUserId);
                 }
 
                 sendMessage(
                     *connection, Protocol::LOGIN_RESPONSE, mExchange.getExchangeInstruments().SerializeAsString());
-                sender->login(*loginKey);
 
                 break;
             }

@@ -129,6 +129,8 @@ namespace Sim
         }
     }
 
+    void Participant::upgrade() { mMarketMaker = true; }
+
     void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining)
     {
         Protocol::OrderUpdateMessage message;
@@ -162,17 +164,21 @@ namespace Sim
         auto side = order.mSide;
         auto inst = order.mInstrument;
 
-        mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
-            return w.exec_params(
-                "INSERT INTO public.\"Trade\" (\"exchangeId\", \"userId\", \"instrumentId\", price, volume, side) "
-                "VALUES ($1, $2, $3, $4, $5, $6)",
-                mConfig.getExchangeId(),
-                this->mUserId,
-                this->mConfig.getInstruments().at(inst).mId,
-                price,
-                volumeFilled,
-                side == Side::BID ? "BID" : "ASK");
-        });
+        // don't write market maker trades to the db
+        if (mMarketMaker)
+        {
+            mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
+                return w.exec_params(
+                    "INSERT INTO public.\"Trade\" (\"exchangeId\", \"userId\", \"instrumentId\", price, volume, side) "
+                    "VALUES ($1, $2, $3, $4, $5, $6)",
+                    mConfig.getExchangeId(),
+                    this->mUserId,
+                    this->mConfig.getInstruments().at(inst).mId,
+                    price,
+                    volumeFilled,
+                    side == Side::BID ? "BID" : "ASK");
+            });
+        }
     }
 
     int64_t Participant::getCash() const { return mCash; }

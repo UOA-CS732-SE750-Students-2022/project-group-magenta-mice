@@ -35,7 +35,8 @@ namespace Sim::Testing
                 }
             ],
             "database": "user=postgres host=winhost port=5432 password=1324 dbname=simulate.exchange",
-            "exchangeId": "123abc"
+            "exchangeId": "123abc",
+            "marketMakerKey": "my-secret-key"
         }
         )";
 
