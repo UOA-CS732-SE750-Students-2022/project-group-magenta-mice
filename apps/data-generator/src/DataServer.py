@@ -1,4 +1,6 @@
-import  time, random
+import time, random
+from typing import List
+
 from .generators.DataGenerator import DataGenerator
 
 from libs.ExchangeClient import ExchangeClient
@@ -7,13 +9,14 @@ from libs.InsertOrder import InsertOrder, LifeSpan, Side
 class DataServer:
     """
     Server for data generator. It uses socket to communicate with clients.
-    """
 
+    """
+    
     def __init__(
         self,
-        data_generator: DataGenerator,
-        max_position_limit: int,
+        data_generators: List[DataGenerator],
         key: str,
+        max_position_limit: int,
         instrument_id: int,
         hostname: str = '127.0.0.1',
         port: int = 15001
@@ -23,52 +26,46 @@ class DataServer:
         """
         
         self.exchange_client = ExchangeClient(hostname=hostname, port=port)
-        login_response = self.exchange_client.send_login_request(key)
-        
-        self.instrument_id = instrument_id
-        self.max_position_limit = max_position_limit
+        self.exchange_client.send_login_request(key)
 
-        ##### To be configured #####
         self.order_per_second = 10
-        self.client_id = 0 
-        ##### end #####
         
-        self.data_generator = data_generator
+        self.data_generators = data_generators
 
     def run(self):
-        self.exchange_client.run()
         while True:
             try:
-                buy_price, sell_price = self.data_generator.generate_data()
-                
-                self.exchange_client.send_insert_request(
-                    InsertOrder(
-                        volume=self.max_position_limit * 10,
-                        price=buy_price,
-                        lifespan=LifeSpan.GFD,
-                        side=Side.BUY,
-                        client_id=self.client_id,
-                        instrument_id=self.instrument_id
+                for data_generator in self.data_generators:
+                    buy_price, sell_price = data_generator.generate_data()
+                    
+                    self.exchange_client.send_insert_request(
+                        InsertOrder(
+                            volume=data_generator.max_position_limit * 10,
+                            price=buy_price,
+                            lifespan=LifeSpan.GFD,
+                            side=Side.BUY,
+                            client_id=data_generator.get_client_id(),
+                            instrument_id=data_generator.instrument_id
+                        )
                     )
-                )
-                
-                self.exchange_client.send_insert_request(
-                    InsertOrder(
-                        volume=self.max_position_limit * 10,
-                        price=sell_price,
-                        lifespan=LifeSpan.GFD,
-                        side=Side.SELL,
-                        client_id=self.client_id,
-                        instrument_id=self.instrument_id
+                    
+                    self.exchange_client.send_insert_request(
+                        InsertOrder(
+                            volume=data_generator.max_position_limit * 10,
+                            price=sell_price,
+                            lifespan=LifeSpan.GFD,
+                            side=Side.SELL,
+                            client_id=data_generator.get_client_id(),
+                            instrument_id=data_generator.instrument_id
+                        )
                     )
-                )
-                
-                self.client_id += 1
-                rand_order_per_sec = self.order_per_second - random.randrange(0, 10)
+                    
+                    data_generator.client_id += 1
+                    rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
 
-                time.sleep(1/rand_order_per_sec)
-                
-                continue
+                    time.sleep(1/rand_order_per_sec)
+                    
+                    continue
             except Exception as e:
                 raise e
         
@@ -80,35 +77,36 @@ class DataServer:
 
         while True:
             try:
-                buy_price, sell_price = self.data_generator.generate_data()
+                for data_generator in self.data_generators:
+                    buy_price, sell_price = data_generator.generate_data()
                 
-                buy_order = InsertOrder(
-                        volume=self.max_position_limit * 10,
+                    buy_order = InsertOrder(
+                        volume=data_generator.max_position_limit * 10,
                         price=buy_price,
                         lifespan=LifeSpan.GFD,
                         side=Side.BUY,
-                        client_id=self.client_id,
-                        instrument_id=self.instrument_id
+                        client_id=data_generator.get_client_id(),
+                        instrument_id=data_generator.instrument_id
                     )
-                
-                
-                sell_order = InsertOrder(
-                        volume=self.max_position_limit * 10,
+
+                    sell_order = InsertOrder(
+                        volume=data_generator.max_position_limit * 10,
                         price=sell_price,
                         lifespan=LifeSpan.GFD,
                         side=Side.SELL,
-                        client_id=self.client_id,
-                        instrument_id=self.instrument_id
+                        client_id=data_generator.get_client_id(),
+                        instrument_id=data_generator.instrument_id
                     )
-
-                rand_order_per_sec = self.order_per_second - random.randrange(0, 10)
-
-                time.sleep(1/rand_order_per_sec)
-
-                print(buy_order)
-                print(sell_order)
+                    
+                    data_generator.client_id += 1
+                    rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
+                    
+                    print(buy_order)
+                    print(sell_order)
                 
-                continue
+                    time.sleep(1/rand_order_per_sec)
+                    
+                    continue
             except Exception as e:
                 raise e
-
+            
