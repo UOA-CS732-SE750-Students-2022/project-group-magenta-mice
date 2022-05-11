@@ -70,7 +70,7 @@ export function ExchangeDashboard() {
     variables: { id: id as string },
     skip: !id || loggedInLoading,
   });
-
+        
   const [currentSubPage, setCurrentSubPage] = useState(SubPage.HOME);
   const [showMenu, setShowMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -122,7 +122,7 @@ export function ExchangeDashboard() {
     const currentUid = getAuth().currentUser?.uid;
     return data?.exchange.userPermissions.find((u) => u.user.id === currentUid);
   }, [data]);
-
+          
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -268,7 +268,7 @@ export function ExchangeDashboard() {
           </span>
           <UserDropdown />
         </div>
-
+        
         <div className="px-4 md:px-8">
           {currentSubPage === SubPage.INSTRUMENTS && (
             <InstrumentSettings
@@ -346,6 +346,12 @@ export function ExchangeDashboard() {
               </div>
             </div>
           )}
+        </div>
+        <p className="mb-8 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
+          Leaderboard
+        </p>
+        <div className="flex w-full justify-center">
+          <ExchangeLeaderboard topUsers={leaderboard} />
         </div>
       </div>
     </div>
