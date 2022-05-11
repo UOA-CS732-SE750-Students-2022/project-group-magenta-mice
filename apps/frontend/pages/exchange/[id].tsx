@@ -70,7 +70,7 @@ export function ExchangeDashboard() {
     variables: { id: id as string },
     skip: !id || loggedInLoading,
   });
-        
+
   const [currentSubPage, setCurrentSubPage] = useState(SubPage.HOME);
   const [showMenu, setShowMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -122,7 +122,7 @@ export function ExchangeDashboard() {
     const currentUid = getAuth().currentUser?.uid;
     return data?.exchange.userPermissions.find((u) => u.user.id === currentUid);
   }, [data]);
-          
+
   useEffect(() => {
     if (error) {
       toast.error(error.message);
@@ -268,7 +268,7 @@ export function ExchangeDashboard() {
           </span>
           <UserDropdown />
         </div>
-        
+
         <div className="px-4 md:px-8">
           {currentSubPage === SubPage.INSTRUMENTS && (
             <InstrumentSettings
@@ -294,6 +294,9 @@ export function ExchangeDashboard() {
 
           {currentSubPage === SubPage.HOME && (
             <div className="flex flex-col gap-4">
+              <span className="block font-['Inter'] text-2xl font-bold md:hidden">
+                Exchange - {data?.exchange.name}
+              </span>
               <div className="flex gap-2 text-lg font-semibold md:text-2xl">
                 <span>Your Profit/Loss:</span>
                 <span
@@ -307,9 +310,6 @@ export function ExchangeDashboard() {
               </div>
 
               <div className="flex flex-col gap-4 md:justify-between md:gap-8 xl:flex-row">
-                <span className="block font-['Inter'] text-2xl font-bold md:hidden">
-                  Exchange - {data?.exchange.name}
-                </span>
                 <div className="flex w-full flex-col gap-4 md:gap-8">
                   <div className="flex w-full flex-col gap-2">
                     <span className="text-lg font-semibold md:text-2xl">
@@ -346,12 +346,6 @@ export function ExchangeDashboard() {
               </div>
             </div>
           )}
-        </div>
-        <p className="mb-8 flex items-center gap-x-3 pt-10 text-2xl font-medium text-gray-50">
-          Leaderboard
-        </p>
-        <div className="flex w-full justify-center">
-          <ExchangeLeaderboard topUsers={leaderboard} />
         </div>
       </div>
     </div>
