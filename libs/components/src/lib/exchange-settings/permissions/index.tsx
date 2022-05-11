@@ -255,6 +255,7 @@ export const useMockPermissionSettingsController: MockController<
         name: "name",
         photoUrl: "photoUrl",
         username: "username",
+        profitLoss: 0,
       },
       permission: Permission.Admin,
       __typename: "UserPermission",

@@ -10,4 +10,16 @@ export class InstrumentStoreService {
       where: { id },
     });
   }
+
+  async getRecentTrades(id: string, limit: number) {
+    return await this.prismaService.trade.findMany({
+      take: limit,
+      where: {
+        instrumentId: id,
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+  }
 }

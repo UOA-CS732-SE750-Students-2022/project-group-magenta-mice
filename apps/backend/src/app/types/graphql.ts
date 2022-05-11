@@ -51,6 +51,7 @@ export interface Instrument {
     positionLimit: number;
     bondFixedPrice: number;
     bondVolatility: number;
+    recentTrades: RecentTrade[];
 }
 
 export interface Exchange {
@@ -60,6 +61,7 @@ export interface Exchange {
     public: boolean;
     userPermissions: UserPermission[];
     instruments: Instrument[];
+    profitLoss: ProfitLoss[];
 }
 
 export interface UserPermission {
@@ -76,12 +78,23 @@ export interface User {
     profilePicUrl?: Nullable<string>;
     id: string;
     userPermissions: UserPermission[];
+    profitLoss: number;
 }
 
 export interface Invite {
     id: string;
     exchangeId: string;
     userId?: Nullable<string>;
+}
+
+export interface ProfitLoss {
+    instrument: string;
+    profitLoss: number;
+}
+
+export interface RecentTrade {
+    instrumentId: string;
+    price: number;
 }
 
 export interface IQuery {

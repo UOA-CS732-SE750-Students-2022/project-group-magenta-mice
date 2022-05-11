@@ -26,18 +26,6 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({
       name: "ABCD",
       type: "Bond",
     },
-    {
-      name: "FGGH",
-      type: "Bond",
-    },
-    {
-      name: "AAPL",
-      type: "Bond",
-    },
-    {
-      name: "QQQ",
-      type: "Stock",
-    },
   ],
   profitLoss = 2000,
   participants = 2,

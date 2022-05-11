@@ -49,6 +49,7 @@ export type Exchange = {
   id: Scalars['String'];
   instruments: Array<Instrument>;
   name: Scalars['String'];
+  profitLoss: Array<ProfitLoss>;
   public: Scalars['Boolean'];
   userPermissions: Array<UserPermission>;
 };
@@ -61,7 +62,13 @@ export type Instrument = {
   instrumentType: InstrumentType;
   name: Scalars['String'];
   positionLimit: Scalars['Int'];
+  recentTrades: Array<RecentTrade>;
   tickSizeMin: Scalars['Int'];
+};
+
+
+export type InstrumentRecentTradesArgs = {
+  limit: Scalars['Float'];
 };
 
 export enum InstrumentType {
@@ -151,6 +158,12 @@ export enum Permission {
   User = 'USER'
 }
 
+export type ProfitLoss = {
+  __typename?: 'ProfitLoss';
+  instrument: Scalars['String'];
+  profitLoss: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   checkInvite: Scalars['Boolean'];
@@ -168,6 +181,12 @@ export type QueryExchangeArgs = {
   id: Scalars['ID'];
 };
 
+export type RecentTrade = {
+  __typename?: 'RecentTrade';
+  instrumentId: Scalars['String'];
+  price: Scalars['Float'];
+};
+
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
@@ -175,7 +194,13 @@ export type User = {
   id: Scalars['ID'];
   name: Scalars['String'];
   profilePicUrl?: Maybe<Scalars['String']>;
+  profitLoss: Scalars['Int'];
   userPermissions: Array<UserPermission>;
+};
+
+
+export type UserProfitLossArgs = {
+  exchange: Scalars['ID'];
 };
 
 export type UserPermission = {
@@ -192,7 +217,7 @@ export type FindExchangeQueryVariables = Exact<{
 }>;
 
 
-export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null } }>, instruments: Array<{ __typename?: 'Instrument', id: string, instrumentType: InstrumentType, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number }> } };
+export type FindExchangeQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', public: boolean, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string, permission: Permission, user: { __typename?: 'User', name: string, id: string, email: string, profilePicUrl?: string | null, profitLoss: number } }>, instruments: Array<{ __typename?: 'Instrument', id: string, instrumentType: InstrumentType, name: string, tickSizeMin: number, positionLimit: number, bondFixedPrice: number, bondVolatility: number, recentTrades: Array<{ __typename?: 'RecentTrade', price: number, instrumentId: string }> }>, profitLoss: Array<{ __typename?: 'ProfitLoss', instrument: string, profitLoss: number }> } };
 
 export type AddInstrumentMutationVariables = Exact<{
   exchangeId: Scalars['String'];
@@ -287,10 +312,17 @@ export type EditExchangeMutationVariables = Exact<{
 
 export type EditExchangeMutation = { __typename?: 'Mutation', editExchange: { __typename?: 'Exchange', id: string, name: string, colour: number } };
 
+export type GetProfitLossQueryVariables = Exact<{
+  exchangeId: Scalars['ID'];
+}>;
+
+
+export type GetProfitLossQuery = { __typename?: 'Query', exchange: { __typename?: 'Exchange', profitLoss: Array<{ __typename?: 'ProfitLoss', instrument: string, profitLoss: number }> } };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: Array<{ __typename?: 'UserPermission', id: string, apiKey: string, permission: Permission, exchange: { __typename?: 'Exchange', id: string, name: string, colour: number, userPermissions: Array<{ __typename?: 'UserPermission', id: string }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } }> } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', name: string, profilePicUrl?: string | null, userPermissions: Array<{ __typename?: 'UserPermission', id: string, apiKey: string, permission: Permission, exchange: { __typename?: 'Exchange', id: string, name: string, colour: number, profitLoss: Array<{ __typename?: 'ProfitLoss', profitLoss: number }>, userPermissions: Array<{ __typename?: 'UserPermission', id: string }>, instruments: Array<{ __typename?: 'Instrument', name: string }> } }> } };
 
 export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
@@ -316,6 +348,7 @@ export const FindExchangeDocument = gql`
         id
         email
         profilePicUrl
+        profitLoss(exchange: $id)
       }
       permission
     }
@@ -327,6 +360,14 @@ export const FindExchangeDocument = gql`
       positionLimit
       bondFixedPrice
       bondVolatility
+      recentTrades(limit: 20) {
+        price
+        instrumentId
+      }
+    }
+    profitLoss {
+      instrument
+      profitLoss
     }
   }
 }
@@ -770,6 +811,44 @@ export function useEditExchangeMutation(baseOptions?: Apollo.MutationHookOptions
 export type EditExchangeMutationHookResult = ReturnType<typeof useEditExchangeMutation>;
 export type EditExchangeMutationResult = Apollo.MutationResult<EditExchangeMutation>;
 export type EditExchangeMutationOptions = Apollo.BaseMutationOptions<EditExchangeMutation, EditExchangeMutationVariables>;
+export const GetProfitLossDocument = gql`
+    query GetProfitLoss($exchangeId: ID!) {
+  exchange(id: $exchangeId) {
+    profitLoss {
+      instrument
+      profitLoss
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProfitLossQuery__
+ *
+ * To run a query within a React component, call `useGetProfitLossQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfitLossQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProfitLossQuery({
+ *   variables: {
+ *      exchangeId: // value for 'exchangeId'
+ *   },
+ * });
+ */
+export function useGetProfitLossQuery(baseOptions: Apollo.QueryHookOptions<GetProfitLossQuery, GetProfitLossQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProfitLossQuery, GetProfitLossQueryVariables>(GetProfitLossDocument, options);
+      }
+export function useGetProfitLossLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProfitLossQuery, GetProfitLossQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProfitLossQuery, GetProfitLossQueryVariables>(GetProfitLossDocument, options);
+        }
+export type GetProfitLossQueryHookResult = ReturnType<typeof useGetProfitLossQuery>;
+export type GetProfitLossLazyQueryHookResult = ReturnType<typeof useGetProfitLossLazyQuery>;
+export type GetProfitLossQueryResult = Apollo.QueryResult<GetProfitLossQuery, GetProfitLossQueryVariables>;
 export const CurrentUserDocument = gql`
     query CurrentUser {
   currentUser {
@@ -783,6 +862,9 @@ export const CurrentUserDocument = gql`
         id
         name
         colour
+        profitLoss {
+          profitLoss
+        }
         userPermissions {
           id
         }

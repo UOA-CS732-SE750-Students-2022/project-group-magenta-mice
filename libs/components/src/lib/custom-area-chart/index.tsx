@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
 const mockData = [
@@ -32,19 +32,22 @@ const mockData = [
 ];
 
 interface CustomAreaChartProps {
-  data?: { datapoint: number }[];
+  data?: number[];
   color: string;
 }
 
 export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
-  data = mockData,
+  data,
   color,
 }) => {
+  const chartData = useMemo(() => data?.map((d) => ({ datapoint: d })), [data]);
+
   const fillUrl = "url(#" + color + ")";
+
   return (
     <ResponsiveContainer width="99%" height="100%">
       <AreaChart
-        data={data}
+        data={chartData}
         margin={{
           top: 5,
           right: 10,
