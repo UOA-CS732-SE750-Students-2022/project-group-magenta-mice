@@ -1,5 +1,5 @@
 from typing import Optional, List
-from PriceGeneratorStrategy import PriceGeneratorStrategy
+from .PriceGeneratorStrategy import PriceGeneratorStrategy
 from scipy.stats import norm
 
 class StockPriceGeneratorStrategy(PriceGeneratorStrategy):
