@@ -72,6 +72,18 @@ function CustomApp({ Component, pageProps }: AppProps) {
     router.events.on("routeChangeError", handleComplete);
   }, [router]);
 
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <ApolloProvider client={client}>
       <ToastContainer position="bottom-left" theme="dark" />

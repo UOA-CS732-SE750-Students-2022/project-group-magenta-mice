@@ -11,13 +11,13 @@ const Header: React.FC = () => {
     <div className="z-10 bg-neutral-800 p-4 shadow-lg">
       <div className="mx-6 flex items-center justify-between sm:mx-10">
         <button
-          className="flex h-auto w-auto items-center bg-transparent sm:ml-0"
+          className="flex h-16 w-16 items-center bg-transparent sm:ml-0"
           onClick={() => push("/exchange")}
         >
           <AppLogo />
         </button>
         <div className="ml-auto">
-          <UserDropdown />
+          <UserDropdown inHeader />
         </div>
       </div>
     </div>
