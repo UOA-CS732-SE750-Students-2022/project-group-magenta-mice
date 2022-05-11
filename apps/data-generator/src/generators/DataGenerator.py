@@ -23,10 +23,10 @@ class DataGenerator:
         """
 
         if instrument['type'] == 'BOND':
-            self._priceGenStrategy = BondPriceGeneratorStrategy(instrument.basePrice, instrument.volatility)
+            self._priceGenStrategy = BondPriceGeneratorStrategy(instrument['basePrice'], instrument['volatility'])
             self._trend = 0
         else:
-            self._priceGenStrategy = StockPriceGeneratorStrategy(instrument.basePrice, instrument.volatility)
+            self._priceGenStrategy = StockPriceGeneratorStrategy(instrument['basePrice'], instrument['volatility'])
             self._trend = 20
             
         self.instrument_id = instrument['ordinal']
