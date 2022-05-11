@@ -9,10 +9,13 @@ packaging==21.3
 pluggy==1.0.0
 protobuf==3.20.1
 py==1.11.0
+-e git+https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange@3569167c18c8f1cceed8ffb92d35c3cf650a600a#egg=py_wrapper&subdirectory=apps/data-generator/libs
 pyparsing==3.0.8
 pytest==7.1.2
 scipy==1.7.3
 soupsieve==2.3.2.post1
 tomli==2.0.1
 typing_extensions==4.2.0
+websocket-client==1.3.2
+websockets==10.3
 zipp==3.8.0
