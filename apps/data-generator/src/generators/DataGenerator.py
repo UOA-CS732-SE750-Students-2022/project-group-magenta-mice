@@ -13,12 +13,14 @@ class DataGenerator:
         ):
         """
         args: instrument {
-                "ordinal": 0,
+                "name": "BOND",
                 "type": "BOND",
+                "ordinal": 0,
                 "positionLimit": 100,
-                "tickSize": 100,
-                "volatility": 0.5,
-                "basePrice": 500
+                "tickSize": 1,
+                "volatility": 0.05,
+                "basePrice": 500,
+                "id": "189b8fbd-3f86-45b1-8ab6-e5e0d462ef44"
             }
         """
 
@@ -31,7 +33,6 @@ class DataGenerator:
             
         self.instrument_id = instrument['ordinal']
         self.max_position_limit = instrument['positionLimit']
-        self.client_id = 0
         
     def generate_data(self):
         """
@@ -40,9 +41,6 @@ class DataGenerator:
 
         self.buy, self.sell = self._priceGenStrategy.generate_prices(self._trend)
         return self.buy, self.sell
-
-    def get_client_id(self):
-        return self.client_id
     
     @property
     def strategy(self):

@@ -27,9 +27,7 @@ if __name__ == '__main__':
 
     ds = DataServer(
         data_generators=data_generators,
-        instrument_id=0,
-        key='example_key',
-        max_position_limit=10,
+        key=config['marketMakerKey'],
         hostname=config['host'],
         port=int(config['port'])
     )

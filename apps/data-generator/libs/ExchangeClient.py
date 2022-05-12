@@ -16,8 +16,7 @@ class ExchangeClient:
     def __init__(self, hostname: str = '127.0.0.1', port: int = 15001):
         
         self.uri = f'ws://{hostname}:{port}'
-        self.ws = WebSocketApp(self.uri, on_message=self.on_message, on_error=self.on_error)
-        
+        self.ws = WebSocketApp(self.uri, on_message=self.on_message, on_error=self.on_error, on_close=self.on_close)
         # hash event_enum: Event => list[handler: Callable]
         self.handlers = {event_enum: [] for event_enum in event_to_class}
  
@@ -27,15 +26,12 @@ class ExchangeClient:
         
         self.state = State.NotLoggedInState(self)
 
-    def run(self):
-        self.state.run()
-
     def on_message(self, ws, message) -> None:
         # first 4 bytes is event type
         event_type_raw = message[:4]
         event_type = int.from_bytes(event_type_raw, byteorder="little")
         
-        print(f"Message type: {event_type}")
+        print(f"Message type: {Event(event_type)}")
         
         if not len(event_type_raw):
             print("Server closed connection")
@@ -51,7 +47,12 @@ class ExchangeClient:
     def on_error(self, ws, error):
         print(error)
 
-
+    def on_close(self, ws, close_status_code, close_msg):
+        print("on_close args:")
+        if close_status_code or close_msg:
+            print("close status code: " + str(close_status_code))
+            print("close message: " + str(close_msg))
+            
     def send_insert_request(self, insert_order: InsertOrder) -> None:
         self.state.send_insert_request(insert_order)
 
@@ -62,7 +63,6 @@ class ExchangeClient:
         self.handlers[event_enum].append(handler)
 
     def emit(self, event_enum: 'Event', data) -> None:
-
         if event_enum not in event_to_class:
             raise Exception(f'Event number {event_enum} does not exist')
 
