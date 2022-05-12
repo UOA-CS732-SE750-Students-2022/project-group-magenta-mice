@@ -3,7 +3,7 @@ from typing import List
 
 from .generators.DataGenerator import DataGenerator
 
-from libs.ExchangeClient import ExchangeClient
+from libs.ExchangeClient import ExchangeClient, Event
 from libs.InsertOrder import InsertOrder, LifeSpan, Side
 
 class DataServer:
@@ -16,8 +16,6 @@ class DataServer:
         self,
         data_generators: List[DataGenerator],
         key: str,
-        max_position_limit: int,
-        instrument_id: int,
         hostname: str = '127.0.0.1',
         port: int = 15001
         ):
@@ -26,10 +24,10 @@ class DataServer:
         """
         
         self.exchange_client = ExchangeClient(hostname=hostname, port=port)
+        self.exchange_client.add_handler(Event.LOGINRESPONSE, print)
         self.exchange_client.send_login_request(key)
-
         self.order_per_second = 10
-        
+        self.client_id = 0
         self.data_generators = data_generators
 
     def run(self):
@@ -37,17 +35,19 @@ class DataServer:
             try:
                 for data_generator in self.data_generators:
                     buy_price, sell_price = data_generator.generate_data()
-                    
+
                     self.exchange_client.send_insert_request(
                         InsertOrder(
                             volume=data_generator.max_position_limit * 10,
                             price=buy_price,
                             lifespan=LifeSpan.GFD,
                             side=Side.BUY,
-                            client_id=data_generator.get_client_id(),
+                            client_id=self.client_id,
                             instrument_id=data_generator.instrument_id
                         )
                     )
+                    
+                    self.client_id += 1
                     
                     self.exchange_client.send_insert_request(
                         InsertOrder(
@@ -55,17 +55,16 @@ class DataServer:
                             price=sell_price,
                             lifespan=LifeSpan.GFD,
                             side=Side.SELL,
-                            client_id=data_generator.get_client_id(),
+                            client_id=self.client_id,
                             instrument_id=data_generator.instrument_id
                         )
                     )
                     
-                    data_generator.client_id += 1
+                    self.client_id += 1
                     rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
 
-                    time.sleep(1/rand_order_per_sec)
-                    
-                    continue
+                time.sleep(1/rand_order_per_sec)
+
             except Exception as e:
                 raise e
         
