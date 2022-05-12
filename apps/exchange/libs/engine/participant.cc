@@ -169,7 +169,7 @@ namespace Sim
         auto inst = order.mInstrument;
 
         // don't write market maker trades to the db
-        if (mMarketMaker)
+        if (!mMarketMaker)
         {
             mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
                 return w.exec_params(
