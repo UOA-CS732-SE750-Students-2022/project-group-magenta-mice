@@ -3,3 +3,4 @@
 *.ai filter=lfs diff=lfs merge=lfs -text
 *.webp binary
 *pb.js linguist-generated
+*generated.tsx linguist-generated
