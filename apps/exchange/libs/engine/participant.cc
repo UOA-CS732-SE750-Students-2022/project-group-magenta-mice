@@ -129,7 +129,11 @@ namespace Sim
         }
     }
 
-    void Participant::upgrade() { mMarketMaker = true; }
+    void Participant::upgrade()
+    {
+        mMarketMaker = true;
+        mLoggedIn = true;
+    }
 
     void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining)
     {
