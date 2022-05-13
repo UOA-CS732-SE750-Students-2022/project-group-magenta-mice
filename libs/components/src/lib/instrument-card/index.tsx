@@ -22,7 +22,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
 
   return (
     <div className="flex w-full justify-between rounded-lg border p-4 dark:border-black dark:bg-neutral-800 2xl:p-6">
-      <div className="hidden gap-4 2xl:flex">
+      <div className="hidden w-56 gap-4 2xl:flex">
         <Identicon
           string={instrument.name}
           size={145}
@@ -45,7 +45,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
         </div>
       </div>
 
-      <div className="flex gap-2 2xl:hidden">
+      <div className="flex w-40 gap-2 2xl:hidden">
         <Identicon
           string={instrument.name}
           size={100}
@@ -68,7 +68,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
         </div>
       </div>
 
-      <div className="flex h-24 w-full md:max-w-xs 2xl:h-36 2xl:max-w-lg">
+      <div className="ml-4 flex h-24 w-full xl:ml-12">
         {recentTrades.length ? (
           <CustomAreaChart color={generatedColor} data={recentTrades} />
         ) : (
