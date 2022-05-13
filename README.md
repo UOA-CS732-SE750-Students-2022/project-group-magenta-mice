@@ -57,6 +57,17 @@ Run `nx affected:test` to execute the unit tests affected by a change.
 
 Run `npm run e2e` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
+You will need in the frontend-e2e folder:
+- `cypress.env.json` 
+  - Copy in a user UID from https://console.firebase.google.com/u/1/project/simulate-exchange/authentication/users (or your equivalent)
+  - This will require at least one user logged in for the first time
+- `serviceAccount.json` 
+  - Generate and rename into file from https://console.firebase.google.com/u/1/project/simulate-exchange/settings/serviceaccounts/adminsdk (or your equivalent)
+
+You can see what they should look like in the `cypress.env.sample.json` and  `serviceAccount.sample.json`  files
+
+Run frontend e2e test with `npm run frontend-e2e`
+
 ## Understanding the Workspace
 
 Run `nx graph` to see a diagram of the dependencies of your projects.
