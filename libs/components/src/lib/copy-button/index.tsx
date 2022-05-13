@@ -2,7 +2,7 @@ import { DuplicateIcon } from "@heroicons/react/outline";
 import React from "react";
 import { toast } from "react-toastify";
 
-interface CopyButtonProps {
+export interface CopyButtonProps {
   useController: typeof useCopyButtonController;
   text: string;
 }

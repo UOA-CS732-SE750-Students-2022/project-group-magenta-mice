@@ -52,6 +52,7 @@
     "graphql": "^15.8.0",
     "graphql-tools": "^8.2.0",
     "next": "12.1.0",
+    "passport": "^0.5.2",
     "passport-firebase-jwt": "^1.2.1",
     "postcss": "^8.4.8",
     "react": "17.0.2",

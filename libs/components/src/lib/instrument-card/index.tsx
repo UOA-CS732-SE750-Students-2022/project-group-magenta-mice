@@ -4,8 +4,9 @@ import React, { useMemo, useState } from "react";
 import Identicon from "react-identicons";
 import { CustomAreaChart } from "../../index";
 
-interface InstrumentCardProps {
-  instrument: Instrument;
+export interface InstrumentCardProps {
+  instrument: Partial<Instrument> &
+    Pick<Instrument, "instrumentType" | "recentTrades" | "name">;
   instrumentPL?: number;
 }
 
@@ -30,10 +31,10 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
           getColor={(color: string) => setGeneratedColor(`#${color}`)}
         />
         <div className="flex flex-col justify-between gap-2 font-semibold">
-          <span className="text-xl">${instrument?.name.toUpperCase()}</span>
+          <span className="text-xl">${instrument?.name?.toUpperCase()}</span>
 
           <div className="flex flex-col gap-2">
-            <span>Type: {instrument?.instrumentType}</span>
+            <span>Type: {instrument.instrumentType}</span>
             <div>
               {instrumentPL >= 0 ? (
                 <span className="text-green-500">P/L: +{profitLoss}</span>

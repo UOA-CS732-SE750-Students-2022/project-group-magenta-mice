@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   return null;
 };
 
-interface CustomAreaChartProps {
+export interface CustomAreaChartProps {
   data?: number[];
   color: string;
 }
