@@ -270,4 +270,22 @@ namespace Sim::Testing
         ASSERT_EQ(callCount, 1);
     }
 
+    TEST_F(ParticipantTestFixture, ExceedingPositionLimitKicksFromExchange)
+    {
+        setupParticipant([](MockOrderFactory& factory) {});
+
+        int callCount = 0;
+        mParticipant->setErrorHandler([&callCount](const std::string& messsage) { callCount++; });
+
+        Order order{ 0, 1, Lifespan::FAK, Side::SELL, 1, 101 };
+
+        // ok
+        mParticipant->handleOrderFill(order, 100, 1);
+
+        // bad
+        mParticipant->handleOrderFill(order, 1, 1);
+
+        EXPECT_EQ(callCount, 1);
+    }
+
 } // namespace Sim::Testing
