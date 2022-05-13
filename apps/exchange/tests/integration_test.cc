@@ -8,15 +8,20 @@ namespace Sim::Testing
     {
        protected:
         IntegrationTestFixture()
-            : mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
+            : mInstruments(std::vector<Instrument>()),
+              mExchange(std::make_unique<ParticipantManager>(), std::make_unique<OrderbookManager>()),
               mDatabase(std::make_unique<MockConnection>()),
               mConfig(std::make_unique<MockConfig>())
         {
-            mExchange.addInstrument(Instrument{
+            mInstruments.emplace_back(Instrument{
                 .mName = "AAPL",
                 .mPositionLimit = 100,
                 .mTickSizeCents = 1,
             });
+
+            mExchange.addInstrument(mInstruments.at(0));
+
+            ON_CALL(*mConfig, getInstruments()).WillByDefault(ReturnRef(mInstruments));
 
             mParticipant1 = std::make_shared<NiceMock<MockParticipant>>(
                 std::make_unique<OrderFactory>(), Protocol::LoginResponse(), *mDatabase, *mConfig);
@@ -61,6 +66,7 @@ namespace Sim::Testing
             return std::make_pair(insertRequest, cancelRequest);
         }
 
+        std::vector<Instrument> mInstruments;
         Exchange mExchange;
         std::unique_ptr<Db::IConnection> mDatabase;
         std::unique_ptr<MockConfig> mConfig;

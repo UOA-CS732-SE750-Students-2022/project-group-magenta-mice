@@ -11,7 +11,22 @@ namespace Sim::Testing
        protected:
         ParticipantTestFixture()
             : mConnection{ std::make_unique<MockConnection>() }, mConfig{ std::make_unique<MockConfig>() }
-        {}
+        {
+            mInstruments.emplace_back(Instrument{
+                .mName = "AAPL",
+                .mPositionLimit = 100,
+                .mTickSizeCents = 1,
+                .mId = "abc",
+            });
+            mInstruments.emplace_back(Instrument{
+                .mName = "NVDA",
+                .mPositionLimit = 100,
+                .mTickSizeCents = 1,
+                .mId = "def",
+            });
+
+            ON_CALL(*mConfig, getInstruments()).WillByDefault(ReturnRef(mInstruments));
+        }
 
         void setupParticipant(std::function<void(MockOrderFactory&)> applicator)
         {
@@ -22,6 +37,7 @@ namespace Sim::Testing
                 std::move(orderFactory), Protocol::LoginResponse(), *mConnection, *mConfig);
         }
 
+        std::vector<Instrument> mInstruments;
         std::unique_ptr<Db::IConnection> mConnection;
         std::unique_ptr<MockConfig> mConfig;
         std::unique_ptr<MockParticipant> mParticipant;

@@ -1,6 +1,7 @@
 #include "conversions.h"
 #include "participant.h"
 
+#include <cmath>
 #include <functional>
 
 namespace Sim
@@ -156,6 +157,12 @@ namespace Sim
         {
             mPositions[order.mInstrument] -= volumeFilled;
             mCash += volumeFilled * price;
+        }
+
+        if (!mMarketMaker &&
+            std::abs(mPositions[order.mInstrument]) > mConfig.getInstruments().at(order.mInstrument).mPositionLimit)
+        {
+            raiseError("Position limit exceeded");
         }
 
         Protocol::OrderFillMessage message;
