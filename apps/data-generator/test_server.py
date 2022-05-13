@@ -2,6 +2,7 @@ import struct
 import libs.exchange_pb2 as proto
 from time import sleep
 
+import libs.exchange_pb2 as exchange_proto
 
 import websockets, asyncio
 
@@ -37,26 +38,27 @@ async def handler(websocket):
             )
 
     while True:
-        obj = proto.OrderUpdateMessage()
-        obj.volumeRemaining = 100
-        obj_ser = obj.SerializeToString()
+        # obj = proto.OrderUpdateMessage()
+        # obj.volumeRemaining = 100
+        # obj_ser = obj.SerializeToString()
         
-        await websocket.send(
-            struct.pack('<i', proto.ORDER_UPDATE)
-            + obj_ser
-        )
+        # await websocket.send(
+        #     struct.pack('<i', proto.ORDER_UPDATE)
+        #     + obj_ser
+        # )
+        # sleep(1)
         
-        sleep(1)
-    
-    # # for insert order
-    # message = await websocket.recv()
-    # print(message)
         
+        # for insert order
+        message = await websocket.recv()
+        order = exchange_proto.InsertOrderRequest()
+        order.ParseFromString(message[4:])
+        print(order)
+        print('')
 
 async def main():
     ip = '127.0.0.1'
-    port=15001
-    
+    port=4000
     async with websockets.serve(handler, ip, port):
         await asyncio.Future()
         

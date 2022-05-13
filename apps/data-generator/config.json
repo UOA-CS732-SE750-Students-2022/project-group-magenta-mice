@@ -1,0 +1,23 @@
+{
+    "port": 4000,
+    "host": "127.0.0.1",
+    "instruments": [
+      {
+        "ordinal": 0,
+        "type": "BOND",
+        "positionLimit": 100,
+        "tickSize": 100,
+        "volatility": 0.5,
+        "basePrice": 500
+      }, 
+      {
+        "ordinal": 1,
+        "type": "BOND",
+        "positionLimit": 100,
+        "tickSize": 100,
+        "volatility": 5,
+        "basePrice": 500
+      }
+    ],
+    "marketMakerKey": "super secret sexy uuidv4"
+  }
