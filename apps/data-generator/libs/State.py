@@ -5,6 +5,7 @@ import exchange_pb2 as proto
 from LoginResponse import LoginResponse
 import struct
 from time import sleep
+
 from websocket import ABNF
 
 class State(ABC):

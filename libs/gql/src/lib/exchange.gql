@@ -10,6 +10,7 @@ query FindExchange($id: ID!) {
         id
         email
         profilePicUrl
+        profitLoss(exchange: $id)
       }
       permission
     }
@@ -21,6 +22,14 @@ query FindExchange($id: ID!) {
       positionLimit
       bondFixedPrice
       bondVolatility
+      recentTrades(limit: 20) {
+        price
+        instrumentId
+      }
+    }
+    profitLoss {
+      instrument
+      profitLoss
     }
   }
 }
@@ -148,5 +157,14 @@ mutation EditExchange($id: String!, $name: String!, $color: Int!) {
     id
     name
     colour
+  }
+}
+
+query GetProfitLoss($exchangeId: ID!) {
+  exchange(id: $exchangeId) {
+    profitLoss {
+      instrument
+      profitLoss
+    }
   }
 }

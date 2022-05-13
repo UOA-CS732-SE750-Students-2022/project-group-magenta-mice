@@ -25,7 +25,8 @@ export const ColorSelect: React.FC<ColorSelectProps> = ({
           onClick={() => setSelectedColor(+key)}
           className={cx(
             {
-              "outline outline-2 outline-white": selectedColor === +key,
+              "outline outline-2 outline-gray-200 dark:outline-white":
+                selectedColor === +key,
             },
             value,
             "h-10 w-10 cursor-pointer rounded-full transition-transform duration-200 hover:scale-110 hover:brightness-110",

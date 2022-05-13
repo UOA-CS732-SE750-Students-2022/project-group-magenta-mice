@@ -5,6 +5,7 @@ module.exports = {
     "apps/frontend/pages/**/*.{js,ts,jsx,tsx}",
     "libs/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {},
   },

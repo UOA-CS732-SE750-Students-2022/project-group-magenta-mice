@@ -96,7 +96,7 @@ namespace Sim
             }
             else
             {
-                raiseError("Order ID not found");
+                // raiseError("Order ID not found");
                 return false;
             }
         }
@@ -129,7 +129,11 @@ namespace Sim
         }
     }
 
-    void Participant::upgrade() { mMarketMaker = true; }
+    void Participant::upgrade()
+    {
+        mMarketMaker = true;
+        mLoggedIn = true;
+    }
 
     void Participant::handleOrderUpdate(const Order& order, uint32_t volumeRemaining)
     {
@@ -165,7 +169,7 @@ namespace Sim
         auto inst = order.mInstrument;
 
         // don't write market maker trades to the db
-        if (mMarketMaker)
+        if (!mMarketMaker)
         {
             mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
                 return w.exec_params(

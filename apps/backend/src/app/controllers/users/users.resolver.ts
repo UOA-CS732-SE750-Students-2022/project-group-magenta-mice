@@ -1,4 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+  ID,
+} from "@nestjs/graphql";
 import { UsersService } from "./users.service";
 import { User } from "./entities/user.entity";
 import { CreateUserInput } from "./dto/create-user.input";
@@ -24,5 +33,13 @@ export class UsersResolver {
   @Query(() => User, { name: "currentUser" })
   async currentUser(@CurrentUser() user: DecodedIdToken) {
     return await this.usersService.findById(user.uid);
+  }
+
+  @ResolveField(() => Int)
+  async profitLoss(
+    @Parent() user: User,
+    @Args({ type: () => ID, name: "exchange" }) exchange: string,
+  ) {
+    return await this.usersService.profitLoss(user.id, exchange);
   }
 }

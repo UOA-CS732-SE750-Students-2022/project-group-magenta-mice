@@ -8,4 +8,8 @@ export class InstrumentsService {
   async getInstrument(id: string) {
     return await this.instrumentStore.getInstrument(id);
   }
+
+  async getRecentTrades(id: string, limit: number) {
+    return await this.instrumentStore.getRecentTrades(id, limit);
+  }
 }

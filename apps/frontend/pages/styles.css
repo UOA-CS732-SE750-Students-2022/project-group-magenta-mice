@@ -10,16 +10,16 @@ html {
   line-height: 1.5;
   tab-size: 4;
   scroll-behavior: smooth;
-  @apply bg-neutral-900;
+  @apply bg-white dark:bg-neutral-900;
 }
 
 .card {
-  @apply backdrop-blur-md backdrop-saturate-200 bg-gray-900 bg-opacity-75 rounded-xl backdrop-brightness-110;
+  @apply rounded-xl bg-gray-900 bg-opacity-75 backdrop-blur-md backdrop-brightness-110 backdrop-saturate-200;
   border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
 .divided-text {
-  @apply overflow-hidden w-10/12 text-center;
+  @apply w-10/12 overflow-hidden text-center;
 }
 
 .divided-text > span {
@@ -29,7 +29,7 @@ html {
 .divided-text > span:before,
 .divided-text > span:after {
   content: "";
-  @apply absolute top-1/2 border-b border-gray-400 w-full mx-5;
+  @apply absolute top-1/2 mx-5 w-full border-b border-gray-400;
 }
 
 .divided-text > span:before {
@@ -38,4 +38,8 @@ html {
 
 .divided-text > span:after {
   @apply left-full;
+}
+
+.tooltip {
+  @apply p-2  !important;
 }

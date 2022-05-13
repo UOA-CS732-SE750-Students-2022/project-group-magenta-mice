@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ValidationError } from "apollo-server-express";
-import { InstrumentType } from ".prisma/client";
+import { InstrumentType, Side } from ".prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
@@ -189,5 +189,68 @@ export class ExchangeStoreService {
       where: { id: instrumentId },
     });
     return instrument;
+  }
+
+  async getProfitLoss(exchangeId: string, userId: string) {
+    type TradeProducts = {
+      product: number;
+      instrumentId: string;
+      side: Side;
+      volume: number;
+    }[];
+    type MostRecent = { instrumentId: string; id: number; price: number }[];
+
+    const volPriceProduct: TradeProducts = await this.prismaService.$queryRaw`
+      SELECT
+        sum(price*volume) AS product,
+        sum(volume) as volume,
+        "instrumentId",
+        "side"
+      FROM
+        "public"."Trade"
+      WHERE
+        "Trade"."userId"=${userId} AND
+        "Trade"."exchangeId"=${exchangeId}
+      GROUP BY
+        "Trade"."instrumentId",
+        "Trade"."side";
+    `;
+
+    const mostRecentTrades: MostRecent = await this.prismaService.$queryRaw`
+      SELECT DISTINCT ON ("instrumentId")
+        "instrumentId",
+        id,
+        price
+      FROM
+        public."Trade"
+      ORDER BY
+        "instrumentId",
+        id
+      DESC;
+    `;
+
+    const keyedRecent = mostRecentTrades.reduce(
+      (acc, curr) => ({ ...acc, [curr.instrumentId]: curr }),
+      {},
+    );
+
+    const cashPerInstrument = volPriceProduct.reduce((acc, curr) => {
+      const next = { ...acc };
+      if (!next[curr.instrumentId]) {
+        next[curr.instrumentId] = 0;
+      }
+
+      if (curr.side === "ASK") {
+        next[curr.instrumentId] +=
+          curr.product - curr.volume * keyedRecent[curr.instrumentId].price;
+      } else {
+        next[curr.instrumentId] +=
+          -curr.product + curr.volume * keyedRecent[curr.instrumentId].price;
+      }
+
+      return next;
+    }, {} as { [instrument: string]: number });
+
+    return cashPerInstrument;
   }
 }

@@ -15,7 +15,7 @@ export const ExchangeUserSummary: React.FC<ExchangeUserSummaryProps> = ({
   const { removeUser } = useController();
 
   return (
-    <div className="flex items-center justify-between rounded bg-neutral-800 p-4 text-white">
+    <div className="flex items-center justify-between rounded border p-4 text-gray-600 dark:border-0 dark:bg-neutral-800 dark:text-white">
       <div className="flex items-center gap-4">
         <img
           src={user.profilePicUrl ?? ""}

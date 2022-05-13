@@ -259,6 +259,7 @@ export const useBondInstrumentModalController = (
                       positionLimit: result?.addInstrument.positionLimit,
                       bondFixedPrice: result?.addInstrument.bondFixedPrice,
                       bondVolatility: result?.addInstrument.bondVolatility,
+                      recentTrades: [],
                     },
                   ],
                 },
