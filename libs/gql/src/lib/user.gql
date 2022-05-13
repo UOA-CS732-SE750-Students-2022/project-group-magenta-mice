@@ -10,6 +10,9 @@ query CurrentUser {
         id
         name
         colour
+        profitLoss {
+          profitLoss
+        }
         userPermissions {
           id
         }

@@ -42,8 +42,8 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
   } = useController();
 
   return (
-    <div className="flex flex-col gap-4 text-white">
-      <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
+    <div className="flex flex-col gap-4 text-gray-600 dark:text-white">
+      <p className="flex items-center gap-x-4 text-4xl font-bold dark:text-gray-50 ">
         Permissions
       </p>
       <div className="flex items-center gap-2">
@@ -53,7 +53,7 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
             Use this when logging into the exchange from your bot.
           </span>
           <div
-            className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
+            className={`mt-2 hidden rounded ring-1 ring-gray-200 transition-all focus-within:ring-emerald-600 dark:bg-neutral-700 dark:text-gray-100 dark:ring-neutral-800 md:flex`}
           >
             <input
               value={apiKeyText}
@@ -82,7 +82,7 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
               Share this link to invite others to your exchange.
             </span>
             <div
-              className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
+              className={`mt-2 hidden rounded ring-1 ring-gray-200 transition-all focus-within:ring-emerald-600 dark:bg-neutral-700 dark:text-gray-100 dark:ring-neutral-800 md:flex`}
             >
               <input
                 value={inviteLink}
@@ -255,6 +255,7 @@ export const useMockPermissionSettingsController: MockController<
         name: "name",
         photoUrl: "photoUrl",
         username: "username",
+        profitLoss: 0,
       },
       permission: Permission.Admin,
       __typename: "UserPermission",

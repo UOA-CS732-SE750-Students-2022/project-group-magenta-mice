@@ -48,7 +48,7 @@ export class Client extends EventEmitter {
   constructor(host: string, port: number, options: ClientOptions = {}) {
     super();
 
-    this.socket = new WebSocket("ws://localhost:15001");
+    this.socket = new WebSocket(`ws://${host}:${port}`);
     this.verbose = options.verbose ?? false;
   }
 

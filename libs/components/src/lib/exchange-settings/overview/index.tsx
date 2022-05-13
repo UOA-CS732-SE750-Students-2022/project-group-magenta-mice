@@ -73,20 +73,20 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
 
   return (
     <div className="flex flex-col">
-      <p className="flex items-center gap-x-4 text-4xl font-bold text-gray-50">
+      <p className="flex items-center gap-x-4 text-4xl font-bold dark:text-gray-50">
         Overview
       </p>
-      <div className="mt-4 flex flex-col rounded-md bg-neutral-800 p-5">
-        <p className="text-gray-200">Exchange Name</p>
+      <div className="mt-4 flex flex-col rounded-md border p-5 dark:border-0 dark:bg-neutral-800">
+        <p className="dark:text-gray-200">Exchange Name</p>
         <div>
           <input
-            className="mt-2 w-full rounded-md bg-neutral-700 p-2 text-lg text-gray-200  "
+            className="mt-2 w-full rounded-md border p-2 text-lg dark:border-0 dark:bg-neutral-700 dark:text-gray-200  "
             defaultValue={currentExchange?.name}
             onChange={(e) => setNewExchangeName(e.target.value)}
           ></input>
         </div>
         <div className="mt-4">
-          <p className="mb-2 text-gray-200">Color</p>
+          <p className="mb-2 dark:text-gray-200">Color</p>
           <div className="float-left">
             <ColorSelect
               selectedColor={newColor}
@@ -95,17 +95,15 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
           </div>
         </div>
         <button
-          className="mt-8 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-gray-200 transition-all hover:bg-emerald-500"
+          className="mt-8 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-white transition-all hover:bg-emerald-500"
           onClick={handleEditExchange}
         >
           Update Exchange
         </button>
       </div>
 
-      <p className="mt-4 text-gray-200">Potentially data graphics here</p>
-
       <button
-        className="mt-4 self-start rounded-md bg-rose-700 p-2 px-4 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
+        className="mt-4 self-start rounded-md bg-rose-700 p-2 px-4 text-lg font-semibold text-white transition-all hover:bg-rose-600"
         onClick={handleDeleteExchange}
         disabled={loading}
       >

@@ -75,7 +75,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
     <>
       {modalAddInstruments}
       {modalBondInstruments}
-      <p className="mb-4 flex items-center gap-x-4 text-4xl font-bold text-gray-50">
+      <p className="mb-4 flex items-center gap-x-4 text-4xl font-bold text-gray-600 dark:text-gray-50">
         Instruments
       </p>
       {instruments.length < 5 && (
@@ -86,7 +86,7 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
         </p>
       )}
 
-      <div>
+      <div className="flex grid-cols-2 flex-col justify-center gap-6 md:grid">
         {instruments.map((instrument) => (
           <InstrumentSettingsCard
             key={instrument.id}
@@ -95,17 +95,17 @@ export const InstrumentSettings: React.FC<InstrumentSettingsProps> = ({
             exchangeId={exchangeId}
           />
         ))}
+        {instruments.length < 5 && (
+          <div>
+            <InstrumentSettingsCard
+              useController={useInstrumentSettingsCardController}
+              exchangeId={exchangeId}
+              isAddCard={true}
+              onClick={handleOpenAddInstrumentModal}
+            />
+          </div>
+        )}
       </div>
-      {instruments.length < 5 && (
-        <div>
-          <InstrumentSettingsCard
-            useController={useInstrumentSettingsCardController}
-            exchangeId={exchangeId}
-            isAddCard={true}
-            onClick={handleOpenAddInstrumentModal}
-          />
-        </div>
-      )}
     </>
   );
 };

@@ -10,6 +10,7 @@ type Instrument {
   positionLimit: Int!
   bondFixedPrice: Int!
   bondVolatility: Int!
+  recentTrades(limit: Float!): [RecentTrade!]!
 }
 
 enum InstrumentType {
@@ -24,6 +25,7 @@ type Exchange {
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!
+  profitLoss: [ProfitLoss!]!
 }
 
 type UserPermission {
@@ -47,12 +49,23 @@ type User {
   """the google ID"""
   id: ID!
   userPermissions: [UserPermission!]!
+  profitLoss(exchange: ID!): Int!
 }
 
 type Invite {
   id: ID!
   exchangeId: String!
   userId: String
+}
+
+type ProfitLoss {
+  instrument: String!
+  profitLoss: Float!
+}
+
+type RecentTrade {
+  instrumentId: String!
+  price: Float!
 }
 
 type Query {
