@@ -16,9 +16,12 @@ class State(ABC):
         pass
 
     @abstractmethod
-    def send_login_request(self, key: str) -> LoginResponse:
+    def send_login_request(self, key: str) -> None:
         pass
-
+    
+    @abstractmethod
+    def send_cancel_order_request(self,client_id: int) -> None:
+        pass
 
 class NotLoggedInState(State):
     def __init__(self, exchange_client: ExchangeClient):
@@ -40,7 +43,9 @@ class NotLoggedInState(State):
         
         sleep(4)
         self.exchange_client.change_state(LoggedInState(self.exchange_client))
-        
+    
+    def send_cancel_order_request(self,client_id: int) -> None:
+        raise Exception("Not logged in")
 
 class LoggedInState(State):
     def __init__(self, exchange_client: ExchangeClient):
@@ -60,3 +65,15 @@ class LoggedInState(State):
 
     def send_login_request(self, key: str) -> None:
         raise Exception('Client already logged in')
+    
+    def send_cancel_order_request(self, client_id: int) -> None:
+        cancel_order_proto = proto.CancelOrderRequest()
+        cancel_order_proto.clientId = client_id
+        ser_cancel_order = cancel_order_proto.SerializeToString()
+        
+        # message type + content
+        self.exchange_client.ws.send(
+            struct.pack('<i', proto.CANCEL_ORDER)
+            + ser_cancel_order, 
+            ABNF.OPCODE_BINARY
+            )
