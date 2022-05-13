@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, ResponsiveContainer, YAxis } from "recharts";
 
 const mockData = [
   {
@@ -62,6 +62,7 @@ export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
           </linearGradient>
         </defs>
 
+        <YAxis domain={["dataMin", "dataMax"]} hide />
         <Area type="linear" dataKey="datapoint" stroke={color} fill={fillUrl} />
       </AreaChart>
     </ResponsiveContainer>
