@@ -52,7 +52,6 @@ class DataServer:
                     prev_buy_cid = self.client_id - 2 * num_gens
                     print(f'client_id: {self.client_id}')
                     
-                    time.sleep(5)
                     
                     self.client_id += 1
                     self.exchange_client.send_insert_request(
@@ -68,16 +67,13 @@ class DataServer:
                     print(f'client_id: {self.client_id}')
                     prev_sell_cid = self.client_id - 2 * num_gens
                     self.client_id += 1
-                    time.sleep(5)
                     
                     # If previous orders exist, cancel the orders.
                     if prev_buy_cid >= 0:
                         print(prev_buy_cid)
                         self.exchange_client.send_cancel_order_request(prev_buy_cid)
-                        time.sleep(5)
                         print(prev_sell_cid)
                         self.exchange_client.send_cancel_order_request(prev_sell_cid)
-                        time.sleep(5)
                     
                     rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
 
