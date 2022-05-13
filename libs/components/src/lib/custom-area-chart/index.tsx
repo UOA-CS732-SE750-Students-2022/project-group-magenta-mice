@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
-import { AreaChart, Area, ResponsiveContainer, YAxis, Tooltip } from "recharts";
+import {
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+  YAxis,
+  Tooltip,
+  TooltipProps,
+} from "recharts";
 
-const CustomTooltip = ({
-  active,
-  payload,
-}: {
-  active: boolean;
-  payload: { value: number }[];
-}) => {
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active) {
     return (
       <div className="flex flex-col rounded border border-black bg-white p-2 dark:bg-neutral-900">
