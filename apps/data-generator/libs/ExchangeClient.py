@@ -56,6 +56,9 @@ class ExchangeClient:
     def send_insert_request(self, insert_order: InsertOrder) -> None:
         self.state.send_insert_request(insert_order)
 
+    def send_cancel_order_request(self, client_id) -> None:
+        self.state.send_cancel_order_request(client_id)
+        
     def add_handler(self, event_enum: 'Event', handler: Callable):
         if event_enum not in event_to_class:
             raise Exception(f'Event number {event_enum} does not exist')
