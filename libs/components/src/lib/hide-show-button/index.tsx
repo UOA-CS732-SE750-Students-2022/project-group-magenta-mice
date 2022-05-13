@@ -1,7 +1,7 @@
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import React from "react";
 
-interface HideShowButtonProps {
+export interface HideShowButtonProps {
   useController: typeof useHideShowButtonController;
   isShown: boolean;
   onClick: () => void;

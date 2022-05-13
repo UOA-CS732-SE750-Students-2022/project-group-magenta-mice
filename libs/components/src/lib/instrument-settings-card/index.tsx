@@ -6,7 +6,7 @@ import BondInstrumentModal, {
 } from "../exchange-settings/instruments/BondInstrumentModal";
 import { InstrumentType } from "@prisma/client";
 
-export interface InstrumentCardProps {
+export interface InstrumentSettingsCardProps {
   useController: typeof useInstrumentSettingsCardController;
   exchangeId: string;
   instrument?: {
@@ -23,7 +23,7 @@ export interface InstrumentCardProps {
   onClick?: () => void;
 }
 
-export const InstrumentSettingsCard: React.FC<InstrumentCardProps> = ({
+export const InstrumentSettingsCard: React.FC<InstrumentSettingsCardProps> = ({
   useController,
   exchangeId,
   instrument,

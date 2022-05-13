@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-interface ColorSelectProps {
+export interface ColorSelectProps {
   selectedColor: number;
   setSelectedColor: React.Dispatch<React.SetStateAction<number>>;
 }

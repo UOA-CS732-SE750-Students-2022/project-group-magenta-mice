@@ -1,4 +1,4 @@
-import { getAuth } from "@firebase/auth";
+import { getAuth, User } from "@firebase/auth";
 import { Popover, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
@@ -13,16 +13,20 @@ import classNames from "classnames";
 
 const iconClass = "bg-teal-100 text-teal-500 rounded-lg p-2.5";
 
-interface UserDropdownProps {
+export interface UserDropdownProps {
   inHeader?: true;
+  useController?: typeof useUserDropdownController;
 }
 
-export const UserDropdown: React.FC<UserDropdownProps> = ({ inHeader }) => {
+export const UserDropdown: React.FC<UserDropdownProps> = ({
+  inHeader,
+  useController = useUserDropdownController,
+}) => {
   const [referenceElement, setReferenceElement] = useState<Element | null>();
   const [popperElement, setPopperElement] = useState<HTMLElement | null>();
   const { styles, attributes } = usePopper(referenceElement, popperElement);
 
-  const { user } = useIsLoggedIn();
+  const { user } = useController();
 
   const dropdownOptions = useMemo(
     () => [
@@ -149,5 +153,28 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ inHeader }) => {
     </Popover>
   );
 };
+
+export const useUserDropdownController = () => {
+  const loggedInStatus = useIsLoggedIn();
+
+  return {
+    user: loggedInStatus.user as Pick<
+      User,
+      "displayName" | "email" | "photoURL"
+    >,
+  };
+};
+
+export const useMockUserDropdownController: typeof useUserDropdownController =
+  () => {
+    return {
+      user: {
+        displayName: "Fraser",
+        email: "fraser@simulate.exchange",
+        photoURL:
+          "https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png",
+      },
+    };
+  };
 
 export default UserDropdown;
