@@ -55,6 +55,21 @@ namespace Sim
             return false;
         }
 
+        if (order.volume() == 0)
+        {
+            raiseError(
+                "Invalid order with price:" + std::to_string(order.price()) +
+                "and volume:" + std::to_string(order.volume()));
+            return false;
+        }
+
+        auto tickSize = mConfig.getInstruments().at(order.instrumentid()).mTickSizeCents;
+        if (order.price() % tickSize != 0)
+        {
+            raiseError("Invalid Order! Price: [" + std::to_string(order.price()) + "] is not a valid tick size.");
+            return false;
+        }
+
         auto newOrder = mOrderFactory->createOrder(order, [this](Order* order) {
             if (mOrders.size())
             {
