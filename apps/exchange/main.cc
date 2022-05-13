@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     timer.start([&]() {
         // exchangeRuntime.diagnose();
         exchangeRuntime.sendPriceFeed();
-        // exchangeRuntime.getExchange().printBooks();
+        exchangeRuntime.getExchange().printBooks();
     });
 
     for (const auto& instrument : instruments)
