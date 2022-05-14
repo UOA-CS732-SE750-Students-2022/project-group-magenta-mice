@@ -76,7 +76,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
       <p className="flex items-center gap-x-4 text-4xl font-bold dark:text-gray-50">
         Overview
       </p>
-      <div className="mt-4 flex flex-col rounded-md border p-5 dark:border-0 dark:bg-neutral-800">
+      <div className="mt-4 flex max-w-sm flex-col rounded-md border p-5 dark:border-0 dark:bg-neutral-800">
         <p className="dark:text-gray-200">Exchange Name</p>
         <div>
           <input
@@ -87,7 +87,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         </div>
         <div className="mt-4">
           <p className="mb-2 dark:text-gray-200">Color</p>
-          <div className="float-left">
+          <div className="">
             <ColorSelect
               selectedColor={newColor}
               setSelectedColor={setnewColor}
@@ -95,7 +95,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
           </div>
         </div>
         <button
-          className="mt-8 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-white transition-all hover:bg-emerald-500"
+          className="mt-8 rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-white transition-all hover:bg-emerald-500"
           onClick={handleEditExchange}
         >
           Update Exchange
