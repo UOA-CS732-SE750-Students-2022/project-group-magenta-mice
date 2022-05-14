@@ -95,7 +95,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
             disabled={
               !!currentExchange.port ||
               startExchangeLoading ||
-              !startExchangeData?.startExchange
+              !!startExchangeData?.startExchange
             }
           >
             Start Exchange
