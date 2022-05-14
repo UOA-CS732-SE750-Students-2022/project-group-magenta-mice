@@ -10,6 +10,7 @@ import {
   useOverviewSettingsController,
   usePermissionSettingsController,
   UserDropdown,
+  HelpPage,
 } from "@simulate-exchange/components";
 import {
   useCurrency,
@@ -26,6 +27,7 @@ import {
   MoonIcon,
   SunIcon,
   CogIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/outline";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -39,6 +41,7 @@ enum SubPage {
   INSTRUMENTS,
   ACCESS,
   SETTINGS,
+  HELP,
 }
 
 const sidebar = [
@@ -65,6 +68,12 @@ const sidebar = [
     label: "Settings",
     page: SubPage.SETTINGS,
     admin: true,
+  },
+  {
+    icon: <InformationCircleIcon className="w-full" />,
+    label: "Help",
+    page: SubPage.HELP,
+    admin: false,
   },
 ];
 
@@ -153,7 +162,7 @@ export function ExchangeDashboard() {
   return (
     <div className="max-w-screen flex min-h-screen flex-col bg-white dark:bg-neutral-900 md:flex-row">
       {/* sidebar desktop*/}
-      <div className="static hidden w-32 flex-col justify-between border-r px-4 py-9 dark:border-r-black dark:bg-neutral-800 md:flex md:px-8">
+      <div className="fixed hidden h-screen w-32 flex-col justify-between border-r px-4 py-9 dark:border-r-black dark:bg-neutral-800 md:flex md:px-8">
         <button onClick={() => router.push("/")}>
           <AppLogo />
         </button>
@@ -270,7 +279,7 @@ export function ExchangeDashboard() {
       )}
 
       {/* content */}
-      <div className="mt-4 flex w-full flex-col text-gray-600 dark:text-gray-50 md:mt-0 md:min-h-screen">
+      <div className="ml-0 mt-4 flex w-full flex-col text-gray-600 dark:text-gray-50 md:ml-32 md:mt-0 md:min-h-screen">
         {/*desktop header */}
         <div className="hidden w-full items-center justify-between p-8 md:flex">
           <span className="font-['Inter'] text-2xl font-bold xl:text-4xl">
@@ -301,6 +310,8 @@ export function ExchangeDashboard() {
               exchangeID={id as string}
             />
           )}
+
+          {currentSubPage === SubPage.HELP && <HelpPage />}
 
           {currentSubPage === SubPage.HOME && (
             <div className="flex flex-col gap-4">

@@ -1,15 +1,13 @@
 import {
   CurrentUserDocument,
-  CurrentUserQuery,
   FindExchangeDocument,
-  FindExchangeQuery,
   Permission,
   useDeleteExchangeMutation,
   useEditExchangeMutation,
 } from "@simulate-exchange/gql";
+import Router from "next/router";
 import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
-import Router from "next/router";
 import { ColorSelect } from "../../..";
 
 interface OverviewSettingsProps {
