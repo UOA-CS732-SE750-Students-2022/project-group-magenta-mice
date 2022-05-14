@@ -31,16 +31,26 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
           getColor={(color: string) => setGeneratedColor(`#${color}`)}
         />
         <div className="flex flex-col justify-between gap-2 font-semibold">
-          <span className="text-xl">${instrument?.name?.toUpperCase()}</span>
+          <span className="text-3xl font-bold">
+            ${instrument?.name?.toUpperCase()}
+          </span>
 
           <div className="flex flex-col gap-2">
-            <span>Type: {instrument.instrumentType}</span>
+            <div className="flex flex-col">
+              <span className="text-sm font-light">Type</span>
+              <span className="text-lg font-semibold">
+                {instrument.instrumentType}
+              </span>
+            </div>
             <div>
-              {instrumentPL >= 0 ? (
-                <span className="text-green-500">P/L: +{profitLoss}</span>
-              ) : (
-                <span className="text-red-500">P/L: {profitLoss}</span>
-              )}
+              <span className="flex flex-col text-sm font-light">P/L</span>
+              <div className="text-lg font-semibold">
+                {instrumentPL >= 0 ? (
+                  <span className="text-green-500">+{profitLoss}</span>
+                ) : (
+                  <span className="text-red-500">{profitLoss}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
