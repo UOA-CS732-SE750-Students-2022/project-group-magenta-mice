@@ -61,6 +61,7 @@ export interface Exchange {
     public: boolean;
     userPermissions: UserPermission[];
     instruments: Instrument[];
+    port?: Nullable<string>;
     profitLoss: ProfitLoss[];
 }
 

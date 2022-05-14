@@ -1,8 +1,10 @@
 query FindExchange($id: ID!) {
   exchange(id: $id) {
+    id
     public
     name
     colour
+    port
     userPermissions {
       id
       user {
@@ -32,6 +34,10 @@ query FindExchange($id: ID!) {
       profitLoss
     }
   }
+}
+
+mutation StartExchange($id: String!) {
+  startExchange(exchangeId: $id)
 }
 
 mutation AddInstrument(

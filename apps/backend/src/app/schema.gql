@@ -25,6 +25,7 @@ type Exchange {
   public: Boolean!
   userPermissions: [UserPermission!]!
   instruments: [Instrument!]!
+  port: String
   profitLoss: [ProfitLoss!]!
 }
 
