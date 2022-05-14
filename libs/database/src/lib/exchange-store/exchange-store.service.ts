@@ -3,6 +3,8 @@ import { PrismaService } from "../prisma/prisma.service";
 import { ValidationError } from "apollo-server-express";
 import { InstrumentType, Side } from ".prisma/client";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import { ExchangeRequest } from "./exchange-request";
 
 @Injectable()
 export class ExchangeStoreService {
@@ -252,5 +254,64 @@ export class ExchangeStoreService {
     }, {} as { [instrument: string]: number });
 
     return cashPerInstrument;
+  }
+
+  async startExchange(userId: string, exchangeId: string) {
+    const userPermission = await this.prismaService.userPermission.findFirst({
+      where: { userId, exchangeId },
+    });
+    if (!userPermission) {
+      throw new ValidationError("User not a member of this exchange");
+    }
+
+    if (userPermission.permission !== "ADMIN") {
+      throw new ValidationError("User not an admin of this exchange");
+    }
+
+    const marketMakerKey = uuidv4();
+
+    const exchange = await this.prismaService.exchange.findFirst({
+      where: { id: exchangeId },
+      include: {
+        instruments: true,
+      },
+    });
+
+    const request: ExchangeRequest = {
+      exchangeId: exchange.id,
+      instruments: exchange.instruments.map((instrument, index) => ({
+        name: instrument.name,
+        type: instrument.instrumentType.toString(),
+        ordinal: index,
+        positionLimit: instrument.positionLimit,
+        tickSize: instrument.tickSizeMin,
+        volatility:
+          instrument.instrumentType === "BOND"
+            ? instrument.bondVolatility
+            : instrument.stockVolatility,
+        basePrice:
+          instrument.instrumentType === "BOND"
+            ? instrument.bondFixedPrice
+            : instrument.stockInitialPrice,
+        id: instrument.id,
+      })),
+      marketMakerKey,
+    };
+
+    const base = process.env.ORCHESTRATOR_API ?? "http://localhost:8008";
+    const res = await axios.post<string>(base + "/exchange", request);
+
+    if (res.status === 200) {
+      await this.prismaService.exchange.update({
+        where: { id: exchangeId },
+        data: {
+          marketMakerKey,
+          port: res.data,
+        },
+      });
+      return res.data;
+    } else {
+      throw new Error("Failed to start exchange: " + res.data);
+    }
   }
 }

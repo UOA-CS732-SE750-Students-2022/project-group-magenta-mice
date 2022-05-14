@@ -119,4 +119,8 @@ export class ExchangesService {
       }),
     );
   }
+
+  async startExchange(userId: string, exchangeId: string) {
+    return await this.exchangeStore.startExchange(userId, exchangeId);
+  }
 }

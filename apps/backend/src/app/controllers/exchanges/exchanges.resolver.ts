@@ -136,4 +136,12 @@ export class ExchangesResolver {
   ) {
     return await this.exchangesService.profitLoss(exchange.id, user.uid);
   }
+
+  @Mutation(() => String)
+  async startExchange(
+    @CurrentUser() user: DecodedIdToken,
+    @Args("exchangeId") id: string,
+  ) {
+    return await this.exchangesService.startExchange(user.uid, id);
+  }
 }
