@@ -23,9 +23,10 @@ services:
       - "8008:8008"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /configs:/configs
     environment:
       EXCHANGE_IMAGE: nzbasic/s.e-exchange
-      EXCHANGE_PORT: 15001
+      EXCHANGE_PORT_INTERNAL: 15001
       EXCHANGE_RESTART_POLICY: always
       EXCHANGE_PORT_MIN: 10000
       EXCHANGE_PORT_MAX: 20000
@@ -33,7 +34,7 @@ services:
       SERVER_URI: :8008
       HOST_ADDRESS: localhost
       PROTOCOL: tcp
-      DATABASE: user=postgres host=localhost port=5432 password=root dbname=simulate-exchange
+      DATABASE: user=postgres host=localhost port=5432 password=postgres dbname=simulate-exchange    
     restart: always
     deploy:
       replicas: 1
