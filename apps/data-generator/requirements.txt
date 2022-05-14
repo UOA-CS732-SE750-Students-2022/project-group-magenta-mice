@@ -9,7 +9,6 @@ packaging==21.3
 pluggy==1.0.0
 protobuf==3.20.1
 py==1.11.0
--e git+https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange@3569167c18c8f1cceed8ffb92d35c3cf650a600a#egg=py_wrapper&subdirectory=apps/data-generator/libs
 pyparsing==3.0.8
 pytest==7.1.2
 scipy==1.7.3
