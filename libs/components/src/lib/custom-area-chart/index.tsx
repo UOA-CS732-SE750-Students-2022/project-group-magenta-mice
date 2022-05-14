@@ -1,37 +1,25 @@
 import React, { useMemo } from "react";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
+import {
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+  YAxis,
+  Tooltip,
+  TooltipProps,
+} from "recharts";
 
-const mockData = [
-  {
-    datapoint: 4,
-  },
-  {
-    datapoint: 3,
-  },
-  {
-    datapoint: 4,
-  },
-  {
-    datapoint: 4,
-  },
-  {
-    datapoint: 5,
-  },
-  {
-    datapoint: 5,
-  },
-  {
-    datapoint: 6,
-  },
-  {
-    datapoint: 7,
-  },
-  {
-    datapoint: 8,
-  },
-];
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (active) {
+    return (
+      <div className="flex flex-col rounded border border-black bg-white p-2 dark:bg-neutral-900">
+        <span>${payload && payload[0].value}</span>
+      </div>
+    );
+  }
+  return null;
+};
 
-interface CustomAreaChartProps {
+export interface CustomAreaChartProps {
   data?: number[];
   color: string;
 }
@@ -62,6 +50,8 @@ export const CustomAreaChart: React.FC<CustomAreaChartProps> = ({
           </linearGradient>
         </defs>
 
+        <Tooltip content={<CustomTooltip />} />
+        <YAxis domain={["dataMin", "dataMax"]} hide />
         <Area type="linear" dataKey="datapoint" stroke={color} fill={fillUrl} />
       </AreaChart>
     </ResponsiveContainer>

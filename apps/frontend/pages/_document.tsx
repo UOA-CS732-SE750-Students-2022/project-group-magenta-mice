@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html>
+    <Html className="bg-neutral-900">
       <Head>
         <link
           rel="apple-touch-icon"
@@ -30,7 +30,7 @@ export default function Document() {
         async
         src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
       ></script>
-      <body className="bg-neutral-900">
+      <body className="">
         <Main />
         <NextScript />
       </body>

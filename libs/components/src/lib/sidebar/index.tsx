@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import cx from "classnames";
 
-interface SidebarProps {
+export interface SidebarProps {
   useController: typeof useSidebarController;
   setPage: (page: string) => void;
   options: { page: string; emoji: FC<{ className?: string }> }[];
@@ -48,28 +48,3 @@ export const useMockSidebarController: typeof useSidebarController = () => {
 };
 
 export default Sidebar;
-
-{
-  /* <button
-        className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-        onClick={() => setPage("Overview")}
-      >
-            <Globe />
-            Overview
-          </button>
-          <button
-            className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-            onClick={() => setSelectedSettings("Instruments")}
-          >
-            <Trumpet />
-            Instruments
-          </button>
-          <button
-            className="flex items-center gap-x-6 py-6 pl-8 pr-20 font-semibold transition-all hover:bg-neutral-700"
-            onClick={() => setSelectedSettings("Permissions")}
-          >
-            <Check />
-            Permissions
-          </button>
-        </div> */
-}

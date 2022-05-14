@@ -1,7 +1,7 @@
 import { Permission, User } from "@simulate-exchange/gql";
 import React from "react";
 
-interface ExchangeUserSummaryProps {
+export interface ExchangeUserSummaryProps {
   useController: typeof useExchangeUserSummaryController;
   permission: Permission;
   user: Partial<User>;

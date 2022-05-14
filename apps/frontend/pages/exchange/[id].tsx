@@ -42,20 +42,30 @@ enum SubPage {
 }
 
 const sidebar = [
-  { icon: <HomeIcon />, label: "Overview", page: SubPage.HOME, admin: false },
   {
-    icon: <TrendingUpIcon />,
+    icon: <HomeIcon className="w-full" />,
+    label: "Overview",
+    page: SubPage.HOME,
+    admin: false,
+  },
+  {
+    icon: <TrendingUpIcon className="w-full" />,
     label: "Instruments",
     page: SubPage.INSTRUMENTS,
     admin: true,
   },
   {
-    icon: <LinkIcon />,
+    icon: <LinkIcon className="w-full" />,
     label: "Access Info",
     page: SubPage.ACCESS,
     admin: false,
   },
-  { icon: <CogIcon />, label: "Settings", page: SubPage.SETTINGS, admin: true },
+  {
+    icon: <CogIcon className="w-full" />,
+    label: "Settings",
+    page: SubPage.SETTINGS,
+    admin: true,
+  },
 ];
 
 export function ExchangeDashboard() {

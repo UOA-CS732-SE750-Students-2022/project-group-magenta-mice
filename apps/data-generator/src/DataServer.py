@@ -24,6 +24,7 @@ class DataServer:
         """
         
         self.exchange_client = ExchangeClient(hostname=hostname, port=port)
+
         self.exchange_client.send_login_request(key)
         self.exchange_client.add_handler(Event.FEED, self.run_on_feed)
         self.order_per_second = 10

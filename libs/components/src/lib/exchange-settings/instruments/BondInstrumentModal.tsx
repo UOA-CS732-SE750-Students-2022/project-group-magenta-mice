@@ -121,6 +121,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className=" my-3">
             <label className=" ">Name (Ticker):</label>
             <input
+              placeholder="BND"
               type="text"
               autoComplete="none"
               name="name"
@@ -132,6 +133,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className="my-3 ">
             <label className="ml-9 ">Tick Size:</label>
             <input
+              placeholder="1"
               type="number"
               autoComplete="none"
               name="name"
@@ -144,6 +146,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className="my-3">
             <label className=" ">Position Limit:</label>
             <input
+              placeholder="100"
               type="number"
               autoComplete="none"
               name="name"
@@ -153,8 +156,9 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
             />
           </div>
           <div className="my-3">
-            <label className=" ml-5 ">Fixed Price:</label>
+            <label className="ml-5">Fixed Price:</label>
             <input
+              placeholder="500"
               type="number"
               autoComplete="none"
               name="name"
@@ -166,6 +170,7 @@ const BondInstrumentModal: React.FC<BondInstrumentModalProps> = ({
           <div className="my-3">
             <label className="ml-8 ">Volatility:</label>
             <input
+              placeholder="3"
               type="number"
               autoComplete="none"
               name="name"
@@ -221,7 +226,7 @@ export const useBondInstrumentModalController = (
           positionLimit: parseInt(newPositionLimit),
           tickSize: parseInt(newTickSize),
           bondFixedPrice: parseInt(newFixedPrice),
-          bondVolatility: parseInt(newVolatility),
+          bondVolatility: parseFloat(newVolatility),
         },
         optimisticResponse: {
           __typename: "Mutation",

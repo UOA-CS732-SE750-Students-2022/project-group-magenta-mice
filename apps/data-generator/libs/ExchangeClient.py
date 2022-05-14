@@ -16,7 +16,9 @@ class ExchangeClient:
     def __init__(self, hostname: str = '127.0.0.1', port: int = 15001):
         
         self.uri = f'ws://{hostname}:{port}'
+          
         self.ws = WebSocketApp(self.uri, on_message=self.on_message, on_error=self.on_error, on_close=self.on_close)
+
         # hash event_enum: Event => list[handler: Callable]
         self.handlers = {event_enum: [] for event_enum in event_to_class}
  

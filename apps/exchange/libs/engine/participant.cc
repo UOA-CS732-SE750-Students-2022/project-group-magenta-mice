@@ -1,6 +1,7 @@
 #include "conversions.h"
 #include "participant.h"
 
+#include <cmath>
 #include <functional>
 
 namespace Sim
@@ -51,6 +52,21 @@ namespace Sim
         if (!checkAndIncrementOrderId(order.clientid()))
         {
             raiseError("Order ID mismatch (out of order)");
+            return false;
+        }
+
+        if (order.volume() == 0)
+        {
+            raiseError(
+                "Invalid order with price:" + std::to_string(order.price()) +
+                "and volume:" + std::to_string(order.volume()));
+            return false;
+        }
+
+        auto tickSize = mConfig.getInstruments().at(order.instrumentid()).mTickSizeCents;
+        if (order.price() % tickSize != 0)
+        {
+            raiseError("Invalid Order! Price: [" + std::to_string(order.price()) + "] is not a valid tick size.");
             return false;
         }
 
@@ -156,6 +172,12 @@ namespace Sim
         {
             mPositions[order.mInstrument] -= volumeFilled;
             mCash += volumeFilled * price;
+        }
+
+        if (!mMarketMaker &&
+            std::abs(mPositions[order.mInstrument]) > mConfig.getInstruments().at(order.mInstrument).mPositionLimit)
+        {
+            raiseError("Position limit exceeded");
         }
 
         Protocol::OrderFillMessage message;

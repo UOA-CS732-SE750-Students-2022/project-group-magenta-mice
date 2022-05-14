@@ -4,8 +4,9 @@ import React, { useMemo, useState } from "react";
 import Identicon from "react-identicons";
 import { CustomAreaChart } from "../../index";
 
-interface InstrumentCardProps {
-  instrument: Instrument;
+export interface InstrumentCardProps {
+  instrument: Partial<Instrument> &
+    Pick<Instrument, "instrumentType" | "recentTrades" | "name">;
   instrumentPL?: number;
 }
 
@@ -22,7 +23,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
 
   return (
     <div className="flex w-full justify-between rounded-lg border p-4 dark:border-black dark:bg-neutral-800 2xl:p-6">
-      <div className="hidden gap-4 2xl:flex">
+      <div className="hidden w-56 gap-4 pr-72 2xl:flex">
         <Identicon
           string={instrument.name}
           size={145}
@@ -30,29 +31,39 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
           getColor={(color: string) => setGeneratedColor(`#${color}`)}
         />
         <div className="flex flex-col justify-between gap-2 font-semibold">
-          <span className="text-xl">${instrument?.name.toUpperCase()}</span>
+          <span className="text-3xl font-bold">
+            ${instrument?.name?.toUpperCase()}
+          </span>
 
           <div className="flex flex-col gap-2">
-            <span>Type: {instrument?.instrumentType}</span>
+            <div className="flex flex-col">
+              <span className="text-sm font-light">Type</span>
+              <span className="text-lg font-semibold">
+                {instrument.instrumentType}
+              </span>
+            </div>
             <div>
-              {instrumentPL >= 0 ? (
-                <span className="text-green-500">P/L: +{profitLoss}</span>
-              ) : (
-                <span className="text-red-500">P/L: {profitLoss}</span>
-              )}
+              <span className="flex flex-col text-sm font-light">P/L</span>
+              <div className="text-lg font-semibold">
+                {instrumentPL >= 0 ? (
+                  <span className="text-green-500">+{profitLoss}</span>
+                ) : (
+                  <span className="text-red-500">{profitLoss}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex gap-2 2xl:hidden">
+      <div className="flex w-40 gap-2 pr-48 md:pr-56 2xl:hidden">
         <Identicon
           string={instrument.name}
           size={100}
           className="rounded border dark:border-black"
           getColor={(color: string) => setGeneratedColor(`#${color}`)}
         />
-        <div className="flex flex-col justify-between text-sm font-semibold md:text-base">
+        <div className="flex flex-col justify-between text-xs font-semibold md:text-sm">
           <span className="">${instrument?.name.toUpperCase()}</span>
 
           <div className="flex flex-col">
@@ -68,7 +79,7 @@ export const InstrumentCard: React.FC<InstrumentCardProps> = ({
         </div>
       </div>
 
-      <div className="flex h-24 w-full md:max-w-xs 2xl:h-36 2xl:max-w-lg">
+      <div className="ml-4 flex h-24 w-full 2xl:h-36">
         {recentTrades.length ? (
           <CustomAreaChart color={generatedColor} data={recentTrades} />
         ) : (
