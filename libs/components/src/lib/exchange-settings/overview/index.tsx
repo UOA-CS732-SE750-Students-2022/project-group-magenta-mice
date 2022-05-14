@@ -43,7 +43,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         variables: {
           id: exchangeID,
         },
-        refetchQueries: [CurrentUserDocument],
+        refetchQueries: [FindExchangeDocument],
       });
       toast.promise(promise, {
         pending: "Deleting Exchange...",
