@@ -24,9 +24,9 @@ class DataServer:
         """
         
         self.exchange_client = ExchangeClient(hostname=hostname, port=port)
-        self.exchange_client.add_handler(Event.LOGINRESPONSE, print)
-        self.exchange_client.add_handler(Event.UPDATE, print)
+
         self.exchange_client.send_login_request(key)
+        self.exchange_client.add_handler(Event.FEED, self.run_on_feed)
         self.order_per_second = 10
         self.client_id = 0
         self.data_generators = data_generators
@@ -122,4 +122,54 @@ class DataServer:
                     continue
             except Exception as e:
                 raise e
-            
+    
+    def run_on_feed(self, exchange_feed):
+        num_gens = len(self.data_generators)
+        try:
+            for data_generator in self.data_generators:
+                buy_price, sell_price = data_generator.generate_data()
+
+                self.exchange_client.send_insert_request(
+                    InsertOrder(
+                        volume=data_generator.max_position_limit * 10,
+                        price=buy_price,
+                        lifespan=LifeSpan.GFD,
+                        side=Side.BUY,
+                        client_id=self.client_id,
+                        instrument_id=data_generator.instrument_id
+                    )
+                )
+                
+                prev_buy_cid = self.client_id - 2 * num_gens
+                print(f'client_id: {self.client_id}')
+                
+                
+                self.client_id += 1
+                self.exchange_client.send_insert_request(
+                    InsertOrder(
+                        volume=data_generator.max_position_limit * 10,
+                        price=sell_price,
+                        lifespan=LifeSpan.GFD,
+                        side=Side.SELL,
+                        client_id=self.client_id,
+                        instrument_id=data_generator.instrument_id
+                    )
+                )
+                print(f'client_id: {self.client_id}')
+                prev_sell_cid = self.client_id - 2 * num_gens
+                self.client_id += 1
+                
+                # If previous orders exist, cancel the orders.
+                if prev_buy_cid >= 0:
+                    print(prev_buy_cid)
+                    self.exchange_client.send_cancel_order_request(prev_buy_cid)
+                    print(prev_sell_cid)
+                    self.exchange_client.send_cancel_order_request(prev_sell_cid)
+                
+                rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
+
+            time.sleep(1/rand_order_per_sec)
+
+        except Exception as e:
+            raise e
+    

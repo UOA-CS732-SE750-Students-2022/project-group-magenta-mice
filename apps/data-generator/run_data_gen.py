@@ -32,7 +32,7 @@ if __name__ == '__main__':
         port=int(config['port'])
     )
     
-    if args.log:
-        ds.log_orders()
-    else:
-        ds.run()
+        # if args.log:
+        #     ds.log_orders()
+        # else:
+        #     ds.run()
