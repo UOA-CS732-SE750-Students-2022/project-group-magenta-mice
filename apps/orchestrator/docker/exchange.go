@@ -23,6 +23,7 @@ var exchangeImage string
 var exchangeRestartPolicy string
 var exchangeProtocol string
 var database string
+var targetDir string
 var internalIp = "0.0.0.0"
 
 func init() {
@@ -33,6 +34,7 @@ func init() {
 	exchangeProtocol = os.Getenv("PROTOCOL")
 	exchangeRestartPolicy = os.Getenv("EXCHANGE_RESTART_POLICY")
 	database = os.Getenv("DATABASE")
+	targetDir = os.Getenv("TARGET_DIR")
 	min := os.Getenv("EXCHANGE_PORT_MIN")
 	max := os.Getenv("EXCHANGE_PORT_MAX")
 
@@ -92,8 +94,9 @@ func createDataGeneratorContainer() (container.ContainerCreateCreatedBody, error
 }
 
 func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequest) (container.ContainerCreateCreatedBody, error) {
-	err := os.MkdirAll("/configs/"+settings.ExchangeId, os.ModePerm)
+	err := os.MkdirAll(targetDir+"/"+settings.ExchangeId, os.ModePerm)
 	if err != nil {
+		panic(err)
 		return container.ContainerCreateCreatedBody{}, err
 	}
 
@@ -112,7 +115,7 @@ func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequ
 		},
 		Mounts: []mount.Mount{
 			{
-				Source:   "/configs/" + settings.ExchangeId,
+				Source:   targetDir + "/" + settings.ExchangeId,
 				Target:   "/config",
 				Type:     mount.TypeBind,
 				ReadOnly: true,
@@ -122,6 +125,7 @@ func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequ
 
 	portNum, err := strconv.Atoi(internalExchangePort)
 	if err != nil {
+		panic(nil)
 		return container.ContainerCreateCreatedBody{}, err
 	}
 
@@ -133,7 +137,7 @@ func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequ
 	}
 
 	newSettingsJson, _ := json.Marshal(newSettings)
-	ioutil.WriteFile("/configs/"+settings.ExchangeId+"/config.json", newSettingsJson, 0644)
+	ioutil.WriteFile(targetDir+"/"+settings.ExchangeId+"/config.json", newSettingsJson, 0644)
 
 	containerConfig := &container.Config{
 		Cmd:          []string{"/config/config.json"},
