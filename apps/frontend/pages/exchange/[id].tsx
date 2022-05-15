@@ -308,7 +308,6 @@ export function ExchangeDashboard() {
             <OverviewSettings
               useController={useOverviewSettingsController}
               currentExchange={data.exchange}
-              exchangeID={id as string}
             />
           )}
 
