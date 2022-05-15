@@ -1,7 +1,7 @@
 <h1 align="center">
   <img src="./media/logo/logo.svg?raw=true" width="350" />
   
-  [simulate.exchange](simulate.exchange)
+  [simulate.exchange](https://simulate.exchange)
 </h1>
 
 <p align="center">
