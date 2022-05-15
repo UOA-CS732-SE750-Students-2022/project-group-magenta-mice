@@ -18,14 +18,16 @@ export const ExchangeLeaderboard: React.FC<ExchangeLeaderboardProps> = ({
     return null;
   }
 
-  const formatted = topUsers.map((score) => ({
-    score: new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(score.profitLoss),
-    positive: score.profitLoss >= 0,
-    ...score,
-  }));
+  const formatted = topUsers
+    .map((score) => ({
+      score: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(score.profitLoss),
+      positive: score.profitLoss >= 0,
+      ...score,
+    }))
+    .sort((a, b) => b.profitLoss - a.profitLoss);
 
   return (
     <div className="flex h-full flex-col gap-2">

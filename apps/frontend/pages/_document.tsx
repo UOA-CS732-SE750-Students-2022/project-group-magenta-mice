@@ -25,6 +25,27 @@ export default function Document() {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+        <meta
+          name="description"
+          content="A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards."
+        />
+        <meta property="og:title" content="simulate.exchange" />
+        <meta
+          property="og:description"
+          content="A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards."
+        />
+        <meta property="og:image:width" content="2560" />
+        <meta property="og:image:height" content="1280" />
+        <meta
+          property="og:image"
+          content="https://media.discordapp.net/attachments/826599483126579282/975348658117701632/card-large-2.png?width=2560&height=1280"
+        />
+        <meta property="og:url" content="https://simulate.exchange" />
       </Head>
       <script
         async

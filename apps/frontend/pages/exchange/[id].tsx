@@ -236,7 +236,7 @@ export function ExchangeDashboard() {
           className="flex w-12 items-center justify-center rounded-xl bg-transparent p-2 text-gray-600 transition-all hover:bg-blue-400 hover:text-gray-50 dark:text-gray-50"
           onClick={() => setShowMenu(!showMenu)}
         >
-          <MenuIcon />
+          <MenuIcon className="w-full" />
         </button>
       </div>
 
@@ -342,7 +342,7 @@ export function ExchangeDashboard() {
                           Your Instruments are currently Empty!
                         </span>
                         <SadFace />
-                        <p>To add, go to Settings {">"} Instruments</p>
+                        <p>To add, go to Instruments</p>
                       </div>
                     ) : (
                       <>
