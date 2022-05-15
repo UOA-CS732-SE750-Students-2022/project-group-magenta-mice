@@ -27,7 +27,7 @@ export const HelpPage: React.FC = () => {
           visit the API page on the sidebar. Update the port and hostname to the
           information also on that page.
         </p>
-        <code className="w-fit whitespace-pre-line bg-neutral-800 py-2 px-4">
+        <code className="w-fit whitespace-pre bg-neutral-800 py-2 px-4">
           {codeExample}
         </code>
         <p>
@@ -35,7 +35,7 @@ export const HelpPage: React.FC = () => {
           information to inform your trades. Once you are ready, see the
           following code to see how to insert and cancel orders:
         </p>
-        <code className="mb-6 w-fit whitespace-pre-line bg-neutral-800 py-2 px-4">
+        <code className="mb-6 w-fit whitespace-pre bg-neutral-800 py-2 px-4">
           {insertExample}
         </code>
       </div>
