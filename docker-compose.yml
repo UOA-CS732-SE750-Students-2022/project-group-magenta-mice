@@ -30,11 +30,12 @@ services:
       EXCHANGE_RESTART_POLICY: always
       EXCHANGE_PORT_MIN: 10000
       EXCHANGE_PORT_MAX: 20000
-      DATA_GEN_IMAGE: nginx
+      DATA_GEN_IMAGE: nzbasic/s.e-data-gen
       SERVER_URI: :8008
       HOST_ADDRESS: localhost
       PROTOCOL: tcp
-      DATABASE: user=postgres host=localhost port=5432 password=postgres dbname=simulate-exchange    
+      DATABASE: user=postgres host=localhost port=5432 password=postgres dbname=simulate-exchange
+      TARGET_DIR: /configs
     restart: always
     deploy:
       replicas: 1
