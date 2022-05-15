@@ -62,44 +62,79 @@ func init() {
 func CreateExchangeBundle(settings exchange.ExchangeSettingsRequest) (string, error) {
 	port, err := util.FindOpenPortInRange(portRange)
 	if err != nil {
-		return "", err
-	}
-	dataGenBody, err := createDataGeneratorContainer()
-	if err != nil {
-		return "", err
+		return "Could not find an available port", err
 	}
 
-	exchangeBody, err := createExchangeContainer(port, settings)
+	portNum, err := strconv.Atoi(internalExchangePort)
 	if err != nil {
-		return "", err
+		return "Could not parse port string to int", err
 	}
-	err = cli.ContainerStart(context.Background(), dataGenBody.ID, types.ContainerStartOptions{})
+
+	configDir := targetDir + "/" + settings.ExchangeId
+	err = os.MkdirAll(configDir, os.ModePerm)
 	if err != nil {
-		return "", err
+		return "Could not create directory for config settings " + configDir, err
 	}
+
+	newSettings := exchange.ExchangeSettingsResponse{
+		Port:        portNum,
+		Instruments: settings.Instruments,
+		ExchangeId:  settings.ExchangeId,
+		Database:    database,
+	}
+
+	newSettingsJson, _ := json.Marshal(newSettings)
+	ioutil.WriteFile(configDir+"/config.json", newSettingsJson, 0644)
+
+	dataGenBody, err := createDataGeneratorContainer(configDir)
+	if err != nil {
+		return "Could not create data gen container", err
+	}
+
+	exchangeBody, err := createExchangeContainer(port, configDir)
+	if err != nil {
+		return "Could not create exchange container", err
+	}
+
 	err = cli.ContainerStart(context.Background(), exchangeBody.ID, types.ContainerStartOptions{})
 	if err != nil {
-		// creation has failed so kill the orphaned data gen container
-		cli.ContainerRemove(context.Background(), dataGenBody.ID, types.ContainerRemoveOptions{})
-		return "", err
+		return "Could not start exchange container", err
 	}
+
+	err = cli.ContainerStart(context.Background(), dataGenBody.ID, types.ContainerStartOptions{})
+	if err != nil {
+		// creation has failed so kill the orphaned exchange container
+		cli.ContainerRemove(context.Background(), exchangeBody.ID, types.ContainerRemoveOptions{})
+		return "Could not start data gen container", err
+	}
+
 	return port, err
 }
 
-func createDataGeneratorContainer() (container.ContainerCreateCreatedBody, error) {
+func createDataGeneratorContainer(configDir string) (container.ContainerCreateCreatedBody, error) {
+	hostConfig := &container.HostConfig{
+		RestartPolicy: container.RestartPolicy{
+			Name: exchangeRestartPolicy,
+		},
+		Mounts: []mount.Mount{
+			{
+				Source:   configDir,
+				Target:   "/config",
+				Type:     mount.TypeBind,
+				ReadOnly: true,
+			},
+		},
+	}
+
 	containerConfig := &container.Config{
+		Cmd:   []string{"-config_path", "/config/config.json"},
 		Image: dataGenImage,
 	}
-	return cli.ContainerCreate(context.Background(), containerConfig, nil, nil, nil, "")
+
+	return cli.ContainerCreate(context.Background(), containerConfig, hostConfig, nil, nil, "")
 }
 
-func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequest) (container.ContainerCreateCreatedBody, error) {
-	err := os.MkdirAll(targetDir+"/"+settings.ExchangeId, os.ModePerm)
-	if err != nil {
-		panic(err)
-		return container.ContainerCreateCreatedBody{}, err
-	}
-
+func createExchangeContainer(port string, configDir string) (container.ContainerCreateCreatedBody, error) {
 	newPort, _ := nat.NewPort(exchangeProtocol, internalExchangePort)
 	hostConfig := &container.HostConfig{
 		PortBindings: nat.PortMap{
@@ -115,29 +150,13 @@ func createExchangeContainer(port string, settings exchange.ExchangeSettingsRequ
 		},
 		Mounts: []mount.Mount{
 			{
-				Source:   targetDir + "/" + settings.ExchangeId,
+				Source:   configDir,
 				Target:   "/config",
 				Type:     mount.TypeBind,
 				ReadOnly: true,
 			},
 		},
 	}
-
-	portNum, err := strconv.Atoi(internalExchangePort)
-	if err != nil {
-		panic(nil)
-		return container.ContainerCreateCreatedBody{}, err
-	}
-
-	newSettings := exchange.ExchangeSettingsResponse{
-		Port:        portNum,
-		Instruments: settings.Instruments,
-		ExchangeId:  settings.ExchangeId,
-		Database:    database,
-	}
-
-	newSettingsJson, _ := json.Marshal(newSettings)
-	ioutil.WriteFile(targetDir+"/"+settings.ExchangeId+"/config.json", newSettingsJson, 0644)
 
 	containerConfig := &container.Config{
 		Cmd:          []string{"/config/config.json"},
