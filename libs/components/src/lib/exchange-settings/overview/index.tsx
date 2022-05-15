@@ -16,13 +16,11 @@ import { getAuth } from "firebase/auth";
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
   currentExchange: FindExchangeQuery["exchange"];
-  exchangeID: string;
 }
 
 export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   useController,
   currentExchange,
-  exchangeID,
 }) => {
   const {
     handleStartExchange,
@@ -33,28 +31,9 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
     setNewExchangeName,
     newColor,
     setNewColor,
+    handleDeleteExchange,
+    loading,
   } = useController(currentExchange);
-
-  const [deleteExchange, { loading }] = useDeleteExchangeMutation();
-
-  const handleDeleteExchange = useCallback(async () => {
-    try {
-      const promise = deleteExchange({
-        variables: {
-          id: exchangeID,
-        },
-        refetchQueries: [FindExchangeDocument],
-      });
-      toast.promise(promise, {
-        pending: "Deleting Exchange...",
-        success: "Successfully Deleted Exchange!",
-        error: "Failed to Delete Exchange.",
-      });
-      Router.push("/exchange");
-    } catch (error) {
-      console.log(error);
-    }
-  }, [deleteExchange, exchangeID]);
 
   return (
     <div className="flex flex-col">
@@ -133,13 +112,34 @@ export const useOverviewSettingsController = (
     [permissions, uid],
   );
 
+  const [deleteExchange, { loading }] = useDeleteExchangeMutation();
+
+  const handleDeleteExchange = useCallback(async () => {
+    try {
+      const promise = deleteExchange({
+        variables: {
+          id: currentExchange.id,
+        },
+        refetchQueries: [FindExchangeDocument],
+      });
+      toast.promise(promise, {
+        pending: "Deleting Exchange...",
+        success: "Successfully Deleted Exchange!",
+        error: "Failed to Delete Exchange.",
+      });
+      Router.push("/exchange");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteExchange, currentExchange]);
+
   const handleStartExchange = useCallback(async () => {
     try {
       const promise = startExchange({
         variables: {
           id: currentExchange.id,
         },
-        refetchQueries: [CurrentUserDocument],
+        refetchQueries: [FindExchangeDocument],
       });
       toast.promise(promise, {
         pending: "Starting Exchange...",
@@ -182,6 +182,8 @@ export const useOverviewSettingsController = (
     handleEditExchange,
     handleStartExchange,
     startExchangeLoading,
+    handleDeleteExchange,
+    loading,
   };
 };
 
