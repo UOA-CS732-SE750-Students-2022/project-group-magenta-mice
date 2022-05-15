@@ -12,7 +12,7 @@ export function Index() {
             "linear-gradient(to top, rgba(23, 23, 23, 1), rgba(195, 195, 195, 0.3)), url('https://images.unsplash.com/photo-1643101810111-d364a77127b7?ixlib=rb-1.2.1)",
         }}
       >
-        <h1 className="text-center text-3xl font-bold text-white  md:text-5xl lg:text-7xl">
+        <h1 className="text-center font-['Inter'] text-3xl font-black text-white md:text-5xl lg:text-7xl">
           Simulate.Exchange
         </h1>
         <div className="my-3"></div>
