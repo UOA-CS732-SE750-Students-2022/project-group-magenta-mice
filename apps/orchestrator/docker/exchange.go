@@ -18,23 +18,23 @@ import (
 
 var portRange []string
 var dataGenImage string
-var internalExchangePort string
 var exchangeImage string
 var exchangeRestartPolicy string
 var exchangeProtocol string
 var database string
 var targetDir string
+var hostAddress string
 var internalIp = "0.0.0.0"
 
 func init() {
 	godotenv.Load(".env.local")
 	dataGenImage = os.Getenv("DATA_GEN_IMAGE")
-	internalExchangePort = os.Getenv("EXCHANGE_PORT_INTERNAL")
 	exchangeImage = os.Getenv("EXCHANGE_IMAGE")
 	exchangeProtocol = os.Getenv("PROTOCOL")
 	exchangeRestartPolicy = os.Getenv("EXCHANGE_RESTART_POLICY")
 	database = os.Getenv("DATABASE")
 	targetDir = os.Getenv("TARGET_DIR")
+	hostAddress = os.Getenv("HOST_ADDRESS")
 	min := os.Getenv("EXCHANGE_PORT_MIN")
 	max := os.Getenv("EXCHANGE_PORT_MAX")
 
@@ -65,7 +65,7 @@ func CreateExchangeBundle(settings exchange.ExchangeSettingsRequest) (string, er
 		return "Could not find an available port", err
 	}
 
-	portNum, err := strconv.Atoi(internalExchangePort)
+	portNum, err := strconv.Atoi(port)
 	if err != nil {
 		return "Could not parse port string to int", err
 	}
@@ -77,10 +77,12 @@ func CreateExchangeBundle(settings exchange.ExchangeSettingsRequest) (string, er
 	}
 
 	newSettings := exchange.ExchangeSettingsResponse{
-		Port:        portNum,
-		Instruments: settings.Instruments,
-		ExchangeId:  settings.ExchangeId,
-		Database:    database,
+		Port:           portNum,
+		Host:           hostAddress,
+		Instruments:    settings.Instruments,
+		ExchangeId:     settings.ExchangeId,
+		Database:       database,
+		MarketMakerKey: settings.MarketMakerKey,
 	}
 
 	newSettingsJson, _ := json.Marshal(newSettings)
@@ -135,7 +137,7 @@ func createDataGeneratorContainer(configDir string) (container.ContainerCreateCr
 }
 
 func createExchangeContainer(port string, configDir string) (container.ContainerCreateCreatedBody, error) {
-	newPort, _ := nat.NewPort(exchangeProtocol, internalExchangePort)
+	newPort, _ := nat.NewPort(exchangeProtocol, port)
 	hostConfig := &container.HostConfig{
 		PortBindings: nat.PortMap{
 			newPort: []nat.PortBinding{

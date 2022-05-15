@@ -270,6 +270,13 @@ export class ExchangeStoreService {
 
     const marketMakerKey = uuidv4();
 
+    await this.prismaService.exchange.update({
+      where: { id: exchangeId },
+      data: {
+        marketMakerKey,
+      },
+    });
+
     const exchange = await this.prismaService.exchange.findFirst({
       where: { id: exchangeId },
       include: {
@@ -305,7 +312,6 @@ export class ExchangeStoreService {
       await this.prismaService.exchange.update({
         where: { id: exchangeId },
         data: {
-          marketMakerKey,
           port: res.data,
         },
       });

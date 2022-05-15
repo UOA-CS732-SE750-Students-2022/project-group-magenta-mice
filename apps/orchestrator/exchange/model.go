@@ -17,9 +17,10 @@ type ExchangeSettingsRequest struct {
 }
 
 type ExchangeSettingsResponse struct {
-	Port        int          `json:"port"`
-	Host        string       `json:"host"`
-	Instruments []Instrument `json:"instruments"`
-	ExchangeId  string       `json:"exchangeId"`
-	Database    string       `json:"database"`
+	Port           int          `json:"port"`
+	Host           string       `json:"host"`
+	Instruments    []Instrument `json:"instruments"`
+	ExchangeId     string       `json:"exchangeId"`
+	Database       string       `json:"database"`
+	MarketMakerKey string       `json:"marketMakerKey"`
 }
