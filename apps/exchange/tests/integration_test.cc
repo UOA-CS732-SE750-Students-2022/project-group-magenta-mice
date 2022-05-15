@@ -22,6 +22,7 @@ namespace Sim::Testing
             mExchange.addInstrument(mInstruments.at(0));
 
             ON_CALL(*mConfig, getInstruments()).WillByDefault(ReturnRef(mInstruments));
+            ON_CALL(*mConfig, getExchangeId()).WillByDefault(ReturnRef(mExchangeId));
 
             mParticipant1 = std::make_shared<NiceMock<MockParticipant>>(
                 std::make_unique<OrderFactory>(), Protocol::LoginResponse(), *mDatabase, *mConfig);
@@ -67,6 +68,8 @@ namespace Sim::Testing
         }
 
         std::vector<Instrument> mInstruments;
+        std::string mExchangeId = "exchangeId";
+
         Exchange mExchange;
         std::unique_ptr<Db::IConnection> mDatabase;
         std::unique_ptr<MockConfig> mConfig;

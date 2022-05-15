@@ -14,12 +14,22 @@ namespace Sim::Db
     pqxx::result Connection::exec(const DbQuery& query)
     {
         std::lock_guard<std::mutex> lock{ mLock };
-        pqxx::work W{ mConnection };
+        try
+        {
+            pqxx::work W{ mConnection };
 
-        auto result = query(W);
-        W.commit();
-
-        return result;
+            auto result = query(W);
+            W.commit();
+            return result;
+        }
+        catch (const pqxx::data_exception& e)
+        {
+            std::cerr << e.what() << std::endl;
+            const pqxx::sql_error* s = dynamic_cast<const pqxx::sql_error*>(&e);
+            if (s)
+                std::cerr << "Query was: " << s->query() << std::endl;
+            throw e;
+        }
     }
 
     void Connection::futureExec(DbQuery&& query)
@@ -49,10 +59,19 @@ namespace Sim::Db
             {
                 auto query = copy.front();
                 copy.pop_front();
-
+                // try
+                // {
                 pqxx::work W{ mConnection };
                 auto result = query(W);
                 W.commit();
+                // }
+                // catch (const pqxx::data_exception& e)
+                // {
+                //     std::cerr << e.what() << std::endl;
+                //     const pqxx::sql_error* s = dynamic_cast<const pqxx::sql_error*>(&e);
+                //     if (s)
+                //         std::cerr << "Query was: " << s->query() << std::endl;
+                // }
             }
         }
     }

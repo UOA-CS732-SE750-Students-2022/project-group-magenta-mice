@@ -174,10 +174,12 @@ namespace Sim
             mCash += volumeFilled * price;
         }
 
+        bool breachFlag = false;
+
         if (!mMarketMaker &&
             std::abs(mPositions[order.mInstrument]) > mConfig.getInstruments().at(order.mInstrument).mPositionLimit)
         {
-            raiseError("Position limit exceeded");
+            breachFlag = true;
         }
 
         Protocol::OrderFillMessage message;
@@ -193,17 +195,25 @@ namespace Sim
         // don't write market maker trades to the db
         if (!mMarketMaker)
         {
-            mDb.futureExec([side, inst, volumeFilled, price, this](pqxx::work& w) {
+            auto userId = mUserId;
+            auto instId = mConfig.getInstruments().at(inst).mId;
+            auto exchangeId = mConfig.getExchangeId();
+            mDb.futureExec([side, volumeFilled, price, userId, instId, exchangeId](pqxx::work& w) {
                 return w.exec_params(
                     "INSERT INTO public.\"Trade\" (\"exchangeId\", \"userId\", \"instrumentId\", price, volume, side) "
                     "VALUES ($1, $2, $3, $4, $5, $6)",
-                    mConfig.getExchangeId(),
-                    this->mUserId,
-                    this->mConfig.getInstruments().at(inst).mId,
+                    exchangeId,
+                    userId,
+                    instId,
                     price,
                     volumeFilled,
                     side == Side::BID ? "BID" : "ASK");
             });
+        }
+
+        if (breachFlag)
+        {
+            raiseError("Position limit exceeded");
         }
     }
 

@@ -33,11 +33,11 @@ int main(int argc, char* argv[])
 
     Sim::Net::ExchangeRuntime exchangeRuntime{ config, dbService, exchange };
 
-    Sim::Common::Timer timer(*ioContext, boost::posix_time::millisec(2000));
+    Sim::Common::Timer timer(*ioContext, boost::posix_time::millisec(250));
     timer.start([&]() {
         // exchangeRuntime.diagnose();
         exchangeRuntime.sendPriceFeed();
-        exchangeRuntime.getExchange().printBooks();
+        // exchangeRuntime.getExchange().printBooks();
     });
 
     for (const auto& instrument : instruments)

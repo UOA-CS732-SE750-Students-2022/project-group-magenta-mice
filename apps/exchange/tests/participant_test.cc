@@ -32,6 +32,7 @@ namespace Sim::Testing
             });
 
             ON_CALL(*mConfig, getInstruments()).WillByDefault(ReturnRef(mInstruments));
+            ON_CALL(*mConfig, getExchangeId()).WillByDefault(ReturnRef(mExchangeId));
         }
 
         void setupParticipant(std::function<void(MockOrderFactory&)> applicator)
@@ -58,6 +59,8 @@ namespace Sim::Testing
         }
 
         std::vector<Instrument> mInstruments;
+        std::string mExchangeId = "exchangeId";
+
         std::unique_ptr<Db::IConnection> mConnection;
         std::unique_ptr<MockConfig> mConfig;
         std::unique_ptr<MockParticipant> mParticipant;
@@ -157,6 +160,8 @@ namespace Sim::Testing
         setupParticipant([&order](MockOrderFactory& factory) {
             EXPECT_CALL(factory, createOrder(_, _)).Times(1).WillOnce(Return(ByMove(std::move(order))));
         });
+
+        mParticipant->upgrade();
 
         EXPECT_CALL(*mParticipant, sendMessage(_, _)).Times(1);
 

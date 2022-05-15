@@ -63,7 +63,7 @@ namespace Sim::Net
         int* typePtr = reinterpret_cast<int*>(data.get());
         int type = *typePtr;
 
-        std::cout << "Server: Received message type: " << type << std::endl;
+        // std::cout << "Server: Received message type: " << type << std::endl;
 
         auto sz = message->size();
         auto payloadRaw = std::make_unique<char[]>(sz);
