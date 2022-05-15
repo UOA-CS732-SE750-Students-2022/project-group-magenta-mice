@@ -41,6 +41,7 @@ export const ExchangeLeaderboard: React.FC<ExchangeLeaderboardProps> = ({
               className="w-8 rounded-full shadow"
               src={user.imageUrl}
               alt="User avatar"
+              referrerPolicy="no-referrer"
             />
             <span className="font-semibold">{user.name}</span>
           </div>

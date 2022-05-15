@@ -1,5 +1,6 @@
 import { getAuth, User } from "firebase/auth";
 import React, { useContext, useEffect, useState } from "react";
+import { useApolloClient } from "@apollo/react-hooks";
 
 type LoggedInData = {
   loggedIn: boolean;
@@ -18,6 +19,7 @@ export const LoggedInProvider: React.FC = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const client = useApolloClient();
 
   useEffect(() => {
     // returns function to stop the listener
@@ -28,6 +30,7 @@ export const LoggedInProvider: React.FC = ({ children }) => {
       } else {
         setLoggedIn(false);
         setUser(null);
+        client.cache.reset();
       }
       setLoading(false);
     });

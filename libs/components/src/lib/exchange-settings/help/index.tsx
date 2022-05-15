@@ -11,7 +11,7 @@ export const HelpPage: React.FC = () => {
       </p>
       <h2 className="mt-8 mb-2 text-2xl font-bold">TypeScript Client</h2>
       <div className="flex flex-col gap-y-2">
-        <p className="text-gray-300">
+        <p className="text-gray-400 dark:text-gray-300">
           The TypeScript client is a module available on NPM that allows you to
           trade on the exchange.
         </p>
@@ -27,7 +27,7 @@ export const HelpPage: React.FC = () => {
           visit the API page on the sidebar. Update the port and hostname to the
           information also on that page.
         </p>
-        <code className="w-fit whitespace-pre bg-neutral-800 py-2 px-4">
+        <code className="w-fit whitespace-pre rounded bg-gray-100 py-2 px-4 dark:bg-neutral-800">
           {codeExample}
         </code>
         <p>
@@ -35,7 +35,7 @@ export const HelpPage: React.FC = () => {
           information to inform your trades. Once you are ready, see the
           following code to see how to insert and cancel orders:
         </p>
-        <code className="mb-6 w-fit whitespace-pre bg-neutral-800 py-2 px-4">
+        <code className="mb-6 w-fit whitespace-pre rounded bg-gray-100 py-2 px-4 dark:bg-neutral-800">
           {insertExample}
         </code>
       </div>
