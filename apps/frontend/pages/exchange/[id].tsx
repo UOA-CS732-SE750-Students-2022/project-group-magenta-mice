@@ -297,8 +297,9 @@ export function ExchangeDashboard() {
             />
           )}
 
-          {currentSubPage === SubPage.ACCESS && (
+          {data && currentSubPage === SubPage.ACCESS && (
             <PermissionSettings
+              currentExchange={data.exchange}
               useController={usePermissionSettingsController}
             />
           )}
