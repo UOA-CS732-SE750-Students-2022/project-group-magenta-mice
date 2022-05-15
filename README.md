@@ -1,8 +1,8 @@
-# Simulate.Exchange
-
-<p align="center">
+<h1 align="center">
   <img src="./media/logo/logo.svg?raw=true" width="350" />
-</p>
+  
+  [simulate.exchange](simulate.exchange)
+</h1>
 
 <p align="center">
   <a href="https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange/actions/workflows/merge.yml/badge.svg">
@@ -13,7 +13,45 @@
   </a>
 </p>
 
+<div align="center">
+  
+  ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+  ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+  ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+  ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+  ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+  ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+</div>
+
+A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards. Exchanges are dynamically created and hosted over isolated websocket connections and are setup to use the trading instruments that you define. 
+
+### Deployed at: [simulate.exchange](https://simulate.exchange)
+
+<details open="open">
+<summary>Table of Contents</summary>
+
+- [Structure](#structure)
+- [Architecture](#architecture)
+- [Basic Setup](#basic-frontendbackend-setup)
+  - [Absolute Prerequisites](#absolute-prerequisites)
+  - [Docker Development](#docker-development)
+  - [Prerequisites if Not Using Docker](#prerequisites-if-not-using-docker)
+  - [Optional Prerequisites](#optional-prerequisites)
+  - [Setup](#setup)
+  - [Served Content](#served-content)
+  - [Development Processes](#development-processes)
+- [Complete Staging Setup](#complete-staging-setup)
+- [Running unit tests](#running-unit-tests)
+- [Build](#build)
+- [Troubleshooting](#troubleshooting)
+</details>
+
 This project was generated using [Nx](https://nx.dev).
+
+## Screenshot
+
+![Exchange](https://user-images.githubusercontent.com/54062686/168464890-5a0dc651-573f-4acc-87da-7a082bca296e.png)
 
 ## Structure
 
@@ -36,6 +74,14 @@ This project was generated using [Nx](https://nx.dev).
 | scripts        | More complex scripts to improve developer experience |
 | spm            | SimulatePackageManager, manages our C++ applications |
 | **_media_**    | Project files for custom media                       |
+
+## Architecture
+
+We leverage docker and a custom orchestrator to create dynamic, isolated exchanges and accompanying data generators.
+
+Below is a high level architecture diagram displaying how the components of our app function together practically.
+
+![image](https://user-images.githubusercontent.com/54062686/168465163-79e65dbb-bebd-4dc5-9706-83e7999a3e90.png)
 
 ## Basic Frontend/Backend Setup
 
