@@ -342,7 +342,7 @@ export function ExchangeDashboard() {
                           Your Instruments are currently Empty!
                         </span>
                         <SadFace />
-                        <p>To add, go to Settings {">"} Instruments</p>
+                        <p>To add, go to Instruments</p>
                       </div>
                     ) : (
                       <>
