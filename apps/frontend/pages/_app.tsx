@@ -23,7 +23,9 @@ import "../services/firebase";
 import "./styles.css";
 
 const httpLink = createHttpLink({
-  uri: process.env.HOST ?? "http://localhost" + ":3333/graphql",
+  uri: process.env.NEXT_PUBLIC_HOST
+    ? "/graphql"
+    : "http://localhost:3333/graphql",
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -92,7 +94,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
           {loadingCount > 0 && createPortal(<Loading />, document.body)}
 
           <Head>
-            <title>Welcome to frontend!</title>
+            <title>simulate.exchange</title>
           </Head>
           <main className="app">
             <Component {...pageProps} />
