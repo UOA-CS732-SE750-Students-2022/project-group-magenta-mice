@@ -24,28 +24,39 @@
 
 </div>
 
-A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards. Exchanges are dynamically created and hosted over isolated websocket connections and are setup to use the trading instruments that you define. 
+A trading exchange simulator made for testing trading bots and running trading
+competitions with per instrument trading history and overall P/L leaderboards.
+Exchanges are dynamically created and hosted over isolated websocket connections
+and are setup to use the trading instruments that you define.
 
 ### Deployed at: [simulate.exchange](https://simulate.exchange)
 
 <details open="open">
 <summary>Table of Contents</summary>
 
+- [Screenshot](#screenshot)
 - [Structure](#structure)
 - [Architecture](#architecture)
-- [Basic Setup](#basic-frontendbackend-setup)
+- [Basic Frontend/Backend Setup](#basic-frontendbackend-setup)
   - [Absolute Prerequisites](#absolute-prerequisites)
   - [Docker Development](#docker-development)
+    - [Notes](#notes)
   - [Prerequisites if Not Using Docker](#prerequisites-if-not-using-docker)
   - [Optional Prerequisites](#optional-prerequisites)
   - [Setup](#setup)
   - [Served Content](#served-content)
   - [Development Processes](#development-processes)
 - [Complete Staging Setup](#complete-staging-setup)
-- [Running unit tests](#running-unit-tests)
+  - [Frontend and Backend](#frontend-and-backend)
+  - [Exchange](#exchange)
+  - [Data Generator](#data-generator)
+  - [Trading Clients](#trading-clients)
 - [Build](#build)
+- [Running unit tests](#running-unit-tests)
 - [Troubleshooting](#troubleshooting)
-</details>
+  - [Unexpected Type Errors](#unexpected-type-errors)
+  - [Build Issues](#build-issues)
+  </details>
 
 This project was generated using [Nx](https://nx.dev).
 
@@ -77,9 +88,11 @@ This project was generated using [Nx](https://nx.dev).
 
 ## Architecture
 
-We leverage docker and a custom orchestrator to create dynamic, isolated exchanges and accompanying data generators.
+We leverage docker and a custom orchestrator to create dynamic, isolated
+exchanges and accompanying data generators.
 
-Below is a high level architecture diagram displaying how the components of our app function together practically.
+Below is a high level architecture diagram displaying how the components of our
+app function together practically.
 
 ![image](https://user-images.githubusercontent.com/54062686/168465163-79e65dbb-bebd-4dc5-9706-83e7999a3e90.png)
 
@@ -88,11 +101,15 @@ Below is a high level architecture diagram displaying how the components of our 
 ### Absolute Prerequisites
 
 Firebase is used in this project for authentication. You will need to create a
-Firebase project and obtain a Firebase API key from a [service
+[Firebase project](https://console.firebase.google.com/) and obtain a Firebase
+API key from a [service
 account](https://firebase.google.com/support/guides/service-accounts).
 
 Once you have this key (in the form of a JSON file), you can add it to the
 `/key` directory. Name the file `firebase.json`.
+
+You will need to enable the authentication feature in your Firebase project. Add
+Google as a sign-in method provider.
 
 ### Docker Development
 
@@ -101,7 +118,8 @@ application in a docker container. This will allow you to get started with all
 the needed dependencies already running.
 
 1. You will need the Containers extension.
-2. Reopen the folder in the container
+2. Reopen the folder in the container (do this by clicking on the remote VS Code
+   icon in the bottom left corner of the window.)
 3. Create `.env.local` with the Postgresql connection string. The default
    connection string for the docker Postgres container is
    `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"`
@@ -136,9 +154,10 @@ the needed dependencies already running.
 ### Setup
 
 0. Clone the repo with `git clone --recursive`. A bug in NX creates a directory
-   outside the repo when running, so please clone at least two directories deep into 
-   a place you have write access (i.e. `/home/user/a/b/clone-here` instead of `/home/user/clone-here`).
-2. Create a root level `.env.local` file. Add keys based on the `.env.sample`
+   outside the repo when running, so please clone at least two directories deep
+   into a place you have write access (i.e. `/home/user/a/b/clone-here` instead
+   of `/home/user/clone-here`).
+1. Create a root level `.env.local` file. Add keys based on the `.env.sample`
    file.
 2. Run `npm install` to install all dependencies.
 3. Run `npm run prisma:generate` to generate the Prisma type definitions.
@@ -178,8 +197,8 @@ Follow above instructions to prepare the Frontend and Backend for running.
 2. Update or create a config JSON file for the exchange. View
    `example-config.json` for an example of this.
    - `port` is the port the exchange will listen on.
-   - `instruments` is a list of instruments that the exchange will support. The ID
-     field is the most important, this needs to be a valid instrument ID from
+   - `instruments` is a list of instruments that the exchange will support. The
+     ID field is the most important, this needs to be a valid instrument ID from
      the database.
    - `database` is the database connection string to your Postgres database.
    - `exchangeID` is the ID of this exchange in the database. Note that all
