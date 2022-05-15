@@ -135,7 +135,9 @@ the needed dependencies already running.
 
 ### Setup
 
-1. Create a root level `.env.local` file. Add keys based on the `.env.sample`
+0. Clone the repo. A bug in NX creates a directory outside the repo when running, 
+   so please clone at least two directories deep into a place you have write access.
+2. Create a root level `.env.local` file. Add keys based on the `.env.sample`
    file.
 2. Run `npm install` to install all dependencies.
 3. Run `npm run prisma:generate` to generate the Prisma type definitions.
