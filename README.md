@@ -38,12 +38,13 @@ and are setup to use the trading instruments that you define.
 - [Structure](#structure)
 - [Architecture](#architecture)
 - [Basic Frontend/Backend Setup](#basic-frontendbackend-setup)
+  - [Cloning](#cloning)
   - [Absolute Prerequisites](#absolute-prerequisites)
   - [Docker Development](#docker-development)
     - [Notes](#notes)
   - [Prerequisites if Not Using Docker](#prerequisites-if-not-using-docker)
   - [Optional Prerequisites](#optional-prerequisites)
-  - [Setup](#setup)
+  - [Running the Application](#running-the-application)
   - [Served Content](#served-content)
   - [Development Processes](#development-processes)
 - [Complete Staging Setup](#complete-staging-setup)
@@ -98,6 +99,13 @@ app function together practically.
 
 ## Basic Frontend/Backend Setup
 
+### Cloning
+
+Clone the repo with `git clone --recursive`. A bug in NX creates a directory
+outside the repo when running, so please clone at least two directories deep
+into a place you have write access (i.e. `/home/user/a/b/clone-here` instead of
+`/home/user/clone-here`).
+
 ### Absolute Prerequisites
 
 Firebase is used in this project for authentication. You will need to create a
@@ -151,17 +159,13 @@ the needed dependencies already running.
   - esbenp.prettier-vscode
   - Prisma.prisma
 
-### Setup
+### Running the Application
 
-0. Clone the repo with `git clone --recursive`. A bug in NX creates a directory
-   outside the repo when running, so please clone at least two directories deep
-   into a place you have write access (i.e. `/home/user/a/b/clone-here` instead
-   of `/home/user/clone-here`).
-1. Create a root level `.env.local` file. Add keys based on the `.env.sample`
+0. Create a root level `.env.local` file. Add keys based on the `.env.sample`
    file.
-2. Run `npm install` to install all dependencies.
-3. Run `npm run prisma:generate` to generate the Prisma type definitions.
-4. Run `npm start` to begin serving the frontend and backend.
+1. Run `npm install` to install all dependencies.
+2. Run `npm run prisma:generate` to generate the Prisma type definitions.
+3. Run `npm start` to begin serving the frontend and backend.
 
 ### Served Content
 
