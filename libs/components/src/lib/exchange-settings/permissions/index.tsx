@@ -29,7 +29,7 @@ const hiddenSecretText = "********-****-****-****-************";
 
 export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
   useController,
-  currentExchange
+  currentExchange,
 }) => {
   const {
     apiKey,
@@ -44,9 +44,25 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
     currentUserPermission,
   } = useController();
 
-  const connectionString = currentExchange.port
-  ? `ws://${window.location.hostname}:${currentExchange.port}`
-  : "Exchange has not been started yet.";
+  const connectionString = useMemo(
+    () =>
+      currentExchange.port
+        ? `ws://${window.location.hostname}:${currentExchange.port}`
+        : "Exchange has not been started yet.",
+    [currentExchange],
+  );
+
+  const inputDivClass = useMemo(
+    () =>
+      "mt-2 hidden rounded ring-1 ring-gray-200 transition-all focus-within:ring-emerald-600 dark:bg-neutral-700 dark:text-gray-100 dark:ring-neutral-800 md:flex",
+    [],
+  );
+
+  const inputClass = useMemo(
+    () =>
+      "min-w-0 flex-grow rounded border-0 border-none bg-transparent p-2 py-3 font-mono outline-none ring-0 transition-all focus:outline-none",
+    [],
+  );
 
   return (
     <div className="flex flex-col gap-4 text-gray-600 dark:text-white">
@@ -60,14 +76,12 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
           <span className="text-sm font-semibold text-gray-400">
             Use this to connect to the exchange server.
           </span>
-          <div
-            className={`mt-2 hidden rounded bg-neutral-700 text-gray-100 ring-1 ring-neutral-800 transition-all focus-within:ring-emerald-600 md:flex`}
-          >
+          <div className={inputDivClass}>
             <input
               value={connectionString}
               readOnly
               onClick={(e) => (e.target as HTMLInputElement).select()}
-              className="min-w-0 flex-grow rounded border-0 border-none bg-transparent p-2 py-3 font-mono outline-none ring-0 transition-all focus:outline-none"
+              className={inputClass}
             />
             {currentExchange.port && (
               <CopyButton
@@ -91,14 +105,12 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
           <span className="text-sm font-semibold text-gray-400">
             Use this when logging into the exchange from your bot.
           </span>
-          <div
-            className={`mt-2 hidden rounded ring-1 ring-gray-200 transition-all focus-within:ring-emerald-600 dark:bg-neutral-700 dark:text-gray-100 dark:ring-neutral-800 md:flex`}
-          >
+          <div className={inputDivClass}>
             <input
               value={apiKeyText}
               readOnly
               onClick={(e) => (e.target as HTMLInputElement).select()}
-              className="min-w-0 flex-grow rounded border-0 border-none bg-transparent p-2 py-3 font-mono outline-none ring-0 transition-all focus:outline-none"
+              className={inputClass}
             />
             <HideShowButton
               onClick={handleToggleApiSecretDisplay}
@@ -120,14 +132,12 @@ export const PermissionSettings: React.FC<PermissionSettingsProps> = ({
             <span className="text-sm font-semibold text-gray-400">
               Share this link to invite others to your exchange.
             </span>
-            <div
-              className={`mt-2 hidden rounded ring-1 ring-gray-200 transition-all focus-within:ring-emerald-600 dark:bg-neutral-700 dark:text-gray-100 dark:ring-neutral-800 md:flex`}
-            >
+            <div className={inputDivClass}>
               <input
                 value={inviteLink}
                 readOnly
                 onClick={(e) => (e.target as HTMLInputElement).select()}
-                className="min-w-0 flex-grow rounded border-0 border-none bg-transparent p-2 py-3 font-mono outline-none ring-0 transition-all focus:outline-none"
+                className={inputClass}
               />
               <HideShowButton
                 onClick={handleToggleInviteSecretDisplay}
