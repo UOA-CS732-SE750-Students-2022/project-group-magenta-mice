@@ -24,7 +24,11 @@
     "open:storybook": "open-cli http://localhost:4200",
     "open:next": "open-cli http://localhost:4400"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UOA-CS732-SE750-Students-2022/simulate.exchange.git"
+  },
+  "private": false,
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@headlessui/react": "^1.5.0",

@@ -37,17 +37,135 @@ This project was generated using [Nx](https://nx.dev).
 | spm            | SimulatePackageManager, manages our C++ applications |
 | **_media_**    | Project files for custom media                       |
 
-## Development server
+## Basic Frontend/Backend Setup
 
-Read `CONTRIBUTING.md` for information.
+### Absolute Prerequisites
 
-## Code scaffolding
+Firebase is used in this project for authentication. You will need to create a
+Firebase project and obtain a Firebase API key from a [service
+account](https://firebase.google.com/support/guides/service-accounts).
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+Once you have this key (in the form of a JSON file), you can add it to the
+`/key` directory. Name the file `firebase.json`.
+
+### Docker Development
+
+You can use the Visual Studio Code Remote Docker Extension to develop this
+application in a docker container. This will allow you to get started with all
+the needed dependencies already running.
+
+1. You will need the Containers extension.
+2. Reopen the folder in the container
+3. Create `.env.local` with the Postgresql connection string. The default
+   connection string for the docker Postgres container is
+   `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"`
+4. Ensure any dependencies are installed `npm i`, you may need `npm i --force`
+   for peer dependency warnings.
+5. Run `sudo npm prisma:migrate-dev` to prepare your database schema.
+6. Run the application. You may need sudo privileges i.e. `sudo npm start`.
+
+#### Notes
+
+- The dev container should also allow you to build the C++ exchange without any
+  configuration. The `debug.sh` script should allow you to build the
+  application, which creates the `./build/exchange` artifact.
+
+- `sudo` seems to be required for the above actions. You are welcome to try
+  without it but it would not work otherwise for me.
+
+### Prerequisites if Not Using Docker
+
+- Access to a Postgres database
+- Node v16 and NPM 8
+
+### Optional Prerequisites
+
+- Developing in **Visual Studio Code** is highly recommended for this
+  repository.
+- The following VS Code extensions:
+  - GraphQL.vscode-graphql
+  - esbenp.prettier-vscode
+  - Prisma.prisma
+
+### Setup
+
+1. Create a root level `.env.local` file. Add keys based on the `.env.sample`
+   file.
+2. Run `npm install` to install all dependencies.
+3. Run `npm run prisma:generate` to generate the Prisma type definitions.
+4. Run `npm start` to begin serving the frontend and backend.
+
+### Served Content
+
+The table below shows the content that is served when running `npm start`.
+
+| Name      | Port/URL                |
+| --------- | ----------------------- |
+| Frontend  | <http://localhost:4200> |
+| Storybook | <http://localhost:4400> |
+| Backend   | <http://localhost:3333> |
+| DB Studio | <http://localhost:5555> |
+
+### Development Processes
+
+- Updating the database schema will require a migration. After editing the
+  schema file, run `npm run prisma:migrate-dev`.
+- After modifying the frontend GraphQL query definitions in the `lib/gql`
+  directory, you will need to manually run the generator to update the typings
+  and generated code, `npm run gql:generate`.
+- After producing components inside either the `hooks` or `components`
+  libraries, you can run `index:generate` to automatically export these modules
+  to the `index.ts` file and hence available to other libraries or applications.
+
+## Complete Staging Setup
+
+### Frontend and Backend
+
+Follow above instructions to prepare the Frontend and Backend for running.
+
+### Exchange
+
+1. Build the exchange, or download the artifact from the GitHub build actions.
+2. Update or create a config JSON file for the exchange. View
+   `example-config.json` for an example of this.
+   - `port` is the port the exchange will listen on.
+   - `instruments` is a list of instruments that the exchange will support. The ID
+     field is the most important, this needs to be a valid instrument ID from
+     the database.
+   - `database` is the database connection string to your Postgres database.
+   - `exchangeID` is the ID of this exchange in the database. Note that all
+     instruments listed must be from this exchange.
+   - `marketMakerKey` is a special login key for the exchange. Clients that
+     connect using this key will be exempt from the regular limits. This should
+     match the `marketMakerKey` inside the database, but is not required.
+3. Run the exchange with `./path/to/exchange your_config.json`
+
+### Data Generator
+
+1. Follow the `README.md` instructions inside the `data-generator` directory on
+   the steps for running the data generator.
+2. Update the `config.json` file with the valid settings.
+   - `port` is the port the exchange is running on.
+   - `host` is the hostname the exchange is running on.
+   - `instruments` outlines all the instruments on the exchange, and provides
+     the parameters for the instruments. Use the `ordinal` field to match the
+     instruments with the exchange (i.e the first instrument in the exchange
+     list is ordinal 0, second ordinal 1 etc).
+   - `marketMakerKey` is a special login key for the exchange. This is required
+     to make the data generator exempt from regular limits. This needs to match
+     the `marketMakerKey` inside the exchange config.
+
+### Trading Clients
+
+Create a new NPM project and install the [Simulate Exchange NPM
+Package](https://www.npmjs.com/package/@simulate-exchange/core). Follow the
+instructions inside the package, or on the help page on your exchange page on
+the website.
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build` to build the project. The build artifacts will be stored in
+the `dist/` directory.
 
 ## Running unit tests
 
@@ -55,19 +173,39 @@ Run `npm test` to execute the unit tests via [Jest](https://jestjs.io).
 
 Run `nx affected:test` to execute the unit tests affected by a change.
 
-Run `npm run e2e` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+Run `npm run e2e` to execute the end-to-end tests via
+[Cypress](https://www.cypress.io).
 
 You will need in the frontend-e2e folder:
-- `cypress.env.json` 
-  - Copy in a user UID from https://console.firebase.google.com/u/1/project/simulate-exchange/authentication/users (or your equivalent)
-  - This will require at least one user logged in for the first time
-- `serviceAccount.json` 
-  - Generate and rename into file from https://console.firebase.google.com/u/1/project/simulate-exchange/settings/serviceaccounts/adminsdk (or your equivalent)
 
-You can see what they should look like in the `cypress.env.sample.json` and  `serviceAccount.sample.json`  files
+- `cypress.env.json`
+
+  - Copy in a user UID from your Firebase project (auth in the firebase
+    console).
+  - This will require at least one user logged in for the first time
+
+- `serviceAccount.json`
+  - Generate and rename into file from your Firebase project (service accounts)
+
+You can see what they should look like in the `cypress.env.sample.json` and
+`serviceAccount.sample.json` files
 
 Run frontend e2e test with `npm run frontend-e2e`
 
-## Understanding the Workspace
+## Troubleshooting
 
-Run `nx graph` to see a diagram of the dependencies of your projects.
+Some common solutions to various problems:
+
+### Unexpected Type Errors
+
+- Restart the TS server (TypeScript: Restart TS Server)
+- Restart the GraphQL language server (VSCode GraphQL: Manual Restart)
+
+### Build Issues
+
+- If you have permissions errors, you may need to move the repo. A bug in the Nx
+  CLI appears to create a directory out two levels from the project root, so
+  please move the repo inside folders where you have permissions to write out
+  two levels.
+- Other build issues may be fixed by removing the `dist` folder at the project
+  root.

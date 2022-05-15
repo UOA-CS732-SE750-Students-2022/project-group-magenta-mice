@@ -1,7 +1,7 @@
 # Simulate.Exchange - JS Client
 
 <p align="center">
-  <img src="/media/logo/logo.svg?raw=true" width="350" />
+  <img src="https://raw.githubusercontent.com/UOA-CS732-SE750-Students-2022/simulate.exchange/main/media/logo/logo.svg" width="350" />
 </p>
 
 <p align="center">
