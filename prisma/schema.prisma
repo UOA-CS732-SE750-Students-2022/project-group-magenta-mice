@@ -35,6 +35,7 @@ model Exchange {
   Trade  Trade[]
 
   marketMakerKey String?
+  port           String?
 }
 
 model Invite {

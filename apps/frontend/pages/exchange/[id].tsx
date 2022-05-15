@@ -297,8 +297,9 @@ export function ExchangeDashboard() {
             />
           )}
 
-          {currentSubPage === SubPage.ACCESS && (
+          {data && currentSubPage === SubPage.ACCESS && (
             <PermissionSettings
+              currentExchange={data.exchange}
               useController={usePermissionSettingsController}
             />
           )}
@@ -307,7 +308,6 @@ export function ExchangeDashboard() {
             <OverviewSettings
               useController={useOverviewSettingsController}
               currentExchange={data.exchange}
-              exchangeID={id as string}
             />
           )}
 

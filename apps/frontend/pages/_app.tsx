@@ -23,7 +23,7 @@ import "../services/firebase";
 import "./styles.css";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3333/graphql",
+  uri: process.env.HOST ?? "http://localhost" + ":3333/graphql",
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

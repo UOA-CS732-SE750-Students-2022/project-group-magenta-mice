@@ -1,0 +1,48 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: simulate-exchange
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql
+    deploy:
+      replicas: 1
+      labels:
+        com.docker.compose.project: exchange
+        com.docker.compose.service: db
+        com.docker.compose.version: '3'
+  orchestrator:
+    image: nzbasic/s.e-orchestrator
+    ports:
+      - "8008:8008"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /configs:/configs
+    environment:
+      EXCHANGE_IMAGE: nzbasic/s.e-exchange
+      EXCHANGE_PORT_INTERNAL: 15001
+      EXCHANGE_RESTART_POLICY: always
+      EXCHANGE_PORT_MIN: 10000
+      EXCHANGE_PORT_MAX: 20000
+      DATA_GEN_IMAGE: nzbasic/s.e-data-gen
+      SERVER_URI: :8008
+      HOST_ADDRESS: localhost
+      PROTOCOL: tcp
+      DATABASE: user=postgres host=localhost port=5432 password=postgres dbname=simulate-exchange
+      TARGET_DIR: /configs
+    restart: always
+    deploy:
+      replicas: 1
+      labels:
+        com.docker.compose.project: exchange
+        com.docker.compose.service: orchestrator
+        com.docker.compose.version: '3'
+volumes:
+  postgres:
+    driver: local

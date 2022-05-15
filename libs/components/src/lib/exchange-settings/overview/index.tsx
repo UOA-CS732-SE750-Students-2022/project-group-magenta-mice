@@ -1,73 +1,39 @@
 import {
   CurrentUserDocument,
   FindExchangeDocument,
+  FindExchangeQuery,
   Permission,
   useDeleteExchangeMutation,
   useEditExchangeMutation,
+  useStartExchangeMutation,
 } from "@simulate-exchange/gql";
 import Router from "next/router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import { ColorSelect } from "../../..";
+import { getAuth } from "firebase/auth";
 
 interface OverviewSettingsProps {
   useController: typeof useOverviewSettingsController;
-  currentExchange: {
-    __typename?: "Exchange";
-    public: boolean;
-    name: string;
-    colour: number;
-    userPermissions: {
-      __typename?: "UserPermission";
-      id: string;
-      permission: Permission;
-      user: {
-        __typename?: "User";
-        name: string;
-        id: string;
-        email: string;
-        profilePicUrl?: string;
-      };
-    }[];
-    instruments: {
-      __typename?: "Instrument";
-      id: string;
-      name: string;
-      tickSizeMin: number;
-      positionLimit: number;
-    }[];
-  };
-  exchangeID: string;
+  currentExchange: FindExchangeQuery["exchange"];
 }
 
 export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
   useController,
   currentExchange,
-  exchangeID,
 }) => {
-  const { setNewExchangeName, newColor, setnewColor, handleEditExchange } =
-    useController(currentExchange.name, currentExchange.colour, exchangeID);
-
-  const [deleteExchange, { loading }] = useDeleteExchangeMutation();
-
-  const handleDeleteExchange = useCallback(async () => {
-    try {
-      const promise = deleteExchange({
-        variables: {
-          id: exchangeID,
-        },
-        refetchQueries: [CurrentUserDocument],
-      });
-      toast.promise(promise, {
-        pending: "Deleting Exchange...",
-        success: "Successfully Deleted Exchange!",
-        error: "Failed to Delete Exchange.",
-      });
-      Router.push("/exchange");
-    } catch (error) {
-      console.log(error);
-    }
-  }, [deleteExchange, exchangeID]);
+  const {
+    handleStartExchange,
+    startExchangeLoading,
+    startExchangeData,
+    currentUserPermission,
+    handleEditExchange,
+    setNewExchangeName,
+    newColor,
+    setNewColor,
+    handleDeleteExchange,
+    loading,
+  } = useController(currentExchange);
 
   return (
     <div className="flex flex-col">
@@ -88,7 +54,7 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
           <div className="">
             <ColorSelect
               selectedColor={newColor}
-              setSelectedColor={setnewColor}
+              setSelectedColor={setNewColor}
             />
           </div>
         </div>
@@ -100,32 +66,96 @@ export const OverviewSettings: React.FC<OverviewSettingsProps> = ({
         </button>
       </div>
 
-      <button
-        className="mt-4 self-start rounded-md bg-rose-700 p-2 px-4 text-lg font-semibold text-white transition-all hover:bg-rose-600"
-        onClick={handleDeleteExchange}
-        disabled={loading}
-      >
-        Delete Exchange
-      </button>
+      <div className="flex items-center gap-4">
+        {currentUserPermission?.permission === "ADMIN" && (
+          <button
+            className="mt-4 self-start rounded-md bg-emerald-600 p-2 px-4 text-lg font-semibold text-gray-200 transition-colors hover:bg-emerald-500"
+            onClick={handleStartExchange}
+            disabled={
+              !!currentExchange.port ||
+              startExchangeLoading ||
+              !!startExchangeData?.startExchange
+            }
+          >
+            Start Exchange
+          </button>
+        )}
+        <button
+          className="mt-4 self-start rounded-md bg-rose-700 p-2 px-4 text-lg font-semibold text-gray-200 transition-all hover:bg-rose-600"
+          onClick={handleDeleteExchange}
+          disabled={loading}
+        >
+          Delete Exchange
+        </button>
+      </div>
     </div>
   );
 };
 
 export const useOverviewSettingsController = (
-  currentExchangeName: string,
-  currentExchangeColor: number,
-  exchangeID: string,
+  currentExchange: FindExchangeQuery["exchange"],
 ) => {
-  const [newExchangeName, setNewExchangeName] = useState(currentExchangeName);
-  const [newColor, setnewColor] = useState(currentExchangeColor);
+  const [newExchangeName, setNewExchangeName] = useState(currentExchange.name);
+  const [newColor, setNewColor] = useState(currentExchange.colour);
 
   const [editExchange] = useEditExchangeMutation();
+  const [
+    startExchange,
+    { loading: startExchangeLoading, data: startExchangeData },
+  ] = useStartExchangeMutation();
+
+  const uid = getAuth().currentUser?.uid;
+  const permissions = currentExchange.userPermissions;
+
+  const currentUserPermission = useMemo(
+    () => permissions?.find((p) => p.user.id === uid),
+    [permissions, uid],
+  );
+
+  const [deleteExchange, { loading }] = useDeleteExchangeMutation();
+
+  const handleDeleteExchange = useCallback(async () => {
+    try {
+      const promise = deleteExchange({
+        variables: {
+          id: currentExchange.id,
+        },
+        refetchQueries: [FindExchangeDocument],
+      });
+      toast.promise(promise, {
+        pending: "Deleting Exchange...",
+        success: "Successfully Deleted Exchange!",
+        error: "Failed to Delete Exchange.",
+      });
+      Router.push("/exchange");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteExchange, currentExchange]);
+
+  const handleStartExchange = useCallback(async () => {
+    try {
+      const promise = startExchange({
+        variables: {
+          id: currentExchange.id,
+        },
+        refetchQueries: [FindExchangeDocument],
+      });
+      toast.promise(promise, {
+        pending: "Starting Exchange...",
+        success: "Successfully Started Exchange!",
+        error: "Failed to Start Exchange.",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentExchange, startExchange]);
 
   const handleEditExchange = useCallback(async () => {
     try {
       const promise = editExchange({
         variables: {
-          id: exchangeID,
+          id: currentExchange.id,
           name: newExchangeName,
           color: newColor,
         },
@@ -141,9 +171,20 @@ export const useOverviewSettingsController = (
     } catch (error) {
       console.log(error);
     }
-  }, [editExchange, exchangeID, newExchangeName, newColor]);
+  }, [editExchange, currentExchange, newExchangeName, newColor]);
 
-  return { setNewExchangeName, newColor, setnewColor, handleEditExchange };
+  return {
+    setNewExchangeName,
+    startExchangeData,
+    currentUserPermission,
+    newColor,
+    setNewColor,
+    handleEditExchange,
+    handleStartExchange,
+    startExchangeLoading,
+    handleDeleteExchange,
+    loading,
+  };
 };
 
 export default OverviewSettings;

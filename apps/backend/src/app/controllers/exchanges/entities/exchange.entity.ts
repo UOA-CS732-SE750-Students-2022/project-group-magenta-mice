@@ -21,4 +21,7 @@ export class Exchange {
 
   @Field(() => [Instrument])
   instruments: Instrument[];
+
+  @Field({ nullable: true })
+  port: string
 }

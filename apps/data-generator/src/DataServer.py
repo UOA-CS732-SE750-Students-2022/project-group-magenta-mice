@@ -11,7 +11,7 @@ class DataServer:
     Server for data generator. It uses socket to communicate with clients.
 
     """
-    
+
     def __init__(
         self,
         data_generators: List[DataGenerator],
@@ -22,7 +22,8 @@ class DataServer:
         """
         Instantiate socket to be used.
         """
-        
+
+        print(hostname + ":" + str(port))
         self.exchange_client = ExchangeClient(hostname=hostname, port=port)
 
         self.exchange_client.send_login_request(key)
@@ -48,11 +49,11 @@ class DataServer:
                             instrument_id=data_generator.instrument_id
                         )
                     )
-                    
+
                     prev_buy_cid = self.client_id - 2 * num_gens
                     print(f'client_id: {self.client_id}')
-                    
-                    
+
+
                     self.client_id += 1
                     self.exchange_client.send_insert_request(
                         InsertOrder(
@@ -67,21 +68,21 @@ class DataServer:
                     print(f'client_id: {self.client_id}')
                     prev_sell_cid = self.client_id - 2 * num_gens
                     self.client_id += 1
-                    
+
                     # If previous orders exist, cancel the orders.
                     if prev_buy_cid >= 0:
                         print(prev_buy_cid)
                         self.exchange_client.send_cancel_order_request(prev_buy_cid)
                         print(prev_sell_cid)
                         self.exchange_client.send_cancel_order_request(prev_sell_cid)
-                    
+
                     rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
 
                 time.sleep(1/rand_order_per_sec)
 
             except Exception as e:
                 raise e
-        
+
 
     def log_orders(self):
         """
@@ -92,7 +93,7 @@ class DataServer:
             try:
                 for data_generator in self.data_generators:
                     buy_price, sell_price = data_generator.generate_data()
-                
+
                     buy_order = InsertOrder(
                         volume=data_generator.max_position_limit * 10,
                         price=buy_price,
@@ -110,19 +111,19 @@ class DataServer:
                         client_id=data_generator.get_client_id(),
                         instrument_id=data_generator.instrument_id
                     )
-                    
+
                     data_generator.client_id += 1
                     rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
-                    
+
                     print(buy_order)
                     print(sell_order)
-                
+
                     time.sleep(1/rand_order_per_sec)
-                    
+
                     continue
             except Exception as e:
                 raise e
-    
+
     def run_on_feed(self, exchange_feed):
         num_gens = len(self.data_generators)
         try:
@@ -139,11 +140,11 @@ class DataServer:
                         instrument_id=data_generator.instrument_id
                     )
                 )
-                
+
                 prev_buy_cid = self.client_id - 2 * num_gens
                 print(f'client_id: {self.client_id}')
-                
-                
+
+
                 self.client_id += 1
                 self.exchange_client.send_insert_request(
                     InsertOrder(
@@ -158,18 +159,17 @@ class DataServer:
                 print(f'client_id: {self.client_id}')
                 prev_sell_cid = self.client_id - 2 * num_gens
                 self.client_id += 1
-                
+
                 # If previous orders exist, cancel the orders.
                 if prev_buy_cid >= 0:
                     print(prev_buy_cid)
                     self.exchange_client.send_cancel_order_request(prev_buy_cid)
                     print(prev_sell_cid)
                     self.exchange_client.send_cancel_order_request(prev_sell_cid)
-                
+
                 rand_order_per_sec = self.order_per_second - random.randrange(0, 9)
 
             time.sleep(1/rand_order_per_sec)
 
         except Exception as e:
             raise e
-    
