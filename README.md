@@ -134,7 +134,7 @@ the needed dependencies already running.
    `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"`
 4. Ensure any dependencies are installed `npm i`, you may need `npm i --force`
    for peer dependency warnings.
-5. Run `sudo npm prisma:migrate-dev` to prepare your database schema.
+5. Run `sudo run npm prisma:migrate-dev` to prepare your database schema.
 6. Run the application. You may need sudo privileges i.e. `sudo npm start`.
 
 #### Notes
