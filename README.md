@@ -42,9 +42,10 @@ and are setup to use the trading instruments that you define.
   - [Absolute Prerequisites](#absolute-prerequisites)
   - [Docker Development](#docker-development)
     - [Notes](#notes)
-  - [Prerequisites if Not Using Docker](#prerequisites-if-not-using-docker)
-  - [Optional Prerequisites](#optional-prerequisites)
-  - [Running the Application](#running-the-application)
+  - [Non-Docker Setup](#non-docker-setup)
+    - [Prerequisites](#prerequisites)
+    - [Optional Prerequisites](#optional-prerequisites)
+    - [Running the Application](#running-the-application)
   - [Served Content](#served-content)
   - [Development Processes](#development-processes)
 - [Complete Staging Setup](#complete-staging-setup)
@@ -145,12 +146,14 @@ the needed dependencies already running.
 - `sudo` seems to be required for the above actions. You are welcome to try
   without it but it would not work otherwise for me.
 
-### Prerequisites if Not Using Docker
+### Non-Docker Setup
+
+#### Prerequisites
 
 - Access to a Postgres database
 - Node v16 and NPM 8
 
-### Optional Prerequisites
+#### Optional Prerequisites
 
 - Developing in **Visual Studio Code** is highly recommended for this
   repository.
@@ -159,7 +162,7 @@ the needed dependencies already running.
   - esbenp.prettier-vscode
   - Prisma.prisma
 
-### Running the Application
+#### Running the Application
 
 0. Create a root level `.env.local` file. Add keys based on the `.env.sample`
    file.
