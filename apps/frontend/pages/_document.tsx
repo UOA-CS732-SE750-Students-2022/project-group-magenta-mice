@@ -30,6 +30,20 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <meta
+          name="description"
+          content="A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards."
+        />
+        <meta property="og:title" content="simulate.exchange" />
+        <meta
+          property="og:description"
+          content="A trading exchange simulator made for testing trading bots and running trading competitions with per instrument trading history and overall P/L leaderboards."
+        />
+        <meta
+          property="og:image"
+          content="https://media.discordapp.net/attachments/826599483126579282/975348658117701632/card-large-2.png?width=1082&height=541"
+        />
+        <meta property="og:url" content="https://simulate.exchange" />
       </Head>
       <script
         async
