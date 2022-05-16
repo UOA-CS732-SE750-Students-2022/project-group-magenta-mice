@@ -10,15 +10,11 @@ set(OPENSSL_USE_STATIC_LIBS TRUE)
 
 add_compile_options(-Wall)
 
-find_package(Boost 1.71 COMPONENTS date_time log system thread
-        OPTIONAL_COMPONENTS container graph math_c99 math_c99f math_tr1
-        math_tr1f random regex timer)
+find_package(Boost 1.71 COMPONENTS)
 if(NOT ${Boost_FOUND})
     message(FATAL_ERROR
             "Boost is required to run this application.")
 endif()
-
-add_compile_definitions(BOOST_LOG_DYN_LINK=1)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -26,12 +22,12 @@ link_directories(${Boost_LIBRARY_DIRS})
 find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 
+find_package(OpenSSL REQUIRED)
+include_directories(${OPENSSL_INCLUDE_DIRS})
+
 find_library(PQXX_LIB pqxx REQUIRED)
 find_library(PQ_LIB pq REQUIRED)
 include_directories(${PQXX_INCLUDE_DIRS})
-
-find_package(OpenSSL REQUIRED)
-include_directories(${OPENSSL_INCLUDE_DIRS})
 
 add_subdirectory(libs)
 include_directories(${PROJECT_SOURCE_DIR}/libs)

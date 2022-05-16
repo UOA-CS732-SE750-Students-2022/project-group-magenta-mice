@@ -59,22 +59,22 @@ namespace Sim::Db
             {
                 auto query = copy.front();
                 copy.pop_front();
-                // try
-                // {
-                pqxx::work W{ mConnection };
-                auto result = query(W);
-                W.commit();
-                // }
-                // catch (const pqxx::data_exception& e)
-                // {
-                //     std::cerr << e.what() << std::endl;
-                //     const pqxx::sql_error* s = dynamic_cast<const pqxx::sql_error*>(&e);
-                //     if (s)
-                //         std::cerr << "Query was: " << s->query() << std::endl;
-                // }
+                try
+                {
+                    pqxx::work W{ mConnection };
+                    auto result = query(W);
+                    W.commit();
+                }
+                catch (const pqxx::data_exception& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                    const pqxx::sql_error* s = dynamic_cast<const pqxx::sql_error*>(&e);
+                    if (s)
+                        std::cerr << "Query was: " << s->query() << std::endl;
+                }
             }
         }
-    }
+    } // namespace Sim::Db
 
     std::optional<std::string> Connection::checkKey(const std::string& key, const std::string& exchangeId)
     {
