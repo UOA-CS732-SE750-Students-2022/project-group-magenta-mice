@@ -36,6 +36,7 @@ namespace Sim::Db
 
        private:
         pqxx::connection mConnection;
+        pqxx::connection mThreadedConnection;
 
         std::thread mFutureWorkThread;
         std::mutex mLock;

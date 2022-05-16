@@ -5,7 +5,8 @@
 
 namespace Sim::Db
 {
-    Connection::Connection(const std::string& connectionString) : mConnection{ connectionString }
+    Connection::Connection(const std::string& connectionString)
+        : mConnection{ connectionString }, mThreadedConnection{ connectionString }
     {
         std::cout << "Connected to " << mConnection.dbname() << '\n';
         mFutureWorkThread = std::thread{ &Connection::executeFutureWork, this };
@@ -61,7 +62,7 @@ namespace Sim::Db
                 copy.pop_front();
                 try
                 {
-                    pqxx::work W{ mConnection };
+                    pqxx::work W{ mThreadedConnection };
                     auto result = query(W);
                     W.commit();
                 }
