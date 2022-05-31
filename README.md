@@ -120,7 +120,7 @@ Once you have this key (in the form of a JSON file), you can add it to the
 `/key` directory. Name the file `firebase.json`.
 
 You will need to enable the authentication feature in your Firebase project. Add
-Google as a sign-in method provider.
+Google as a sign-in method provider. Ensure localhost is an authorized domain.
 
 ### Docker Development
 
